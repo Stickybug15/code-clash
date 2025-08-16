@@ -1,3 +1,6 @@
+.env
+export
+
 ### Created by https://www.gitignore.io
 ### Godot ###
 # Godot 4+ specific ignores
@@ -15,4 +18,3 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
-
