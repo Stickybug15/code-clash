@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://c1dqy735q5g61"]
+[gd_scene load_steps=2 format=3 uid="uid://c1dqy735q5g61"]
+
+[ext_resource type="Script" uid="uid://dmkoh2lfbnmq1" path="res://scripts/line_edit.gd" id="1_elqb8"]
 
 [node name="Root" type="HBoxContainer"]
 anchors_preset = 8
@@ -35,6 +37,7 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 virtual_keyboard_type = 5
+script = ExtResource("1_elqb8")
 
 [node name="Label2" type="Label" parent="SignInMenu/GridContainer"]
 layout_mode = 2
@@ -151,3 +154,6 @@ text = "Sign Out"
 [node name="Button2" type="Button" parent="MainMenu"]
 layout_mode = 2
 text = "Quit"
+
+[connection signal="focus_entered" from="SignInMenu/GridContainer/LineEdit" to="SignInMenu/GridContainer/LineEdit" method="_on_focus_entered"]
+[connection signal="focus_exited" from="SignInMenu/GridContainer/LineEdit" to="SignInMenu/GridContainer/LineEdit" method="_on_focus_exited"]
