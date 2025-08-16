@@ -18,3 +18,18 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Godot Android build template
+android/build/.gradle/
+android/build/build/
+android/build/assetPacks/
+android/build/assets/*
+android/build/libs/*
+android/build/res/*
+!android/build/res/**/*.xml  # Track specific resource files if customized
+!android/build/src/**/*.java  # Track custom source files if added
+!android/build/src/**/*.kt    # Track custom Kotlin files if added
+
+# Optional: Ignore Gradle wrapper files (if you prefer to regenerate them)
+# android/build/gradlew
+# android/build/gradlew.bat
