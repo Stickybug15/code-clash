@@ -1,6 +1,153 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1dqy735q5g61"]
+[gd_scene format=3 uid="uid://c1dqy735q5g61"]
 
-[ext_resource type="Script" uid="uid://dudrqmsivqa34" path="res://scripts/Main.gd" id="1_elqb8"]
+[node name="Root" type="HBoxContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.5
+offset_top = -81.5
+offset_right = 82.5
+offset_bottom = 81.5
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Root" type="Node2D"]
-script = ExtResource("1_elqb8")
+[node name="SignInMenu" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SignInMenu"]
+layout_mode = 2
+text = "Enter your credentials to Sign In"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="SignInMenu"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="SignInMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Email"
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="SignInMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+virtual_keyboard_type = 5
+
+[node name="Label2" type="Label" parent="SignInMenu/GridContainer"]
+layout_mode = 2
+text = "Password"
+horizontal_alignment = 1
+
+[node name="LineEdit2" type="LineEdit" parent="SignInMenu/GridContainer"]
+layout_mode = 2
+virtual_keyboard_type = 6
+secret = true
+
+[node name="Label3" type="Label" parent="SignInMenu/GridContainer"]
+layout_mode = 2
+text = "Label"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="SignInMenu/GridContainer"]
+layout_mode = 2
+text = "Sign In"
+
+[node name="Button" type="Button" parent="SignInMenu"]
+layout_mode = 2
+text = "Back"
+
+[node name="SignUpMenu" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SignUpMenu"]
+layout_mode = 2
+text = "Enter your credentials to Sign Up"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="SignUpMenu"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="SignUpMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Email"
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="SignUpMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+virtual_keyboard_type = 5
+
+[node name="Label2" type="Label" parent="SignUpMenu/GridContainer"]
+layout_mode = 2
+text = "Password"
+horizontal_alignment = 1
+
+[node name="LineEdit2" type="LineEdit" parent="SignUpMenu/GridContainer"]
+layout_mode = 2
+virtual_keyboard_type = 6
+secret = true
+
+[node name="Label3" type="Label" parent="SignUpMenu/GridContainer"]
+layout_mode = 2
+text = "Label"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="SignUpMenu/GridContainer"]
+layout_mode = 2
+text = "Sign Up"
+
+[node name="Button" type="Button" parent="SignUpMenu"]
+layout_mode = 2
+text = "Back"
+
+[node name="AuthenticationMenu" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="AuthenticationMenu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Welcome"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="AuthenticationMenu"]
+layout_mode = 2
+text = "Sign In"
+
+[node name="Button2" type="Button" parent="AuthenticationMenu"]
+layout_mode = 2
+text = "Sign Up"
+
+[node name="Button3" type="Button" parent="AuthenticationMenu"]
+layout_mode = 2
+text = "Sign in annonymous"
+
+[node name="Button4" type="Button" parent="AuthenticationMenu"]
+layout_mode = 2
+text = "Exit"
+
+[node name="MainMenu" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainMenu"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MainMenu"]
+layout_mode = 2
+text = "Status"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Sign Out"
+
+[node name="Button2" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Quit"
