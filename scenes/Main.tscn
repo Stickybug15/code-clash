@@ -18,7 +18,7 @@ grow_vertical = 2
 [node name="SignInMenu" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="SignInMenu"]
+[node name="Label" type="Label" parent="SignInMenu"]
 layout_mode = 2
 text = "Enter your credentials to Sign In"
 horizontal_alignment = 1
@@ -33,7 +33,7 @@ size_flags_horizontal = 3
 text = "Email"
 horizontal_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="SignInMenu/GridContainer"]
+[node name="EmailEdit" type="LineEdit" parent="SignInMenu/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 virtual_keyboard_type = 5
@@ -44,28 +44,27 @@ layout_mode = 2
 text = "Password"
 horizontal_alignment = 1
 
-[node name="LineEdit2" type="LineEdit" parent="SignInMenu/GridContainer"]
+[node name="PasswordEdit" type="LineEdit" parent="SignInMenu/GridContainer"]
 layout_mode = 2
 virtual_keyboard_type = 6
 secret = true
 
-[node name="Label3" type="Label" parent="SignInMenu/GridContainer"]
+[node name="StatusLabel" type="Label" parent="SignInMenu/GridContainer"]
 layout_mode = 2
-text = "Label"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="SignInMenu/GridContainer"]
+[node name="SignInBtn" type="Button" parent="SignInMenu/GridContainer"]
 layout_mode = 2
 text = "Sign In"
 
-[node name="Button" type="Button" parent="SignInMenu"]
+[node name="BackBtn" type="Button" parent="SignInMenu"]
 layout_mode = 2
 text = "Back"
 
 [node name="SignUpMenu" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="SignUpMenu"]
+[node name="Label" type="Label" parent="SignUpMenu"]
 layout_mode = 2
 text = "Enter your credentials to Sign Up"
 horizontal_alignment = 1
@@ -74,13 +73,13 @@ horizontal_alignment = 1
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="SignUpMenu/GridContainer"]
+[node name="Label1" type="Label" parent="SignUpMenu/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Email"
 horizontal_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="SignUpMenu/GridContainer"]
+[node name="EmailEdit" type="LineEdit" parent="SignUpMenu/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 virtual_keyboard_type = 5
@@ -90,21 +89,20 @@ layout_mode = 2
 text = "Password"
 horizontal_alignment = 1
 
-[node name="LineEdit2" type="LineEdit" parent="SignUpMenu/GridContainer"]
+[node name="PasswordEdit" type="LineEdit" parent="SignUpMenu/GridContainer"]
 layout_mode = 2
 virtual_keyboard_type = 6
 secret = true
 
-[node name="Label3" type="Label" parent="SignUpMenu/GridContainer"]
+[node name="StatusLabel" type="Label" parent="SignUpMenu/GridContainer"]
 layout_mode = 2
-text = "Label"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="SignUpMenu/GridContainer"]
+[node name="SignUpBtn" type="Button" parent="SignUpMenu/GridContainer"]
 layout_mode = 2
 text = "Sign Up"
 
-[node name="Button" type="Button" parent="SignUpMenu"]
+[node name="BackBtn" type="Button" parent="SignUpMenu"]
 layout_mode = 2
 text = "Back"
 
@@ -117,21 +115,21 @@ layout_mode = 2
 text = "Welcome"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="AuthenticationMenu"]
+[node name="SignInBtn" type="Button" parent="AuthenticationMenu"]
 layout_mode = 2
 text = "Sign In"
 
-[node name="Button2" type="Button" parent="AuthenticationMenu"]
+[node name="SignUpBtn" type="Button" parent="AuthenticationMenu"]
 layout_mode = 2
 text = "Sign Up"
 
-[node name="Button3" type="Button" parent="AuthenticationMenu"]
+[node name="SignInAnnonymous" type="Button" parent="AuthenticationMenu"]
 layout_mode = 2
 text = "Sign in annonymous"
 
-[node name="Button4" type="Button" parent="AuthenticationMenu"]
+[node name="QuitBtn" type="Button" parent="AuthenticationMenu"]
 layout_mode = 2
-text = "Exit"
+text = "Quit"
 
 [node name="MainMenu" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -147,13 +145,13 @@ layout_mode = 2
 text = "Status"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="MainMenu"]
+[node name="SignOutBtn" type="Button" parent="MainMenu"]
 layout_mode = 2
 text = "Sign Out"
 
-[node name="Button2" type="Button" parent="MainMenu"]
+[node name="QuitBtn" type="Button" parent="MainMenu"]
 layout_mode = 2
 text = "Quit"
 
-[connection signal="focus_entered" from="SignInMenu/GridContainer/LineEdit" to="SignInMenu/GridContainer/LineEdit" method="_on_focus_entered"]
-[connection signal="focus_exited" from="SignInMenu/GridContainer/LineEdit" to="SignInMenu/GridContainer/LineEdit" method="_on_focus_exited"]
+[connection signal="focus_entered" from="SignInMenu/GridContainer/EmailEdit" to="SignInMenu/GridContainer/EmailEdit" method="_on_focus_entered"]
+[connection signal="focus_exited" from="SignInMenu/GridContainer/EmailEdit" to="SignInMenu/GridContainer/EmailEdit" method="_on_focus_exited"]
