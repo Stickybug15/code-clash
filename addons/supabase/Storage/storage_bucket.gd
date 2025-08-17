@@ -73,8 +73,8 @@ func list(prefix : String = "", limit : int = 100, offset : int = 0, sort_by : D
 	var task : StorageTask = StorageTask.new()
 	var header : PackedStringArray = [_header[0] % "application/json"]
 	task._setup(
-		task.METHODS.LIST_OBJECTS, 
-		endpoint, 
+		task.METHODS.LIST_OBJECTS,
+		endpoint,
 		header + get_parent().get_parent().get_parent().auth.__get_session_header(),
 		JSON.stringify({ prefix = prefix, limit = limit, offset = offset, sortBy = sort_by })
 	)
@@ -87,7 +87,7 @@ func upload(object : String, file_path : String, upsert : bool = false) -> Stora
 	var task : StorageTask = StorageTask.new()
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + id + "/" + object
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
-	if file == null: 
+	if file == null:
 		printerr("could not open %s. Reason: %s" % [file_path, file.get_open_error()])
 		task.complete({})
 		return task
@@ -96,12 +96,12 @@ func upload(object : String, file_path : String, upsert : bool = false) -> Stora
 	header.append("x-upsert: %s" % upsert)
 	task.completed.connect(_on_task_completed)
 	task._setup(
-		task.METHODS.UPLOAD_OBJECT, 
-		endpoint, 
+		task.METHODS.UPLOAD_OBJECT,
+		endpoint,
 		header + get_parent().get_parent().get_parent().auth.__get_session_header()
 	)
 	task.bytepayload = file.get_buffer(file.get_length())
-	
+
 	_current_task = task
 	set_process_internal(requesting_raw)
 	file.close()
@@ -112,23 +112,23 @@ func update(bucket_path : String, file_path : String) -> StorageTask:
 	requesting_raw = true
 	var task : StorageTask = StorageTask.new()
 	task.completed.connect(_on_task_completed)
-	
+
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + id + "/" + bucket_path
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
-	if file == null: 
+	if file == null:
 		printerr("could not open %s. Reason: %s" % [file_path, file.get_open_error()])
 		task.complete({})
 		return task
 	var header : PackedStringArray = [_header[0] % MIME_TYPES[file_path.get_extension()]]
 	header.append("Content-Length: %s" % file.get_len())
-	
+
 	task._setup(
-		task.METHODS.UPDATE_OBJECT, 
-		endpoint, 
+		task.METHODS.UPDATE_OBJECT,
+		endpoint,
 		header + get_parent().get_parent().get_parent().auth.__get_session_header()
 	)
 	task.bytepayload = file.get_buffer(file.get_len())
-	
+
 	_current_task = task
 	set_process_internal(requesting_raw)
 	file.close()
@@ -140,8 +140,8 @@ func move(source_path : String, destination_path : String) -> StorageTask:
 	var task : StorageTask = StorageTask.new()
 	var header : PackedStringArray = [_header[0] % "application/json"]
 	task._setup(
-		task.METHODS.MOVE_OBJECT, 
-		endpoint, 
+		task.METHODS.MOVE_OBJECT,
+		endpoint,
 		header + get_parent().get_parent().get_parent().auth.__get_session_header(),
 		JSON.stringify({bucketId = id, sourceKey = source_path, destinationKey = destination_path}))
 	_process_task(task)
@@ -157,8 +157,8 @@ func download(object : String, to_path : String = "", private : bool = false, op
 	var task : StorageTask = StorageTask.new()
 	var header : PackedStringArray = [_header[0] % "application/json"]
 	task._setup(
-		task.METHODS.DOWNLOAD, 
-		endpoint, 
+		task.METHODS.DOWNLOAD,
+		endpoint,
 		header + get_parent().get_parent().get_parent().auth.__get_session_header()
 		)
 	_process_task(task, {download_file = to_path})
@@ -172,8 +172,8 @@ func create_signed_url(object : String, expires_in : int = 60000, options: Dicti
 	var task : StorageTask = StorageTask.new()
 	var header : PackedStringArray = [_header[0] % "application/json"]
 	task._setup(
-		task.METHODS.CREATE_SIGNED_URL, 
-		endpoint, 
+		task.METHODS.CREATE_SIGNED_URL,
+		endpoint,
 		header + get_parent().get_parent().get_parent().auth.__get_session_header(),
 		JSON.stringify({expiresIn = expires_in, transform = options.get("transform", {}) })
 	)
@@ -197,8 +197,8 @@ func remove(objects : PackedStringArray) -> StorageTask:
 	var task : StorageTask = StorageTask.new()
 	var header : PackedStringArray = [_header[0] % "application/json"]
 	task._setup(
-		task.METHODS.REMOVE, 
-		endpoint, 
+		task.METHODS.REMOVE,
+		endpoint,
 		header + get_parent().get_parent().get_parent().auth.__get_session_header(),
 		JSON.stringify({prefixes = objects}) if objects.size() > 1 else "" )
 	_process_task(task)
@@ -222,13 +222,13 @@ func _internal_process(_delta : float) -> void:
 	if not requesting_raw:
 		set_process_internal(false)
 		return
-	
+
 	var task : StorageTask = _current_task
-	
+
 	match _http_client.get_status():
 		HTTPClient.STATUS_DISCONNECTED:
 			_http_client.connect_to_host(_config.supabaseUrl, 443)
-		
+
 		HTTPClient.STATUS_RESOLVING, HTTPClient.STATUS_REQUESTING, HTTPClient.STATUS_CONNECTING:
 			_http_client.poll()
 
@@ -237,20 +237,20 @@ func _internal_process(_delta : float) -> void:
 			if err :
 				task.error = SupabaseStorageError.new({statusCode = HTTPRequest.RESULT_CONNECTION_ERROR})
 				_on_task_completed(task)
-		
+
 		HTTPClient.STATUS_BODY:
 			if _http_client.has_response() or _reading_body:
 				_reading_body = true
-				
+
 				# If there is a response...
 				if _response_headers.is_empty():
 					_response_headers = _http_client.get_response_headers() # Get response headers.
 					_response_code = _http_client.get_response_code()
-					
+
 					for header in _response_headers:
 						if "Content-Length" in header:
 							_content_length = header.trim_prefix("Content-Length: ").to_int()
-				
+
 				_http_client.poll()
 				var chunk : PackedByteArray = _http_client.read_response_body_chunk() # Get a chunk.
 				if chunk.size() == 0:
@@ -264,7 +264,7 @@ func _internal_process(_delta : float) -> void:
 					task._on_task_completed(0, _response_code, _response_headers, [], null)
 			else:
 				task._on_task_completed(0, _response_code, _response_headers, [], null)
-				
+
 		HTTPClient.STATUS_CANT_CONNECT:
 			task.error = SupabaseStorageError.new({statusCode = HTTPRequest.RESULT_CANT_CONNECT})
 		HTTPClient.STATUS_CANT_RESOLVE:
@@ -290,7 +290,7 @@ func _process_task(task : StorageTask, _params : Dictionary = {}) -> void:
 func _on_task_completed(task : StorageTask) -> void:
 	if requesting_raw:
 		_clear_raw_request()
-	if task.data!=null and not task.data.is_empty():    
+	if task.data!=null and not task.data.is_empty():
 		match task._code:
 			task.METHODS.LIST_OBJECTS: emit_signal("listed_objects", task.data)
 			task.METHODS.UPLOAD_OBJECT: emit_signal("uploaded_object", task.data)

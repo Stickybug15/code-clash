@@ -10,4 +10,3 @@ func _init(dictionary : Dictionary = {}) -> void:
 		hint = _error.hint if _error.has("hint") and _error.hint != null else "empty"
 		details = _error.get("details", "")
 ### always different behavior ???
-

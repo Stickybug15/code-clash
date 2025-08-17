@@ -21,7 +21,7 @@ var query_struct : Dictionary = {
 	plfts = PackedStringArray([]),
 	phfts = PackedStringArray([]),
 	wfts = PackedStringArray([])
-   }
+	 }
 
 var query : String = ""
 var raw_query : String = ""
@@ -41,12 +41,12 @@ enum REQUESTS {
 enum Directions {
 	Ascending,
 	Descending
-   }
+	 }
 
 enum Nullsorder {
 	First,
 	Last
-   }
+	 }
 
 enum Filters {
 	EQUAL,
@@ -65,7 +65,7 @@ enum Filters {
 	WFTS,
 	OR,
 	ORDER
-   }
+	 }
 
 func _init(_raw_query : String = "", _raw_type : int = -1, _raw_header : PackedStringArray = PackedStringArray([]), _raw_body : String = ""):
 	if _raw_query != "":
@@ -141,7 +141,7 @@ func order(column : String, direction : int = Directions.Ascending, nullsorder :
 	query_struct.order += PackedStringArray([("%s.%s.%s" % [column, direction_str, nullsorder_str])])
 	return self
 
-## [FILTERS] -------------------------------------------------------------------- 
+## [FILTERS] --------------------------------------------------------------------
 
 func filter(column : String, filter : int, value : String, _props : Dictionary = {}) -> SupabaseQuery:
 	var filter_str : String = match_filter(filter)
@@ -259,7 +259,7 @@ func clean() -> void:
 	body = ""
 	header = []
 	request = 0
-	
+
 	query_struct.table = ""
 	query_struct.select = PackedStringArray([])
 	query_struct.order = PackedStringArray([])

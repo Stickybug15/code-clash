@@ -40,7 +40,7 @@ func _init(url : String, apikey : String, timeout : float) -> void:
 	_heartbeat_timer.set_wait_time(timeout)
 	_heartbeat_timer.name = "PhxHeartbeat"
 	name = "RealtimeClient"
-	
+
 func _ready() -> void:
 	message_received.connect(_on_data)
 	add_child(_heartbeat_timer)
@@ -53,9 +53,9 @@ func _ready() -> void:
 func connect_client() -> int:
 	_ws_client.supported_protocols = supported_protocols
 	_ws_client.handshake_headers = handshake_headers
-	
+
 	var err := _ws_client.connect_to_url(
-		"{url}?apikey={apikey}".format({url = _db_url, apikey = _apikey}), 
+		"{url}?apikey={apikey}".format({url = _db_url, apikey = _apikey}),
 		tls_options
 		)
 	if err != OK:
@@ -82,7 +82,7 @@ func _build_topic(schema : String, table : String = "", col_value : String = "")
 		if col_value!= "":
 			topic+=":"+col_value
 	return topic
-		
+
 func _add_channel(channel : RealtimeChannel) -> void:
 	channels.append(channel)
 
@@ -135,7 +135,7 @@ func _send_heartbeat() -> void:
 		payload = {},
 		ref = null
 	})
-	
+
 func _notification(what : int) -> void:
 	match what:
 		NOTIFICATION_INTERNAL_PROCESS:
@@ -144,9 +144,9 @@ func _notification(what : int) -> void:
 func _process(_delta : float) -> void:
 	if _ws_client.get_ready_state() != _ws_client.STATE_CLOSED:
 		_ws_client.poll()
-	
+
 	var state := _ws_client.get_ready_state()
-	
+
 	if last_state != state:
 		last_state = state
 		if state == _ws_client.STATE_OPEN:
@@ -158,7 +158,7 @@ func _process(_delta : float) -> void:
 			disconnected.emit()
 	while _ws_client.get_ready_state() == _ws_client.STATE_OPEN and _ws_client.get_available_packet_count():
 		message_received.emit(JSON.parse_string(get_message()))
-	
+
 func get_message() -> Variant:
 	if _ws_client.get_available_packet_count() < 1:
 		return null

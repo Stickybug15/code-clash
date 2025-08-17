@@ -32,68 +32,68 @@ func list_buckets() -> StorageTask:
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + "bucket"
 	var task : StorageTask = StorageTask.new()
 	task._setup(
-		task.METHODS.LIST_BUCKETS, 
-		endpoint, 
+		task.METHODS.LIST_BUCKETS,
+		endpoint,
 		_header + get_parent().auth.__get_session_header())
 	_process_task(task)
-	return task    
+	return task
 
 
 func get_bucket(id : String) -> StorageTask:
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + "bucket/" + id
 	var task : StorageTask = StorageTask.new()
 	task._setup(
-		task.METHODS.GET_BUCKET, 
-		endpoint, 
+		task.METHODS.GET_BUCKET,
+		endpoint,
 		_header + get_parent().auth.__get_session_header())
 	_process_task(task)
-	return task    
+	return task
 
 
 func create_bucket(_name : String, id : String, options: Dictionary = { public = false, file_size_limit = "100mb", allowed_mime_types = ["*/*"] }) -> StorageTask:
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + "bucket"
 	var task : StorageTask = StorageTask.new()
 	task._setup(
-		task.METHODS.CREATE_BUCKET, 
-		endpoint, 
+		task.METHODS.CREATE_BUCKET,
+		endpoint,
 		_header + get_parent().auth.__get_session_header(),
 		JSON.stringify({name = _name, id = id, public = options.get("public", false), file_size_limit = options.get("file_size_limit", "100mb"), allowed_mime_types = options.get("allowed_mime_types", ["*/*"]) }))
 	_process_task(task)
-	return task    
+	return task
 
 
 func update_bucket(id : String, public : bool) -> StorageTask:
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + "bucket/" + id
 	var task : StorageTask = StorageTask.new()
 	task._setup(
-		task.METHODS.UPDATE_BUCKET, 
-		endpoint, 
+		task.METHODS.UPDATE_BUCKET,
+		endpoint,
 		_header + get_parent().auth.__get_session_header(),
 		JSON.stringify({public = public}))
 	_process_task(task)
-	return task        
+	return task
 
 
 func empty_bucket(id : String) -> StorageTask:
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + "bucket/" + id + "/empty"
 	var task : StorageTask = StorageTask.new()
 	task._setup(
-		task.METHODS.EMPTY_BUCKET, 
-		endpoint, 
+		task.METHODS.EMPTY_BUCKET,
+		endpoint,
 		get_parent().auth.__get_session_header())
 	_process_task(task)
-	return task        
+	return task
 
 
 func delete_bucket(id : String) -> StorageTask:
-	var endpoint : String = _config.supabaseUrl + _rest_endpoint + "bucket/" + id 
+	var endpoint : String = _config.supabaseUrl + _rest_endpoint + "bucket/" + id
 	var task : StorageTask = StorageTask.new()
 	task._setup(
-		task.METHODS.DELETE_BUCKET, 
-		endpoint, 
+		task.METHODS.DELETE_BUCKET,
+		endpoint,
 		get_parent().auth.__get_session_header())
 	_process_task(task)
-	return task        
+	return task
 
 
 func from(id : String) -> StorageBucket:
@@ -115,7 +115,7 @@ func _process_task(task : StorageTask) -> void:
 
 # .............. HTTPRequest completed
 func _on_task_completed(task : StorageTask) -> void:
-	if task.data != null and not task.data.is_empty():    
+	if task.data != null and not task.data.is_empty():
 		match task._code:
 			task.METHODS.LIST_BUCKETS: emit_signal("listed_buckets", task.data)
 			task.METHODS.GET_BUCKET: emit_signal("got_bucket", task.data)

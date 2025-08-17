@@ -9,7 +9,7 @@ enum METHODS {
 	UPDATE_BUCKET,
 	EMPTY_BUCKET,
 	DELETE_BUCKET,
-	
+
 	LIST_OBJECTS,
 	UPLOAD_OBJECT,
 	UPDATE_OBJECT,
@@ -18,7 +18,7 @@ enum METHODS {
 	DOWNLOAD,
 	GET_PUBLIC_URL,
 	REMOVE
-   }
+	 }
 
 var bytepayload : PackedByteArray
 var __json: JSON = JSON.new()

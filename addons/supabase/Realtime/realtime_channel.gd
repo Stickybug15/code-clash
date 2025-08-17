@@ -25,13 +25,13 @@ func _publish(message : Dictionary) -> void:
 		_client.SupabaseEvents.INSERT:
 			emit_signal("insert", message.payload.record, self)
 	emit_signal("all", message.payload.get("old_record", {}), message.payload.get("record", {}), self)
-  
+
 func on(event: String, callable: Callable) -> RealtimeChannel:
 	connect(event, callable)
-	return self      
+	return self
 
 func subscribe() -> RealtimeChannel:
-	if subscribed: 
+	if subscribed:
 		_client._error("Already subscribed to topic: %s" % topic)
 		return self
 	_client.send_message({
@@ -44,7 +44,7 @@ func subscribe() -> RealtimeChannel:
 	return self
 
 func unsubscribe() -> RealtimeChannel:
-	if not subscribed: 
+	if not subscribed:
 		_client._error("Already unsubscribed from topic: %s" % topic)
 		return self
 	_client.send_message({
