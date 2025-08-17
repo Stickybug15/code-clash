@@ -17,7 +17,7 @@ signal signed_up_phone(signed_user: SupabaseUser)
 signal signed_in(signed_user: SupabaseUser)
 signal signed_in_otp(signed_user: SupabaseUser)
 signal otp_verified()
-signal signed_in_anonyous()
+signal signed_in_anonymous()
 signal signed_out()
 signal got_user()
 signal user_updated(updated_user: SupabaseUser)
@@ -323,7 +323,7 @@ func _on_task_completed(task : AuthTask) -> void:
 				AuthTask.Task.VERIFYOTP:
 					otp_verified.emit(client)
 				AuthTask.Task.SIGNINANONYM:
-					signed_in_anonyous.emit()
+					signed_in_anonymous.emit()
 			refresh_token()
 		else:
 			if task.data.is_empty() or task.data == null:
