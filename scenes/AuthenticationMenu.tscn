@@ -30,12 +30,14 @@ layout_mode = 2
 columns = 2
 
 [node name="Label" type="Label" parent="SignInMenu/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Email"
 horizontal_alignment = 1
 
 [node name="EmailEdit" type="LineEdit" parent="SignInMenu/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "example@gmail.com"
@@ -78,12 +80,14 @@ layout_mode = 2
 columns = 2
 
 [node name="Label1" type="Label" parent="SignUpMenu/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Email"
 horizontal_alignment = 1
 
 [node name="EmailEdit" type="LineEdit" parent="SignUpMenu/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "example@gmail.com"
@@ -137,6 +141,9 @@ text = "Sign in annonymous"
 layout_mode = 2
 text = "Quit"
 
+[node name="StatusLabel" type="Label" parent="AccessModeMenu"]
+layout_mode = 2
+
 [node name="MainMenu" type="VBoxContainer" parent="."]
 visible = false
 layout_mode = 2
@@ -147,7 +154,7 @@ layout_mode = 2
 text = "Main Menu"
 horizontal_alignment = 1
 
-[node name="Status" type="Label" parent="MainMenu"]
+[node name="AuthStatus" type="Label" parent="MainMenu"]
 layout_mode = 2
 text = "Status"
 horizontal_alignment = 1
@@ -160,13 +167,19 @@ text = "Sign Out"
 layout_mode = 2
 text = "Quit"
 
+[node name="StatusLabel" type="Label" parent="MainMenu"]
+layout_mode = 2
+
+[connection signal="visibility_changed" from="SignInMenu" to="." method="_on_sign_in_menu_visibility_changed"]
 [connection signal="pressed" from="SignInMenu/GridContainer/SignInBtn" to="." method="_on_sign_in_btn_pressed"]
 [connection signal="pressed" from="SignInMenu/BackBtn" to="." method="_on_back_btn_pressed"]
+[connection signal="visibility_changed" from="SignUpMenu" to="." method="_on_sign_up_menu_visibility_changed"]
 [connection signal="pressed" from="SignUpMenu/GridContainer/SignUpBtn" to="." method="_on_sign_up_btn_pressed"]
 [connection signal="pressed" from="SignUpMenu/BackBtn" to="." method="_on_back_btn_pressed"]
 [connection signal="pressed" from="AccessModeMenu/GotoSignInMenuBtn" to="." method="_on_goto_sign_in_menu_btn_pressed"]
 [connection signal="pressed" from="AccessModeMenu/GotoSignUpMenuBtn" to="." method="_on_goto_sign_up_menu_btn_pressed"]
 [connection signal="pressed" from="AccessModeMenu/SignInAnnonymous" to="." method="_on_sign_in_annonymous_pressed"]
 [connection signal="pressed" from="AccessModeMenu/QuitBtn" to="." method="_on_quit_btn_pressed"]
+[connection signal="visibility_changed" from="MainMenu" to="." method="_on_main_menu_visibility_changed"]
 [connection signal="pressed" from="MainMenu/SignOutBtn" to="." method="_on_sign_out_btn_pressed"]
 [connection signal="pressed" from="MainMenu/QuitBtn" to="." method="_on_quit_btn_pressed"]
