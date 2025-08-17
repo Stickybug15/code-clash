@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://c1dqy735q5g61"]
 
-[ext_resource type="Script" uid="uid://dmkoh2lfbnmq1" path="res://scripts/line_edit.gd" id="1_elqb8"]
+[ext_resource type="Script" uid="uid://dudrqmsivqa34" path="res://scripts/AuthenticationMenu.gd" id="1_nrqn5"]
 
-[node name="Root" type="HBoxContainer"]
+[node name="Menu" type="HBoxContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -14,8 +14,10 @@ offset_right = 82.5
 offset_bottom = 81.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_nrqn5")
 
 [node name="SignInMenu" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="SignInMenu"]
@@ -36,8 +38,8 @@ horizontal_alignment = 1
 [node name="EmailEdit" type="LineEdit" parent="SignInMenu/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "example@gmail.com"
 virtual_keyboard_type = 5
-script = ExtResource("1_elqb8")
 
 [node name="Label2" type="Label" parent="SignInMenu/GridContainer"]
 layout_mode = 2
@@ -46,6 +48,7 @@ horizontal_alignment = 1
 
 [node name="PasswordEdit" type="LineEdit" parent="SignInMenu/GridContainer"]
 layout_mode = 2
+text = "password"
 virtual_keyboard_type = 6
 secret = true
 
@@ -62,6 +65,7 @@ layout_mode = 2
 text = "Back"
 
 [node name="SignUpMenu" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="SignUpMenu"]
@@ -82,6 +86,7 @@ horizontal_alignment = 1
 [node name="EmailEdit" type="LineEdit" parent="SignUpMenu/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "example@gmail.com"
 virtual_keyboard_type = 5
 
 [node name="Label2" type="Label" parent="SignUpMenu/GridContainer"]
@@ -91,6 +96,7 @@ horizontal_alignment = 1
 
 [node name="PasswordEdit" type="LineEdit" parent="SignUpMenu/GridContainer"]
 layout_mode = 2
+text = "password"
 virtual_keyboard_type = 6
 secret = true
 
@@ -106,32 +112,33 @@ text = "Sign Up"
 layout_mode = 2
 text = "Back"
 
-[node name="AuthenticationMenu" type="VBoxContainer" parent="."]
+[node name="AccessModeMenu" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="AuthenticationMenu"]
+[node name="Label" type="Label" parent="AccessModeMenu"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Welcome"
 horizontal_alignment = 1
 
-[node name="SignInBtn" type="Button" parent="AuthenticationMenu"]
+[node name="GotoSignInMenuBtn" type="Button" parent="AccessModeMenu"]
 layout_mode = 2
 text = "Sign In"
 
-[node name="SignUpBtn" type="Button" parent="AuthenticationMenu"]
+[node name="GotoSignUpMenuBtn" type="Button" parent="AccessModeMenu"]
 layout_mode = 2
 text = "Sign Up"
 
-[node name="SignInAnnonymous" type="Button" parent="AuthenticationMenu"]
+[node name="SignInAnnonymous" type="Button" parent="AccessModeMenu"]
 layout_mode = 2
 text = "Sign in annonymous"
 
-[node name="QuitBtn" type="Button" parent="AuthenticationMenu"]
+[node name="QuitBtn" type="Button" parent="AccessModeMenu"]
 layout_mode = 2
 text = "Quit"
 
 [node name="MainMenu" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MainMenu"]
@@ -140,7 +147,7 @@ layout_mode = 2
 text = "Main Menu"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="MainMenu"]
+[node name="Status" type="Label" parent="MainMenu"]
 layout_mode = 2
 text = "Status"
 horizontal_alignment = 1
@@ -153,5 +160,13 @@ text = "Sign Out"
 layout_mode = 2
 text = "Quit"
 
-[connection signal="focus_entered" from="SignInMenu/GridContainer/EmailEdit" to="SignInMenu/GridContainer/EmailEdit" method="_on_focus_entered"]
-[connection signal="focus_exited" from="SignInMenu/GridContainer/EmailEdit" to="SignInMenu/GridContainer/EmailEdit" method="_on_focus_exited"]
+[connection signal="pressed" from="SignInMenu/GridContainer/SignInBtn" to="." method="_on_sign_in_btn_pressed"]
+[connection signal="pressed" from="SignInMenu/BackBtn" to="." method="_on_back_btn_pressed"]
+[connection signal="pressed" from="SignUpMenu/GridContainer/SignUpBtn" to="." method="_on_sign_up_btn_pressed"]
+[connection signal="pressed" from="SignUpMenu/BackBtn" to="." method="_on_back_btn_pressed"]
+[connection signal="pressed" from="AccessModeMenu/GotoSignInMenuBtn" to="." method="_on_goto_sign_in_menu_btn_pressed"]
+[connection signal="pressed" from="AccessModeMenu/GotoSignUpMenuBtn" to="." method="_on_goto_sign_up_menu_btn_pressed"]
+[connection signal="pressed" from="AccessModeMenu/SignInAnnonymous" to="." method="_on_sign_in_annonymous_pressed"]
+[connection signal="pressed" from="AccessModeMenu/QuitBtn" to="." method="_on_quit_btn_pressed"]
+[connection signal="pressed" from="MainMenu/SignOutBtn" to="." method="_on_sign_out_btn_pressed"]
+[connection signal="pressed" from="MainMenu/QuitBtn" to="." method="_on_quit_btn_pressed"]
