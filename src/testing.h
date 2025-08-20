@@ -1,6 +1,9 @@
 #ifndef TREESITTER_H
 #define TREESITTER_H
 
+#include <gdextension_interface.h>
+#include <godot_cpp/core/defs.hpp>
+#include <godot_cpp/godot.hpp>
 #include <godot_cpp/classes/label.hpp>
 
 namespace godot {
