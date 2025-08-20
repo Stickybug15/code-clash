@@ -1,5 +1,8 @@
+.cache
 .env
 export
+compile_commands.json
+/**/*.os
 
 ### Created by https://www.gitignore.io
 ### Godot ###
@@ -33,3 +36,51 @@ android/build/res/*
 # Optional: Ignore Gradle wrapper files (if you prefer to regenerate them)
 # android/build/gradlew
 # android/build/gradlew.bat
+
+
+### Created by https://www.gitignore.io
+### C++ ###
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+
+
+### Created by https://www.gitignore.io
+### SCons ###
+# for projects that use SCons for building: http://http://www.scons.org/
+.sconsign.dblite
+
+# When configure fails, SCons outputs these
+config.log
+.sconf_temp
+

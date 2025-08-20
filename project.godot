@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Code Conquest The Adventure Game"
-run/main_scene="res://scenes/AuthenticationMenu.tscn"
+config/name="Code Clash - The Adventure Game"
+run/main_scene="uid://df70stvtl2itd"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 

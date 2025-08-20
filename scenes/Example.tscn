@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://df70stvtl2itd"]
+
+[node name="Example" type="Node2D"]
+
+[node name="Testing" type="Testing" parent="."]

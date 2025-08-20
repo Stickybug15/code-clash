@@ -24,7 +24,8 @@ def exists(env):
 
 # This must be kept in sync with the value in https://github.com/godotengine/godot/blob/master/platform/android/detect.py#L58.
 def get_ndk_version():
-    return "23.2.8568313"
+    #return "23.2.8568313"
+    return "28.2.13676358"
 
 
 def get_android_ndk_root(env):
