@@ -1,8 +1,10 @@
 .cache
 .env
 export
+exports
 compile_commands.json
-/**/*.os
+*.os
+build*
 
 ### Created by https://www.gitignore.io
 ### Godot ###
