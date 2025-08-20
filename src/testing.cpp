@@ -4,7 +4,6 @@
 #include "godot_cpp/variant/variant.hpp"
 #include "wren.hpp"
 #include <cstring>
-#include <format>
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
@@ -23,11 +22,11 @@ Testing::~Testing() {}
 static void errorFn(WrenVM *vm, WrenErrorType type, const char *module,
                     int line, const char *message) {
   Testing *self = wrenCastUserData(vm, Testing *);
-  print_error(std::format("WREN[ERROR]: {}:{}: {}", module, line, message).c_str());
+  print_error(vformat("WREN[ERROR]: {}:{}: {}", module, line, message));
 }
 static void writeFn(WrenVM *vm, const char *text) {
   Testing *self = wrenCastUserData(vm, Testing *);
-  print_line(std::format("WREN: {}", text).c_str());
+  print_line(vformat("WREN: {}", text));
 }
 static void print(WrenVM *vm) {
   Testing *self = wrenCastUserData(vm, Testing *);
@@ -35,7 +34,7 @@ static void print(WrenVM *vm) {
   if (self) {
     self->set_text(str);
   }
-  print_line(std::format("Native: {}", str).c_str());
+  print_line(vformat("Native: {}", str));
 }
 static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *module,
                                                const char *className,
