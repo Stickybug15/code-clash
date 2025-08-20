@@ -32,8 +32,10 @@ static void writeFn(WrenVM *vm, const char *text) {
 static void print(WrenVM *vm) {
   Testing *self = wrenCastUserData(vm, Testing *);
   const char *str = wrenGetSlotString(vm, 1);
-  self->set_text(str);
-  //print_line(std::format("Native: {}", str).c_str());
+  if (self) {
+    self->set_text(str);
+  }
+  print_line(std::format("Native: {}", str).c_str());
 }
 static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *module,
                                                const char *className,
@@ -61,6 +63,7 @@ void Testing::_ready() {
   config.bindForeignMethodFn = &bindForeignMethodFn;
   config.bindForeignClassFn = &bindForeignClassFn;
   WrenVM *vm = wrenNewVM(&config);
+  wrenSetUserData(vm, this);
 
   WrenInterpretResult result =
       wrenInterpret(vm, "main", R"(
