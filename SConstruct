@@ -23,7 +23,6 @@ env.Append(
     "./src/deps/wren/src/optional/",
     "./src/deps/wren/src/vm/",
   ],
-  CXXFLAGS=["-std=c++20"],
 )
 sources = Glob("src/*.cpp")
 sources += Glob("./src/deps/tree-sitter/lib/src/lib.c")
