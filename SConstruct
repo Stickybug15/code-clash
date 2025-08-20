@@ -18,6 +18,7 @@ env.Append(
     "src/",
     "./src/deps/cpp-tree-sitter/include/",
     "./src/deps/tree-sitter/lib/include/",
+    "./src/deps/tree-sitter/lib/src/",
 
     "./src/deps/wren/src/include/",
     "./src/deps/wren/src/optional/",
