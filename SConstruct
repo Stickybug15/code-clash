@@ -42,7 +42,6 @@ match env["platform"]:
       library = env.StaticLibrary(name, source=sources)
     else:
       name = "bin/libgodotcpp.{}.{}.a".format(env["platform"], env["target"])
-      deps = env.StaticLibrary("src/" + name, LIBS=libs)
       library = env.StaticLibrary(name, source=sources)
   case _:
     name = "bin/libgodotcpp{}{}".format(env["suffix"], env["SHLIBSUFFIX"])
