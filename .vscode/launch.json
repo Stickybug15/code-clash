@@ -16,7 +16,7 @@
     {
       "type": "lldb",
       "request": "launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "build-custom",
       "name": "Debug Custom",
       "program": "godot4",
       "args": ["--path", "${workspaceFolder}"],

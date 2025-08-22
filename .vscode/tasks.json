@@ -7,6 +7,11 @@
       "label": "build",
       "type": "shell",
       "command": "just build-linux"
+    },
+    {
+      "label": "build-custom",
+      "type": "shell",
+      "command": "just --set build_library no build-linux"
     }
   ]
 }
