@@ -50,7 +50,8 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *module,
   return NULL;
 }
 
-static WrenForeignClassMethods bindForeignClassFn(WrenVM* vm, const char* module, const char* className) {
+static WrenForeignClassMethods
+bindForeignClassFn(WrenVM *vm, const char *module, const char *className) {
   return {};
 }
 
@@ -61,11 +62,10 @@ void Testing::_ready() {
   config.writeFn = &writeFn;
   config.bindForeignMethodFn = &bindForeignMethodFn;
   config.bindForeignClassFn = &bindForeignClassFn;
+  config.userData = this;
   WrenVM *vm = wrenNewVM(&config);
-  wrenSetUserData(vm, this);
 
-  WrenInterpretResult result =
-      wrenInterpret(vm, "main", R"(
+  WrenInterpretResult result = wrenInterpret(vm, "main", R"(
                     class Native {
                       foreign static print(str)
                     }
