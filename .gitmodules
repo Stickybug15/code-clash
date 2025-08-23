@@ -1,6 +1,6 @@
 [submodule "cpp-tree-sitter"]
   path = ./src/deps/cpp-tree-sitter
-  url = https://github.com/nsumner/cpp-tree-sitter
+  url = https://github.com/NexushasTaken/cpp-tree-sitter.git
 
 [submodule "tree-sitter"]
   path = ./src/deps/tree-sitter
