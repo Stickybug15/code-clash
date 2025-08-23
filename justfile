@@ -30,3 +30,7 @@ build: build-linux build-android build-windows
 
 remove-empty-folders:
   find . -empty -type d ! -path '*/.git*' ! -path '*/.git*/*' ! -path '*/.godot*' ! -path '*/android' -exec rmdir {} \;
+
+build-library *args='':
+  just -d godot-cpp -f justfile.godot-cpp {{args}} build
+

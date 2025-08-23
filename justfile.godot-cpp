@@ -1,0 +1,28 @@
+# vi: ft=just
+target := "debug"
+flag_target := if target == "release" { "target=template_release" } else { "target=template_debug" }
+
+build-linux:
+  scons -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=linux arch=x86_64
+
+build-android-arm32:
+  scons -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=android arch=arm32
+build-android-arm64:
+  scons -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=android arch=arm64
+
+build-android-x86_32:
+  scons -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=android arch=x86_32
+build-android-x86_64:
+  scons -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=android arch=x86_64
+
+build-windows-x86_32:
+  scons -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=windows arch=x86_32
+build-windows-x86_64:
+  scons -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=windows arch=x86_64
+
+build-android: build-android-arm32 build-android-arm64 build-android-x86_32 build-android-x86_64
+
+build-windows: build-windows-x86_32 build-windows-x86_64
+
+build: build-linux build-android build-windows
+
