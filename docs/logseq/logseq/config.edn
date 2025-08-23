@@ -424,4 +424,5 @@
  :editor/preferred-pasting-file? true
  :graph/forcesettings {:link-dist 40
  :charge-strength -200
- :charge-range 2900}}
+ :charge-range 2900}
+ :publishing/all-pages-public? true}

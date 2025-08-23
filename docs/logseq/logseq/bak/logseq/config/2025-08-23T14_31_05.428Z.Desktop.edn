@@ -419,6 +419,10 @@
  ;;      ;use triple underscore `___` for slash `/` in page title
  ;;      ;use Percent-encoding for other invalid characters
  :file/name-format :triple-lowbar
- :graph/settings {:journal? false
+ :graph/settings {:journal? true
  :builtin-pages? false}
- :editor/preferred-pasting-file? true}
+ :editor/preferred-pasting-file? true
+ :graph/forcesettings {:link-dist 40
+ :charge-strength -200
+ :charge-range 2900}
+ :publishing/all-pages-public? true}
