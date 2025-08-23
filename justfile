@@ -1,7 +1,7 @@
 compiledb := "false"
 compile_commands := if compiledb == "true" { "compiledb" } else { "" }
 api_dir := "src/api/"
-build_library := "yes"
+build_library := "no"
 mode := "debug"
 flag_target := if mode == "debug" {
   "target=template_debug debug_symbols=yes"
