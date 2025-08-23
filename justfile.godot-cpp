@@ -1,6 +1,12 @@
 # vi: ft=just
-target := "debug"
-flag_target := if target == "release" { "target=template_release" } else { "target=template_debug" }
+mode := "debug"
+flag_target := if mode == "debug" {
+  "target=template_debug"
+} else if mode == "release" {
+  "target=template_release"
+} else {
+  error("unknown mode: " + mode)
+}
 
 build-linux:
   scons -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=linux arch=x86_64
