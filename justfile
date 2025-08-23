@@ -1,4 +1,4 @@
-compiledb := "false"
+compiledb := "no"
 compile_commands := if compiledb == "true" { "compiledb" } else { "" }
 api_dir := "src/api/"
 build_library := "no"
