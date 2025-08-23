@@ -1,0 +1,17 @@
+- *This should be low priority as we should make the game simple for now.*
+- Each entity has a role.
+- Player can decide what entity role they should be using.
+- Roles can use types of weapons:
+	- Magic Weapons(such as staffs, wands)
+	- Primitive Weapons(such as knifes, swords)
+	- Modern Weapons(such Firearms)
+	- *more weapon types can be added in the future*
+- There are 2 types of roles:
+	- Melee
+		- These can be Warriors and Swordman.
+	- Range
+		- These can be Archers.
+	- Hybrid Role
+		- Combines the melee and range roles.
+			- It can be a Special Ops, which uses Knife and Firearms.
+	- *more roles can be added in the future*

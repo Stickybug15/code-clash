@@ -1,0 +1,17 @@
+- each actions is categorized by types
+- These types can be
+	- Movement / Positioning
+		- `jump()`
+		- `dash()`
+		- `run()` and `walk()`
+			- These run and walk actions can be a state
+		- `move_to()`
+	- Offensive
+		- `slash()`
+		- `stab()`
+		- `feint()`
+	- Defensive
+		- `parry()`
+	- Utility
+		- `rest()`
+		- `reload()`
