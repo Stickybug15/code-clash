@@ -25,9 +25,9 @@ build-android-x86_64 $SCONS_CACHE="build-android-x86_64":
   scons {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=x86_64
 
 build-windows-x86_32 $SCONS_CACHE="build-windows-x86_32":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=windows arch=x86_32
+  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=no  gdextension_dir={{api_dir}} build_library={{build_library}} platform=windows arch=x86_32
 build-windows-x86_64 $SCONS_CACHE="build-windows-x86_64":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=windows arch=x86_64
+  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=no  gdextension_dir={{api_dir}} build_library={{build_library}} platform=windows arch=x86_64
 
 build-android: build-android-arm32 build-android-arm64 build-android-x86_32 build-android-x86_64
 
