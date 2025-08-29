@@ -77,7 +77,8 @@ init_compiler() {
   local pacman="/c/msys64/usr/bin/pacman"
   $pacman -S mingw-w64-x86_64-gcc mingw-w64-i686-gcc --noconfirm --needed
 
-  ./just.sh --set build_library yes build-windows-x86_64
+  ./just.sh build_library build-windows-x86_64
+  ./just.sh build-windows-x86_64
 }
 
 init_addons
