@@ -59,7 +59,23 @@ init_scons() {
     cmd //c "$(cygpath -w $file) /passive /norestart InstallAllUsers=1 Include_pip=1 PrependPath=1"
   fi
 
-  '/c/Program Files/Python313/python' -m pip install scons
+  if ! '/c/Program Files/Python313/python' -m SCons --version; then
+    '/c/Program Files/Python313/python' -m pip install scons
+  fi
+}
+
+init_compiler() {
+  local url="https://github.com/msys2/msys2-installer/releases/download/2025-06-22/msys2-x86_64-20250622.exe"
+  local file="$cache_dir/$(basename $url)"
+  if [[ ! -f "$file" ]]; then
+    download $file $url
+  fi
+  if [[ ! -d '/c/msys64' ]]; then
+    $file in --confirm-command --accept-messages --root 'C:/msys64'
+    powershell -Command 'setx PATH "%PATH%;C:/msys64/mingw64/bin"'
+  fi
+  local pacman="/c/msys64/usr/bin/pacman"
+  $pacman -S mingw-w64-x86_64-gcc mingw-w64-i686-gcc --noconfirm --needed
 }
 
 init_addons
@@ -68,4 +84,9 @@ if [[ "$OS" = "Windows_NT" ]]; then
   init_justfile
   init_godot
   init_scons
+  init_compiler
 fi
+
+echo
+echo -e "\033[32mInitialized Successfully!\033[0m"
+echo -e "Enter './godot.sh' (without quotes) to open godot engine!"
