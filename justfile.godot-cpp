@@ -12,6 +12,11 @@ scons := if os() == "windows" {
 } else {
   "scons"
 }
+mingw := if os() == "windows" {
+  "mingw_prefix='C:/msys64/mingw64' use_mingw=yes"
+} else {
+  "mingw_prefix='/' use_mingw=no"
+}
 
 build-linux:
   {{scons}} -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=linux arch=x86_64
@@ -27,9 +32,9 @@ build-android-x86_64:
   {{scons}} -j4 {{flag_target}} use_llvm=yes gdextension_dir=../src/api platform=android arch=x86_64
 
 build-windows-x86_32:
-  {{scons}} {{flag_target}} use_llvm=no gdextension_dir=../src/api platform=windows arch=x86_32 mingw_prefix='C:/msys64/mingw64' use_mingw=yes
+  {{scons}} {{flag_target}} use_llvm=no gdextension_dir=../src/api {{mingw}} platform=windows arch=x86_32
 build-windows-x86_64:
-  {{scons}} {{flag_target}} use_llvm=no gdextension_dir=../src/api platform=windows arch=x86_64 mingw_prefix='C:/msys64/mingw64' use_mingw=yes
+  {{scons}} {{flag_target}} use_llvm=no gdextension_dir=../src/api {{mingw}} platform=windows arch=x86_64
 
 build-android: build-android-arm32 build-android-arm64 build-android-x86_32 build-android-x86_64
 
