@@ -5,6 +5,8 @@ cache_dir="$PWD/.cache"
 download() {
   local out=$1
   local url=$2
+  echo "downloading $out from $url"
+  mkdir -p $(dirname $out)
   if ! curl -L -C - -f -o $out $url; then
     echo "error: failed to download $zipfile"
     exit 1
@@ -19,7 +21,7 @@ init_addons() {
     if [[ ! -f "$zipfile" ]]; then
       download $zipfile $url
     fi
-    unzip "$zipfile" 'addons/*'
+    unzip -n "$zipfile" 'addons/**/*'
   fi
 }
 
@@ -29,7 +31,16 @@ init_justfile() {
   if [[ ! -f "$zipfile" ]]; then
     download $zipfile $url
   fi
-  unzip "$zipfile" 'just.exe' -d "$cache_dir"
+  unzip -n "$zipfile" 'just.exe' -d "$cache_dir"
+}
+
+init_godot() {
+  local url="https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_win64.exe.zip"
+  local zipfile="$cache_dir/$(basename $url)"
+  if [[ ! -f "$zipfile" ]]; then
+    download $zipfile $url
+  fi
+  unzip -n "$zipfile" -d "$cache_dir"
 }
 
 init_submodules() {
@@ -40,6 +51,6 @@ init_addons
 init_submodules
 if [[ "$OS" = "Windows_NT" ]]; then
   init_justfile
+  init_godot
 fi
-
 
