@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3 uid="uid://t10il7o8wboo"]
+
+[ext_resource type="Script" uid="uid://45nnrgg3ox3g" path="res://godot/swordman.gd" id="1_6qqr4"]
+[ext_resource type="Script" uid="uid://bt2dex5a2hxa4" path="res://godot/simulation.gd" id="1_jd5k6"]
+[ext_resource type="Script" uid="uid://bkvsv58ly4dvh" path="res://godot/entity_states/idle.gd" id="3_e4ef3"]
+[ext_resource type="Script" uid="uid://cpxfbioo2bswg" path="res://godot/entity_states/jump.gd" id="3_vv38s"]
+[ext_resource type="Script" uid="uid://52xud7xpvnqk" path="res://godot/entity_states/move_left.gd" id="4_d3jfj"]
+[ext_resource type="Script" uid="uid://r72j1sueeme2" path="res://godot/entity_states/move_right.gd" id="5_e4ef3"]
+[ext_resource type="Script" uid="uid://dxn0yod8gmkjw" path="res://godot/camera_2d.gd" id="7_dqfj6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
+size = Vector2(1152, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6qqr4"]
+size = Vector2(40, 40)
+
+[node name="Simulation" type="Node2D"]
+script = ExtResource("1_jd5k6")
+
+[node name="Ground" type="StaticBody2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Ground"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.49
+offset_top = -20.0
+offset_right = 576.49
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("RectangleShape2D_btrx0")
+metadata/_edit_lock_ = true
+
+[node name="Swordman" type="CharacterBody2D" parent="."]
+position = Vector2(-246, -90)
+script = ExtResource("1_6qqr4")
+
+[node name="ColorRect" type="ColorRect" parent="Swordman"]
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Swordman"]
+position = Vector2(20, 20)
+shape = SubResource("RectangleShape2D_6qqr4")
+metadata/_edit_lock_ = true
+
+[node name="LimboHSM" type="LimboHSM" parent="Swordman"]
+
+[node name="Idle" type="LimboState" parent="Swordman/LimboHSM"]
+script = ExtResource("3_e4ef3")
+
+[node name="Jumping" type="LimboState" parent="Swordman/LimboHSM"]
+script = ExtResource("3_vv38s")
+
+[node name="MoveLeft" type="LimboState" parent="Swordman/LimboHSM"]
+script = ExtResource("4_d3jfj")
+metadata/_custom_type_script = "uid://52xud7xpvnqk"
+
+[node name="MoveRight" type="LimboState" parent="Swordman/LimboHSM"]
+script = ExtResource("5_e4ef3")
+metadata/_custom_type_script = "uid://r72j1sueeme2"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("7_dqfj6")
+
+[node name="UI" type="CanvasLayer" parent="Camera2D"]
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/UI"]
+offset_right = 95.0
+offset_bottom = 101.0
+
+[node name="JumpBtn" type="Button" parent="Camera2D/UI/VBoxContainer"]
+layout_mode = 2
+text = "jump"
+
+[node name="MoveLeftBtn" type="Button" parent="Camera2D/UI/VBoxContainer"]
+layout_mode = 2
+text = "move_left"
+
+[node name="MoveRightBtn" type="Button" parent="Camera2D/UI/VBoxContainer"]
+layout_mode = 2
+text = "move_right
+"
+
+[connection signal="pressed" from="Camera2D/UI/VBoxContainer/JumpBtn" to="Swordman" method="_on_jump_btn_pressed"]
+[connection signal="pressed" from="Camera2D/UI/VBoxContainer/MoveLeftBtn" to="Swordman" method="_on_move_left_btn_pressed"]
+[connection signal="pressed" from="Camera2D/UI/VBoxContainer/MoveRightBtn" to="Swordman" method="_on_move_right_btn_pressed"]

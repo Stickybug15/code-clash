@@ -1,6 +1,4 @@
-so i have a game idea.
-
-the whole idea is that the game will/should teach the user how to code or maybe how to think programmatically or how to use programming languge.
+the whole idea is that the game will/should teach the user how to code or maybe how to think programmatically or how to use a programming languge.
 the game is all about combat, turn based, strategy and controlled by coding language; still not sure about the genre.
 
 in each level, there is 2 player will fight each other, the player are controlled by a player and a bot.

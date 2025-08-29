@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c1dqy735q5g61"]
 
-[ext_resource type="Script" uid="uid://dudrqmsivqa34" path="res://scripts/AuthenticationMenu.gd" id="1_nrqn5"]
+[ext_resource type="Script" uid="uid://dudrqmsivqa34" path="res://godot/AuthenticationMenu.gd" id="1_s6e3r"]
 
 [node name="Menu" type="HBoxContainer"]
 anchors_preset = 8
@@ -14,7 +14,7 @@ offset_right = 82.5
 offset_bottom = 81.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_nrqn5")
+script = ExtResource("1_s6e3r")
 
 [node name="SignInMenu" type="VBoxContainer" parent="."]
 visible = false

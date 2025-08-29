@@ -1,11 +1,11 @@
 [submodule "cpp-tree-sitter"]
-  path = ./src/deps/cpp-tree-sitter
   url = https://github.com/NexushasTaken/cpp-tree-sitter.git
+  path = src/deps/cpp-tree-sitter
 
 [submodule "tree-sitter"]
-  path = ./src/deps/tree-sitter
   url = https://github.com/tree-sitter/tree-sitter.git
+  path = src/deps/tree-sitter
 
 [submodule "wren"]
-  path = ./src/deps/wren
   url = https://github.com/wren-lang/wren
+  path = src/deps/wren
