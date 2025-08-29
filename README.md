@@ -39,6 +39,7 @@ CAUTION: entering these commands will use a lot of internet data, because it dow
 ```bash
 cd ~/Desktop/
 git clone --depth 1 github.com/NexushasTaken/code-clash code-clash
+cd code-clash
 ./init.sh
 ```
 
@@ -48,5 +49,20 @@ After you run the commands, you can run this command to open godot:
 
 ```bash
 ./godot.sh &
+```
+
+You can close Git Bash window, and start coding!
+
+## How to open godot, again...
+
+Let's say you closed the Godot Engine and Git Bash.
+
+Then open "Git Bash" and pressing "Windows" Key on your keyboard and search for "Git Bash".
+
+Enter these commands:
+
+```bash
+cd ~/Desktop/code-clash
+./godot.sh
 ```
 
