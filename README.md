@@ -38,7 +38,7 @@ CAUTION: entering these commands will use a lot of internet data, because it dow
 
 ```bash
 cd ~/Desktop/
-git clone --depth 1 github.com/NexushasTaken/code-clash code-clash
+git clone --depth 1 https://github.com/NexushasTaken/code-clash code-clash
 cd code-clash
 ./init.sh
 ```
