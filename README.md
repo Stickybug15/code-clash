@@ -66,3 +66,4 @@ cd ~/Desktop/code-clash
 ./godot.sh
 ```
 
+Godot Engine is open, you can now close "Git Bash" or not.
