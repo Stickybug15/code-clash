@@ -10,24 +10,34 @@ flag_target := if mode == "debug" {
 } else {
   error("unknown mode: " + mode)
 }
+scons := if os() == "windows" {
+  "./scons.sh"
+} else {
+  "scons"
+}
+just := if os() == "windows" {
+  "./just.sh"
+} else {
+  "just"
+}
 
 build-linux $SCONS_CACHE="build-linux":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=linux
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=linux
 
 build-android-arm32 $SCONS_CACHE="build-android-arm32":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=arm32
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=arm32
 build-android-arm64 $SCONS_CACHE="build-android-arm64":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=arm64
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=arm64
 
 build-android-x86_32 $SCONS_CACHE="build-android-x86_32":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=x86_32
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=x86_32
 build-android-x86_64 $SCONS_CACHE="build-android-x86_64":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=x86_64
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=x86_64
 
 build-windows-x86_32 $SCONS_CACHE="build-windows-x86_32":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=no  gdextension_dir={{api_dir}} build_library={{build_library}} platform=windows arch=x86_32
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=no  gdextension_dir={{api_dir}} build_library={{build_library}} platform=windows arch=x86_32
 build-windows-x86_64 $SCONS_CACHE="build-windows-x86_64":
-  scons {{compile_commands}} -j4 {{flag_target}} use_llvm=no  gdextension_dir={{api_dir}} build_library={{build_library}} platform=windows arch=x86_64
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=no  gdextension_dir={{api_dir}} build_library={{build_library}} platform=windows arch=x86_64
 
 build-android: build-android-arm32 build-android-arm64 build-android-x86_32 build-android-x86_64
 
@@ -39,7 +49,7 @@ remove-empty-folders:
   find . -empty -type d ! -path '*/.git*' ! -path '*/.git*/*' ! -path '*/.godot*' ! -path '*/android' -exec rmdir {} \;
 
 build-library *args='':
-  just -d godot-cpp -f justfile.godot-cpp {{args}} --set mode debug build
+  {{just}} --working-directory godot-cpp --justfile justfile.godot-cpp --set mode debug {{args}}
 build-library-release *args='':
-  just -d godot-cpp -f justfile.godot-cpp {{args}} --set mode release build
+  {{just}} --working-directory godot-cpp -f justfile.godot-cpp --set mode release {{args}}
 

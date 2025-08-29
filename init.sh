@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 cache_dir="$PWD/.cache"
 
 download() {
@@ -47,10 +49,23 @@ init_submodules() {
   git submodule update --init --recursive
 }
 
+init_scons() {
+  local url="https://www.python.org/ftp/python/3.13.7/python-3.13.7-amd64.exe"
+  local file="$cache_dir/$(basename $url)"
+  if [[ ! -f "$file" ]]; then
+    download $file $url
+  fi
+  if ! type '/c/Program Files/Python313/python'; then
+    cmd //c "$(cygpath -w $file) /passive /norestart InstallAllUsers=1 Include_pip=1 PrependPath=1"
+  fi
+
+  '/c/Program Files/Python313/python' -m pip install scons
+}
+
 init_addons
 init_submodules
 if [[ "$OS" = "Windows_NT" ]]; then
   init_justfile
   init_godot
+  init_scons
 fi
-
