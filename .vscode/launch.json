@@ -7,19 +7,38 @@
     {
       "type": "lldb",
       "request": "launch",
-      "preLaunchTask": "build",
-      "name": "Debug",
-      "program": "godot",
+      "preLaunchTask": "build-linux",
+      "name": "Debug Linux",
+      "program": "./godot.sh",
       "args": ["--path", "${workspaceFolder}"],
       "cwd": "${workspaceFolder}"
     },
     {
       "type": "lldb",
       "request": "launch",
-      "preLaunchTask": "build-custom",
-      "name": "Debug Custom",
-      "program": "godot4",
+      "preLaunchTask": "build-windows",
+      "name": "Debug Windows",
+      "program": "./godot.sh",
       "args": ["--path", "${workspaceFolder}"],
+      "cwd": "${workspaceFolder}"
+    },
+
+    {
+      "type": "lldb",
+      "request": "launch",
+      "preLaunchTask": "build-linux",
+      "name": "Just Build Linux",
+      "program": "echo",
+      "args": ["Done!"],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "preLaunchTask": "build-windows",
+      "name": "Just Build Windows",
+      "program": "echo",
+      "args": ["Done!"],
       "cwd": "${workspaceFolder}"
     }
   ]

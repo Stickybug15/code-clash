@@ -4,14 +4,37 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build",
+      "label": "build-windows",
+      "dependsOn": "build-library-windows",
       "type": "shell",
-      "command": "just build-linux"
+      "command": "./just.sh build-windows"
     },
     {
-      "label": "build-custom",
+      "label": "build-library-windows",
       "type": "shell",
-      "command": "just --set build_library no build-linux"
+      "command": "./just.sh build-library build-windows-x86_64"
+    },
+    {
+      "label": "build-custom-windows",
+      "type": "shell",
+      "command": "./just.sh build-windows"
+    },
+
+    {
+      "label": "build-linux",
+      "dependsOn": "build-library-linux",
+      "type": "shell",
+      "command": "./just.sh build-linux"
+    },
+    {
+      "label": "build-library-linux",
+      "type": "shell",
+      "command": "./just.sh build-library build-linux"
+    },
+    {
+      "label": "build-custom-linux",
+      "type": "shell",
+      "command": "./just.sh build-linux"
     }
   ]
 }
