@@ -1,12 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://t10il7o8wboo"]
+[gd_scene load_steps=11 format=3 uid="uid://t10il7o8wboo"]
 
 [ext_resource type="Script" uid="uid://45nnrgg3ox3g" path="res://godot/swordman.gd" id="1_6qqr4"]
 [ext_resource type="Script" uid="uid://bt2dex5a2hxa4" path="res://godot/simulation.gd" id="1_jd5k6"]
-[ext_resource type="Script" uid="uid://bkvsv58ly4dvh" path="res://godot/entity_states/idle.gd" id="3_e4ef3"]
-[ext_resource type="Script" uid="uid://cpxfbioo2bswg" path="res://godot/entity_states/jump.gd" id="3_vv38s"]
-[ext_resource type="Script" uid="uid://52xud7xpvnqk" path="res://godot/entity_states/move_left.gd" id="4_d3jfj"]
-[ext_resource type="Script" uid="uid://r72j1sueeme2" path="res://godot/entity_states/move_right.gd" id="5_e4ef3"]
+[ext_resource type="Script" uid="uid://ccy8pugdpyn2j" path="res://godot/components/entity_components.gd" id="3_d3jfj"]
+[ext_resource type="Script" uid="uid://ds8c11ajmy2mu" path="res://godot/components/jump_component.gd" id="4_e4ef3"]
+[ext_resource type="Script" uid="uid://c10ycx15jelow" path="res://godot/components/move_left_component.gd" id="5_dqfj6"]
+[ext_resource type="Script" uid="uid://ci8grpnhirnl6" path="res://godot/components/move_right_component.gd" id="6_oxjho"]
 [ext_resource type="Script" uid="uid://dxn0yod8gmkjw" path="res://godot/camera_2d.gd" id="7_dqfj6"]
+[ext_resource type="Script" uid="uid://na6j77p53hom" path="res://godot/components/idle_component.gd" id="7_oxjho"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
 size = Vector2(1152, 40)
@@ -53,21 +54,25 @@ position = Vector2(20, 20)
 shape = SubResource("RectangleShape2D_6qqr4")
 metadata/_edit_lock_ = true
 
-[node name="LimboHSM" type="LimboHSM" parent="Swordman"]
+[node name="EntityComponents" type="Node" parent="Swordman"]
+script = ExtResource("3_d3jfj")
+metadata/_custom_type_script = "uid://ccy8pugdpyn2j"
 
-[node name="Idle" type="LimboState" parent="Swordman/LimboHSM"]
-script = ExtResource("3_e4ef3")
+[node name="JumpComponent" type="Node" parent="Swordman/EntityComponents"]
+script = ExtResource("4_e4ef3")
+metadata/_custom_type_script = "uid://ds8c11ajmy2mu"
 
-[node name="Jumping" type="LimboState" parent="Swordman/LimboHSM"]
-script = ExtResource("3_vv38s")
+[node name="MoveLeftComponent" type="Node" parent="Swordman/EntityComponents"]
+script = ExtResource("5_dqfj6")
+metadata/_custom_type_script = "uid://c10ycx15jelow"
 
-[node name="MoveLeft" type="LimboState" parent="Swordman/LimboHSM"]
-script = ExtResource("4_d3jfj")
-metadata/_custom_type_script = "uid://52xud7xpvnqk"
+[node name="MoveRightComponent" type="Node" parent="Swordman/EntityComponents"]
+script = ExtResource("6_oxjho")
+metadata/_custom_type_script = "uid://ci8grpnhirnl6"
 
-[node name="MoveRight" type="LimboState" parent="Swordman/LimboHSM"]
-script = ExtResource("5_e4ef3")
-metadata/_custom_type_script = "uid://r72j1sueeme2"
+[node name="IdleComponent" type="Node" parent="Swordman/EntityComponents"]
+script = ExtResource("7_oxjho")
+metadata/_custom_type_script = "uid://na6j77p53hom"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

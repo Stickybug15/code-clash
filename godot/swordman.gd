@@ -4,23 +4,22 @@ extends CharacterBody2D
 @export var unit_speed := 80
 @export var unit_distance := 40
 
-var target_position: Vector2
-
-@onready var hsm : LimboHSM = $LimboHSM
-
 
 func _ready() -> void:
-	hsm.initialize(self)
-	hsm.set_active(true)
+	pass
+
+
+func _physics_process(delta: float) -> void:
+	move_and_slide()
 
 
 func _on_jump_btn_pressed() -> void:
-	hsm.dispatch(&"jump")
+	pass
 
 
 func _on_move_left_btn_pressed() -> void:
-	hsm.dispatch(&"move_left")
+	pass
 
 
 func _on_move_right_btn_pressed() -> void:
-	hsm.dispatch(&"move_right")
+	pass
