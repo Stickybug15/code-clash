@@ -21,7 +21,7 @@ func _update(actor: Swordman, delta: float) -> void:
 	if abs(step) * delta >= abs(remaining):
 		velocity.x = remaining
 		remaining = 0
-		disable()
+		_stop(actor)
 	else:
 		velocity.x = step
 		remaining -= step * delta
@@ -36,8 +36,6 @@ func move(actor: Swordman, steps: int, direction: Direction) -> void:
 			direction_unit = 1
 
 	remaining = actor.stats.distance * steps * direction_unit
-	enable()
-
 
 func move_left(actor: Swordman, steps: int = 1) -> void:
 	move(actor, steps, Direction.LEFT)

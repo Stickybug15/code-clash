@@ -1,18 +1,55 @@
 class_name Component
 extends Node
 
-var active := false
+var _active := false
+var _enabled := true
 
 func _update(actor, delta: float) -> void:
 	pass
 
 
+func _enable() -> void:
+	_enabled = true
+
+func _disable() -> void:
+	_enabled = false
+
+
 func enable() -> void:
-	active = true
+	_enable()
 
 func disable() -> void:
-	active = false
+	_disable()
 
 
-func execute(actor) -> void:
+func _start(actor) -> void:
 	pass
+
+func _stop(actor) -> void:
+	pass
+
+
+func start(actor) -> void:
+	if not _enabled:
+		return
+	_active = true
+	_start(actor)
+
+func stop(actor) -> void:
+	if not _enabled:
+		return
+	_active = false
+	_stop(actor)
+
+
+func update(actor, delta: float) -> void:
+	if not _active:
+		return
+	_update(actor, delta)
+
+
+func is_active() -> bool:
+	return _active
+
+func is_enabled() -> bool:
+	return _enabled

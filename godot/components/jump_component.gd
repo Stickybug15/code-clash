@@ -8,19 +8,20 @@ var jumping = false
 var fall_component: FallComponent
 
 
-func execute(actor: Swordman) -> void:
-	if active:
-		return
+func _start(actor: Swordman) -> void:
 	if actor.is_on_floor():
-		components.set_active_component("FallComponent", false)
+		super(actor)
+		components.disable_component("FallComponent")
 		velocity = actor.up_direction * abs(actor.stats.jump_velocity)
-		enable()
+
+func _stop(actor: Swordman) -> void:
+	super(actor)
 
 
 func _update(actor: Swordman, delta: float) -> void:
 	if velocity.y < 0.0:
 		velocity.y += actor.stats.jump_gravity * delta
 	else:
-		components.set_active_component("FallComponent", true)
+		components.enable_component("FallComponent")
 		velocity = Vector2.ZERO
-		disable()
+		_stop(actor)

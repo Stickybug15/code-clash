@@ -8,14 +8,10 @@ extends EntityComponent
 @onready var move_right : MoveRightComponent = get_node("../MoveRightComponent")
 
 
-func _ready() -> void:
-	enable()
-
-
 func _update(actor: Swordman, delta: float) -> void:
 	if Input.is_action_pressed("jump"):
-		jump.execute(actor)
+		jump.start(actor)
 	if Input.is_action_pressed("left"):
-		move_left.execute(actor)
+		move_left.start(actor)
 	if Input.is_action_pressed("right"):
-		move_right.execute(actor)
+		move_right.start(actor)
