@@ -1,6 +1,8 @@
 class_name Swordman
 extends CharacterBody2D
 
+@export var stats: EntityStats
+
 @export var unit_speed := 80
 @export var unit_distance := 40
 

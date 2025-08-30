@@ -1,0 +1,36 @@
+class_name EntityStats
+extends Resource
+
+
+var speed: float = 80
+var distance: int = 40
+
+
+
+@export var jump_height : float = 48:
+	get:
+		return jump_height
+	set(value):
+		jump_height = value
+		update_jump_properties(jump_height, jump_time_to_peak, jump_time_to_descent)
+@export var jump_time_to_peak : float = 0.35:
+	get:
+		return jump_time_to_peak
+	set(value):
+		jump_time_to_peak = value
+		update_jump_properties(jump_height, jump_time_to_peak, jump_time_to_descent)
+@export var jump_time_to_descent: float = 0.25:
+	get:
+		return jump_time_to_descent
+	set(value):
+		jump_time_to_descent = value
+		update_jump_properties(jump_height, jump_time_to_peak, jump_time_to_descent)
+
+var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
+var jump_gravity : float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
+var fall_gravity : float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
+
+func update_jump_properties(jump_height: float, jump_time_to_peak: float, jump_time_to_descent: float) -> void:
+	jump_velocity = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
+	jump_gravity = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
+	fall_gravity = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
