@@ -1,13 +1,26 @@
 class_name JumpComponent
-extends Component
+extends EntityComponent
+
+
+var jumping = false
+
+
+var fall_component: FallComponent
 
 
 func execute(actor: Swordman) -> void:
-	actor.velocity.y = actor.stats.jump_velocity
+	if active:
+		return
+	if actor.is_on_floor():
+		components.set_active_component("FallComponent", false)
+		velocity = actor.up_direction * abs(actor.stats.jump_velocity)
+		enable()
 
 
 func _update(actor: Swordman, delta: float) -> void:
-	if !actor.is_on_floor():
-		var gravity = actor.stats.jump_gravity if actor.velocity.y < 0.0 else actor.stats.fall_gravity
-		actor.velocity.y += gravity * delta
-	actor.move_and_slide()
+	if velocity.y < 0.0:
+		velocity.y += actor.stats.jump_gravity * delta
+	else:
+		components.set_active_component("FallComponent", true)
+		velocity = Vector2.ZERO
+		disable()

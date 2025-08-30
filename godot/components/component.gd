@@ -1,14 +1,18 @@
 class_name Component
 extends Node
 
-func _begin(actor) -> void:
-	pass
+var active := false
 
 func _update(actor, delta: float) -> void:
 	pass
 
-func _end(actor) -> void:
-	pass
+
+func enable() -> void:
+	active = true
+
+func disable() -> void:
+	active = false
+
 
 func execute(actor) -> void:
 	pass

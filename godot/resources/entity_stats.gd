@@ -2,12 +2,11 @@ class_name EntityStats
 extends Resource
 
 
-var speed: float = 80
+var speed: float =  200
 var distance: int = 40
 
 
-
-@export var jump_height : float = 48:
+@export var jump_height : float = 20:
 	get:
 		return jump_height
 	set(value):

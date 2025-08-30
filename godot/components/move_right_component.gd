@@ -1,5 +1,5 @@
 class_name MoveRightComponent
-extends MovementComponent
+extends HorizontalMovementComponent
 
 
 func execute(actor: Swordman) -> void:

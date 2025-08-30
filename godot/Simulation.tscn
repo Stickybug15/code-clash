@@ -1,13 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://t10il7o8wboo"]
+[gd_scene load_steps=13 format=3 uid="uid://t10il7o8wboo"]
 
 [ext_resource type="Script" uid="uid://45nnrgg3ox3g" path="res://godot/swordman.gd" id="1_6qqr4"]
 [ext_resource type="Script" uid="uid://bt2dex5a2hxa4" path="res://godot/simulation.gd" id="1_jd5k6"]
 [ext_resource type="Script" uid="uid://ccy8pugdpyn2j" path="res://godot/components/entity_components.gd" id="3_d3jfj"]
+[ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="3_vl8ld"]
 [ext_resource type="Script" uid="uid://ds8c11ajmy2mu" path="res://godot/components/jump_component.gd" id="4_e4ef3"]
 [ext_resource type="Script" uid="uid://c10ycx15jelow" path="res://godot/components/move_left_component.gd" id="5_dqfj6"]
 [ext_resource type="Script" uid="uid://ci8grpnhirnl6" path="res://godot/components/move_right_component.gd" id="6_oxjho"]
 [ext_resource type="Script" uid="uid://dxn0yod8gmkjw" path="res://godot/camera_2d.gd" id="7_dqfj6"]
 [ext_resource type="Script" uid="uid://na6j77p53hom" path="res://godot/components/idle_component.gd" id="7_oxjho"]
+[ext_resource type="Script" uid="uid://dl8v2jmdc7vo6" path="res://godot/components/fall_component.gd" id="8_4ggpi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
 size = Vector2(1152, 40)
@@ -43,6 +45,7 @@ metadata/_edit_lock_ = true
 [node name="Swordman" type="CharacterBody2D" parent="."]
 position = Vector2(-246, -90)
 script = ExtResource("1_6qqr4")
+stats = ExtResource("3_vl8ld")
 
 [node name="ColorRect" type="ColorRect" parent="Swordman"]
 offset_right = 40.0
@@ -57,6 +60,10 @@ metadata/_edit_lock_ = true
 [node name="EntityComponents" type="Node" parent="Swordman"]
 script = ExtResource("3_d3jfj")
 metadata/_custom_type_script = "uid://ccy8pugdpyn2j"
+
+[node name="FallComponent" type="Node" parent="Swordman/EntityComponents"]
+script = ExtResource("8_4ggpi")
+metadata/_custom_type_script = "uid://dl8v2jmdc7vo6"
 
 [node name="JumpComponent" type="Node" parent="Swordman/EntityComponents"]
 script = ExtResource("4_e4ef3")
