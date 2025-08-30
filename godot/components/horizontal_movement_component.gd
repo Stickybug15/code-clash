@@ -21,7 +21,7 @@ func _update(actor: Swordman, delta: float) -> void:
 	if abs(step) * delta >= abs(remaining):
 		velocity.x = remaining
 		remaining = 0
-		_stop(actor)
+		stop(actor)
 	else:
 		velocity.x = step
 		remaining -= step * delta

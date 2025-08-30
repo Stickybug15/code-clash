@@ -20,4 +20,4 @@ func _update(actor: Swordman, delta: float) -> void:
 	else:
 		components.enable_component("FallComponent")
 		velocity = Vector2.ZERO
-		_stop(actor)
+		stop(actor)
