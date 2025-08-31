@@ -1,7 +1,7 @@
-class_name EntityComponents
+class_name EntityComponentManager
 extends Node
 
-@onready var actor: Swordman = get_parent()
+@export var actor: Swordman
 
 var components: Dictionary
 
@@ -14,28 +14,36 @@ func _ready() -> void:
 	enable_component("FallComponent")
 	start_component("FallComponent")
 
-func start_component(component_name: String):
-	var component : EntityComponent = components.get(component_name)
+func start_component(component_name: String, data: Dictionary = {}):
+	var component : EntityComponent = get_component(component_name)
 	if component:
-		component.start(actor)
+		component.start(actor, data)
 
 func stop_component(component_name: String):
-	var component : EntityComponent = components.get(component_name)
+	var component : EntityComponent = get_component(component_name)
 	if not component or component.is_active():
 		return
-	component.start(actor)
+	component.stop(actor)
 
 func enable_component(component_name: String) -> void:
-	var component : EntityComponent = components.get(component_name)
+	var component : EntityComponent = get_component(component_name)
 	if not component or component.is_enabled():
 		return
 	component.enable()
 
 func disable_component(component_name: String) -> void:
-	var component : EntityComponent = components.get(component_name)
+	var component : EntityComponent = get_component(component_name)
 	if not component or not component.is_enabled():
 		return
 	component.disable()
+
+
+func get_component(component_name: String) -> EntityComponent:
+	var component : EntityComponent = components.get(component_name)
+	if not component:
+		push_warning(component_name + " not found.")
+		return null
+	return component
 
 
 func _process(delta: float) -> void:

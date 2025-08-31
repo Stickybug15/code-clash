@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://yurufd2kgsuq"]
-
-[ext_resource type="Script" uid="uid://ci8grpnhirnl6" path="res://godot/components/move_right_component.gd" id="1_s8hqj"]
-
-[node name="MoveRightComponent" type="Node"]
-script = ExtResource("1_s8hqj")
-metadata/_custom_type_script = "uid://ci8grpnhirnl6"

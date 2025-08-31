@@ -22,18 +22,18 @@ func disable() -> void:
 	_disable()
 
 
-func _start(actor) -> void:
+func _start(actor, data: Dictionary) -> void:
 	pass
 
 func _stop(actor) -> void:
 	pass
 
 
-func start(actor) -> void:
+func start(actor, data: Dictionary) -> void:
 	if not _enabled:
 		return
 	_active = true
-	_start(actor)
+	_start(actor, data)
 
 func stop(actor) -> void:
 	if not _enabled:

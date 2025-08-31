@@ -2,4 +2,4 @@
 
 [node name="Example" type="Node2D"]
 
-[node name="Testing" type="Testing" parent="."]
+[node name="Testing" type="Label" parent="."]

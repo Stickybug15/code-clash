@@ -8,7 +8,7 @@ var jumping = false
 var fall_component: FallComponent
 
 
-func _start(actor: Swordman) -> void:
+func _start(actor: Swordman, data: Dictionary) -> void:
 	if actor.is_on_floor():
 		components.disable_component("FallComponent")
 		velocity = actor.up_direction * abs(actor.stats.jump_velocity)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://t10il7o8wboo"]
+[gd_scene load_steps=16 format=3 uid="uid://t10il7o8wboo"]
 
 [ext_resource type="Script" uid="uid://45nnrgg3ox3g" path="res://godot/swordman.gd" id="1_6qqr4"]
 [ext_resource type="Script" uid="uid://bt2dex5a2hxa4" path="res://godot/simulation.gd" id="1_jd5k6"]
@@ -6,11 +6,13 @@
 [ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="3_vl8ld"]
 [ext_resource type="PackedScene" uid="uid://bvfk15v6wpfe5" path="res://godot/components/fall_component.tscn" id="5_vl8ld"]
 [ext_resource type="PackedScene" uid="uid://cvnpf3r6l5w0u" path="res://godot/components/jump_component.tscn" id="6_vl8ld"]
-[ext_resource type="PackedScene" uid="uid://c6iiodhdvysvn" path="res://godot/components/move_left_component.tscn" id="7_13f6r"]
 [ext_resource type="Script" uid="uid://dxn0yod8gmkjw" path="res://godot/camera_2d.gd" id="7_dqfj6"]
-[ext_resource type="PackedScene" uid="uid://yurufd2kgsuq" path="res://godot/components/move_right_component.tscn" id="8_xglxl"]
+[ext_resource type="PackedScene" uid="uid://cxj2w5gss7yjt" path="res://godot/components/horizontal_movement_component.tscn" id="8_pp0p1"]
 [ext_resource type="PackedScene" uid="uid://8fqweg0goluq" path="res://godot/components/idle_component.tscn" id="9_pp0p1"]
-[ext_resource type="Script" uid="uid://f6j0w3ih47mh" path="res://godot/components/entity_component.gd" id="10_13f6r"]
+[ext_resource type="Script" uid="uid://cnrb6ttwr6b3d" path="res://godot/actions/entity_action_manager.gd" id="11_xglxl"]
+[ext_resource type="Script" uid="uid://1dmslbqb431w" path="res://godot/actions/jump_action.gd" id="12_pp0p1"]
+[ext_resource type="Script" uid="uid://kwj0n6tqd5or" path="res://godot/actions/move_left_action.gd" id="13_4curp"]
+[ext_resource type="Script" uid="uid://bkfnv06c4rknx" path="res://godot/actions/move_right_action.gd" id="14_pt6a6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
 size = Vector2(1152, 40)
@@ -58,23 +60,37 @@ position = Vector2(20, 20)
 shape = SubResource("RectangleShape2D_6qqr4")
 metadata/_edit_lock_ = true
 
-[node name="EntityComponents" type="Node" parent="Swordman"]
+[node name="ComponentManager" type="Node" parent="Swordman" node_paths=PackedStringArray("actor")]
 script = ExtResource("3_d3jfj")
+actor = NodePath("..")
 metadata/_custom_type_script = "uid://ccy8pugdpyn2j"
 
-[node name="FallComponent" parent="Swordman/EntityComponents" instance=ExtResource("5_vl8ld")]
+[node name="FallComponent" parent="Swordman/ComponentManager" instance=ExtResource("5_vl8ld")]
 
-[node name="JumpComponent" parent="Swordman/EntityComponents" instance=ExtResource("6_vl8ld")]
+[node name="JumpComponent" parent="Swordman/ComponentManager" instance=ExtResource("6_vl8ld")]
 
-[node name="MoveLeftComponent" parent="Swordman/EntityComponents" instance=ExtResource("7_13f6r")]
+[node name="IdleComponent" parent="Swordman/ComponentManager" instance=ExtResource("9_pp0p1")]
 
-[node name="MoveRightComponent" parent="Swordman/EntityComponents" instance=ExtResource("8_xglxl")]
+[node name="HorizontalMovementComponent" parent="Swordman/ComponentManager" instance=ExtResource("8_pp0p1")]
 
-[node name="IdleComponent" parent="Swordman/EntityComponents" instance=ExtResource("9_pp0p1")]
+[node name="ActionManager" type="Node2D" parent="Swordman" node_paths=PackedStringArray("actor", "components")]
+script = ExtResource("11_xglxl")
+actor = NodePath("..")
+components = NodePath("../ComponentManager")
 
-[node name="EntityComponent" type="Node" parent="Swordman/EntityComponents"]
-script = ExtResource("10_13f6r")
-metadata/_custom_type_script = "uid://f6j0w3ih47mh"
+[node name="JumpAction" type="Node2D" parent="Swordman/ActionManager"]
+position = Vector2(246, 90)
+script = ExtResource("12_pp0p1")
+
+[node name="MoveLeftAction" type="Node2D" parent="Swordman/ActionManager"]
+script = ExtResource("13_4curp")
+metadata/_custom_type_script = "uid://bpomclfffywjq"
+
+[node name="MoveRightAction" type="Node2D" parent="Swordman/ActionManager"]
+script = ExtResource("14_pt6a6")
+metadata/_custom_type_script = "uid://bpomclfffywjq"
+
+[node name="WrenEnvironment" type="WrenEnvironment" parent="Swordman"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

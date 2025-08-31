@@ -37,9 +37,12 @@ func move(actor: Swordman, steps: int, direction: Direction) -> void:
 
 	remaining = actor.stats.distance * steps * direction_unit
 
-func move_left(actor: Swordman, steps: int = 1) -> void:
-	move(actor, steps, Direction.LEFT)
 
-
-func move_right(actor: Swordman, steps: int = 1) -> void:
-	move(actor, steps, Direction.RIGHT)
+func _start(actor: Swordman, data: Dictionary) -> void:
+	assert(data.has("direction"), "data must contain 'direction' data.")
+	assert(data.get("direction") in ["left", "right"], "key 'direction' must be either 'left' or 'right'.")
+	var direction: String = data.get("direction")
+	if direction == "left":
+		move(actor, data.get("steps", 1), Direction.LEFT)
+	elif direction == "right":
+		move(actor, data.get("steps", 1), Direction.RIGHT)
