@@ -1,6 +1,6 @@
 #include "register_types.h"
 
-#include "testing.h"
+#include "wren_environment.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>
@@ -13,7 +13,7 @@ void initialize_module(ModuleInitializationLevel p_level) {
     return;
   }
 
-  GDREGISTER_RUNTIME_CLASS(Testing);
+  GDREGISTER_RUNTIME_CLASS(WrenEnvironment);
 }
 
 void uninitialize_module(ModuleInitializationLevel p_level) {

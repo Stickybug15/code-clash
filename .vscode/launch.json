@@ -8,6 +8,16 @@
       "type": "lldb",
       "request": "launch",
       "preLaunchTask": "build-linux",
+      "name": "Debug Linux - Open Godot",
+      "program": "godot",
+      "args": ["-e", "--path", "${workspaceFolder}"],
+      "cwd": "${workspaceFolder}"
+    },
+
+    {
+      "type": "lldb",
+      "request": "launch",
+      "preLaunchTask": "build-linux",
       "name": "Debug Linux",
       "program": "./godot.sh",
       "args": ["--path", "${workspaceFolder}"],

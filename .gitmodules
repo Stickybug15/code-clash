@@ -7,5 +7,6 @@
   path = src/deps/tree-sitter
 
 [submodule "wren"]
-  url = https://github.com/wren-lang/wren
+  url = https://github.com/NexushasTaken/wren.git
   path = src/deps/wren
+  branch = custom_foreign_fn

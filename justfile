@@ -50,11 +50,14 @@ build-windows: build-windows-x86_32 build-windows-x86_64
 
 build: build-linux build-android build-windows
 
-remove-empty-folders:
-  find . -empty -type d ! -path '*/.git*' ! -path '*/.git*/*' ! -path '*/.godot*' ! -path '*/android' -exec rmdir {} \;
-
 build-library *args='':
   {{just}} --working-directory godot-cpp --justfile justfile.godot-cpp --set mode debug {{args}}
 build-library-release *args='':
   {{just}} --working-directory godot-cpp -f justfile.godot-cpp --set mode release {{args}}
+
+debug godot="godot" *args='':
+  gdb --args {{godot}} {{args}}
+
+remove-empty-folders:
+  find . -empty -type d ! -path '*/.git*' ! -path '*/.git*/*' ! -path '*/.godot*' ! -path '*/android' -exec rmdir {} \;
 

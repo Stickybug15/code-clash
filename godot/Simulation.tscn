@@ -90,7 +90,10 @@ metadata/_custom_type_script = "uid://bpomclfffywjq"
 script = ExtResource("14_pt6a6")
 metadata/_custom_type_script = "uid://bpomclfffywjq"
 
-[node name="WrenEnvironment" type="WrenEnvironment" parent="Swordman"]
+[node name="WrenEnvironment" type="WrenEnvironment" parent="Swordman" node_paths=PackedStringArray("action_manager", "actor", "component_manager")]
+action_manager = NodePath("../ActionManager")
+actor = NodePath("..")
+component_manager = NodePath("../CollisionShape2D")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
