@@ -15,8 +15,7 @@ func _ready() -> void:
 			}
 		],
 		"description": "",
-		"method": execute,
-		"method_is_active": is_active,
+		"self": self,
 	}
 
 

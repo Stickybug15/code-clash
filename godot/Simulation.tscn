@@ -45,10 +45,12 @@ metadata/_edit_lock_ = true
 shape = SubResource("RectangleShape2D_btrx0")
 metadata/_edit_lock_ = true
 
-[node name="Swordman" type="CharacterBody2D" parent="."]
+[node name="Swordman" type="CharacterBody2D" parent="." node_paths=PackedStringArray("code_edit", "wren_env")]
 position = Vector2(-246, -90)
 script = ExtResource("1_6qqr4")
 stats = ExtResource("3_vl8ld")
+code_edit = NodePath("../Camera2D/UI/VBoxContainer2/CodeEdit")
+wren_env = NodePath("WrenEnvironment")
 
 [node name="ColorRect" type="ColorRect" parent="Swordman"]
 offset_right = 40.0
@@ -93,7 +95,7 @@ metadata/_custom_type_script = "uid://bpomclfffywjq"
 [node name="WrenEnvironment" type="WrenEnvironment" parent="Swordman" node_paths=PackedStringArray("action_manager", "actor", "component_manager")]
 action_manager = NodePath("../ActionManager")
 actor = NodePath("..")
-component_manager = NodePath("../CollisionShape2D")
+component_manager = NodePath("../ComponentManager")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -101,9 +103,9 @@ component_manager = NodePath("../CollisionShape2D")
 script = ExtResource("7_dqfj6")
 
 [node name="UI" type="CanvasLayer" parent="Camera2D"]
-metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/UI"]
+visible = false
 offset_right = 95.0
 offset_bottom = 101.0
 
@@ -120,6 +122,22 @@ layout_mode = 2
 text = "move_right
 "
 
+[node name="VBoxContainer2" type="VBoxContainer" parent="Camera2D/UI"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CodeEdit" type="TextEdit" parent="Camera2D/UI/VBoxContainer2"]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
+text = "hero.jump()
+hero.move_left(1)
+hero.move_right(1)"
+
+[node name="Run" type="Button" parent="Camera2D/UI/VBoxContainer2"]
+layout_mode = 2
+text = "Run"
+
 [connection signal="pressed" from="Camera2D/UI/VBoxContainer/JumpBtn" to="Swordman" method="_on_jump_btn_pressed"]
 [connection signal="pressed" from="Camera2D/UI/VBoxContainer/MoveLeftBtn" to="Swordman" method="_on_move_left_btn_pressed"]
 [connection signal="pressed" from="Camera2D/UI/VBoxContainer/MoveRightBtn" to="Swordman" method="_on_move_right_btn_pressed"]
+[connection signal="pressed" from="Camera2D/UI/VBoxContainer2/Run" to="Swordman" method="_on_run_pressed"]

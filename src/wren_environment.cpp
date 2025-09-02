@@ -1,13 +1,17 @@
 #include "wren_environment.h"
 #include "cpp-tree-sitter.h"
 #include "godot_cpp/classes/global_constants.hpp"
+#include "godot_cpp/classes/node.hpp"
 #include "godot_cpp/core/error_macros.hpp"
 #include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
+#include "godot_cpp/core/property_info.hpp"
 #include "godot_cpp/variant/array.hpp"
+#include "godot_cpp/variant/callable_method_pointer.hpp"
 #include "godot_cpp/variant/char_string.hpp"
 #include "godot_cpp/variant/dictionary.hpp"
 #include "godot_cpp/variant/variant.hpp"
+#include "wren.h"
 #include "wren.hpp"
 #include <cstring>
 #include <godot_cpp/core/class_db.hpp>
@@ -37,6 +41,9 @@ void WrenEnvironment::_bind_methods() {
   ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "component_manager",
                             PROPERTY_HINT_NODE_TYPE),
                "set_component_manager", "get_component_manager");
+
+  ClassDB::bind_method(D_METHOD("run_interpreter", "user_code"),
+                       &WrenEnvironment::run_interpreter);
 }
 
 void WrenEnvironment::set_action_manager(Node2D *p_action_manager) {
@@ -90,7 +97,7 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
   String signature(_signature);
   String signature_name(signature.substr(0, signature.find("(")));
 
-  if (module == "main") {
+  if (module == "native") {
     if (isStatic) {
       for (Variant action : self->actions) {
         Dictionary info = action;
@@ -101,6 +108,7 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
 
           String full_path = class_name + "." + signature;
           String method_name = info["method_name"];
+          print_line("Registering method: ", full_path);
           self->foreign_method_cache.set(full_path, info);
 
           if (method_name == signature_name) {
@@ -114,11 +122,13 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
 
               String full_path =
                   className.substr(0, className.find(" ")) + "." + signature;
+              print_line("foreign: full_path: ", full_path);
               if (!self->foreign_method_cache.has(full_path)) {
                 return;
               }
               Dictionary info = self->foreign_method_cache[full_path];
               Array parameters = info["parameters"];
+
               Dictionary data;
               int argc = wrenGetSlotCount(vm);
 
@@ -154,11 +164,16 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               for (int i = 1; i <= argc; i += 1) {
               }
 
-              Callable method = info["method"];
-              Callable method_is_active = info["method_is_active"];
-              method.call(actor, manager, data);
-              // while (method_is_active.call(actor, manager))
-              //   ;
+              Node2D *action = Object::cast_to<Node2D>(info["self"]);
+              print_line(action);
+              if (action) {
+                print_line("actor: [", actor, "], manager: [", manager,
+                           "], data: [", data, "]");
+                action->call("execute", actor, manager, data);
+                while (action->call("is_active", actor, manager)) {
+                }
+                action->call("print_string", "Hello, World");
+              }
             };
           }
         }
@@ -172,6 +187,20 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
 static WrenForeignClassMethods
 bindForeignClassFn(WrenVM *vm, const char *module, const char *className) {
   return {};
+}
+
+WrenLoadModuleResult loadModuleFn(WrenVM *vm, const char *name) {
+  WrenLoadModuleResult result = {};
+  WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
+  if (self->action_manager == nullptr) {
+    print_error("action_manager is null!");
+    return result;
+  }
+  print_line("name: ", name);
+  if (strcmp(name, "native") == 0) {
+    result.source = self->make_classes().ascii().ptr();
+  }
+  return result;
 }
 
 Dictionary map_actions_to_objects(Array actions) {
@@ -278,23 +307,18 @@ void WrenEnvironment::_ready() {
   }
 
   actions = action_manager->get("actions");
-  String classes = make_classes();
-  WrenConfiguration config;
-  wrenInitConfiguration(&config);
-  config.errorFn = &errorFn;
-  config.writeFn = &writeFn;
-  config.bindForeignMethodFn = &bindForeignMethodFn;
-  config.bindForeignClassFn = &bindForeignClassFn;
-  config.userData = this;
-  WrenVM *vm = wrenNewVM(&config);
+}
 
-  print_line(classes);
+void WrenEnvironment::_process(double delta) {}
+
+void WrenEnvironment::run_interpreter(String user_code) {
   String code;
-  // code += classes + "\n";
-  // code += R"(
-  //   hero.jump()
-  // )";
-  print_line(code);
+  if (!wrenHasModule(vm, "native")) {
+    code += "import \"native\" for hero\n";
+    print_line("no module");
+  }
+  code += user_code;
+  print_line("running: \n", code);
   WrenInterpretResult result = wrenInterpret(vm, "main", code.ascii().ptr());
   switch (result) {
   case WREN_RESULT_COMPILE_ERROR: {
@@ -307,8 +331,20 @@ void WrenEnvironment::_ready() {
     print_line("Success!");
   } break;
   }
-  print_line("here!");
-  wrenFreeVM(vm);
+  print_line("registered methods:");
+  print_line(foreign_method_cache);
 }
 
-void WrenEnvironment::_process(double delta) {}
+void WrenEnvironment::_enter_tree() {
+  WrenConfiguration config;
+  wrenInitConfiguration(&config);
+  config.errorFn = &errorFn;
+  config.writeFn = &writeFn;
+  config.bindForeignMethodFn = &bindForeignMethodFn;
+  config.bindForeignClassFn = &bindForeignClassFn;
+  config.loadModuleFn = &loadModuleFn;
+  config.userData = this;
+  vm = wrenNewVM(&config);
+}
+
+void WrenEnvironment::_exit_tree() { wrenFreeVM(vm); }

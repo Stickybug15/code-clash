@@ -19,4 +19,5 @@ func get_actions() -> void:
 func _process(delta: float) -> void:
 	for action in get_children():
 		if action is EntityAction:
+			continue
 			action._update(actor, components, delta)
