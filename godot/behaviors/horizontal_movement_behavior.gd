@@ -1,5 +1,5 @@
-class_name HorizontalMovementComponent
-extends EntityComponent
+class_name HorizontalMovementBehavior
+extends EntityBehavior
 
 enum Direction {
 	LEFT,

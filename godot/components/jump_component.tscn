@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvnpf3r6l5w0u"]
-
-[ext_resource type="Script" uid="uid://ds8c11ajmy2mu" path="res://godot/components/jump_component.gd" id="1_nxmni"]
-
-[node name="JumpComponent" type="Node"]
-script = ExtResource("1_nxmni")
-metadata/_custom_type_script = "uid://ds8c11ajmy2mu"

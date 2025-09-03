@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvfk15v6wpfe5"]
+
+[ext_resource type="Script" uid="uid://dl8v2jmdc7vo6" path="res://godot/behaviors/fall_behavior.gd" id="1_qndjw"]
+
+[node name="FallBehavior" type="Node"]
+script = ExtResource("1_qndjw")
+metadata/_custom_type_script = "uid://dl8v2jmdc7vo6"

@@ -1,4 +1,4 @@
-class_name Component
+class_name Behavior
 extends Node
 
 signal stopped

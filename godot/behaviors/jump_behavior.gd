@@ -1,11 +1,11 @@
-class_name JumpComponent
-extends EntityComponent
+class_name JumpBehavior
+extends EntityBehavior
 
 
 var jumping = false
 
 
-var fall_component: String = "FallComponent"
+var fall_behavior: String = "FallBehavior"
 
 
 func _start(actor: Entity, data: Dictionary) -> void:
@@ -19,6 +19,6 @@ func _update(actor: Entity, delta: float) -> void:
 	if velocity.y < 0.0:
 		velocity.y += actor.stats.jump_gravity * delta
 	else:
-		actor.component_manager.start_component(fall_component)
+		actor.behavior_manager.start_behavior(fall_behavior)
 		velocity = Vector2.ZERO
 		stop(actor)

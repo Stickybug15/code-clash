@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://45nnrgg3ox3g" path="res://godot/swordman.gd" id="1_6qqr4"]
 [ext_resource type="Script" uid="uid://bt2dex5a2hxa4" path="res://godot/simulation.gd" id="1_jd5k6"]
 [ext_resource type="Script" uid="uid://bhgiwhsottftg" path="res://godot/entity_manager.gd" id="2_4curp"]
-[ext_resource type="Script" uid="uid://ccy8pugdpyn2j" path="res://godot/components/entity_components.gd" id="3_d3jfj"]
+[ext_resource type="Script" uid="uid://ccy8pugdpyn2j" path="res://godot/cehaviors/entity_behaviors.gd" id="3_d3jfj"]
 [ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="3_vl8ld"]
-[ext_resource type="PackedScene" uid="uid://bvfk15v6wpfe5" path="res://godot/components/fall_component.tscn" id="5_vl8ld"]
-[ext_resource type="PackedScene" uid="uid://cvnpf3r6l5w0u" path="res://godot/components/jump_component.tscn" id="6_vl8ld"]
+[ext_resource type="PackedScene" uid="uid://bvfk15v6wpfe5" path="res://godot/behaviors/fall_behavior.tscn" id="5_vl8ld"]
+[ext_resource type="PackedScene" uid="uid://cvnpf3r6l5w0u" path="res://godot/behaviors/jump_behavior.tscn" id="6_vl8ld"]
 [ext_resource type="Script" uid="uid://dxn0yod8gmkjw" path="res://godot/camera_2d.gd" id="7_dqfj6"]
-[ext_resource type="PackedScene" uid="uid://cxj2w5gss7yjt" path="res://godot/components/horizontal_movement_component.tscn" id="8_pp0p1"]
-[ext_resource type="PackedScene" uid="uid://8fqweg0goluq" path="res://godot/components/idle_component.tscn" id="9_pp0p1"]
+[ext_resource type="PackedScene" uid="uid://cxj2w5gss7yjt" path="res://godot/behaviors/horizontal_movement_behavior.tscn" id="8_pp0p1"]
+[ext_resource type="PackedScene" uid="uid://8fqweg0goluq" path="res://godot/behaviors/idle_behavior.tscn" id="9_pp0p1"]
 [ext_resource type="Script" uid="uid://cnrb6ttwr6b3d" path="res://godot/actions/entity_action_manager.gd" id="11_xglxl"]
 [ext_resource type="Script" uid="uid://1dmslbqb431w" path="res://godot/actions/jump_action.gd" id="12_pp0p1"]
 [ext_resource type="Script" uid="uid://kwj0n6tqd5or" path="res://godot/actions/move_left_action.gd" id="13_4curp"]
@@ -50,12 +50,12 @@ metadata/_edit_lock_ = true
 script = ExtResource("2_4curp")
 code_edit = NodePath("../Camera2D/UI/VBoxContainer2/CodeEdit")
 
-[node name="Swordman" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "component_manager", "action_manager", "wren_env")]
+[node name="Swordman" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "behavior_manager", "action_manager", "wren_env")]
 position = Vector2(-246, -90)
 script = ExtResource("1_6qqr4")
 stats = ExtResource("3_vl8ld")
 code_edit = NodePath("../../Camera2D/UI/VBoxContainer2/CodeEdit")
-component_manager = NodePath("ComponentManager")
+behavior_manager = NodePath("BehaviorManager")
 action_manager = NodePath("ActionManager")
 wren_env = NodePath("WrenEnvironment")
 
@@ -69,18 +69,18 @@ position = Vector2(20, 20)
 shape = SubResource("RectangleShape2D_6qqr4")
 metadata/_edit_lock_ = true
 
-[node name="ComponentManager" type="Node" parent="Entities/Swordman" node_paths=PackedStringArray("actor")]
+[node name="BehaviorManager" type="Node" parent="Entities/Swordman" node_paths=PackedStringArray("actor")]
 script = ExtResource("3_d3jfj")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://ccy8pugdpyn2j"
 
-[node name="FallComponent" parent="Entities/Swordman/ComponentManager" instance=ExtResource("5_vl8ld")]
+[node name="FallBehavior" parent="Entities/Swordman/BehaviorManager" instance=ExtResource("5_vl8ld")]
 
-[node name="JumpComponent" parent="Entities/Swordman/ComponentManager" instance=ExtResource("6_vl8ld")]
+[node name="JumpBehavior" parent="Entities/Swordman/BehaviorManager" instance=ExtResource("6_vl8ld")]
 
-[node name="IdleComponent" parent="Entities/Swordman/ComponentManager" instance=ExtResource("9_pp0p1")]
+[node name="IdleBehavior" parent="Entities/Swordman/BehaviorManager" instance=ExtResource("9_pp0p1")]
 
-[node name="HorizontalMovementComponent" parent="Entities/Swordman/ComponentManager" instance=ExtResource("8_pp0p1")]
+[node name="HorizontalMovementBehavior" parent="Entities/Swordman/BehaviorManager" instance=ExtResource("8_pp0p1")]
 
 [node name="ActionManager" type="Node2D" parent="Entities/Swordman" node_paths=PackedStringArray("actor")]
 script = ExtResource("11_xglxl")

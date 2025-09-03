@@ -11,14 +11,14 @@ func _ready() -> void:
 		"self": self,
 	}
 
-# TODO: just remove actor, since it already exist in components.
+# TODO: just remove actor, since it already exist in behaviors.
 func _execute(actor: Entity, data: Dictionary) -> void:
-	var jump: JumpComponent = actor.component_manager.get_component("JumpComponent")
+	var jump: JumpBehavior = actor.behavior_manager.get_behavior("JumpBehavior")
 	jump.start(actor, {})
 
 
 func is_active(actor: Entity) -> bool:
-	return actor.component_manager.is_any_components_active(["JumpComponent", "FallComponent"])
+	return actor.behavior_manager.is_any_behaviors_active(["JumpBehavior", "FallBehavior"])
 
 
 func update(actor: Entity, delta: float) -> void:

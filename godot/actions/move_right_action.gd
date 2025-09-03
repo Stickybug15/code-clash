@@ -20,11 +20,11 @@ func _ready() -> void:
 
 
 func _execute(actor: Entity, data: Dictionary) -> void:
-	actor.component_manager.start_component("HorizontalMovementComponent", data.merged({"direction": "right"}, true))
+	actor.behavior_manager.start_behavior("HorizontalMovementBehavior", data.merged({"direction": "right"}, true))
 
 
 func is_active(actor: Entity) -> bool:
-	return actor.component_manager.get_component("HorizontalMovementComponent").is_active()
+	return actor.behavior_manager.get_behavior("HorizontalMovementBehavior").is_active()
 
 
 func update(actor: Entity, delta: float) -> void:
