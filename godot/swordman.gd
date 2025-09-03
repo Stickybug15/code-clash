@@ -21,13 +21,6 @@ func _on_move_left_btn_pressed() -> void:
 func _on_move_right_btn_pressed() -> void:
 	pass
 
-var thread: Thread = Thread.new();
-func _on_run_pressed() -> void:
-	if thread.is_alive():
-		push_error("Interpreter is already running!")
-		return
-	thread.start(Callable(self, "run_interpreter_async"), Thread.PRIORITY_NORMAL)
 
-func run_interpreter_async():
-	wren_env.run_interpreter(code_edit.text)
-	thread = Thread.new()
+func _on_run_pressed() -> void:
+	wren_env.run_interpreter_async(code_edit.text)

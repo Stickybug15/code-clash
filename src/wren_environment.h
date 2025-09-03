@@ -31,6 +31,8 @@ public:
   void _exit_tree() override;
 
   void run_interpreter(String code);
+  void run_interpreter_async(String user_code);
+  void _run_pending_code();
 
   void set_action_manager(Node2D *node);
   Node2D *get_action_manager();
@@ -41,11 +43,13 @@ public:
 
   String make_classes() const;
 
+  Ref<Thread> thread;
   WrenVM *vm;
   Array actions;
   Node2D *actor{nullptr};
   Node2D *action_manager{nullptr};
   Node *component_manager{nullptr};
+  String pending_code;
 
   Dictionary foreign_method_cache;
 };

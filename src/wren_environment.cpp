@@ -44,6 +44,8 @@ void WrenEnvironment::_bind_methods() {
 
   ClassDB::bind_method(D_METHOD("run_interpreter", "user_code"),
                        &WrenEnvironment::run_interpreter);
+  ClassDB::bind_method(D_METHOD("run_interpreter_async", "user_code"),
+                       &WrenEnvironment::run_interpreter_async);
 }
 
 void WrenEnvironment::set_action_manager(Node2D *p_action_manager) {
@@ -330,6 +332,23 @@ void WrenEnvironment::run_interpreter(String user_code) {
   }
 }
 
+void WrenEnvironment::run_interpreter_async(String user_code) {
+  if (!pending_code.is_empty()) {
+    WARN_PRINT("Interpreter is already running!");
+    return;
+  } else {
+    thread->wait_to_finish();
+  }
+
+  pending_code = user_code;
+  thread->start(callable_mp(this, &WrenEnvironment::_run_pending_code));
+}
+
+void WrenEnvironment::_run_pending_code() {
+  run_interpreter(pending_code);
+  pending_code = "";
+}
+
 void WrenEnvironment::_enter_tree() {
   WrenConfiguration config;
   wrenInitConfiguration(&config);
@@ -340,6 +359,13 @@ void WrenEnvironment::_enter_tree() {
   config.loadModuleFn = &loadModuleFn;
   config.userData = this;
   vm = wrenNewVM(&config);
+  thread.instantiate();
 }
 
-void WrenEnvironment::_exit_tree() { wrenFreeVM(vm); }
+void WrenEnvironment::_exit_tree() {
+  if (thread.is_valid()) {
+    thread->wait_to_finish();
+    thread.unref();
+  }
+  wrenFreeVM(vm);
+}
