@@ -55,12 +55,24 @@ init_scons() {
   if [[ ! -f "$file" ]]; then
     download $file $url
   fi
-  if ! type '/c/Program Files/Python313/python'; then
+
+  local python_bin="python"
+  if python --version; then
+    python_bin="python"
+  elif python3 --version; then
+    python_bin="python3"
+  elif python313 --version; then
+    python_bin="python313"
+  elif '/c/Program Files/Python313/python' --version; then
+    python_bin="/c/Program Files/Python313/python"
+  fi
+
+  if ! type $python_bin; then
     cmd //c "$(cygpath -w $file) /passive /norestart InstallAllUsers=1 Include_pip=1 PrependPath=1"
   fi
 
-  if ! '/c/Program Files/Python313/python' -m SCons --version; then
-    '/c/Program Files/Python313/python' -m pip install scons
+  if ! $python_bin -m SCons --version; then
+    $python_bin -m pip install scons
   fi
 }
 
