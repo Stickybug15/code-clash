@@ -9,7 +9,7 @@ enum Direction {
 var remaining: float = 0
 
 
-func _update(actor: Swordman, delta: float) -> void:
+func _update(actor: Entity, delta: float) -> void:
 	if remaining == 0:
 		velocity.x = 0
 		return
@@ -27,7 +27,7 @@ func _update(actor: Swordman, delta: float) -> void:
 		remaining -= step * delta
 
 
-func move(actor: Swordman, steps: int, direction: Direction) -> void:
+func move(actor: Entity, steps: int, direction: Direction) -> void:
 	var direction_unit := 0
 	match direction:
 		Direction.LEFT:
@@ -38,7 +38,7 @@ func move(actor: Swordman, steps: int, direction: Direction) -> void:
 	remaining = actor.stats.distance * steps * direction_unit
 
 
-func _start(actor: Swordman, data: Dictionary) -> void:
+func _start(actor: Entity, data: Dictionary) -> void:
 	assert(data.has("direction"), "data must contain 'direction' data.")
 	assert(data.get("direction") in ["left", "right"], "key 'direction' must be either 'left' or 'right'.")
 	var direction: String = data.get("direction")

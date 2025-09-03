@@ -1,7 +1,7 @@
 class_name EntityActionManager
 extends Node2D
 
-@export var actor: Swordman
+@export var actor: Entity
 
 var actions: Array[Dictionary] = []
 

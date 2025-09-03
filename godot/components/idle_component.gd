@@ -2,5 +2,5 @@ class_name IdleComponent
 extends EntityComponent
 
 
-func _update(actor: Swordman, delta: float) -> void:
+func _update(actor: Entity, delta: float) -> void:
 	pass

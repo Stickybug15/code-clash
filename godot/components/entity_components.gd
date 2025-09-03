@@ -1,7 +1,7 @@
 class_name EntityComponentManager
 extends Node
 
-@export var actor: Swordman
+@export var actor: Entity
 
 var components: Dictionary
 

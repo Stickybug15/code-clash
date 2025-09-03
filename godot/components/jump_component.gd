@@ -8,14 +8,14 @@ var jumping = false
 var fall_component: String = "FallComponent"
 
 
-func _start(actor: Swordman, data: Dictionary) -> void:
+func _start(actor: Entity, data: Dictionary) -> void:
 	if actor.is_on_floor():
 		velocity = actor.up_direction * abs(actor.stats.jump_velocity)
 	else:
 		stop(actor)
 
 
-func _update(actor: Swordman, delta: float) -> void:
+func _update(actor: Entity, delta: float) -> void:
 	if velocity.y < 0.0:
 		velocity.y += actor.stats.jump_gravity * delta
 	else:
