@@ -6,4 +6,8 @@ func _update(actor: Swordman, delta: float) -> void:
 	if !actor.is_on_floor():
 		velocity.y += actor.stats.fall_gravity * delta
 	else:
-		velocity = Vector2.ZERO
+		stop(actor)
+
+
+func _stop(actor: Swordman) -> void:
+	velocity = Vector2.ZERO

@@ -29,5 +29,5 @@ func _on_run_pressed() -> void:
 	thread.start(Callable(self, "run_interpreter_async"), Thread.PRIORITY_NORMAL)
 
 func run_interpreter_async():
-	wren_env.run_interpreter.call(code_edit.text)
-	thread.wait_to_finish()
+	wren_env.run_interpreter(code_edit.text)
+	thread = Thread.new()

@@ -17,25 +17,36 @@ func _ready() -> void:
 func start_component(component_name: String, data: Dictionary = {}):
 	var component : EntityComponent = get_component(component_name)
 	if component:
+		print("start: ", component_name)
 		component.start(actor, data)
 
 func stop_component(component_name: String):
 	var component : EntityComponent = get_component(component_name)
 	if not component or component.is_active():
 		return
+	print("stop: ", component_name)
 	component.stop(actor)
 
 func enable_component(component_name: String) -> void:
 	var component : EntityComponent = get_component(component_name)
 	if not component or component.is_enabled():
 		return
+	print("enabled: ", component_name)
 	component.enable()
 
 func disable_component(component_name: String) -> void:
 	var component : EntityComponent = get_component(component_name)
 	if not component or not component.is_enabled():
 		return
+	print("disabled: ", component_name)
 	component.disable()
+
+
+func is_any_components_active(names: Array[String]) -> bool:
+	for name in names:
+		if get_component(name).is_active():
+			return true
+	return false
 
 
 func get_component(component_name: String) -> EntityComponent:

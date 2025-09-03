@@ -49,7 +49,7 @@ func update(actor, delta: float) -> void:
 
 
 func is_active() -> bool:
-	return _active
+	return _enabled and _active
 
 func is_enabled() -> bool:
 	return _enabled

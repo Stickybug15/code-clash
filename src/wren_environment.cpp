@@ -102,13 +102,13 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
       for (Variant action : self->actions) {
         Dictionary info = action;
 
-        print_line("className: ", class_name, ", signature: ", signature);
+        // print_line("className: ", class_name, ", signature: ", signature);
         String object_name = info["object_name"];
         if (object_name == class_name) {
 
           String full_path = class_name + "." + signature;
           String method_name = info["method_name"];
-          print_line("Registering method: ", full_path);
+          // print_line("Registering method: ", full_path);
           self->foreign_method_cache.set(full_path, info);
 
           if (method_name == signature_name) {
@@ -122,7 +122,7 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
 
               String full_path =
                   className.substr(0, className.find(" ")) + "." + signature;
-              print_line("foreign: full_path: ", full_path);
+              // print_line("foreign: full_path: ", full_path);
               if (!self->foreign_method_cache.has(full_path)) {
                 return;
               }
@@ -165,14 +165,13 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               }
 
               Node2D *action = Object::cast_to<Node2D>(info["self"]);
-              print_line(action);
+              // print_line(action);
               if (action) {
-                print_line("actor: [", actor, "], manager: [", manager,
-                           "], data: [", data, "]");
+                // print_line("actor: [", actor, "], manager: [", manager,
+                //            "], data: [", data, "]");
                 action->call("execute", actor, manager, data);
                 while (action->call("is_active", actor, manager)) {
                 }
-                action->call("print_string", "Hello, World");
               }
             };
           }
@@ -196,7 +195,7 @@ WrenLoadModuleResult loadModuleFn(WrenVM *vm, const char *name) {
     print_error("action_manager is null!");
     return result;
   }
-  print_line("name: ", name);
+  // print_line("name: ", name);
   if (strcmp(name, "native") == 0) {
     result.source = self->make_classes().ascii().ptr();
   }
@@ -315,10 +314,8 @@ void WrenEnvironment::run_interpreter(String user_code) {
   String code;
   if (!wrenHasModule(vm, "native")) {
     code += "import \"native\" for hero\n";
-    print_line("no module");
   }
   code += user_code;
-  print_line("running: \n", code);
   WrenInterpretResult result = wrenInterpret(vm, "main", code.ascii().ptr());
   switch (result) {
   case WREN_RESULT_COMPILE_ERROR: {
@@ -331,8 +328,6 @@ void WrenEnvironment::run_interpreter(String user_code) {
     print_line("Success!");
   } break;
   }
-  print_line("registered methods:");
-  print_line(foreign_method_cache);
 }
 
 void WrenEnvironment::_enter_tree() {

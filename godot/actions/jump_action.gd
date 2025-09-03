@@ -13,12 +13,11 @@ func _ready() -> void:
 
 # TODO: just remove actor, since it already exist in components.
 func execute(actor: Swordman, components: EntityComponentManager, data: Dictionary) -> void:
-	print("jumping")
 	components.start_component("JumpComponent", {})
 
 
 func is_active(actor: Swordman, components: EntityComponentManager) -> bool:
-	return components.get_component("JumpComponent").is_active()
+	return components.is_any_components_active(["JumpComponent", "FallComponent"])
 
 
 func print_string(string: String) -> void:
