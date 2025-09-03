@@ -67,12 +67,12 @@ init_scons() {
     python_bin="/c/Program Files/Python313/python"
   fi
 
-  if ! type $python_bin; then
+  if ! type "$python_bin"; then
     cmd //c "$(cygpath -w $file) /passive /norestart InstallAllUsers=1 Include_pip=1 PrependPath=1"
   fi
 
-  if ! $python_bin -m SCons --version; then
-    $python_bin -m pip install scons
+  if ! "$python_bin" -m SCons --version; then
+    "$python_bin" -m pip install scons
   fi
 }
 
