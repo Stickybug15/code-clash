@@ -14,6 +14,7 @@
 #include "wren.h"
 #include "wren.hpp"
 #include <cstring>
+#include <functional>
 #include <godot_cpp/core/class_db.hpp>
 
 using namespace godot;
@@ -46,17 +47,20 @@ WrenEnvironment::~WrenEnvironment() {}
 static void errorFn(WrenVM *vm, WrenErrorType type, const char *module,
                     int line, const char *message) {
   WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
-  print_error(vformat("WREN[ERROR]: {}:{}: {}", module, line, message));
+  print_error("WREN[ERROR]: ", module, ":", line, ": ", message);
 }
+
 static void writeFn(WrenVM *vm, const char *text) {
   WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
-  print_line(vformat("WREN: {}", text));
+  print_line_rich("WREN: ", text);
 }
+
 static void print(WrenVM *vm) {
   WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
   const char *str = wrenGetSlotString(vm, 1);
   print_line(vformat("Native: {}", str));
 }
+
 static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
                                                const char *_className,
                                                bool isStatic,
@@ -101,33 +105,47 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               Dictionary data;
               int argc = wrenGetSlotCount(vm);
 
+              // TODO: handle not having pass in arguments.
+              // TODO: handle duplicate arguments.
               int argi = 1;
               for (Dictionary param : parameters) {
                 // "type": "int",
                 // "name": "steps",
                 // "description": "",
                 // "default": 1,
-                switch (wrenGetSlotType(vm, argi)) {
-                case WREN_TYPE_BOOL:
-                  data[param["name"]] = wrenGetSlotBool(vm, argi);
-                  break;
-                case WREN_TYPE_NUM:
-                  data[param["name"]] = wrenGetSlotDouble(vm, argi);
-                  break;
-                case WREN_TYPE_FOREIGN:
-                  break;
-                case WREN_TYPE_LIST:
-                  break;
-                case WREN_TYPE_MAP:
-                  break;
-                case WREN_TYPE_NULL:
-                  break;
-                case WREN_TYPE_STRING:
-                  data[param["name"]] = wrenGetSlotString(vm, argi);
-                  break;
-                case WREN_TYPE_UNKNOWN:
-                  break;
-                }
+                std::function<Variant(WrenVM*, int)> get_value = [&get_value](WrenVM* vm, int slot) -> Variant {
+                  int argc = wrenGetSlotCount(vm);
+
+                  switch (wrenGetSlotType(vm, slot)) {
+                  case WREN_TYPE_BOOL:
+                    return wrenGetSlotBool(vm, slot);
+                  case WREN_TYPE_NUM:
+                    return wrenGetSlotDouble(vm, slot);
+                  case WREN_TYPE_FOREIGN:
+                    return nullptr; // TODO: to be implemented.
+                  case WREN_TYPE_LIST: {
+                      Array result;
+                      wrenEnsureSlots(vm, argc);
+                      int last = argc + 1;
+                      int list_length = wrenGetListCount(vm, slot);
+                      for (int i = 0; i < list_length; ++i) {
+                        wrenGetListElement(vm, slot, i, last);
+                        result.append(get_value(vm, last));
+                      }
+                      return result;
+                    } break;
+                  case WREN_TYPE_MAP:
+                    return Dictionary{}; // TODO: to be implemented.
+                  case WREN_TYPE_NULL:
+                    return nullptr;
+                  case WREN_TYPE_STRING:
+                    return wrenGetSlotString(vm, slot);
+                  case WREN_TYPE_UNKNOWN:
+                    return nullptr;
+                  }
+                  return nullptr;
+                };
+                data[param["name"]] = get_value(vm, argi);
                 argi += 1;
               }
               for (int i = 1; i <= argc; i += 1) {
@@ -264,6 +282,7 @@ String WrenEnvironment::make_classes() const {
 
     classes += class_code + "\n";
   }
+  print_line(classes);
   return classes;
 }
 
@@ -278,6 +297,7 @@ void WrenEnvironment::_process(double delta) {}
 void WrenEnvironment::run_interpreter(String user_code) {
   String code;
   if (!wrenHasModule(vm, "native")) {
+    // TODO: 'hero' is modular, and shall not be hardcoded.
     code += "import \"native\" for hero\n";
   }
   code += user_code;

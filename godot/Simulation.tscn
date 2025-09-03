@@ -1,9 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://t10il7o8wboo"]
+[gd_scene load_steps=18 format=3 uid="uid://t10il7o8wboo"]
 
 [ext_resource type="Script" uid="uid://45nnrgg3ox3g" path="res://godot/swordman.gd" id="1_6qqr4"]
 [ext_resource type="Script" uid="uid://bt2dex5a2hxa4" path="res://godot/simulation.gd" id="1_jd5k6"]
 [ext_resource type="Script" uid="uid://bhgiwhsottftg" path="res://godot/entity_manager.gd" id="2_4curp"]
-[ext_resource type="Script" uid="uid://ccy8pugdpyn2j" path="res://godot/cehaviors/entity_behaviors.gd" id="3_d3jfj"]
+[ext_resource type="Script" uid="uid://ccy8pugdpyn2j" path="res://godot/behaviors/entity_behaviors.gd" id="3_d3jfj"]
 [ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="3_vl8ld"]
 [ext_resource type="PackedScene" uid="uid://bvfk15v6wpfe5" path="res://godot/behaviors/fall_behavior.tscn" id="5_vl8ld"]
 [ext_resource type="PackedScene" uid="uid://cvnpf3r6l5w0u" path="res://godot/behaviors/jump_behavior.tscn" id="6_vl8ld"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://cnrb6ttwr6b3d" path="res://godot/actions/entity_action_manager.gd" id="11_xglxl"]
 [ext_resource type="Script" uid="uid://1dmslbqb431w" path="res://godot/actions/jump_action.gd" id="12_pp0p1"]
 [ext_resource type="Script" uid="uid://kwj0n6tqd5or" path="res://godot/actions/move_left_action.gd" id="13_4curp"]
+[ext_resource type="Script" uid="uid://d17l7e5t2r3wa" path="res://godot/test_action.gd" id="14_12owf"]
 [ext_resource type="Script" uid="uid://bkfnv06c4rknx" path="res://godot/actions/move_right_action.gd" id="14_pt6a6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
@@ -98,6 +99,11 @@ metadata/_custom_type_script = "uid://bpomclfffywjq"
 script = ExtResource("14_pt6a6")
 metadata/_custom_type_script = "uid://bpomclfffywjq"
 
+[node name="TestAction" type="Node2D" parent="Entities/Swordman/ActionManager"]
+position = Vector2(246, 90)
+script = ExtResource("14_12owf")
+metadata/_custom_type_script = "uid://bpomclfffywjq"
+
 [node name="WrenEnvironment" type="WrenEnvironment" parent="Entities/Swordman" node_paths=PackedStringArray("actor")]
 actor = NodePath("..")
 
@@ -135,7 +141,8 @@ custom_minimum_size = Vector2(600, 400)
 layout_mode = 2
 text = "hero.jump()
 hero.move_left(1)
-hero.move_right(1)"
+hero.move_right(1)
+hero.test(true, 3.5, \"String param\", [\"list\", 3.5, true, [\"anoter!\"]], {})"
 
 [node name="Run" type="Button" parent="Camera2D/UI/VBoxContainer2"]
 layout_mode = 2

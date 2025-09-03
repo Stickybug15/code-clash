@@ -9,6 +9,10 @@ var _running: bool = false
 func _execute(actor: Entity, data: Dictionary) -> void:
 	pass
 
+func _end(actor: Entity) -> void:
+	pass
+
+
 func execute(actor: Entity, data: Dictionary) -> void:
 	if _running:
 		push_warning(name + " is already active.")
@@ -17,9 +21,6 @@ func execute(actor: Entity, data: Dictionary) -> void:
 		_running = true
 		_execute(actor, data)
 
-
-func _end(actor: Entity) -> void:
-	pass
 
 func end(actor: Entity) -> void:
 	if not _running:
