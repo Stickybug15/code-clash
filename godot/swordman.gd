@@ -7,6 +7,8 @@ extends CharacterBody2D
 @export var action_manager: EntityActionManager
 @export var wren_env: WrenEnvironment
 
+var action: Callable
+
 var wait_semaphore: Semaphore = Semaphore.new()
 var wait_mutex: Mutex = Mutex.new()
 

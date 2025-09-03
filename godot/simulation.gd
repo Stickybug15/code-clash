@@ -18,3 +18,19 @@ func _on_viewport_size_changed() -> void:
 	var screen_size = get_viewport_rect().size
 
 	camera.position = Vector2(0, -screen_size.y/2)
+
+
+func is_ready() -> bool:
+	var entities: Array[Swordman] = [swordman]
+	for entity in entities:
+		if entity.action.is_null():
+			return false
+	return true
+
+
+func _process(delta: float) -> void:
+	if is_ready():
+		var entities: Array[Swordman] = [swordman]
+		for entity in entities:
+			entity.action.call()
+			entity.action = Callable()

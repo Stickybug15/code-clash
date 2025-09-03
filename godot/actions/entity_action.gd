@@ -13,8 +13,9 @@ func execute(actor: Swordman, data: Dictionary) -> void:
 	if _running:
 		push_warning(name + " is already active.")
 		return
-	_running = true
-	_execute(actor, data);
+	actor.action = func():
+		_running = true
+		_execute(actor, data)
 
 
 func _end(actor: Swordman) -> void:

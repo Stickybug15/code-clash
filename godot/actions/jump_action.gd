@@ -27,7 +27,3 @@ func update(actor: Swordman, delta: float) -> void:
 
 	if not is_active(actor):
 		end(actor)
-
-
-func print_string(string: String) -> void:
-	print("print_string: ", string)
