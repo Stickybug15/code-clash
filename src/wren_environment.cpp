@@ -136,9 +136,14 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               Node2D *action = Object::cast_to<Node2D>(info["self"]);
               if (action) {
                 action->call("execute", actor, data);
+                // clang-format off
+                // TODO: investigate why on first launch, it generates an error of:
+                // E 0:00:01:660   swordman.gd:31 @ _on_run_pressed(): Thread must have been started to wait for its completion.
+                // <C++ Error>   Condition "!is_started()" is true. Returning: Variant()
+                // <C++ Source>  core/core_bind.cpp:1395 @ wait_to_finish()
+                // <Stack Trace> swordman.gd:31 @ _on_run_pressed()
+                // clang-format on
                 self->wait_semaphore->wait();
-                // while (action->call("is_active", actor)) {
-                // }
               }
             };
           }
