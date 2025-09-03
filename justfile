@@ -1,5 +1,5 @@
 compiledb := "no"
-compile_commands := if compiledb == "true" { "compiledb" } else { "" }
+compile_commands := if compiledb == "yes" { "compiledb" } else { "" }
 api_dir := "src/api/"
 build_library := "no"
 mode := "debug"
