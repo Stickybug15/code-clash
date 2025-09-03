@@ -5,6 +5,7 @@ extends Node2D
 
 var actions: Array[Dictionary] = []
 
+
 func _ready() -> void:
 	get_actions()
 
@@ -17,6 +18,8 @@ func get_actions() -> void:
 
 func _process(delta: float) -> void:
 	for action in get_children():
-		if action is EntityAction:
+		if action is not EntityAction:
 			continue
-			action._update(actor, delta)
+		if not action.is_running(actor):
+			continue
+		action.update(actor, delta)

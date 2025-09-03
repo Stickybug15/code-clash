@@ -19,7 +19,7 @@ func _ready() -> void:
 	}
 
 
-func execute(actor: Swordman, data: Dictionary) -> void:
+func _execute(actor: Swordman, data: Dictionary) -> void:
 	actor.component_manager.start_component("HorizontalMovementComponent", data.merged({"direction": "left"}, true))
 
 
@@ -27,6 +27,9 @@ func is_active(actor: Swordman) -> bool:
 	return actor.component_manager.get_component("HorizontalMovementComponent").is_active()
 
 
-func _update(actor: Swordman, delta: float) -> void:
+func update(actor: Swordman, delta: float) -> void:
 	if Input.is_action_pressed("left"):
 		execute(actor, {})
+
+	if not is_active(actor):
+		end(actor)

@@ -91,10 +91,10 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
 
               String full_path =
                   className.substr(0, className.find(" ")) + "." + signature;
-              // print_line("foreign: full_path: ", full_path);
               if (!self->foreign_method_cache.has(full_path)) {
                 return;
               }
+
               Dictionary info = self->foreign_method_cache[full_path];
               Array parameters = info["parameters"];
 
@@ -134,13 +134,11 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               }
 
               Node2D *action = Object::cast_to<Node2D>(info["self"]);
-              // print_line(action);
               if (action) {
-                // print_line("actor: [", actor, "], manager: [", manager,
-                //            "], data: [", data, "]");
                 action->call("execute", actor, data);
-                while (action->call("is_active", actor)) {
-                }
+                self->wait_semaphore->wait();
+                // while (action->call("is_active", actor)) {
+                // }
               }
             };
           }
@@ -266,6 +264,8 @@ String WrenEnvironment::make_classes() const {
 
 void WrenEnvironment::_ready() {
   actions = actor->get("action_manager").get("actions");
+  wait_semaphore = actor->get("wait_semaphore");
+  wait_mutex = actor->get("wait_mutex");
 }
 
 void WrenEnvironment::_process(double delta) {}
@@ -318,8 +318,6 @@ void WrenEnvironment::_enter_tree() {
   config.userData = this;
   vm = wrenNewVM(&config);
   thread.instantiate();
-  wait_semaphore.instantiate();
-  wait_mutex.instantiate();
 }
 
 void WrenEnvironment::_exit_tree() {

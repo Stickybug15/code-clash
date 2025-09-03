@@ -12,18 +12,22 @@ func _ready() -> void:
 	}
 
 # TODO: just remove actor, since it already exist in components.
-func execute(actor: Swordman, data: Dictionary) -> void:
-	actor.component_manager.start_component("JumpComponent", {})
+func _execute(actor: Swordman, data: Dictionary) -> void:
+	var jump: JumpComponent = actor.component_manager.get_component("JumpComponent")
+	jump.start(actor, {})
 
 
 func is_active(actor: Swordman) -> bool:
 	return actor.component_manager.is_any_components_active(["JumpComponent", "FallComponent"])
 
 
-func print_string(string: String) -> void:
-	print("print_string: ", string)
-
-
-func _update(actor: Swordman, delta: float) -> void:
+func update(actor: Swordman, delta: float) -> void:
 	if Input.is_action_pressed("jump"):
 		execute(actor, {})
+
+	if not is_active(actor):
+		end(actor)
+
+
+func print_string(string: String) -> void:
+	print("print_string: ", string)

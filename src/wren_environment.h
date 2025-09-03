@@ -53,7 +53,7 @@ public:
   Array actions;
   Node2D *actor{nullptr};
   Node *component_manager{nullptr};
-  String pending_code;
+  String pending_code{""};
 
   Dictionary foreign_method_cache;
 };

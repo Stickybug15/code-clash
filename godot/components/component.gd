@@ -1,6 +1,8 @@
 class_name Component
 extends Node
 
+signal stopped
+
 var _active := false
 var _enabled := true
 
@@ -38,6 +40,7 @@ func start(actor, data: Dictionary) -> void:
 func stop(actor) -> void:
 	if not _enabled:
 		return
+	stopped.emit()
 	_active = false
 	_stop(actor)
 
