@@ -45,11 +45,13 @@ metadata/_edit_lock_ = true
 shape = SubResource("RectangleShape2D_btrx0")
 metadata/_edit_lock_ = true
 
-[node name="Swordman" type="CharacterBody2D" parent="." node_paths=PackedStringArray("code_edit", "wren_env")]
+[node name="Swordman" type="CharacterBody2D" parent="." node_paths=PackedStringArray("code_edit", "component_manager", "action_manager", "wren_env")]
 position = Vector2(-246, -90)
 script = ExtResource("1_6qqr4")
 stats = ExtResource("3_vl8ld")
 code_edit = NodePath("../Camera2D/UI/VBoxContainer2/CodeEdit")
+component_manager = NodePath("ComponentManager")
+action_manager = NodePath("ActionManager")
 wren_env = NodePath("WrenEnvironment")
 
 [node name="ColorRect" type="ColorRect" parent="Swordman"]
@@ -75,10 +77,9 @@ metadata/_custom_type_script = "uid://ccy8pugdpyn2j"
 
 [node name="HorizontalMovementComponent" parent="Swordman/ComponentManager" instance=ExtResource("8_pp0p1")]
 
-[node name="ActionManager" type="Node2D" parent="Swordman" node_paths=PackedStringArray("actor", "components")]
+[node name="ActionManager" type="Node2D" parent="Swordman" node_paths=PackedStringArray("actor")]
 script = ExtResource("11_xglxl")
 actor = NodePath("..")
-components = NodePath("../ComponentManager")
 
 [node name="JumpAction" type="Node2D" parent="Swordman/ActionManager"]
 position = Vector2(246, 90)
@@ -92,10 +93,8 @@ metadata/_custom_type_script = "uid://bpomclfffywjq"
 script = ExtResource("14_pt6a6")
 metadata/_custom_type_script = "uid://bpomclfffywjq"
 
-[node name="WrenEnvironment" type="WrenEnvironment" parent="Swordman" node_paths=PackedStringArray("action_manager", "actor", "component_manager")]
-action_manager = NodePath("../ActionManager")
+[node name="WrenEnvironment" type="WrenEnvironment" parent="Swordman" node_paths=PackedStringArray("actor")]
 actor = NodePath("..")
-component_manager = NodePath("../ComponentManager")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

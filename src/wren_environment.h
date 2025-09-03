@@ -1,9 +1,11 @@
 #ifndef TREESITTER_H
 #define TREESITTER_H
 
+#include "godot_cpp/classes/mutex.hpp"
 #include "godot_cpp/classes/node.hpp"
 #include "godot_cpp/classes/node2d.hpp"
 #include "godot_cpp/classes/ref.hpp"
+#include "godot_cpp/classes/semaphore.hpp"
 #include "godot_cpp/classes/thread.hpp"
 #include "godot_cpp/classes/wrapped.hpp"
 #include "wren.hpp"
@@ -44,10 +46,12 @@ public:
   String make_classes() const;
 
   Ref<Thread> thread;
+  Ref<Semaphore> wait_semaphore;
+  Ref<Mutex> wait_mutex;
+
   WrenVM *vm;
   Array actions;
   Node2D *actor{nullptr};
-  Node2D *action_manager{nullptr};
   Node *component_manager{nullptr};
   String pending_code;
 

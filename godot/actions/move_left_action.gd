@@ -19,14 +19,14 @@ func _ready() -> void:
 	}
 
 
-func execute(actor: Swordman, components: EntityComponentManager, data: Dictionary) -> void:
-	components.start_component("HorizontalMovementComponent", data.merged({"direction": "left"}, true))
+func execute(actor: Swordman, data: Dictionary) -> void:
+	actor.component_manager.start_component("HorizontalMovementComponent", data.merged({"direction": "left"}, true))
 
 
-func is_active(actor: Swordman, components: EntityComponentManager) -> bool:
-	return components.get_component("HorizontalMovementComponent").is_active()
+func is_active(actor: Swordman) -> bool:
+	return actor.component_manager.get_component("HorizontalMovementComponent").is_active()
 
 
-func _update(actor: Swordman, components: EntityComponentManager, delta: float) -> void:
+func _update(actor: Swordman, delta: float) -> void:
 	if Input.is_action_pressed("left"):
-		execute(actor, components, {})
+		execute(actor, {})

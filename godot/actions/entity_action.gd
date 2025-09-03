@@ -5,13 +5,13 @@ extends Node2D
 var action_info: Dictionary = {}
 
 
-func execute(actor: Swordman, components: EntityComponentManager, data: Dictionary) -> void:
+func execute(actor: Swordman, data: Dictionary) -> void:
 	pass
 
 
-func is_active(actor: Swordman, components: EntityComponentManager) -> bool:
+func is_active(actor: Swordman) -> bool:
 	return false
 
 
-func _update(actor: Swordman, components: EntityComponentManager, delta: float) -> void:
+func _update(actor: Swordman, delta: float) -> void:
 	pass

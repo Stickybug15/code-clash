@@ -3,6 +3,8 @@ extends CharacterBody2D
 
 @export var stats: EntityStats
 @export var code_edit: TextEdit
+@export var component_manager: EntityComponentManager
+@export var action_manager: EntityActionManager
 @export var wren_env: WrenEnvironment
 
 

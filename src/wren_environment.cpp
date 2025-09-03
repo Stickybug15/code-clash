@@ -20,27 +20,11 @@ using namespace godot;
 using namespace std::string_literals;
 
 void WrenEnvironment::_bind_methods() {
-  ClassDB::bind_method(D_METHOD("get_action_manager"),
-                       &WrenEnvironment::get_action_manager);
-  ClassDB::bind_method(D_METHOD("set_action_manager", "p_action_manager"),
-                       &WrenEnvironment::set_action_manager);
-  ADD_PROPERTY(
-      PropertyInfo(Variant::OBJECT, "action_manager", PROPERTY_HINT_NODE_TYPE),
-      "set_action_manager", "get_action_manager");
-
   ClassDB::bind_method(D_METHOD("get_actor"), &WrenEnvironment::get_actor);
   ClassDB::bind_method(D_METHOD("set_actor", "p_actor"),
                        &WrenEnvironment::set_actor);
   ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "actor", PROPERTY_HINT_NODE_TYPE),
                "set_actor", "get_actor");
-
-  ClassDB::bind_method(D_METHOD("get_component_manager"),
-                       &WrenEnvironment::get_component_manager);
-  ClassDB::bind_method(D_METHOD("set_component_manager", "p_component_manager"),
-                       &WrenEnvironment::set_component_manager);
-  ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "component_manager",
-                            PROPERTY_HINT_NODE_TYPE),
-               "set_component_manager", "get_component_manager");
 
   ClassDB::bind_method(D_METHOD("run_interpreter", "user_code"),
                        &WrenEnvironment::run_interpreter);
@@ -48,18 +32,8 @@ void WrenEnvironment::_bind_methods() {
                        &WrenEnvironment::run_interpreter_async);
 }
 
-void WrenEnvironment::set_action_manager(Node2D *p_action_manager) {
-  this->action_manager = p_action_manager;
-}
-Node2D *WrenEnvironment::get_action_manager() { return this->action_manager; }
 void WrenEnvironment::set_actor(Node2D *p_actor) { this->actor = p_actor; }
 Node2D *WrenEnvironment::get_actor() { return this->actor; }
-void WrenEnvironment::set_component_manager(Node *p_component_manager) {
-  this->component_manager = p_component_manager;
-}
-Node *WrenEnvironment::get_component_manager() {
-  return this->component_manager;
-}
 
 WrenEnvironment::WrenEnvironment() {}
 
@@ -88,12 +62,6 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
                                                bool isStatic,
                                                const char *_signature) {
   WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
-  if (self->action_manager == nullptr) {
-    print_error("action_manager is null!");
-    return NULL;
-  }
-
-  // "action_manager is null!");
   String module(_module);
   String class_name(_className);
   String signature(_signature);
@@ -120,7 +88,6 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               String signature(_signature);
               WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
               Node2D *actor = self->actor;
-              Node *manager = self->component_manager;
 
               String full_path =
                   className.substr(0, className.find(" ")) + "." + signature;
@@ -171,8 +138,8 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               if (action) {
                 // print_line("actor: [", actor, "], manager: [", manager,
                 //            "], data: [", data, "]");
-                action->call("execute", actor, manager, data);
-                while (action->call("is_active", actor, manager)) {
+                action->call("execute", actor, data);
+                while (action->call("is_active", actor)) {
                 }
               }
             };
@@ -193,10 +160,6 @@ bindForeignClassFn(WrenVM *vm, const char *module, const char *className) {
 WrenLoadModuleResult loadModuleFn(WrenVM *vm, const char *name) {
   WrenLoadModuleResult result = {};
   WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
-  if (self->action_manager == nullptr) {
-    print_error("action_manager is null!");
-    return result;
-  }
   // print_line("name: ", name);
   if (strcmp(name, "native") == 0) {
     result.source = self->make_classes().ascii().ptr();
@@ -302,12 +265,7 @@ String WrenEnvironment::make_classes() const {
 }
 
 void WrenEnvironment::_ready() {
-  if (action_manager == nullptr) {
-    print_error("action_manager is null!");
-    return;
-  }
-
-  actions = action_manager->get("actions");
+  actions = actor->get("action_manager").get("actions");
 }
 
 void WrenEnvironment::_process(double delta) {}
@@ -360,6 +318,8 @@ void WrenEnvironment::_enter_tree() {
   config.userData = this;
   vm = wrenNewVM(&config);
   thread.instantiate();
+  wait_semaphore.instantiate();
+  wait_mutex.instantiate();
 }
 
 void WrenEnvironment::_exit_tree() {
