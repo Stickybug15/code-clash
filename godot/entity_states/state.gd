@@ -3,4 +3,3 @@ extends LimboState
 
 
 var velocity: Vector2 = Vector2.ZERO
-var action_info: Dictionary = {}

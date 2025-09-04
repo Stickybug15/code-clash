@@ -13,7 +13,7 @@ func _setup() -> void:
 			#"method_name": "", # see below.
 			"parameters": [
 				{
-					"type": "int",
+					"type": type_string(TYPE_INT),
 					"name": "steps",
 					"description": "",
 					"default": 1,
@@ -21,6 +21,7 @@ func _setup() -> void:
 			],
 			"description": "",
 			"dispatch_name": "to_move",
+			"fsm_name": get_root().name,
 		}
 		agent.add_invoker(info.merged({"method_name": "move_left"}, true))
 		agent.add_invoker(info.merged({"method_name": "move_right"}, true))
@@ -29,6 +30,13 @@ func _setup() -> void:
 
 func _enter() -> void:
 	print(name, " _enter")
+	if agent is Entity:
+		var distance: int = agent.stats.distance * int(agent.invoker_params.get("steps"))
+		match agent.invoker_name:
+			"move_left":
+				remaining = distance * -1
+			"move_right":
+				remaining = distance * 1
 
 
 # TODO: `remaining` must be initialized.
@@ -44,3 +52,8 @@ func _update(delta: float) -> void:
 			velocity.x = step
 			remaining -= step * delta
 		agent.add_velocity(velocity)
+
+
+func _exit() -> void:
+	if agent is Entity:
+		agent.wait_semaphore.post()

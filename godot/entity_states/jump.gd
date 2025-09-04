@@ -10,6 +10,8 @@ func _setup() -> void:
 			"method_name": "jump",
 			"parameters": [],
 			"description": "",
+			"dispatch_name": "to_jump",
+			"fsm_name": get_root().name,
 		}
 		agent.add_invoker(info)
 		get_root().add_transition(get_root().ANYSTATE, get_root().get_node(^"Jump"), "to_jump")
@@ -32,4 +34,9 @@ func _update(delta: float) -> void:
 			velocity = Vector2.ZERO
 			dispatch("to_air")
 			agent.air_hsm.dispatch("to_fall")
+			agent.air_hsm.get_active_state().exited.connect(falling_exit, ConnectFlags.CONNECT_ONE_SHOT)
 		agent.add_velocity(velocity)
+
+
+func falling_exit() -> void:
+	agent.wait_semaphore.post()

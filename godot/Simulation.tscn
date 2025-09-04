@@ -47,19 +47,16 @@ metadata/_edit_lock_ = true
 script = ExtResource("2_4curp")
 code_edit = NodePath("../Camera2D/UI/VBoxContainer2/CodeEdit")
 
-[node name="Swordman" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "behavior_manager", "action_manager", "wren_env")]
+[node name="Swordman" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "wren_env")]
 position = Vector2(-246, -90)
 script = ExtResource("1_6qqr4")
 stats = ExtResource("3_vl8ld")
 code_edit = NodePath("../../Camera2D/UI/VBoxContainer2/CodeEdit")
-behavior_manager = NodePath("")
-action_manager = NodePath("")
-wren_env = NodePath("")
+wren_env = NodePath("WrenEnvironment")
 
 [node name="ColorRect" type="ColorRect" parent="Entities/Swordman"]
 offset_right = 40.0
 offset_bottom = 40.0
-metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Swordman"]
 position = Vector2(20, 20)
@@ -87,6 +84,9 @@ script = ExtResource("9_pt6a6")
 
 [node name="Air" type="LimboState" parent="Entities/Swordman/Ground"]
 script = ExtResource("10_12owf")
+
+[node name="WrenEnvironment" type="WrenEnvironment" parent="Entities/Swordman" node_paths=PackedStringArray("actor")]
+actor = NodePath("..")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -122,8 +122,7 @@ custom_minimum_size = Vector2(600, 400)
 layout_mode = 2
 text = "hero.jump()
 hero.move_left(1)
-hero.move_right(1)
-hero.test(true, 3.5, \"String param\", [\"list\", 3.5, true, [\"anoter!\"]], {})"
+hero.move_right(1)"
 
 [node name="Run" type="Button" parent="Camera2D/UI/VBoxContainer2"]
 layout_mode = 2

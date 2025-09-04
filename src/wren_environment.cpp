@@ -73,7 +73,7 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
 
   if (module == "native") {
     if (isStatic) {
-      for (Variant action : self->actions) {
+      for (Variant action : self->invokers) {
         Dictionary info = action;
 
         // print_line("className: ", class_name, ", signature: ", signature);
@@ -91,7 +91,6 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               String className(_className);
               String signature(_signature);
               WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
-              Node2D *actor = self->actor;
 
               String full_path =
                   className.substr(0, className.find(" ")) + "." + signature;
@@ -148,21 +147,16 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
                 data[param["name"]] = get_value(vm, argi);
                 argi += 1;
               }
-              for (int i = 1; i <= argc; i += 1) {
-              }
 
-              Node2D *action = Object::cast_to<Node2D>(info["self"]);
-              if (action) {
-                action->call("execute", actor, data);
-                // clang-format off
-                // TODO: investigate why on first launch, it generates an error of:
-                // E 0:00:01:660   swordman.gd:31 @ _on_run_pressed(): Thread must have been started to wait for its completion.
-                // <C++ Error>   Condition "!is_started()" is true. Returning: Variant()
-                // <C++ Source>  core/core_bind.cpp:1395 @ wait_to_finish()
-                // <Stack Trace> swordman.gd:31 @ _on_run_pressed()
-                // clang-format on
-                self->wait_semaphore->wait();
-              }
+              self->actor->call("invoke", info["fsm_name"], info["dispatch_name"], signature.substr(0, signature.find("(")), data);
+              // clang-format off
+              // TODO: investigate why on first launch, it generates an error of:
+              // E 0:00:01:660   swordman.gd:31 @ _on_run_pressed(): Thread must have been started to wait for its completion.
+              // <C++ Error>   Condition "!is_started()" is true. Returning: Variant()
+              // <C++ Source>  core/core_bind.cpp:1395 @ wait_to_finish()
+              // <Stack Trace> swordman.gd:31 @ _on_run_pressed()
+              // clang-format on
+              self->wait_semaphore->wait();
             };
           }
         }
@@ -198,7 +192,7 @@ Dictionary map_actions_to_objects(Array actions) {
 }
 
 String WrenEnvironment::make_classes() const {
-  Dictionary objects = map_actions_to_objects(actions);
+  Dictionary objects = map_actions_to_objects(invokers);
 
   String classes;
   for (String object_name : objects.keys()) {
@@ -287,7 +281,7 @@ String WrenEnvironment::make_classes() const {
 }
 
 void WrenEnvironment::_ready() {
-  actions = actor->get("action_manager").get("actions");
+  invokers = actor->get("invokers");
   wait_semaphore = actor->get("wait_semaphore");
   wait_mutex = actor->get("wait_mutex");
 }
@@ -316,13 +310,15 @@ void WrenEnvironment::run_interpreter(String user_code) {
 }
 
 void WrenEnvironment::run_interpreter_async(String user_code) {
-  if (!pending_code.is_empty()) {
+  if (running) {
     WARN_PRINT("Interpreter is already running!");
     return;
-  } else {
+  } else if (!first_run) {
     thread->wait_to_finish();
   }
 
+  running = true;
+  first_run = false;
   pending_code = user_code;
   thread->start(callable_mp(this, &WrenEnvironment::_run_pending_code));
 }
@@ -330,6 +326,7 @@ void WrenEnvironment::run_interpreter_async(String user_code) {
 void WrenEnvironment::_run_pending_code() {
   run_interpreter(pending_code);
   pending_code = "";
+  running = false;
 }
 
 void WrenEnvironment::_enter_tree() {

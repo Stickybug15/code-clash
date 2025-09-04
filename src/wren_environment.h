@@ -50,10 +50,11 @@ public:
   Ref<Mutex> wait_mutex;
 
   WrenVM *vm;
-  Array actions;
+  Array invokers;
   Node2D *actor{nullptr};
-  Node *component_manager{nullptr};
   String pending_code{""};
+  bool running{false};
+  bool first_run{true};
 
   Dictionary foreign_method_cache;
 };

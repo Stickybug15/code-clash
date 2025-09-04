@@ -11,19 +11,15 @@ func _ready() -> void:
 			entities.append(child)
 
 
-func is_ready() -> bool:
-	for entity in entities:
-		if entity.action.is_null():
-			return false
-	return true
-
-
 func _process(delta: float) -> void:
-	if entities.all(func(e: Entity): return e.action.is_valid()):
+	if entities.all(func(e: Entity): return e.invoker.is_valid()):
 		for entity in entities:
-			entity.action.call()
-			entity.action = Callable()
+			if entity is Entity:
+				entity.invoker.call()
+				entity.invoker = Callable()
 
 
 func _on_run_pressed() -> void:
-	$Swordman.wren_env.run_interpreter_async(code_edit.text)
+	for entity in entities:
+		if entity is Entity:
+			entity.wren_env.run_interpreter_async(code_edit.text)
