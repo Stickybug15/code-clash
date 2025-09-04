@@ -3,7 +3,6 @@ extends EntityState
 
 
 func _setup() -> void:
-	print(name, " _setup: ", get_root().name)
 	if agent is Entity:
 		var info := {
 			"object_name": "hero",
@@ -18,7 +17,6 @@ func _setup() -> void:
 
 
 func _enter() -> void:
-	print(name, " _enter")
 	if agent is Entity:
 		if agent.is_on_floor():
 			velocity = agent.up_direction * abs(agent.stats.jump_velocity)

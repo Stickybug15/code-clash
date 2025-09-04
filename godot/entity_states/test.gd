@@ -42,7 +42,3 @@ func _setup() -> void:
 		"description": "",
 		"self": self,
 	}
-
-
-func _execute(actor: Entity, data: Dictionary) -> void:
-	print("data: ", data)

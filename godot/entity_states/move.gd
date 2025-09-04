@@ -6,7 +6,6 @@ var remaining: float = 0
 
 
 func _setup() -> void:
-	print(name, " _setup: ", get_root().name)
 	if agent is Entity:
 		var info := {
 			"object_name": "hero",
@@ -29,7 +28,6 @@ func _setup() -> void:
 
 
 func _enter() -> void:
-	print(name, " _enter")
 	if agent is Entity:
 		var distance: int = agent.stats.distance * int(agent.invoker_params.get("steps"))
 		match agent.invoker_name:

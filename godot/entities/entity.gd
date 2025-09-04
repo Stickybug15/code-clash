@@ -100,7 +100,6 @@ func add_invoker(info: Dictionary) -> void:
 # TODO: allow a invoker to be not an entity state dispatch.
 func invoke(fsm_name: String, dispatch_name: String, invoker_name: String, params: Dictionary) -> void:
 	assert(fsm_name in ["Air", "Ground"], "the fsm_name '" + fsm_name + "' is not valid.")
-	print("invoked")
 	self.invoker_name = invoker_name
 	self.invoker_params = params
 	match fsm_name:
