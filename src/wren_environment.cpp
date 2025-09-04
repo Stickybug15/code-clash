@@ -11,7 +11,6 @@
 #include "godot_cpp/variant/char_string.hpp"
 #include "godot_cpp/variant/dictionary.hpp"
 #include "godot_cpp/variant/variant.hpp"
-#include "wren.h"
 #include "wren.hpp"
 #include <cstring>
 #include <functional>
