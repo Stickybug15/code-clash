@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxj2w5gss7yjt"]
-
-[ext_resource type="Script" uid="uid://dvtliy8dt3ic5" path="res://godot/behaviors/horizontal_movement_behavior.gd" id="1_jcgl7"]
-
-[node name="HorizontalMovementBehavior" type="Node"]
-script = ExtResource("1_jcgl7")
-metadata/_custom_type_script = "uid://dvtliy8dt3ic5"

@@ -1,9 +1,10 @@
 class_name TestAction
-extends EntityAction
+extends EntityState
 
 
-func _ready() -> void:
-	action_info = {
+func _setup() -> void:
+	get_root().add_transition(get_root().ANYSTATE, get_root().get_node(^"Test"), "to_test")
+	var info := {
 		"object_name": "hero",
 		"method_name": "test",
 		"parameters": [
@@ -45,8 +46,3 @@ func _ready() -> void:
 
 func _execute(actor: Entity, data: Dictionary) -> void:
 	print("data: ", data)
-	end(actor)
-
-
-func _end(actor: Entity) -> void:
-	pass

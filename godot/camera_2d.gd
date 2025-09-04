@@ -5,8 +5,6 @@ extends Camera2D
 
 
 func _ready() -> void:
-	#_on_viewport_size_changed()
-	#get_viewport().connect("size_changed", _on_viewport_size_changed)
 	pass
 
 

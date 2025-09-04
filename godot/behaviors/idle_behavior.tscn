@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://8fqweg0goluq"]
-
-[ext_resource type="Script" uid="uid://na6j77p53hom" path="res://godot/behaviors/idle_behavior.gd" id="1_duxi0"]
-
-[node name="IdleBehavior" type="Node"]
-script = ExtResource("1_duxi0")
-metadata/_custom_type_script = "uid://na6j77p53hom"
