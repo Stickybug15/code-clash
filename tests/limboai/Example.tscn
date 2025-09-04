@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=3 uid="uid://bq8ndto3fhuge"]
+
+[ext_resource type="Script" uid="uid://b4gkd0v304ex3" path="res://tests/limboai/example.gd" id="1_m3afi"]
+[ext_resource type="Script" uid="uid://uqn3bsdi5v1l" path="res://tests/limboai/fall.gd" id="2_4awf3"]
+[ext_resource type="Script" uid="uid://c5cjk4reubk2p" path="res://tests/limboai/player.gd" id="2_cqsiw"]
+[ext_resource type="Script" uid="uid://ccoibre8e3j5u" path="res://tests/limboai/jump.gd" id="5_4b53x"]
+[ext_resource type="Script" uid="uid://b422dpni3efy8" path="res://tests/limboai/ground.gd" id="5_ossr7"]
+[ext_resource type="Script" uid="uid://by00gjaubewhs" path="res://tests/limboai/idle.gd" id="7_ovdg3"]
+[ext_resource type="Script" uid="uid://c4gm8sq0k6esh" path="res://tests/limboai/air.gd" id="8_dp4s4"]
+[ext_resource type="Script" uid="uid://bkpcvoq6gy1ks" path="res://tests/limboai/move.gd" id="8_wbnbj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3afi"]
+size = Vector2(40, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4awf3"]
+size = Vector2(40, 40)
+
+[node name="Example" type="Node2D"]
+script = ExtResource("1_m3afi")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("2_cqsiw")
+
+[node name="Air" type="LimboHSM" parent="Player"]
+
+[node name="Fall" type="LimboState" parent="Player/Air"]
+script = ExtResource("2_4awf3")
+
+[node name="Jump" type="LimboState" parent="Player/Air"]
+script = ExtResource("5_4b53x")
+
+[node name="Ground" type="LimboState" parent="Player/Air"]
+script = ExtResource("5_ossr7")
+
+[node name="Ground" type="LimboHSM" parent="Player"]
+
+[node name="Idle" type="LimboState" parent="Player/Ground"]
+script = ExtResource("7_ovdg3")
+
+[node name="Move" type="LimboState" parent="Player/Ground"]
+script = ExtResource("8_wbnbj")
+
+[node name="Air" type="LimboState" parent="Player/Ground"]
+script = ExtResource("8_dp4s4")
+
+[node name="ColorRect" type="ColorRect" parent="Player"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_m3afi")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0, -200)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 224)
+scale = Vector2(25.08, 1)
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_4awf3")

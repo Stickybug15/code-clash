@@ -1,16 +1,8 @@
-class_name Entity
 extends CharacterBody2D
 
-@export var stats: EntityStats
-@export var code_edit: TextEdit
-@export var behavior_manager: EntityBehaviorManager
-@export var action_manager: EntityActionManager
-@export var wren_env: WrenEnvironment
 
-var action: Callable
-
-var wait_semaphore: Semaphore = Semaphore.new()
-var wait_mutex: Mutex = Mutex.new()
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
 
 
 @onready
@@ -26,7 +18,6 @@ func _ready() -> void:
 	air_hsm.set_active(true)
 	ground_hsm.initialize(self)
 	ground_hsm.set_active(true)
-	stats.update_properties()
 
 
 func _physics_process(delta: float) -> void:
@@ -37,11 +28,3 @@ func _physics_process(delta: float) -> void:
 
 func add_velocity(vec: Vector2) -> void:
 	_velocity_accumulator += vec
-
-
-func add_invoker(info: Dictionary) -> void:
-	pass
-
-
-func invoke(data: Dictionary) -> void:
-	pass
