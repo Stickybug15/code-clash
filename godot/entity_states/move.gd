@@ -37,7 +37,6 @@ func _enter() -> void:
 				remaining = distance * 1
 
 
-# TODO: `remaining` must be initialized.
 func _update(delta: float) -> void:
 	if agent is Entity:
 		var step: float = sign(remaining) * agent.stats.speed

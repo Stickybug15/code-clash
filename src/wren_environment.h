@@ -27,10 +27,9 @@ public:
   WrenEnvironment();
   ~WrenEnvironment();
 
-  void _ready() override;
-  void _process(double delta) override;
   void _enter_tree() override;
   void _exit_tree() override;
+  void initialize();
 
   void run_interpreter(String code);
   void run_interpreter_async(String user_code);
@@ -44,19 +43,20 @@ public:
   Node *get_component_manager();
 
   String make_classes() const;
+  Array get_class_names() const;
 
   Ref<Thread> thread;
   Ref<Semaphore> wait_semaphore;
   Ref<Mutex> wait_mutex;
 
-  WrenVM *vm;
-  Array invokers;
+  WrenVM *vm{nullptr};
+  Array invokers{};
   Node2D *actor{nullptr};
   String pending_code{""};
   bool running{false};
   bool first_run{true};
 
-  Dictionary foreign_method_cache;
+  Dictionary foreign_method_cache{};
 };
 
 } // namespace godot

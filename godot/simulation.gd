@@ -11,7 +11,6 @@ func _ready() -> void:
 
 func _on_viewport_size_changed() -> void:
 	var color_rect: ColorRect = ground.get_node("ColorRect")
-	var ui: CanvasLayer = camera.get_node("UI")
 	var ground_size = color_rect.size
 	var half_height = ground_size / 2
 	var screen_size = get_viewport_rect().size

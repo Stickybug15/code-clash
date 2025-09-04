@@ -28,6 +28,7 @@ func _ready() -> void:
 	ground_hsm.initialize(self)
 	ground_hsm.set_active(true)
 	stats.update_properties()
+	wren_env.initialize()
 
 
 func _physics_process(delta: float) -> void:

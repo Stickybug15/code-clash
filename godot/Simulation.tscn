@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://t10il7o8wboo"]
+[gd_scene load_steps=13 format=3 uid="uid://t10il7o8wboo"]
 
 [ext_resource type="Script" uid="uid://45nnrgg3ox3g" path="res://godot/entities/swordman.gd" id="1_6qqr4"]
 [ext_resource type="Script" uid="uid://bt2dex5a2hxa4" path="res://godot/simulation.gd" id="1_jd5k6"]
@@ -6,7 +6,6 @@
 [ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="3_vl8ld"]
 [ext_resource type="Script" uid="uid://v0a4dqqmx5n4" path="res://godot/entity_states/fall.gd" id="5_13f6r"]
 [ext_resource type="Script" uid="uid://cixd1pouthjgb" path="res://godot/entity_states/jump.gd" id="6_xglxl"]
-[ext_resource type="Script" uid="uid://dxn0yod8gmkjw" path="res://godot/camera_2d.gd" id="7_dqfj6"]
 [ext_resource type="Script" uid="uid://7o5olu2cdixv" path="res://godot/entity_states/ground.gd" id="7_pp0p1"]
 [ext_resource type="Script" uid="uid://ckoreda8nbyhu" path="res://godot/entity_states/idle.gd" id="8_4curp"]
 [ext_resource type="Script" uid="uid://dd2gnex14a7pu" path="res://godot/entity_states/move.gd" id="9_pt6a6"]
@@ -45,13 +44,13 @@ metadata/_edit_lock_ = true
 
 [node name="Entities" type="Node" parent="." node_paths=PackedStringArray("code_edit")]
 script = ExtResource("2_4curp")
-code_edit = NodePath("../Camera2D/UI/VBoxContainer2/CodeEdit")
+code_edit = NodePath("../UI/VBoxContainer2/CodeEdit")
 
 [node name="Swordman" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "wren_env")]
 position = Vector2(-246, -90)
 script = ExtResource("1_6qqr4")
 stats = ExtResource("3_vl8ld")
-code_edit = NodePath("../../Camera2D/UI/VBoxContainer2/CodeEdit")
+code_edit = NodePath("../../UI/VBoxContainer2/CodeEdit")
 wren_env = NodePath("WrenEnvironment")
 
 [node name="ColorRect" type="ColorRect" parent="Entities/Swordman"]
@@ -88,44 +87,41 @@ script = ExtResource("10_12owf")
 [node name="WrenEnvironment" type="WrenEnvironment" parent="Entities/Swordman" node_paths=PackedStringArray("actor")]
 actor = NodePath("..")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("7_dqfj6")
 
-[node name="UI" type="CanvasLayer" parent="Camera2D"]
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/UI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
 visible = false
 offset_right = 95.0
 offset_bottom = 101.0
 
-[node name="JumpBtn" type="Button" parent="Camera2D/UI/VBoxContainer"]
+[node name="JumpBtn" type="Button" parent="UI/VBoxContainer"]
 layout_mode = 2
 text = "jump"
 
-[node name="MoveLeftBtn" type="Button" parent="Camera2D/UI/VBoxContainer"]
+[node name="MoveLeftBtn" type="Button" parent="UI/VBoxContainer"]
 layout_mode = 2
 text = "move_left"
 
-[node name="MoveRightBtn" type="Button" parent="Camera2D/UI/VBoxContainer"]
+[node name="MoveRightBtn" type="Button" parent="UI/VBoxContainer"]
 layout_mode = 2
 text = "move_right
 "
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Camera2D/UI"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI"]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="CodeEdit" type="TextEdit" parent="Camera2D/UI/VBoxContainer2"]
+[node name="CodeEdit" type="TextEdit" parent="UI/VBoxContainer2"]
 custom_minimum_size = Vector2(600, 400)
 layout_mode = 2
 text = "hero.jump()
 hero.move_left(1)
 hero.move_right(1)"
 
-[node name="Run" type="Button" parent="Camera2D/UI/VBoxContainer2"]
+[node name="Run" type="Button" parent="UI/VBoxContainer2"]
 layout_mode = 2
 text = "Run"
 
-[connection signal="pressed" from="Camera2D/UI/VBoxContainer2/Run" to="Entities" method="_on_run_pressed"]
+[connection signal="pressed" from="UI/VBoxContainer2/Run" to="Entities" method="_on_run_pressed"]

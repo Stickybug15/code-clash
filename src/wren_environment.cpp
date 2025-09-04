@@ -31,6 +31,7 @@ void WrenEnvironment::_bind_methods() {
                        &WrenEnvironment::run_interpreter);
   ClassDB::bind_method(D_METHOD("run_interpreter_async", "user_code"),
                        &WrenEnvironment::run_interpreter_async);
+  ClassDB::bind_method(D_METHOD("initialize"), &WrenEnvironment::initialize);
 }
 
 void WrenEnvironment::set_actor(Node2D *p_actor) { this->actor = p_actor; }
@@ -149,13 +150,6 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
               }
 
               self->actor->call("invoke", info["fsm_name"], info["dispatch_name"], signature.substr(0, signature.find("(")), data);
-              // clang-format off
-              // TODO: investigate why on first launch, it generates an error of:
-              // E 0:00:01:660   swordman.gd:31 @ _on_run_pressed(): Thread must have been started to wait for its completion.
-              // <C++ Error>   Condition "!is_started()" is true. Returning: Variant()
-              // <C++ Source>  core/core_bind.cpp:1395 @ wait_to_finish()
-              // <Stack Trace> swordman.gd:31 @ _on_run_pressed()
-              // clang-format on
               self->wait_semaphore->wait();
             };
           }
@@ -175,7 +169,6 @@ bindForeignClassFn(WrenVM *vm, const char *module, const char *className) {
 WrenLoadModuleResult loadModuleFn(WrenVM *vm, const char *name) {
   WrenLoadModuleResult result = {};
   WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
-  // print_line("name: ", name);
   if (strcmp(name, "native") == 0) {
     result.source = self->make_classes().ascii().ptr();
   }
@@ -191,30 +184,33 @@ Dictionary map_actions_to_objects(Array actions) {
   return objects;
 }
 
+Array WrenEnvironment::get_class_names() const {
+  Array names;
+  for (Dictionary info : invokers) {
+    String name = info["object_name"];
+    if (names.has(name)) {
+      continue;
+    }
+    names.append(name);
+  }
+  return names;
+}
+
 String WrenEnvironment::make_classes() const {
   Dictionary objects = map_actions_to_objects(invokers);
 
   String classes;
   for (String object_name : objects.keys()) {
     String class_code;
-    class_code += "class ";
-    class_code += object_name;
-    class_code += " {\n";
+    class_code += "class " + object_name + " {\n";
     Array method_list = objects[object_name];
     for (Dictionary method : method_list) {
-      if (!method.has_all(
-              Array::make("object_name", "method_name", "parameters"))) {
-        print_error("action: missing 'object_name' or 'method_name'",
-                    "parameters");
-      }
       auto make_docs = [](Dictionary info) -> String {
         String out;
         if (info.has("description")) {
           String description = info["description"];
           if (!description.is_empty()) {
-            out += "  /// ";
-            out += description;
-            out += "\n";
+            out += "  /// " + description + "\n";
           }
         }
         if (info.has("parameters")) {
@@ -227,18 +223,15 @@ String WrenEnvironment::make_classes() const {
               param_code += " : ";
               param_code += String(param_info["type"]);
               if (param_info.has("default")) {
-                param_code += " = ";
-                param_code += String(param_info["default"]);
+                param_code += " = " + String(param_info["default"]);
               }
               if (param_info.has("description")) {
-                param_code += "; ";
-                param_code += String(param_info["description"]);
+                param_code += "; " + String(param_info["description"]);
               }
               return param_code;
             };
             for (auto i = 0; i < params.size() - 1; i += 1) {
-              out += param_to_string(params[i]);
-              out += "\n";
+              out += param_to_string(params[i]) + "\n";
             }
             out += param_to_string(params[params.size() - 1]);
           }
@@ -248,9 +241,7 @@ String WrenEnvironment::make_classes() const {
       auto make_method = [](Dictionary info) -> String {
         String out;
         String name = info["method_name"];
-        out += "  foreign static ";
-        out += name;
-        out += "(";
+        out += "  foreign static " + name + "(";
         if (info.has("parameters")) {
           Array params = info["parameters"];
           if (!params.is_empty()) {
@@ -272,30 +263,37 @@ String WrenEnvironment::make_classes() const {
       }
       class_code += make_method(method) + "\n";
     }
-    class_code += "}";
-
-    classes += class_code + "\n";
+    classes += class_code + "}\n";
   }
   print_line(classes);
   return classes;
 }
 
-void WrenEnvironment::_ready() {
+void WrenEnvironment::initialize() {
   invokers = actor->get("invokers");
   wait_semaphore = actor->get("wait_semaphore");
   wait_mutex = actor->get("wait_mutex");
+
+  for (String name : get_class_names()) {
+    String code = R"(import "native" for )";
+    code += name;
+    auto result = wrenInterpret(vm, "main", code.ascii().ptr());
+    switch (result) {
+    case WREN_RESULT_COMPILE_ERROR: {
+      print_line("Compile Error!");
+    } break;
+    case WREN_RESULT_RUNTIME_ERROR: {
+      print_line("Runtime Error!");
+    } break;
+    case WREN_RESULT_SUCCESS: {
+      print_line("Success!");
+    } break;
+    }
+  }
 }
 
-void WrenEnvironment::_process(double delta) {}
-
 void WrenEnvironment::run_interpreter(String user_code) {
-  String code;
-  if (!wrenHasModule(vm, "native")) {
-    // TODO: 'hero' is modular, and shall not be hardcoded.
-    code += "import \"native\" for hero\n";
-  }
-  code += user_code;
-  WrenInterpretResult result = wrenInterpret(vm, "main", code.ascii().ptr());
+  WrenInterpretResult result = wrenInterpret(vm, "main", user_code.ascii().ptr());
   switch (result) {
   case WREN_RESULT_COMPILE_ERROR: {
     print_line("Compile Error!");
