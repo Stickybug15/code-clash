@@ -6,17 +6,16 @@ var entities: Array[Entity] = []
 
 
 func _ready() -> void:
-	for child in get_children():
+	for child in get_tree().get_nodes_in_group("Entities"):
 		if child is Entity:
 			entities.append(child)
 
 
 func _process(delta: float) -> void:
-	if entities.all(func(e: Entity): return e.invoker.is_valid()):
+	if entities.all(func(e: Entity): return e.is_pending()):
 		for entity in entities:
 			if entity is Entity:
-				entity.invoker.call()
-				entity.invoker = Callable()
+				entity.activate()
 
 
 func _on_run_pressed() -> void:

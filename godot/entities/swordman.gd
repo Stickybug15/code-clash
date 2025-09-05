@@ -1,5 +1,4 @@
-class_name Swordman
-extends Entity
+extends EntityWrenPlayer
 
 
 func _on_run_pressed() -> void:

@@ -17,7 +17,7 @@ actor = NodePath("../Entities/Swordman")
 script = ExtResource("2_4curp")
 code_edit = NodePath("../UI/VBoxContainer2/CodeEdit")
 
-[node name="Swordman" parent="Entities" node_paths=PackedStringArray("code_edit", "wren_env") instance=ExtResource("3_vv38s")]
+[node name="Swordman" parent="Entities" node_paths=PackedStringArray("code_edit", "wren_env") groups=["Entities"] instance=ExtResource("3_vv38s")]
 position = Vector2(0, -90)
 code_edit = NodePath("../../UI/VBoxContainer2/CodeEdit")
 wren_env = NodePath("../../WrenEnvironment")
