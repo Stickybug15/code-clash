@@ -1,0 +1,111 @@
+[gd_scene load_steps=9 format=3 uid="uid://bmkjgidroq0ek"]
+
+[ext_resource type="PackedScene" uid="uid://u2w2c6v3few2" path="res://godot/wren/wren_safe.tscn" id="2_1d5fs"]
+[ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/tests/Entities.gd" id="2_krip0"]
+[ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/tests/EnttPlayer.gd" id="3_i14ea"]
+[ext_resource type="Script" uid="uid://dx4rsseh180nn" path="res://godot/tests/InvokerAccumulator.gd" id="5_kthyp"]
+[ext_resource type="PackedScene" uid="uid://ce0wt64cl3bdg" path="res://godot/controllers/scripted_controller.tscn" id="5_tieok"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
+size = Vector2(1152, 40)
+
+[sub_resource type="GDScript" id="GDScript_0pclf"]
+resource_name = "follow_ground"
+script/source = "extends Camera2D
+
+@export var ground: StaticBody2D
+
+
+func _ready() -> void:
+	_on_viewport_size_changed()
+	get_viewport().connect(\"size_changed\", _on_viewport_size_changed)
+
+
+func _on_viewport_size_changed() -> void:
+	var screen_size = get_viewport_rect().size
+
+	position.y = ground.position.y - screen_size.y * 0.4
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0pclf"]
+size = Vector2(40, 40)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Ground" type="StaticBody2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Ground"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.49
+offset_top = -20.0
+offset_right = 576.49
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+shape = SubResource("RectangleShape2D_btrx0")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("ground")]
+script = SubResource("GDScript_0pclf")
+ground = NodePath("../Ground")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Editor" type="VBoxContainer" parent="UI"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CodeEdit" type="TextEdit" parent="UI/Editor"]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
+text = "hero.jump()
+hero.move_left(1)
+hero.move_right(1)"
+
+[node name="Run" type="Button" parent="UI/Editor"]
+layout_mode = 2
+text = "Run"
+
+[node name="WrenSafe" parent="." instance=ExtResource("2_1d5fs")]
+
+[node name="Entities" type="Node" parent="."]
+script = ExtResource("2_krip0")
+
+[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("wren", "code_edit")]
+position = Vector2(0, -60)
+script = ExtResource("3_i14ea")
+wren = NodePath("../../WrenSafe")
+code_edit = NodePath("../../UI/Editor/CodeEdit")
+
+[node name="ScriptedController" parent="Entities/Player" node_paths=PackedStringArray("body") instance=ExtResource("5_tieok")]
+body = NodePath("..")
+
+[node name="InvokerAccumulator" type="Node" parent="Entities/Player" node_paths=PackedStringArray("script_controller")]
+script = ExtResource("5_kthyp")
+script_controller = NodePath("../ScriptedController")
+
+[node name="ColorRect" type="ColorRect" parent="Entities/Player"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Player"]
+shape = SubResource("RectangleShape2D_0pclf")
+
+[connection signal="pressed" from="UI/Editor/Run" to="Entities/Player" method="_on_run_pressed"]
