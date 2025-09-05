@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_qb1fv")
-jump_height = 60.0
+jump_height = 100.0
 jump_time_to_peak = 0.2
 jump_time_to_descent = 0.2
 metadata/_custom_type_script = "uid://dx2ngltys2237"

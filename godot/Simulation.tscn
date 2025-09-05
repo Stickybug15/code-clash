@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://t10il7o8wboo"]
+[gd_scene load_steps=6 format=3 uid="uid://t10il7o8wboo"]
 
 [ext_resource type="Script" uid="uid://bt2dex5a2hxa4" path="res://godot/simulation.gd" id="1_jd5k6"]
 [ext_resource type="Script" uid="uid://bhgiwhsottftg" path="res://godot/entities/entity_manager.gd" id="2_4curp"]
+[ext_resource type="PackedScene" uid="uid://j4p63grxbae4" path="res://godot/entities/Goblin.tscn" id="3_541xe"]
 [ext_resource type="PackedScene" uid="uid://de0b1hu4sg3yl" path="res://godot/entities/Swordman.tscn" id="3_vv38s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
@@ -16,6 +17,9 @@ actor = NodePath("../Entities/Swordman")
 [node name="Entities" type="Node" parent="." node_paths=PackedStringArray("code_edit")]
 script = ExtResource("2_4curp")
 code_edit = NodePath("../UI/VBoxContainer2/CodeEdit")
+
+[node name="Goblin" parent="Entities" instance=ExtResource("3_541xe")]
+position = Vector2(113, -91)
 
 [node name="Swordman" parent="Entities" node_paths=PackedStringArray("code_edit", "wren_env") groups=["Entities"] instance=ExtResource("3_vv38s")]
 position = Vector2(0, -90)

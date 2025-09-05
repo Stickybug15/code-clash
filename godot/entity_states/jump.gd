@@ -4,6 +4,8 @@ extends EntityState
 
 func _setup() -> void:
 	if agent is Entity:
+		_init_state("Jump", "to_jump")
+		add_event_handler("jump", exec)
 		var info := {
 			"object_name": "hero",
 			"method_name": "jump",
@@ -13,7 +15,6 @@ func _setup() -> void:
 			"fsm_name": get_root().name,
 		}
 		agent.add_invoker(info)
-		get_root().add_transition(get_root().ANYSTATE, get_root().get_node(^"Jump"), "to_jump")
 
 
 func _enter() -> void:
@@ -22,6 +23,11 @@ func _enter() -> void:
 			velocity = agent.up_direction * abs(agent.stats.jump_velocity)
 		else:
 			dispatch("to_air")
+
+
+func exec(params) -> bool:
+	blackboard.populate_from_dict(params)
+	return true
 
 
 func _update(delta: float) -> void:
@@ -33,8 +39,6 @@ func _update(delta: float) -> void:
 			dispatch("to_air")
 			agent.air_hsm.dispatch("to_fall")
 			agent.air_hsm.get_active_state().exited.connect(falling_exit, ConnectFlags.CONNECT_ONE_SHOT)
-		agent.add_velocity(velocity)
-
 
 func falling_exit() -> void:
 	agent.wait_semaphore.post()
