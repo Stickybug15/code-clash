@@ -35,10 +35,10 @@ public:
   void run_interpreter_async(String user_code);
   void _run_pending_code();
 
-  void set_action_manager(Node2D *node);
-  Node2D *get_action_manager();
-  void set_actor(Node2D *p_actor);
-  Node2D *get_actor();
+  void set_action_manager(Node *node);
+  Node *get_action_manager();
+  void set_agent(Node *p_agent);
+  Node *get_agent();
   void set_component_manager(Node *p_component_manager);
   Node *get_component_manager();
 
@@ -47,11 +47,10 @@ public:
 
   Ref<Thread> thread;
   Ref<Semaphore> wait_semaphore;
-  Ref<Mutex> wait_mutex;
 
   WrenVM *vm{nullptr};
   Array invokers{};
-  Node2D *actor{nullptr};
+  Node *agent{nullptr};
   String pending_code{""};
   bool running{false};
   bool first_run{true};

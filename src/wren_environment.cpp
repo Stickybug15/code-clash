@@ -19,23 +19,23 @@
 using namespace godot;
 using namespace std::string_literals;
 
-#define check_actor() \
-  if (!this->actor) { \
+#define check_agent() \
+  if (!this->agent) { \
     print_error(this->get_name(), " Actor is unset, provide an Entity!"); \
     return; \
   }
-#define check_actor_ret(ret) \
-  if (!this->actor) { \
-    print_error(this->get_name(), " actor is unset!"); \
+#define check_agent_ret(ret) \
+  if (!this->agent) { \
+    print_error(this->get_name(), " agent is unset!"); \
     return (ret); \
   }
 
 void WrenEnvironment::_bind_methods() {
-  ClassDB::bind_method(D_METHOD("get_actor"), &WrenEnvironment::get_actor);
-  ClassDB::bind_method(D_METHOD("set_actor", "p_actor"),
-                       &WrenEnvironment::set_actor);
-  ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "actor", PROPERTY_HINT_NODE_TYPE),
-               "set_actor", "get_actor");
+  ClassDB::bind_method(D_METHOD("get_agent"), &WrenEnvironment::get_agent);
+  ClassDB::bind_method(D_METHOD("set_agent", "p_agent"),
+                       &WrenEnvironment::set_agent);
+  ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "agent", PROPERTY_HINT_NODE_TYPE),
+               "set_agent", "get_agent");
 
   ClassDB::bind_method(D_METHOD("run_interpreter", "user_code"),
                        &WrenEnvironment::run_interpreter);
@@ -44,8 +44,8 @@ void WrenEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("initialize"), &WrenEnvironment::initialize);
 }
 
-void WrenEnvironment::set_actor(Node2D *p_actor) { this->actor = p_actor; }
-Node2D *WrenEnvironment::get_actor() { return this->actor; }
+void WrenEnvironment::set_agent(Node *p_agent) { this->agent = p_agent; }
+Node *WrenEnvironment::get_agent() { return this->agent; }
 
 WrenEnvironment::WrenEnvironment() {}
 
@@ -159,7 +159,7 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
                 argi += 1;
               }
 
-              self->actor->call("invoke", info["fsm_name"], info["dispatch_name"], signature.substr(0, signature.find("(")), data);
+              self->agent->call("invoke", info["fsm_name"], info["dispatch_name"], signature.substr(0, signature.find("(")), data);
               self->wait_semaphore->wait();
             };
           }
@@ -195,7 +195,7 @@ Dictionary map_actions_to_objects(Array actions) {
 }
 
 Array WrenEnvironment::get_class_names() const {
-  check_actor_ret(Array{});
+  check_agent_ret(Array{});
   Array names;
   for (Dictionary info : invokers) {
     String name = info["object_name"];
@@ -208,7 +208,7 @@ Array WrenEnvironment::get_class_names() const {
 }
 
 String WrenEnvironment::make_classes() const {
-  check_actor_ret(String{});
+  check_agent_ret(String{});
   Dictionary objects = map_actions_to_objects(invokers);
 
   String classes;
@@ -282,10 +282,9 @@ String WrenEnvironment::make_classes() const {
 }
 
 void WrenEnvironment::initialize() {
-  check_actor();
-  invokers = actor->get("invokers");
-  wait_semaphore = actor->get("wait_semaphore");
-  wait_mutex = actor->get("wait_mutex");
+  check_agent();
+  invokers = agent->get("invokers");
+  wait_semaphore = agent->get("wait_semaphore");
 
   for (String name : get_class_names()) {
     String code = R"(import "native" for )";
@@ -306,7 +305,7 @@ void WrenEnvironment::initialize() {
 }
 
 void WrenEnvironment::run_interpreter(String user_code) {
-  check_actor();
+  check_agent();
   WrenInterpretResult result = wrenInterpret(vm, "main", user_code.ascii().ptr());
   switch (result) {
   case WREN_RESULT_COMPILE_ERROR: {
@@ -322,7 +321,7 @@ void WrenEnvironment::run_interpreter(String user_code) {
 }
 
 void WrenEnvironment::run_interpreter_async(String user_code) {
-  check_actor();
+  check_agent();
   if (running) {
     WARN_PRINT("Interpreter is already running!");
     return;
@@ -337,14 +336,14 @@ void WrenEnvironment::run_interpreter_async(String user_code) {
 }
 
 void WrenEnvironment::_run_pending_code() {
-  check_actor();
+  check_agent();
   run_interpreter(pending_code);
   pending_code = "";
   running = false;
 }
 
 void WrenEnvironment::_enter_tree() {
-  check_actor();
+  check_agent();
   WrenConfiguration config;
   wrenInitConfiguration(&config);
   config.errorFn = &errorFn;
@@ -358,7 +357,7 @@ void WrenEnvironment::_enter_tree() {
 }
 
 void WrenEnvironment::_exit_tree() {
-  check_actor();
+  check_agent();
   if (thread.is_valid()) {
     thread->wait_to_finish();
     thread.unref();
