@@ -4,10 +4,21 @@ extends Node
 @export
 var script_controller: ScriptedController
 
+var running: bool = false
+
 
 func _ready() -> void:
-	var schema := script_controller.get_schemas().duplicate(true)
-	print(_parse_schema(schema))
+	print(_parse_schema(_get_schema()))
+
+
+func _physics_process(delta: float) -> void:
+	if not running and Input.is_action_pressed("jump"):
+		script_controller.invoke("jump")
+		script_controller.invoke_done.connect(func(): running = false, ConnectFlags.CONNECT_ONE_SHOT)
+
+
+func _get_schema() -> Dictionary:
+	return script_controller.get_schemas().duplicate(true)
 
 
 func _parse_schema(schema: Dictionary) -> String:
@@ -30,14 +41,14 @@ func _invoker_to_class(c_name: String, info: Array) -> String:
 
 
 func _invoker_to_declaration(info: Dictionary) -> String:
-	var code: String = info["name"]
+	var code: String = ""
 	var params: Array = info["params"]
 	for idx in range(len(params) - 1):
 		var param: Dictionary = params[idx]
 		code += param["name"] + ", "
 	if len(params) > 1:
 		code += params.back()["name"]
-	code = "foreign static {}()".format([code], "{}")
+	code = "foreign static {}({})".format([info["name"], code], "{}")
 	return code
 
 
