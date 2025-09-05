@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3 uid="uid://de0b1hu4sg3yl"]
+
+[ext_resource type="Script" uid="uid://45nnrgg3ox3g" path="res://godot/entities/swordman.gd" id="1_vbe07"]
+[ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="2_om1ad"]
+[ext_resource type="Script" uid="uid://v0a4dqqmx5n4" path="res://godot/entity_states/fall.gd" id="3_evd68"]
+[ext_resource type="Script" uid="uid://cixd1pouthjgb" path="res://godot/entity_states/jump.gd" id="4_51q0t"]
+[ext_resource type="Script" uid="uid://7o5olu2cdixv" path="res://godot/entity_states/ground.gd" id="5_u8luj"]
+[ext_resource type="Script" uid="uid://ckoreda8nbyhu" path="res://godot/entity_states/idle.gd" id="6_n8bs7"]
+[ext_resource type="Script" uid="uid://dd2gnex14a7pu" path="res://godot/entity_states/move.gd" id="7_oqa5d"]
+[ext_resource type="Script" uid="uid://dv4s4vyj67rgy" path="res://godot/entity_states/air.gd" id="8_6sbee"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6qqr4"]
+size = Vector2(40, 40)
+
+[node name="Swordman" type="CharacterBody2D"]
+script = ExtResource("1_vbe07")
+stats = ExtResource("2_om1ad")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6qqr4")
+
+[node name="Air" type="LimboHSM" parent="."]
+
+[node name="Fall" type="LimboState" parent="Air"]
+script = ExtResource("3_evd68")
+
+[node name="Jump" type="LimboState" parent="Air"]
+script = ExtResource("4_51q0t")
+
+[node name="Ground" type="LimboState" parent="Air"]
+script = ExtResource("5_u8luj")
+
+[node name="Ground" type="LimboHSM" parent="."]
+
+[node name="Idle" type="LimboState" parent="Ground"]
+script = ExtResource("6_n8bs7")
+
+[node name="Move" type="LimboState" parent="Ground"]
+script = ExtResource("7_oqa5d")
+
+[node name="Air" type="LimboState" parent="Ground"]
+script = ExtResource("8_6sbee")
