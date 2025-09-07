@@ -1,10 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=16 format=3 uid="uid://bmkjgidroq0ek"]
 
-[ext_resource type="PackedScene" uid="uid://u2w2c6v3few2" path="res://godot/wren/wren_safe.tscn" id="2_1d5fs"]
 [ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/tests/Entities.gd" id="2_krip0"]
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/tests/EnttPlayer.gd" id="3_i14ea"]
-[ext_resource type="Script" uid="uid://dx4rsseh180nn" path="res://godot/tests/InvokerAccumulator.gd" id="5_kthyp"]
-[ext_resource type="PackedScene" uid="uid://ce0wt64cl3bdg" path="res://godot/controllers/scripted_controller.tscn" id="5_tieok"]
+[ext_resource type="Script" uid="uid://ddjcgp74lg4dd" path="res://godot/WrenEnvironment.gd" id="4_i14ea"]
+[ext_resource type="Script" uid="uid://38r2fc733xaa" path="res://godot/commands/jump_command.gd" id="4_rylah"]
+[ext_resource type="Script" uid="uid://cc0gmnbmja00h" path="res://godot/commands/move_input_command.gd" id="5_kthyp"]
+[ext_resource type="Script" uid="uid://j0l2ft7w7ssf" path="res://godot/tests/states/Idle.gd" id="5_tieok"]
+[ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="6_tieok"]
+[ext_resource type="Script" uid="uid://tvhgc8k6x21k" path="res://godot/tests/states/Walk.gd" id="7_a2m73"]
+[ext_resource type="Script" uid="uid://bqj4su6yw00je" path="res://godot/tests/states/Fall.gd" id="7_rsqww"]
+[ext_resource type="Script" uid="uid://b3pnl04t1yeyd" path="res://godot/tests/states/Jump.gd" id="8_t8e0a"]
+[ext_resource type="Script" uid="uid://cvscfobqor8e6" path="res://godot/commands/fall_command.gd" id="10_ojwt1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
 size = Vector2(1152, 40)
@@ -29,6 +35,19 @@ func _on_viewport_size_changed() -> void:
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0pclf"]
 size = Vector2(40, 40)
+
+[sub_resource type="GDScript" id="GDScript_a2m73"]
+script/source = "extends LimboHSM
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+  if get_child_count() > 0:
+    initial_state = get_child(0)
+    for state in get_children():
+      if state is LimboState:
+        add_transition(ANYSTATE, state, \"to_\" + str(state.name.to_snake_case()))
+"
 
 [node name="Node2D" type="Node2D"]
 
@@ -74,23 +93,15 @@ hero.move_right(1)"
 layout_mode = 2
 text = "Run"
 
-[node name="WrenSafe" parent="." instance=ExtResource("2_1d5fs")]
-
 [node name="Entities" type="Node" parent="."]
 script = ExtResource("2_krip0")
 
-[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("wren", "code_edit")]
+[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("wren", "code_edit", "hsm")]
 position = Vector2(0, -60)
 script = ExtResource("3_i14ea")
-wren = NodePath("../../WrenSafe")
+wren = NodePath("WrenEnvironment")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
-
-[node name="ScriptedController" parent="Entities/Player" node_paths=PackedStringArray("body") instance=ExtResource("5_tieok")]
-body = NodePath("..")
-
-[node name="InvokerAccumulator" type="Node" parent="Entities/Player" node_paths=PackedStringArray("script_controller")]
-script = ExtResource("5_kthyp")
-script_controller = NodePath("../ScriptedController")
+hsm = NodePath("LimboHSM")
 
 [node name="ColorRect" type="ColorRect" parent="Entities/Player"]
 anchors_preset = 8
@@ -107,5 +118,46 @@ grow_vertical = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Player"]
 shape = SubResource("RectangleShape2D_0pclf")
+
+[node name="WrenEnvironment" type="WrenEnvironment" parent="Entities/Player"]
+script = ExtResource("4_i14ea")
+
+[node name="Commands" type="Node" parent="Entities/Player"]
+
+[node name="Jump" type="Node" parent="Entities/Player/Commands"]
+script = ExtResource("4_rylah")
+metadata/_custom_type_script = "uid://38r2fc733xaa"
+
+[node name="Movement" type="Node" parent="Entities/Player/Commands"]
+script = ExtResource("5_kthyp")
+metadata/_custom_type_script = "uid://cc0gmnbmja00h"
+
+[node name="FallCommand" type="Node" parent="Entities/Player/Commands"]
+script = ExtResource("10_ojwt1")
+metadata/_custom_type_script = "uid://cvscfobqor8e6"
+
+[node name="LimboHSM" type="LimboHSM" parent="Entities/Player"]
+script = SubResource("GDScript_a2m73")
+
+[node name="Fall" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("fall_cmd", "movement_cmd")]
+script = ExtResource("7_rsqww")
+stats = ExtResource("6_tieok")
+fall_cmd = NodePath("../../Commands/FallCommand")
+movement_cmd = NodePath("../../Commands/Movement")
+
+[node name="Idle" type="LimboState" parent="Entities/Player/LimboHSM"]
+script = ExtResource("5_tieok")
+stats = ExtResource("6_tieok")
+
+[node name="Walk" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("movement_cmd")]
+script = ExtResource("7_a2m73")
+stats = ExtResource("6_tieok")
+movement_cmd = NodePath("../../Commands/Movement")
+
+[node name="Jump" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("jump_cmd", "movement_cmd")]
+script = ExtResource("8_t8e0a")
+stats = ExtResource("6_tieok")
+jump_cmd = NodePath("../../Commands/Jump")
+movement_cmd = NodePath("../../Commands/Movement")
 
 [connection signal="pressed" from="UI/Editor/Run" to="Entities/Player" method="_on_run_pressed"]
