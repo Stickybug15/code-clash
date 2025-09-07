@@ -4,7 +4,7 @@ extends LimboState
 @export
 var fall_cmd: FallCommand
 @export
-var movement_cmd: MoveInputCommand
+var move_cmd: MoveCommand
 @export
 var stats: EntityStats
 
@@ -27,15 +27,13 @@ func _update(delta: float) -> void:
     else:
       dispatch("to_idle")
 
-  var direction: int = Input.get_axis("left", "right")
-  if not is_zero_approx(direction) and stats:
-    movement_cmd.initialize(agent, {
-      "direction": direction,
+  if stats:
+    move_cmd.initialize(agent, {
+      "direction": Input.get_axis("left", "right"),
+      "duration": stats.move_duration,
       "speed": stats.speed,
     })
-    movement_cmd.execute(agent, delta)
 
 
 func _exit() -> void:
-  movement_cmd.complete(agent)
   fall_cmd.complete(agent)
