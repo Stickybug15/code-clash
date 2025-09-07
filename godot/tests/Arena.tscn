@@ -139,14 +139,14 @@ metadata/_custom_type_script = "uid://cg5aabn3qjw7m"
 [node name="LimboHSM" type="LimboHSM" parent="Entities/Player"]
 script = SubResource("GDScript_a2m73")
 
+[node name="Idle" type="LimboState" parent="Entities/Player/LimboHSM"]
+script = ExtResource("5_tieok")
+stats = ExtResource("6_tieok")
+
 [node name="Fall" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("fall_cmd", "move_cmd")]
 script = ExtResource("7_rsqww")
 fall_cmd = NodePath("../../Commands/Fall")
 move_cmd = NodePath("../../Commands/Move")
-stats = ExtResource("6_tieok")
-
-[node name="Idle" type="LimboState" parent="Entities/Player/LimboHSM"]
-script = ExtResource("5_tieok")
 stats = ExtResource("6_tieok")
 
 [node name="Walk" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("move_cmd")]
@@ -161,3 +161,4 @@ move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("6_tieok")
 
 [connection signal="pressed" from="UI/Editor/Run" to="Entities/Player" method="_on_run_pressed"]
+[connection signal="on_execute" from="Entities/Player/WrenEnvironment" to="Entities/Player" method="_on_wren_environment_on_execute"]

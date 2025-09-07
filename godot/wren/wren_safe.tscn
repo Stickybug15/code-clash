@@ -1,9 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://u2w2c6v3few2"]
+[gd_scene load_steps=2 format=3 uid="uid://ddrgwfly2n6ag"]
 
-[ext_resource type="Script" uid="uid://by5xa0f04bhdo" path="res://godot/wren/wren_agent.gd" id="1_yehrt"]
+[sub_resource type="GDScript" id="GDScript_flr7x"]
+script/source = "extends Node
 
-[node name="WrenSafe" type="WrenEnvironment" node_paths=PackedStringArray("agent")]
-agent = NodePath("WrenAgent")
+
+var invokers: Array[Dictionary] = []
+var wait_semaphore: Semaphore = Semaphore.new()
+
+
+func invoke(fsm_name: String, dispatch_name: String, invoker_name: String, params: Dictionary) -> void:
+	pass
+"
+
+[node name="WrenSafe" type="WrenEnvironment"]
 
 [node name="WrenAgent" type="Node" parent="."]
-script = ExtResource("1_yehrt")
+script = SubResource("GDScript_flr7x")

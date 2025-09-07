@@ -25,7 +25,7 @@ void WrenEnvironment::_bind_methods() {
                        &WrenEnvironment::run_interpreter);
   ClassDB::bind_method(D_METHOD("run_interpreter_async", "user_code"),
                        &WrenEnvironment::run_interpreter_async);
-  ClassDB::bind_method(D_METHOD("initialize"), &WrenEnvironment::initialize);
+  ClassDB::bind_method(D_METHOD("initialize", "native_code", "class_names"), &WrenEnvironment::initialize);
   ClassDB::bind_method(D_METHOD("post"), &WrenEnvironment::post);
 
   GDVIRTUAL_BIND(_execute, "object_name", "method_name", "params");
@@ -107,7 +107,7 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
           String full_path = class_name + "." + signature;
           String method_name = info["method_name"];
           // print_line("Registering method: ", full_path);
-          self->foreign_method_cache.set(full_path, info);
+          self->invoker_db.set(full_path, info);
 
           if (method_name == signature_name) {
             return [](WrenVM *vm, const char *_className,
@@ -118,11 +118,11 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
 
               String full_path =
                   className.substr(0, className.find(" ")) + "." + signature;
-              if (!self->foreign_method_cache.has(full_path)) {
+              if (!self->invoker_db.has(full_path)) {
                 return;
               }
 
-              Dictionary info = self->foreign_method_cache[full_path];
+              Dictionary info = self->invoker_db[full_path];
               Array parameters = info["parameters"];
 
               Dictionary data;
@@ -193,7 +193,8 @@ WrenLoadModuleResult loadModuleFn(WrenVM *vm, const char *name) {
   WrenLoadModuleResult result = {};
   WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
   if (strcmp(name, "native") == 0) {
-    result.source = self->make_classes().ascii().ptr();
+    result.source = self->native_code.ascii().ptr();
+    print_line(result.source);
   }
   return result;
 }
@@ -292,8 +293,10 @@ String WrenEnvironment::make_classes() const {
   return classes;
 }
 
-void WrenEnvironment::initialize() {
-  for (String name : get_class_names()) {
+void WrenEnvironment::initialize(String native_code, Array class_names) {
+  this->native_code = native_code;
+
+  for (String name : class_names) {
     String code = R"(import "native" for )";
     code += name;
     auto result = wrenInterpret(vm, "main", code.ascii().ptr());
@@ -371,3 +374,4 @@ void WrenEnvironment::_exit_tree() {
 
   wrenFreeVM(vm);
 }
+

@@ -14,3 +14,6 @@ func _update(delta: float) -> void:
     dispatch("to_walk")
   if Input.is_action_pressed("jump"):
     dispatch("to_jump")
+
+  if not agent.is_on_floor():
+    dispatch("to_fall")

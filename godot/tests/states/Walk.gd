@@ -5,21 +5,33 @@ extends LimboState
 var move_cmd: MoveCommand
 @export
 var stats: EntityStats
-var previous_direction: float = 0.0
+
+
+func _setup() -> void:
+  # TODO: also include 'step'
+  agent.add_new_invoker(
+    "hero", "walk_left",
+    func(param: Dictionary):
+      blackboard.set_var("direction", -1)
+      dispatch("to_walk"), [])
+  agent.add_new_invoker(
+    "hero", "walk_right",
+    func(param: Dictionary):
+      blackboard.set_var("direction", 1)
+      dispatch("to_walk"), [])
 
 
 func _enter() -> void:
   print(name, " _enter")
 
   if move_cmd and stats:
-    previous_direction = Input.get_axis("left", "right")
     move_cmd.initialize(agent, {
-      "direction": previous_direction,
+      "direction": blackboard.get_var("direction", Input.get_axis("left", "right")),
       "duration": stats.move_duration,
       "speed": stats.speed,
     })
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _update(delta: float) -> void:
   print(name, " _update")
 

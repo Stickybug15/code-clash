@@ -30,25 +30,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func validate_schema_dictionary(schema: Dictionary, input: Dictionary, schema_name = "schema", input_name = "input") -> void:
-	for key in schema:
-		assert(input.has(key), "'" + schema_name + "' doesn't have " + key + " key.")
-		var input_type := type_string(typeof(input.get(key)))
-		var schema_type := type_string(typeof(schema.get(key)))
-		assert(input_type == schema_type,
-			"incorrect " + schema_name + "['"+key+"'] with type " + input_type + ", " + schema_type + " is expected type.")
-
-	var params: Array = input["parameters"]
-	var params_schema: Dictionary = schema["parameters"][0]
-	for idx in range(params.size()):
-		var param: Dictionary = params[idx]
-		for key: String in params_schema:
-			assert(param.has(key), "'info.parameters["+str(idx)+"]' doesn't have " + key + " key.")
-		var param_type_default := type_string(typeof(param["default"]))
-		assert(param["type"] == param_type_default,
-			"info.parameters[" + str(idx) + "].default must be a type of " + param_type_default)
-
-
 func add_invoker(info: Dictionary) -> void:
 	var schema := Z.schema({
 		"object_name": Z.string(),

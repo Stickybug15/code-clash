@@ -9,6 +9,15 @@ var move_cmd: MoveCommand
 var stats: EntityStats
 
 
+func _setup() -> void:
+  agent.add_new_invoker(
+    "hero", "jump",
+    func(param: Dictionary): dispatch("to_jump"),
+    [
+      {"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
+    ])
+
+
 func _enter() -> void:
   print(name, " _enter")
   if jump_cmd and stats:

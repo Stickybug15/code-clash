@@ -34,7 +34,7 @@ public:
   void wait();
 
   // Exposed methods
-  void initialize();
+  void initialize(String native_code, Array class_names);
   void run_interpreter(String code);
   void run_interpreter_async(String user_code);
 
@@ -50,12 +50,14 @@ public:
   bool _active;
   Array _invokers;
 
+  String native_code;
+
   WrenVM *vm{nullptr};
   String pending_code{""};
   bool running{false};
   bool first_run{true};
 
-  Dictionary foreign_method_cache{};
+  Dictionary invoker_db{};
 };
 
 } // namespace godot
