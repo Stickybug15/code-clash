@@ -2,6 +2,7 @@
 #include "cpp-tree-sitter.h"
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/classes/node.hpp"
+#include "godot_cpp/classes/wrapped.hpp"
 #include "godot_cpp/core/error_macros.hpp"
 #include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
@@ -19,37 +20,55 @@
 using namespace godot;
 using namespace std::string_literals;
 
-#define check_agent() \
-  if (!this->agent) { \
-    print_error(this->get_name(), " Actor is unset, provide an Entity!"); \
-    return; \
-  }
-#define check_agent_ret(ret) \
-  if (!this->agent) { \
-    print_error(this->get_name(), " agent is unset!"); \
-    return (ret); \
-  }
-
 void WrenEnvironment::_bind_methods() {
-  ClassDB::bind_method(D_METHOD("get_agent"), &WrenEnvironment::get_agent);
-  ClassDB::bind_method(D_METHOD("set_agent", "p_agent"),
-                       &WrenEnvironment::set_agent);
-  ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "agent", PROPERTY_HINT_NODE_TYPE),
-               "set_agent", "get_agent");
-
   ClassDB::bind_method(D_METHOD("run_interpreter", "user_code"),
                        &WrenEnvironment::run_interpreter);
   ClassDB::bind_method(D_METHOD("run_interpreter_async", "user_code"),
                        &WrenEnvironment::run_interpreter_async);
   ClassDB::bind_method(D_METHOD("initialize"), &WrenEnvironment::initialize);
+  ClassDB::bind_method(D_METHOD("post"), &WrenEnvironment::post);
+
+  GDVIRTUAL_BIND(_execute, "object_name", "method_name", "params");
+  ClassDB::bind_method(D_METHOD("get_invokers"), &WrenEnvironment::get_invokers);
+  ClassDB::bind_method(D_METHOD("is_active"), &WrenEnvironment::is_active);
+	ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "invokers", PROPERTY_HINT_ARRAY_TYPE, "Array", 0), "", "get_invokers");
 }
 
-void WrenEnvironment::set_agent(Node *p_agent) { this->agent = p_agent; }
-Node *WrenEnvironment::get_agent() { return this->agent; }
+void WrenEnvironment::_execute(String object_name,  String method_name, Dictionary params) {
+  if (is_active()) {
+    print_error("Semaphore is still active!");
+    return;
+  }
+  GDVIRTUAL_CALL(_execute, object_name, method_name, params);
+  _active = true;
+  wait();
+}
 
-WrenEnvironment::WrenEnvironment() {}
+Array WrenEnvironment::get_invokers() const {
+  return _invokers;
+}
 
-WrenEnvironment::~WrenEnvironment() {}
+void WrenEnvironment::post() {
+  if (!is_active()) {
+    print_error("Semaphore is not in 'wait' state.");
+    return;
+  }
+  _active = false;
+  semaphore->post();
+}
+
+void WrenEnvironment::wait() {
+  if (is_active()) {
+    print_error("Semaphore is still in 'wait' state.");
+    return;
+  }
+  _active = true;
+  semaphore->wait();
+}
+
+bool WrenEnvironment::is_active() {
+  return _active;
+}
 
 #define wrenCastUserData(vm, type) (static_cast<type>(wrenGetUserData(vm)));
 #define wrenCastUserDataDefine(vm, type, identifier)                           \
@@ -66,12 +85,6 @@ static void writeFn(WrenVM *vm, const char *text) {
   print_line_rich("WREN: ", text);
 }
 
-static void print(WrenVM *vm) {
-  WrenEnvironment *self = wrenCastUserData(vm, WrenEnvironment *);
-  const char *str = wrenGetSlotString(vm, 1);
-  print_line(vformat("Native: {}", str));
-}
-
 static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
                                                const char *_className,
                                                bool isStatic,
@@ -84,7 +97,7 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
 
   if (module == "native") {
     if (isStatic) {
-      for (Variant action : self->invokers) {
+      for (Variant action : self->get_invokers()) {
         Dictionary info = action;
 
         // print_line("className: ", class_name, ", signature: ", signature);
@@ -159,8 +172,8 @@ static WrenForeignMethodFn bindForeignMethodFn(WrenVM *vm, const char *_module,
                 argi += 1;
               }
 
-              self->agent->call("invoke", info["fsm_name"], info["dispatch_name"], signature.substr(0, signature.find("(")), data);
-              self->wait_semaphore->wait();
+              //self->call("invoke", info["fsm_name"], info["dispatch_name"], signature.substr(0, signature.find("(")), data);
+              self->_execute(info["object_name"], info["method_name"], data);
             };
           }
         }
@@ -195,9 +208,8 @@ Dictionary map_actions_to_objects(Array actions) {
 }
 
 Array WrenEnvironment::get_class_names() const {
-  check_agent_ret(Array{});
   Array names;
-  for (Dictionary info : invokers) {
+  for (Dictionary info : get_invokers()) {
     String name = info["object_name"];
     if (names.has(name)) {
       continue;
@@ -208,8 +220,7 @@ Array WrenEnvironment::get_class_names() const {
 }
 
 String WrenEnvironment::make_classes() const {
-  check_agent_ret(String{});
-  Dictionary objects = map_actions_to_objects(invokers);
+  Dictionary objects = map_actions_to_objects(get_invokers());
 
   String classes;
   for (String object_name : objects.keys()) {
@@ -282,10 +293,6 @@ String WrenEnvironment::make_classes() const {
 }
 
 void WrenEnvironment::initialize() {
-  check_agent();
-  invokers = agent->get("invokers");
-  wait_semaphore = agent->get("wait_semaphore");
-
   for (String name : get_class_names()) {
     String code = R"(import "native" for )";
     code += name;
@@ -305,7 +312,6 @@ void WrenEnvironment::initialize() {
 }
 
 void WrenEnvironment::run_interpreter(String user_code) {
-  check_agent();
   WrenInterpretResult result = wrenInterpret(vm, "main", user_code.ascii().ptr());
   switch (result) {
   case WREN_RESULT_COMPILE_ERROR: {
@@ -321,7 +327,6 @@ void WrenEnvironment::run_interpreter(String user_code) {
 }
 
 void WrenEnvironment::run_interpreter_async(String user_code) {
-  check_agent();
   if (running) {
     WARN_PRINT("Interpreter is already running!");
     return;
@@ -336,14 +341,12 @@ void WrenEnvironment::run_interpreter_async(String user_code) {
 }
 
 void WrenEnvironment::_run_pending_code() {
-  check_agent();
   run_interpreter(pending_code);
   pending_code = "";
   running = false;
 }
 
 void WrenEnvironment::_enter_tree() {
-  check_agent();
   WrenConfiguration config;
   wrenInitConfiguration(&config);
   config.errorFn = &errorFn;
@@ -354,13 +357,17 @@ void WrenEnvironment::_enter_tree() {
   config.userData = this;
   vm = wrenNewVM(&config);
   thread.instantiate();
+  semaphore.instantiate();
 }
 
 void WrenEnvironment::_exit_tree() {
-  check_agent();
   if (thread.is_valid()) {
     thread->wait_to_finish();
     thread.unref();
   }
+  if (semaphore.is_valid()) {
+    semaphore.unref();
+  }
+
   wrenFreeVM(vm);
 }

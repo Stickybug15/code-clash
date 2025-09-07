@@ -1,5 +1,4 @@
-#ifndef TREESITTER_H
-#define TREESITTER_H
+#pragma once
 
 #include "godot_cpp/classes/mutex.hpp"
 #include "godot_cpp/classes/node.hpp"
@@ -8,6 +7,7 @@
 #include "godot_cpp/classes/semaphore.hpp"
 #include "godot_cpp/classes/thread.hpp"
 #include "godot_cpp/classes/wrapped.hpp"
+#include "godot_cpp/core/gdvirtual.gen.inc"
 #include "wren.hpp"
 #include <gdextension_interface.h>
 #include <godot_cpp/classes/label.hpp>
@@ -24,33 +24,33 @@ protected:
   static void _bind_methods();
 
 public:
-  WrenEnvironment();
-  ~WrenEnvironment();
-
   void _enter_tree() override;
   void _exit_tree() override;
-  void initialize();
-
-  void run_interpreter(String code);
-  void run_interpreter_async(String user_code);
   void _run_pending_code();
-
-  void set_action_manager(Node *node);
-  Node *get_action_manager();
-  void set_agent(Node *p_agent);
-  Node *get_agent();
-  void set_component_manager(Node *p_component_manager);
-  Node *get_component_manager();
 
   String make_classes() const;
   Array get_class_names() const;
 
+  void wait();
+
+  // Exposed methods
+  void initialize();
+  void run_interpreter(String code);
+  void run_interpreter_async(String user_code);
+
+	GDVIRTUAL3(_execute, String, String, Dictionary);
+  virtual void _execute(String object_name,  String method_name, Dictionary params);
+  bool is_active();
+  void post();
+
+  Array get_invokers() const;
+
   Ref<Thread> thread;
-  Ref<Semaphore> wait_semaphore;
+  Ref<Semaphore> semaphore;
+  bool _active;
+  Array _invokers;
 
   WrenVM *vm{nullptr};
-  Array invokers{};
-  Node *agent{nullptr};
   String pending_code{""};
   bool running{false};
   bool first_run{true};
@@ -60,4 +60,3 @@ public:
 
 } // namespace godot
 
-#endif
