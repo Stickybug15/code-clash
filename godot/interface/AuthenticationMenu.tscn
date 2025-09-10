@@ -56,11 +56,17 @@ secret = true
 
 [node name="StatusLabel" type="Label" parent="SignInMenu/GridContainer"]
 layout_mode = 2
-horizontal_alignment = 1
 
 [node name="SignInBtn" type="Button" parent="SignInMenu/GridContainer"]
 layout_mode = 2
 text = "Sign In"
+
+[node name="ForgotPasswordBtn" type="LinkButton" parent="SignInMenu"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+text = "Forgot Password?"
+underline = 1
 
 [node name="BackBtn" type="Button" parent="SignInMenu"]
 layout_mode = 2
@@ -170,8 +176,36 @@ text = "Quit"
 [node name="StatusLabel" type="Label" parent="MainMenu"]
 layout_mode = 2
 
+[node name="ForgotPasswordMenu" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="ForgotPasswordMenu"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ForgotPasswordMenu/GridContainer"]
+layout_mode = 2
+
+[node name="EmailEdit" type="LineEdit" parent="ForgotPasswordMenu/GridContainer"]
+layout_mode = 2
+placeholder_text = "Enter your Email"
+
+[node name="SendResetBtn" type="Button" parent="ForgotPasswordMenu/GridContainer"]
+layout_mode = 2
+text = "Send Reset Email"
+
+[node name="StatusLabel" type="Label" parent="ForgotPasswordMenu/GridContainer"]
+layout_mode = 2
+
+[node name="BackBtn" type="Button" parent="ForgotPasswordMenu/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Back"
+
 [connection signal="visibility_changed" from="SignInMenu" to="." method="_on_sign_in_menu_visibility_changed"]
 [connection signal="pressed" from="SignInMenu/GridContainer/SignInBtn" to="." method="_on_sign_in_btn_pressed"]
+[connection signal="pressed" from="SignInMenu/ForgotPasswordBtn" to="." method="_on_forgot_password_btn_pressed"]
 [connection signal="pressed" from="SignInMenu/BackBtn" to="." method="_on_back_btn_pressed"]
 [connection signal="visibility_changed" from="SignUpMenu" to="." method="_on_sign_up_menu_visibility_changed"]
 [connection signal="pressed" from="SignUpMenu/GridContainer/SignUpBtn" to="." method="_on_sign_up_btn_pressed"]
@@ -183,3 +217,7 @@ layout_mode = 2
 [connection signal="visibility_changed" from="MainMenu" to="." method="_on_main_menu_visibility_changed"]
 [connection signal="pressed" from="MainMenu/SignOutBtn" to="." method="_on_sign_out_btn_pressed"]
 [connection signal="pressed" from="MainMenu/QuitBtn" to="." method="_on_quit_btn_pressed"]
+[connection signal="text_change_rejected" from="ForgotPasswordMenu/GridContainer/EmailEdit" to="." method="_on_email_edit_text_change_rejected"]
+[connection signal="text_submitted" from="ForgotPasswordMenu/GridContainer/EmailEdit" to="." method="_on_email_edit_text_submitted"]
+[connection signal="pressed" from="ForgotPasswordMenu/GridContainer/SendResetBtn" to="." method="_on_send_reset_btn_pressed"]
+[connection signal="pressed" from="ForgotPasswordMenu/GridContainer/BackBtn" to="." method="_on_back_btn_pressed"]
