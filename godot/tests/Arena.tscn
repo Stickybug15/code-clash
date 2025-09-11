@@ -42,11 +42,11 @@ script/source = "extends LimboHSM
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-  if get_child_count() > 0:
-    initial_state = get_child(0)
-    for state in get_children():
-      if state is LimboState:
-        add_transition(ANYSTATE, state, \"to_\" + str(state.name.to_snake_case()))
+	if get_child_count() > 0:
+		initial_state = get_child(0)
+		for state in get_children():
+			if state is LimboState:
+				add_transition(ANYSTATE, state, \"to_\" + str(state.name.to_snake_case()))
 "
 
 [node name="Node2D" type="Node2D"]
@@ -86,8 +86,8 @@ offset_bottom = 40.0
 custom_minimum_size = Vector2(600, 400)
 layout_mode = 2
 text = "hero.jump()
-hero.move_left(1)
-hero.move_right(1)"
+hero.walk_left()
+hero.walk_right()"
 
 [node name="Run" type="Button" parent="UI/Editor"]
 layout_mode = 2
@@ -96,12 +96,13 @@ text = "Run"
 [node name="Entities" type="Node" parent="."]
 script = ExtResource("2_krip0")
 
-[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("wren", "code_edit", "hsm")]
+[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("wren", "code_edit", "hsm", "js_env")]
 position = Vector2(0, -60)
 script = ExtResource("3_i14ea")
 wren = NodePath("WrenEnvironment")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
 hsm = NodePath("LimboHSM")
+js_env = NodePath("JSEnvironment")
 
 [node name="ColorRect" type="ColorRect" parent="Entities/Player"]
 anchors_preset = 8
@@ -154,11 +155,14 @@ script = ExtResource("7_a2m73")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("6_tieok")
 
-[node name="Jump" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("jump_cmd", "move_cmd")]
+[node name="Jump" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("jump_cmd", "move_cmd", "fall_state")]
 script = ExtResource("8_t8e0a")
 jump_cmd = NodePath("../../Commands/Jump")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("6_tieok")
+fall_state = NodePath("../Fall")
+
+[node name="JSEnvironment" type="JSEnvironment" parent="Entities/Player"]
 
 [connection signal="pressed" from="UI/Editor/Run" to="Entities/Player" method="_on_run_pressed"]
 [connection signal="on_execute" from="Entities/Player/WrenEnvironment" to="Entities/Player" method="_on_wren_environment_on_execute"]

@@ -1,5 +1,6 @@
 #include "register_types.h"
 
+#include "js_environment.h"
 #include "wren_environment.h"
 
 #include <gdextension_interface.h>
@@ -14,6 +15,7 @@ void initialize_module(ModuleInitializationLevel p_level) {
   }
 
   GDREGISTER_RUNTIME_CLASS(WrenEnvironment);
+  GDREGISTER_RUNTIME_CLASS(JSEnvironment);
 }
 
 void uninitialize_module(ModuleInitializationLevel p_level) {
