@@ -10,16 +10,6 @@ var js_env: JSEnvironment
 var _method_db: Dictionary = {}
 
 
-func _ready() -> void:
-	print(type_string(TYPE_NIL))
-	print(type_string(TYPE_INT))
-	print(type_string(TYPE_FLOAT))
-	print(type_string(TYPE_BOOL))
-	print(type_string(TYPE_ARRAY))
-	print(type_string(TYPE_DICTIONARY))
-	print(type_string(TYPE_STRING))
-
-
 func add_new_method(object_name: String, method_name: String, end_state: State, dispatch_name: String, param_schema: Array) -> void:
 	var signature: String = "{0}.{1}".format([object_name, method_name])
 	# TODO: add 'description'
