@@ -12,11 +12,10 @@ var event_name: StringName = ""
 ## Shared context object provided by the StateMachine for storing
 ## and accessing data across states.
 var ctx: Context
-
-
-## Emitted when this state requests a transition to another state.
-## Pass the target state's event_name as argument.
-signal finished(event_name: StringName)
+## Reference to the parent StateMachine that owns this state.
+## Automatically assigned when the state is added to a StateMachine.
+## Allows the state to access shared data or trigger transitions directly.
+var fsm: StateMachine
 
 ## Emitted when this state has been entered.
 signal entered
@@ -27,7 +26,7 @@ signal exited
 
 ## Requests a transition to another state by emitting the `finished` signal.
 func transition_to(event_name: StringName):
-	finished.emit(event_name)
+	fsm._transition_to_next_state(event_name)
 
 
 ## Called once when the StateMachine is initialized.

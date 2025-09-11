@@ -7,7 +7,7 @@ extends Node
 var initial_state: State = null
 
 @onready
-var states: Dictionary
+var _states: Dictionary
 
 ## The current state of the state machine.
 @onready
@@ -17,7 +17,7 @@ var state: State
 @export
 var actor: Node = null
 
-## Shared context passed to all states for storing and accessing data.
+## Shared context passed to all _states for storing and accessing data.
 @onready
 var ctx: Context = Context.new()
 
@@ -31,14 +31,14 @@ func _ready() -> void:
 	for state_node: State in find_children("*", "State"):
 		if state_node.event_name.is_empty():
 			state_node.event_name = name
-		states[state_node.event_name] = state_node
+		_states[state_node.event_name] = state_node
+		state_node.fsm = self
 		state_node.ctx = ctx
-		state_node.finished.connect(_transition_to_next_state)
 		state_node._setup(actor)
 
 	if initial_state == null:
 		if get_child_count() == 0:
-			push_error(name, " must have States.")
+			push_error(name, " must have _states.")
 			return
 		if get_child(0) is State:
 			state = get_child(0)
@@ -56,7 +56,7 @@ func _ready() -> void:
 ## using the provided event name. Handles exit/enter calls
 ## and emits the appropriate signals.
 func _transition_to_next_state(event_name: String) -> void:
-	if not states.has(event_name):
+	if not _states.has(event_name):
 		printerr(actor.name + ": Trying to transition to state '" + event_name + "' but it does not exist.")
 		return
 
@@ -65,7 +65,7 @@ func _transition_to_next_state(event_name: String) -> void:
 	state._exit(actor)
 	state.exited.emit()
 
-	state = states.get(event_name)
+	state = _states.get(event_name)
 
 	state._enter(actor, previous_state)
 	state.entered.emit()

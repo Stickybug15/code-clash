@@ -16,8 +16,6 @@ func _setup(actor: EntityPlayer) -> void:
 
 
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
-	print(name, " _enter")
-
 	if move_cmd and stats:
 		var method_name = ctx.get_var("method_name")
 		if method_name == "walk_right":
@@ -32,8 +30,6 @@ func _enter(actor: EntityPlayer, previous_state: State) -> void:
 
 
 func _update(actor: EntityPlayer, delta: float) -> void:
-	print(name, " _update")
-
 	if move_cmd.is_finished(actor):
 		transition_to("to_idle")
 

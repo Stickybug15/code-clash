@@ -20,7 +20,6 @@ func _setup(actor: EntityPlayer) -> void:
 
 
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
-	print(name, " _enter")
 	if jump_cmd and stats:
 		jump_cmd.initialize(actor, {
 			"height": stats.jump_height,

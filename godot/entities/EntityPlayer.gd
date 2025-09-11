@@ -20,21 +20,7 @@ func add_new_method(object_name: String, method_name: String, end_state: State, 
 		"end_state": end_state,
 		"params": param_schema,
 	}
-	print(_method_db[signature])
-
-
-func _ready() -> void:
-	var b: Blackboard = Blackboard.new()
-
-	var code: String = parse_methods(_method_db)
-	var class_names: Array = []
-	for method_info in _method_db.values():
-		if not method_info["object_name"] in class_names:
-			class_names.append(method_info["object_name"])
-	print(class_names)
-
-	for method_info in _method_db.values():
-		js_env.add_method(method_info)
+	js_env.add_method(_method_db[signature])
 
 
 func parse_methods(db: Dictionary) -> String:

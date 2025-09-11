@@ -10,7 +10,6 @@ var stats: EntityStats
 
 
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
-	print(name, " _enter")
 	fall_cmd.initialize(actor, {
 		"height": stats.jump_height,
 		"time_to_descent": stats.jump_time_to_descent,
