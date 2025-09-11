@@ -12,7 +12,7 @@ var fall_state: FSM_FallState
 
 
 func _setup() -> void:
-	agent.add_new_invoker(
+	agent.add_new_method(
 		"hero", "jump", fall_state, "to_jump",
 		[
 			{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},

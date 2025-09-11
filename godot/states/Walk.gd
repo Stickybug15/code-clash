@@ -9,9 +9,9 @@ var stats: EntityStats
 
 func _setup() -> void:
 	# TODO: also include 'step'
-	agent.add_new_invoker(
+	agent.add_new_method(
 		"hero", "walk_left", self, "to_walk", [])
-	agent.add_new_invoker(
+	agent.add_new_method(
 		"hero", "walk_right", self, "to_walk", [])
 
 
