@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://ce0wt64cl3bdg"]
-
-[ext_resource type="Script" uid="uid://t434g2oe7u0h" path="res://godot/controllers/scripted_controller.gd" id="1_hmao4"]
-[ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="1_hu3rq"]
-
-[node name="ScriptedController" type="Node"]
-script = ExtResource("1_hmao4")
-stats = ExtResource("1_hu3rq")

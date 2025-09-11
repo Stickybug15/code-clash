@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="EntityStats" load_steps=2 format=3 uid="uid://cn2lrsmx3i3wh"]
+
+[ext_resource type="Script" uid="uid://dx2ngltys2237" path="res://godot/resources/entity_stats.gd" id="1_pwl7h"]
+
+[resource]
+script = ExtResource("1_pwl7h")
+jump_height = 40.0
+jump_time_to_peak = 0.2
+jump_time_to_descent = 0.2
+metadata/_custom_type_script = "uid://dx2ngltys2237"

@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://c047fiqxorfgu"]
-
-[ext_resource type="Script" uid="uid://b7ae0odfo57ss" path="res://godot/controllers/keyboard_movement_controller.gd" id="1_18peo"]
-[ext_resource type="Resource" uid="uid://bf8r02dhl0de0" path="res://godot/resources/entity_stats.tres" id="1_th2ox"]
-
-[node name="KeyboardMovementController" type="Node"]
-script = ExtResource("1_18peo")
-stats = ExtResource("1_th2ox")

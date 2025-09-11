@@ -1,8 +1,6 @@
 extends Entt
 
 @export
-var wren: WrenEnvironment
-@export
 var code_edit: TextEdit
 @export
 var hsm: LimboHSM
@@ -43,7 +41,6 @@ func _ready() -> void:
 		if not method_info["object_name"] in class_names:
 			class_names.append(method_info["object_name"])
 	print(class_names)
-	wren.initialize(code, class_names)
 
 	for method_info in _invoker_db.values():
 		js_env.add_method(method_info)
