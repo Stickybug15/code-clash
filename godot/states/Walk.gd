@@ -35,10 +35,10 @@ func _update(actor: EntityPlayer, delta: float) -> void:
 	print(name, " _update")
 
 	if move_cmd.is_finished(actor):
-		finished.emit("to_idle")
+		transition_to("to_idle")
 
 	if Input.is_action_pressed("jump"):
-		finished.emit("to_jump")
+		transition_to("to_jump")
 
 
 func _exit(actor: EntityPlayer) -> void:

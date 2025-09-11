@@ -35,7 +35,7 @@ func _update(actor: EntityPlayer, delta: float) -> void:
 
 	# TODO: should the jump_cmd be responsible for this?
 	if actor.velocity.y > 0.0:
-		finished.emit("to_fall")
+		transition_to("to_fall")
 
 	if stats:
 		move_cmd.initialize(actor, {

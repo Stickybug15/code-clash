@@ -7,10 +7,10 @@
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
 [ext_resource type="Script" uid="uid://cvscfobqor8e6" path="res://godot/commands/fall_command.gd" id="10_ojwt1"]
 [ext_resource type="Script" uid="uid://ddaxc5vx0e5ik" path="res://godot/finite_state_machine/StateMachine.gd" id="11_25y8y"]
-[ext_resource type="Script" uid="uid://d2lraa1bilkhg" path="res://godot/states_fsm/Idle.gd" id="12_uwghf"]
-[ext_resource type="Script" uid="uid://c7lax83f3fjct" path="res://godot/states_fsm/Fall.gd" id="13_rlytp"]
-[ext_resource type="Script" uid="uid://37obnauashog" path="res://godot/states_fsm/Walk.gd" id="14_m8h0s"]
-[ext_resource type="Script" uid="uid://btcowqf1a21t3" path="res://godot/states_fsm/Jump.gd" id="15_sghct"]
+[ext_resource type="Script" uid="uid://d2lraa1bilkhg" path="res://godot/states/Idle.gd" id="12_uwghf"]
+[ext_resource type="Script" uid="uid://c7lax83f3fjct" path="res://godot/states/Fall.gd" id="13_rlytp"]
+[ext_resource type="Script" uid="uid://37obnauashog" path="res://godot/states/Walk.gd" id="14_m8h0s"]
+[ext_resource type="Script" uid="uid://btcowqf1a21t3" path="res://godot/states/Jump.gd" id="15_sghct"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
 size = Vector2(1152, 40)

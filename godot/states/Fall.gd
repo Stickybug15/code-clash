@@ -23,9 +23,9 @@ func _update(actor: EntityPlayer, delta: float) -> void:
 
 	if actor.is_on_floor():
 		if Input.is_action_pressed("jump"):
-			finished.emit("to_jump")
+			transition_to("to_jump")
 		else:
-			finished.emit("to_idle")
+			transition_to("to_idle")
 
 	if stats:
 		move_cmd.initialize(actor, {
