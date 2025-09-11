@@ -12,7 +12,7 @@ var fall_state: State
 
 
 func _setup(actor: EntityPlayer) -> void:
-	actor.add_new_method(
+	actor.env.add_new_method(
 		"hero", "jump", fall_state, "to_jump", [])
 
 

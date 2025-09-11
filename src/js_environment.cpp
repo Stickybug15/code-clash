@@ -350,13 +350,13 @@ void JSEnvironment::add_method(Dictionary method_info) {
   duk_pop_2(ctx);
 }
 
-void JSEnvironment::_enter_tree() {
+JSEnvironment::JSEnvironment() {
   ctx = duk_create_heap_default();
   semaphore.instantiate();
   thread.instantiate();
 }
 
-void JSEnvironment::_exit_tree() {
+JSEnvironment::~JSEnvironment() {
   if (thread->is_started()) {
     thread->wait_to_finish();
     thread.unref();

@@ -83,11 +83,10 @@ text = "Run"
 [node name="Entities" type="Node" parent="."]
 script = ExtResource("2_krip0")
 
-[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "js_env")]
+[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit")]
 position = Vector2(0, -60)
 script = ExtResource("3_i14ea")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
-js_env = NodePath("JSEnvironment")
 
 [node name="ColorRect" type="ColorRect" parent="Entities/Player"]
 anchors_preset = 8
@@ -118,8 +117,6 @@ metadata/_custom_type_script = "uid://cvscfobqor8e6"
 [node name="Move" type="Node" parent="Entities/Player/Commands"]
 script = ExtResource("7_owxvn")
 metadata/_custom_type_script = "uid://cg5aabn3qjw7m"
-
-[node name="JSEnvironment" type="JSEnvironment" parent="Entities/Player"]
 
 [node name="StateMachine" type="Node" parent="Entities/Player"]
 script = ExtResource("11_25y8y")

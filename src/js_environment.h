@@ -20,8 +20,8 @@ protected:
   static void _bind_methods();
 
 public:
-  void _enter_tree() override;
-  void _exit_tree() override;
+  JSEnvironment();
+  ~JSEnvironment();
 
   void eval(String code);
   void eval_async(String code);

@@ -9,15 +9,13 @@ var stats: EntityStats
 
 func _setup(actor: EntityPlayer) -> void:
 	# TODO: also include 'step'
-	actor.add_new_method(
+	actor.env.add_new_method(
 		"hero", "walk_left", self, "to_walk", [
-			#{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
-			{"name": "step", "type": type_string(TYPE_INT)},
+			{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
 		])
-	actor.add_new_method(
+	actor.env.add_new_method(
 		"hero", "walk_right", self, "to_walk", [
-			#{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
-			{"name": "step", "type": type_string(TYPE_INT)},
+			{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
 		])
 
 
