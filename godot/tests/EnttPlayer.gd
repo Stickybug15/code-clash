@@ -181,23 +181,6 @@ func _on_wren_on_execute(object_name: String, method_name: String, params: Dicti
 	var fn: Callable = info["callable"]
 	var schema: Dictionary = info["schema"]
 
-var thread: Thread = Thread.new()
-var running := false
-var first_run := true
 
 func _on_run_pressed() -> void:
-	if running or thread.is_started():
-		return
-	running = true
-	thread.start(func():
-		js_env.eval(code_edit.text)
-		_on_finished.call_deferred()
-	)
-	#wren.run_interpreter_async(code_edit.text)
-	#js_env.eval(code_edit.text)
-	pass
-
-
-func _on_finished():
-	running = false
-	thread.wait_to_finish()
+	js_env.eval_async(code_edit.text)

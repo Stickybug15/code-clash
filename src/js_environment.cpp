@@ -15,8 +15,8 @@ void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("add_method", "method_info"),
                        &JSEnvironment::add_method);
   ClassDB::bind_method(D_METHOD("eval", "code"), &JSEnvironment::eval);
-  ClassDB::bind_method(D_METHOD("_method_finished", "full_path"),
-                       &JSEnvironment::_method_finished);
+  ClassDB::bind_method(D_METHOD("eval_async", "code"),
+                       &JSEnvironment::eval_async);
 }
 
 void duk_print_error(duk_context *ctx) {
@@ -68,6 +68,25 @@ void JSEnvironment::eval(String code) {
     }
   }
   duk_pop(ctx);
+}
+
+void JSEnvironment::eval_async(String code) {
+  if (running) {
+    WARN_PRINT("Interpreter is already running!");
+    return;
+  } else if (!first_run) {
+    thread->wait_to_finish();
+  }
+
+  running = true;
+  first_run = false;
+  thread->start(
+      callable_mp(this, &JSEnvironment::_eval_pending_code).bind(code));
+}
+
+void JSEnvironment::_eval_pending_code(String code) {
+  eval(code);
+  running = false;
 }
 
 void JSEnvironment::_method_finished(String full_path) {
@@ -152,9 +171,14 @@ void JSEnvironment::add_method(Dictionary method_info) {
 void JSEnvironment::_enter_tree() {
   ctx = duk_create_heap_default();
   semaphore.instantiate();
+  thread.instantiate();
 }
 
 void JSEnvironment::_exit_tree() {
+  if (thread->is_started()) {
+    thread->wait_to_finish();
+    thread.unref();
+  }
   semaphore.unref();
   duk_destroy_heap(ctx);
 }
