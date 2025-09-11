@@ -13,10 +13,7 @@ var fall_state: State
 
 func _setup(actor: EntityPlayer) -> void:
 	actor.add_new_method(
-		"hero", "jump", fall_state, "to_jump",
-		[
-			{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
-		])
+		"hero", "jump", fall_state, "to_jump", [])
 
 
 func _enter(actor: EntityPlayer, previous_state: State) -> void:

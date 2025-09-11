@@ -10,13 +10,20 @@ var stats: EntityStats
 func _setup(actor: EntityPlayer) -> void:
 	# TODO: also include 'step'
 	actor.add_new_method(
-		"hero", "walk_left", self, "to_walk", [])
+		"hero", "walk_left", self, "to_walk", [
+			#{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
+			{"name": "step", "type": type_string(TYPE_INT)},
+		])
 	actor.add_new_method(
-		"hero", "walk_right", self, "to_walk", [])
+		"hero", "walk_right", self, "to_walk", [
+			#{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
+			{"name": "step", "type": type_string(TYPE_INT)},
+		])
 
 
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
 	if move_cmd and stats:
+		var args: Dictionary = ctx.get_var("args")
 		var method_name = ctx.get_var("method_name")
 		if method_name == "walk_right":
 			ctx.set_var("direction", 1.0)
@@ -24,7 +31,7 @@ func _enter(actor: EntityPlayer, previous_state: State) -> void:
 			ctx.set_var("direction", -1.0)
 		move_cmd.initialize(actor, {
 			"direction": ctx.get_var("direction", Input.get_axis("left", "right")),
-			"duration": stats.move_duration,
+			"duration": stats.move_duration * args["step"],
 			"speed": stats.speed,
 		})
 

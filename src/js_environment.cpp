@@ -10,6 +10,15 @@
 namespace godot {
 
 #define GD_FORMAT(fmt, ...) String(fmt).format(Array::make(__VA_ARGS__))
+#define DUK_THROW(fmt, ...)                                                    \
+  {                                                                            \
+    String error_msg = String(fmt).format(Array::make(__VA_ARGS__));           \
+    CharString msg = error_msg.ascii();                                        \
+    return duk_error(ctx, DUK_RET_TYPE_ERROR, msg.ptr());                      \
+  }
+#define TYPE_ERROR_STRING                                                      \
+  ("Invalid argument for '{0}()' function: argument {1} "                      \
+   "should be '{2}' but is '{3}'.")
 
 void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("add_method", "method_info"),
@@ -80,9 +89,92 @@ void JSEnvironment::_eval_pending_code(String code) {
   running = false;
 }
 
-void JSEnvironment::_method_finished(String full_path) {
-  semaphore->post();
-}
+void JSEnvironment::_method_finished(String full_path) { semaphore->post(); }
+
+Dictionary obj_to_dict(duk_context *ctx);
+// Assuming there is [... array]
+Array array_to_array(duk_context *ctx) {
+  Array array;
+
+  // enumerate
+  duk_size_t length = duk_get_length(ctx, -1);
+
+  for (duk_uarridx_t i = 0; i < length; i += 1) {
+    duk_get_prop_index(ctx, -1, i);
+
+    duk_int_t value_type = duk_get_type(ctx, -1);
+    switch (value_type) {
+    case DUK_TYPE_NULL:
+      array.append(Variant{});
+      break;
+    case DUK_TYPE_BOOLEAN:
+      array.append(static_cast<bool>(duk_get_boolean(ctx, -1)));
+      break;
+    case DUK_TYPE_NUMBER:
+      array.append(duk_get_number(ctx, -1));
+      break;
+    case DUK_TYPE_STRING:
+      array.append(String(duk_get_string(ctx, -1)));
+      break;
+    case DUK_TYPE_OBJECT:
+      if (duk_is_array(ctx, -1)) {
+        array.append(array_to_array(ctx));
+      } else {
+        array.append(obj_to_dict(ctx));
+      }
+      break;
+    default:
+      break;
+    }
+    duk_pop(ctx);
+  }
+
+  return array;
+};
+
+// Assuming there is [... object]
+Dictionary obj_to_dict(duk_context *ctx) {
+  Dictionary dict;
+
+  // enumerate
+  duk_enum(ctx, -1, 0); // -> [... obj[name] enum]
+
+  while (duk_next(ctx, -1, 1)) {
+    const char *key_c = duk_to_string(ctx, -2);
+    String key(key_c);
+
+    duk_int_t value_type = duk_get_type(ctx, -1);
+    switch (value_type) {
+    case DUK_TYPE_NULL:
+      dict[key] = Variant{};
+      break;
+    case DUK_TYPE_BOOLEAN:
+      dict[key] = static_cast<bool>(duk_get_boolean(ctx, -1));
+      break;
+    case DUK_TYPE_NUMBER:
+      dict[key] = duk_get_number(ctx, -1);
+      break;
+    case DUK_TYPE_STRING:
+      dict[key] = String(duk_get_string(ctx, -1));
+      break;
+    case DUK_TYPE_OBJECT:
+      if (duk_is_array(ctx, -1)) {
+        dict[key] = array_to_array(ctx);
+      } else {
+        dict[key] = obj_to_dict(ctx);
+      }
+      break;
+    default:
+      break;
+    }
+
+    duk_pop_2(ctx); // pop value + key
+  }
+
+  duk_pop(ctx); // pop enum
+
+  return dict;
+};
 
 void JSEnvironment::add_method(Dictionary method_info) {
   CharString object_name = ((String)method_info["object_name"]).ascii();
@@ -110,6 +202,8 @@ void JSEnvironment::add_method(Dictionary method_info) {
 
   duk_get_prop_string(ctx, -1, object_name.ptr());
   {
+    duk_int_t argc = ((Array)method_info["params"]).size();
+    print_line(GD_FORMAT("{0}({1})", String(method_name), argc));
     duk_push_c_function(
         ctx,
         [](duk_context *ctx) {
@@ -134,10 +228,111 @@ void JSEnvironment::add_method(Dictionary method_info) {
 
           Node *end_state =
               Object::cast_to<Node>((Object *)method_info["end_state"]);
-          RefCounted *context = Object::cast_to<RefCounted>(
-              (Object *)end_state->get("ctx"));
+          RefCounted *context =
+              Object::cast_to<RefCounted>((Object *)end_state->get("ctx"));
           context->call("set_var", "method_name", method_name);
 
+          Dictionary arguments{};
+          Array params = method_info["params"];
+          int expected_argc = 0;
+          for (Dictionary schema : params) {
+            expected_argc += 1;
+            if (!schema.has("default_value")) {
+              break;
+            }
+          }
+
+          auto type_to_string = [](duk_int_t type,
+                                   bool is_array = false) -> String {
+            switch (type) {
+            case DUK_TYPE_NULL:
+              return "null";
+            case DUK_TYPE_BOOLEAN:
+              return "boolean";
+            case DUK_TYPE_NUMBER:
+              return "number";
+            case DUK_TYPE_STRING:
+              return "string";
+            case DUK_TYPE_OBJECT:
+              if (is_array) {
+                return "array";
+              } else {
+                return "object";
+              }
+            default:
+              return "undefined";
+            }
+          };
+
+          // TODO: user might add argument even if the method didnt accept any
+          // arguments.
+          int argc = duk_get_top(ctx);
+          for (int i = 0; i < argc; i += 1) {
+            Dictionary schema = params[i];
+            String name = schema["name"];
+            duk_int_t type = duk_get_type(ctx, i);
+            switch (type) {
+            case DUK_TYPE_UNDEFINED:
+              if (schema.has("default_value")) {
+                arguments[name] = schema["default_value"];
+              } else {
+                DUK_THROW("Too few arguments for '{0}' call. Expected at "
+                          "least {1} but received {2}.",
+                          full_path, expected_argc, i);
+              }
+              break;
+            case DUK_TYPE_NULL:
+              if (schema["type"] == "Nil") {
+                arguments[name] = Variant{};
+              } else {
+                DUK_THROW(TYPE_ERROR_STRING, full_path, i + 1, "null",
+                          type_to_string(type));
+              }
+              break;
+            case DUK_TYPE_BOOLEAN:
+              if (schema["type"] == "bool") {
+                arguments[name] = duk_get_boolean(ctx, i);
+              } else {
+                DUK_THROW(TYPE_ERROR_STRING, full_path, i + 1, "bool",
+                          type_to_string(type));
+              }
+              break;
+            case DUK_TYPE_NUMBER:
+              if (schema["type"] == "int" || schema["type"] == "float") {
+                arguments[name] = duk_get_number(ctx, i);
+              } else {
+                DUK_THROW(TYPE_ERROR_STRING, full_path, i + 1, "number",
+                          type_to_string(type));
+              }
+              break;
+            case DUK_TYPE_STRING:
+              if (schema["type"] == "String") {
+                arguments[name] = duk_get_string(ctx, i);
+              } else {
+                DUK_THROW(TYPE_ERROR_STRING, full_path, i + 1, "string",
+                          type_to_string(type));
+              }
+              break;
+            case DUK_TYPE_OBJECT:
+              if (schema["type"] == "Array" && duk_is_array(ctx, i)) {
+                arguments[name] = array_to_array(ctx);
+              } else if (schema["type"] == "Dictionary" &&
+                         duk_is_object(ctx, i)) {
+                arguments[name] = obj_to_dict(ctx);
+              } else {
+                if (schema["type"] == "Array") {
+                  DUK_THROW(TYPE_ERROR_STRING, full_path, i + 1, "Array",
+                            type_to_string(type));
+                } else if (schema["type"] == "Dictionary") {
+                  DUK_THROW(TYPE_ERROR_STRING, full_path, i + 1, "Map",
+                            type_to_string(type));
+                }
+              }
+              break;
+            }
+          }
+
+          context->call_deferred("set_var", "args", arguments);
           end_state->call_deferred(
               "connect", "exited",
               callable_mp(self, &JSEnvironment::_method_finished)
@@ -148,7 +343,7 @@ void JSEnvironment::add_method(Dictionary method_info) {
           self->semaphore->wait();
           return 0;
         },
-        0);
+        argc);
     duk_push_string(ctx, method_name.ptr());
     duk_put_prop_string(ctx, -2, "__name");
     duk_put_prop_string(ctx, -2, method_name.ptr());
