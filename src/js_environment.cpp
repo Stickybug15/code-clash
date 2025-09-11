@@ -3,9 +3,13 @@
 #include "duktape.h"
 #include "godot_cpp/classes/object.hpp"
 #include "godot_cpp/classes/ref_counted.hpp"
+#include "godot_cpp/core/math.hpp"
 #include "godot_cpp/core/print_string.hpp"
 #include "godot_cpp/variant/callable_method_pointer.hpp"
 #include "godot_cpp/variant/char_string.hpp"
+#include <array>
+#include <cstddef>
+#include <functional>
 
 namespace godot {
 
@@ -303,7 +307,7 @@ duk_ret_t c_function(duk_context *ctx) {
   end_state->call_deferred(
       "connect", "exited",
       callable_mp(self, &JSEnvironment::_method_finished).bind(full_path),
-      ConnectFlags::CONNECT_ONE_SHOT);
+      Object::ConnectFlags::CONNECT_ONE_SHOT);
   end_state->call_deferred("transition_to", dispatch_name);
 
   self->semaphore->wait();
