@@ -19,9 +19,6 @@ func _ready() -> void:
 	print(type_string(TYPE_DICTIONARY))
 	print(type_string(TYPE_STRING))
 
-func _method(v: int) -> void:
-	pass
-
 
 func add_new_method(object_name: String, method_name: String, end_state: State, dispatch_name: String, param_schema: Array) -> void:
 	var signature: String = "{0}.{1}".format([object_name, method_name])
