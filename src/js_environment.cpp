@@ -40,21 +40,12 @@ void duk_print_error(duk_context *ctx) {
   const char *stack = duk_safe_to_string(ctx, -1);
   duk_pop(ctx);
 
-  print_line("error = {\n"
-             "  name: {0}\n"
-             "  message: {1}\n"
-             "  fileName: {2}\n"
-             "  lineNumber: {3}\n"
-             "  stack: {4}\n"
-             "}\n",
-             Array::make(name, message, fileName, lineNumber, stack));
   print_error(
       GD_FORMAT("{0}:{1}: {2}: {3}", fileName, lineNumber, name, message));
   print_error(GD_FORMAT("{0}", stack));
 }
 
 void JSEnvironment::eval(String code) {
-  print_line("code: ", code);
   CharString code_cs = code.ascii();
 
   duk_push_string(ctx, code_cs.ptr());
@@ -90,7 +81,6 @@ void JSEnvironment::_eval_pending_code(String code) {
 }
 
 void JSEnvironment::_method_finished(String full_path) {
-  print_line(GD_FORMAT("finished: {0}", full_path));
   semaphore->post();
 }
 
@@ -101,7 +91,6 @@ void JSEnvironment::add_method(Dictionary method_info) {
   String full_path =
       GD_FORMAT("{0}.{1}", String(object_name), String(method_name));
 
-  print_line("method_info: ", method_info);
   duk_push_global_object(ctx);
 
   duk_push_pointer(ctx, this);
@@ -156,7 +145,6 @@ void JSEnvironment::add_method(Dictionary method_info) {
               ConnectFlags::CONNECT_ONE_SHOT);
           end_state->call_deferred("dispatch", dispatch_name);
 
-          print_line(GD_FORMAT("start: {0}", full_path, blackboard));
           self->semaphore->wait();
           return 0;
         },

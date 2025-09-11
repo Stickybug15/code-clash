@@ -20,7 +20,6 @@ func _enter() -> void:
 
 	if move_cmd and stats:
 		var method_name = blackboard.get_var("method_name")
-		print(name, "from _enter: ", method_name)
 		if method_name == "walk_right":
 			blackboard.set_var("direction", 1.0)
 		elif method_name == "walk_left":
