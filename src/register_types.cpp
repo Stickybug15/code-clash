@@ -14,7 +14,6 @@ void initialize_module(ModuleInitializationLevel p_level) {
     return;
   }
 
-  GDREGISTER_RUNTIME_CLASS(WrenEnvironment);
   GDREGISTER_RUNTIME_CLASS(JSEnvironment);
 }
 
