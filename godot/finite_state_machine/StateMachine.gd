@@ -13,20 +13,25 @@ var states: Dictionary
 @onready
 var state: State
 
+## The main actor this state machine controls. Defaults to parent node if not set.
 @export
 var actor: Node = null
+
+## Shared context passed to all states for storing and accessing data.
 @onready
 var ctx: Context = Context.new()
 
 
+## Initializes the state machine by collecting all child State nodes,
+## connecting signals, assigning the actor, and entering the initial state.
 func _ready() -> void:
 	if actor == null:
-		actor = owner
+		actor = get_parent()
 
 	for state_node: State in find_children("*", "State"):
-		if state_node.state_name.is_empty():
-			state_node.state_name = name
-		states[state_node.state_name] = state_node
+		if state_node.event_name.is_empty():
+			state_node.event_name = name
+		states[state_node.event_name] = state_node
 		state_node.ctx = ctx
 		state_node.finished.connect(_transition_to_next_state)
 		state_node._setup(actor)
@@ -47,6 +52,9 @@ func _ready() -> void:
 	state.entered.emit()
 
 
+## Transitions from the current state to the target state
+## using the provided event name. Handles exit/enter calls
+## and emits the appropriate signals.
 func _transition_to_next_state(event_name: String) -> void:
 	if not states.has(event_name):
 		printerr(actor.name + ": Trying to transition to state '" + event_name + "' but it does not exist.")
@@ -63,17 +71,21 @@ func _transition_to_next_state(event_name: String) -> void:
 	state.entered.emit()
 
 
+## Updates the current state every frame (non-physics).
 func _process(delta: float) -> void:
 	state._update(actor, delta)
 
 
+## Updates the current state every physics frame.
 func _physics_process(delta: float) -> void:
 	state._physics_update(actor, delta)
 
 
+## Forwards unhandled input events to the current state.
 func _unhandled_input(event: InputEvent) -> void:
 	state._handle_input(actor, event)
 
 
+## Forwards unhandled key input events to the current state.
 func _unhandled_key_input(event: InputEvent) -> void:
 	state._handle_key_input(actor, event)

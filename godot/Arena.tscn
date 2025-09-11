@@ -121,15 +121,14 @@ metadata/_custom_type_script = "uid://cg5aabn3qjw7m"
 
 [node name="JSEnvironment" type="JSEnvironment" parent="Entities/Player"]
 
-[node name="StateMachine" type="Node" parent="Entities/Player" node_paths=PackedStringArray("actor")]
+[node name="StateMachine" type="Node" parent="Entities/Player"]
 script = ExtResource("11_25y8y")
-actor = NodePath("..")
 metadata/_custom_type_script = "uid://ddaxc5vx0e5ik"
 
 [node name="Idle" type="Node" parent="Entities/Player/StateMachine"]
 script = ExtResource("12_uwghf")
 stats = ExtResource("8_7bxlx")
-state_name = &"to_idle"
+event_name = &"to_idle"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
 [node name="Fall" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("fall_cmd", "move_cmd")]
@@ -137,14 +136,14 @@ script = ExtResource("13_rlytp")
 fall_cmd = NodePath("../../Commands/Fall")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("8_7bxlx")
-state_name = &"to_fall"
+event_name = &"to_fall"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
 [node name="Walk" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("move_cmd")]
 script = ExtResource("14_m8h0s")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("8_7bxlx")
-state_name = &"to_walk"
+event_name = &"to_walk"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
 [node name="Jump" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("jump_cmd", "move_cmd", "fall_state")]
@@ -153,7 +152,7 @@ jump_cmd = NodePath("../../Commands/Jump")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("8_7bxlx")
 fall_state = NodePath("../Fall")
-state_name = &"to_jump"
+event_name = &"to_jump"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
 [connection signal="pressed" from="UI/Editor/Run" to="Entities/Player" method="_on_run_pressed"]
