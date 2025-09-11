@@ -1,15 +1,16 @@
-[gd_scene load_steps=17 format=3 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=15 format=3 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/entities/Entities.gd" id="2_krip0"]
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
 [ext_resource type="Script" uid="uid://38r2fc733xaa" path="res://godot/commands/jump_command.gd" id="4_rylah"]
-[ext_resource type="Script" uid="uid://j0l2ft7w7ssf" path="res://godot/states/Idle.gd" id="5_tieok"]
-[ext_resource type="Script" uid="uid://tvhgc8k6x21k" path="res://godot/states/Walk.gd" id="7_a2m73"]
 [ext_resource type="Script" uid="uid://cg5aabn3qjw7m" path="res://godot/commands/move_command.gd" id="7_owxvn"]
-[ext_resource type="Script" uid="uid://bqj4su6yw00je" path="res://godot/states/Fall.gd" id="7_rsqww"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
-[ext_resource type="Script" uid="uid://b3pnl04t1yeyd" path="res://godot/states/Jump.gd" id="8_t8e0a"]
 [ext_resource type="Script" uid="uid://cvscfobqor8e6" path="res://godot/commands/fall_command.gd" id="10_ojwt1"]
+[ext_resource type="Script" uid="uid://ddaxc5vx0e5ik" path="res://godot/finite_state_machine/StateMachine.gd" id="11_25y8y"]
+[ext_resource type="Script" uid="uid://d2lraa1bilkhg" path="res://godot/states_fsm/Idle.gd" id="12_uwghf"]
+[ext_resource type="Script" uid="uid://c7lax83f3fjct" path="res://godot/states_fsm/Fall.gd" id="13_rlytp"]
+[ext_resource type="Script" uid="uid://37obnauashog" path="res://godot/states_fsm/Walk.gd" id="14_m8h0s"]
+[ext_resource type="Script" uid="uid://btcowqf1a21t3" path="res://godot/states_fsm/Jump.gd" id="15_sghct"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_btrx0"]
 size = Vector2(1152, 40)
@@ -34,25 +35,6 @@ func _on_viewport_size_changed() -> void:
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0pclf"]
 size = Vector2(40, 40)
-
-[sub_resource type="GDScript" id="GDScript_a2m73"]
-script/source = "extends LimboHSM
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	if get_child_count() > 0:
-		initial_state = get_child(0)
-		for state in get_children():
-			if state is LimboState:
-				add_transition(ANYSTATE, state, \"to_\" + str(state.name.to_snake_case()))
-"
-
-[sub_resource type="GDScript" id="GDScript_4e0m0"]
-
-[sub_resource type="Resource" id="Resource_m3ujl"]
-script = SubResource("GDScript_4e0m0")
-metadata/_custom_type_script = "uid://dx2ngltys2237"
 
 [node name="Node2D" type="Node2D"]
 
@@ -101,11 +83,10 @@ text = "Run"
 [node name="Entities" type="Node" parent="."]
 script = ExtResource("2_krip0")
 
-[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "hsm", "js_env")]
+[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "js_env")]
 position = Vector2(0, -60)
 script = ExtResource("3_i14ea")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
-hsm = NodePath("LimboHSM")
 js_env = NodePath("JSEnvironment")
 
 [node name="ColorRect" type="ColorRect" parent="Entities/Player"]
@@ -138,31 +119,41 @@ metadata/_custom_type_script = "uid://cvscfobqor8e6"
 script = ExtResource("7_owxvn")
 metadata/_custom_type_script = "uid://cg5aabn3qjw7m"
 
-[node name="LimboHSM" type="LimboHSM" parent="Entities/Player"]
-script = SubResource("GDScript_a2m73")
+[node name="JSEnvironment" type="JSEnvironment" parent="Entities/Player"]
 
-[node name="Idle" type="LimboState" parent="Entities/Player/LimboHSM"]
-script = ExtResource("5_tieok")
-stats = SubResource("Resource_m3ujl")
+[node name="StateMachine" type="Node" parent="Entities/Player" node_paths=PackedStringArray("actor")]
+script = ExtResource("11_25y8y")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://ddaxc5vx0e5ik"
 
-[node name="Fall" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("fall_cmd", "move_cmd")]
-script = ExtResource("7_rsqww")
+[node name="Idle" type="Node" parent="Entities/Player/StateMachine"]
+script = ExtResource("12_uwghf")
+stats = ExtResource("8_7bxlx")
+state_name = &"to_idle"
+metadata/_custom_type_script = "uid://dwlfuxn0shdts"
+
+[node name="Fall" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("fall_cmd", "move_cmd")]
+script = ExtResource("13_rlytp")
 fall_cmd = NodePath("../../Commands/Fall")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("8_7bxlx")
+state_name = &"to_fall"
+metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
-[node name="Walk" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("move_cmd")]
-script = ExtResource("7_a2m73")
+[node name="Walk" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("move_cmd")]
+script = ExtResource("14_m8h0s")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("8_7bxlx")
+state_name = &"to_walk"
+metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
-[node name="Jump" type="LimboState" parent="Entities/Player/LimboHSM" node_paths=PackedStringArray("jump_cmd", "move_cmd", "fall_state")]
-script = ExtResource("8_t8e0a")
+[node name="Jump" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("jump_cmd", "move_cmd", "fall_state")]
+script = ExtResource("15_sghct")
 jump_cmd = NodePath("../../Commands/Jump")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("8_7bxlx")
 fall_state = NodePath("../Fall")
-
-[node name="JSEnvironment" type="JSEnvironment" parent="Entities/Player"]
+state_name = &"to_jump"
+metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
 [connection signal="pressed" from="UI/Editor/Run" to="Entities/Player" method="_on_run_pressed"]

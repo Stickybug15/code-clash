@@ -134,16 +134,16 @@ void JSEnvironment::add_method(Dictionary method_info) {
 
           Node *end_state =
               Object::cast_to<Node>((Object *)method_info["end_state"]);
-          RefCounted *blackboard = Object::cast_to<RefCounted>(
-              (Object *)end_state->get("blackboard"));
-          blackboard->call("set_var", "method_name", method_name);
+          RefCounted *context = Object::cast_to<RefCounted>(
+              (Object *)end_state->get("ctx"));
+          context->call("set_var", "method_name", method_name);
 
           end_state->call_deferred(
               "connect", "exited",
               callable_mp(self, &JSEnvironment::_method_finished)
                   .bind(full_path),
               ConnectFlags::CONNECT_ONE_SHOT);
-          end_state->call_deferred("dispatch", dispatch_name);
+          end_state->call_deferred("transition_to", dispatch_name);
 
           self->semaphore->wait();
           return 0;

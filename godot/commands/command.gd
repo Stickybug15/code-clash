@@ -3,16 +3,16 @@ extends Node
 
 
 func initialize(actor, msg: Dictionary = {}) -> void:
-  pass
+	pass
 
 
 func execute(actor, delta: float):
-  pass
+	pass
 
 
 func complete(actor) -> void:
-  pass
+	pass
 
 
 func is_finished(actor) -> bool:
-  return false
+	return false

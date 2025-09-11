@@ -1,7 +1,6 @@
 #include "register_types.h"
 
 #include "js_environment.h"
-#include "wren_environment.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/defs.hpp>

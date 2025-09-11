@@ -4,8 +4,6 @@ extends Entity
 @export
 var code_edit: TextEdit
 @export
-var hsm: LimboHSM
-@export
 var js_env: JSEnvironment
 
 
@@ -17,7 +15,7 @@ var method_params: Dictionary = {}
 var method_name: String
 
 
-func add_new_method(object_name: String, method_name: String, end_state: LimboState, dispatch_name: String, param_schema: Array) -> void:
+func add_new_method(object_name: String, method_name: String, end_state: State, dispatch_name: String, param_schema: Array) -> void:
 	var signature: String = "{0}.{1}".format([object_name, method_name])
 	# TODO: add 'description'
 	_method_db[signature] = {
@@ -27,11 +25,12 @@ func add_new_method(object_name: String, method_name: String, end_state: LimboSt
 		"end_state": end_state,
 		"params": param_schema,
 	}
+	print(_method_db[signature])
 
 
 func _ready() -> void:
-	hsm.initialize(self)
-	hsm.set_active(true)
+	var b: Blackboard = Blackboard.new()
+
 	var code: String = parse_methods(_method_db)
 	var class_names: Array = []
 	for method_info in _method_db.values():
