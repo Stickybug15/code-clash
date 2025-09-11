@@ -8,11 +8,6 @@ var js_env: JSEnvironment
 
 
 var _method_db: Dictionary = {}
-var _invoke_pending: bool = false
-
-var _method: Callable
-var method_params: Dictionary = {}
-var method_name: String
 
 
 func add_new_method(object_name: String, method_name: String, end_state: State, dispatch_name: String, param_schema: Array) -> void:
