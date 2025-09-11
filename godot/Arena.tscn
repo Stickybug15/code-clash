@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://bmkjgidroq0ek"]
 
-[ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/Entities.gd" id="2_krip0"]
-[ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/EnttPlayer.gd" id="3_i14ea"]
+[ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/entities/Entities.gd" id="2_krip0"]
+[ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
 [ext_resource type="Script" uid="uid://38r2fc733xaa" path="res://godot/commands/jump_command.gd" id="4_rylah"]
 [ext_resource type="Script" uid="uid://j0l2ft7w7ssf" path="res://godot/states/Idle.gd" id="5_tieok"]
 [ext_resource type="Script" uid="uid://tvhgc8k6x21k" path="res://godot/states/Walk.gd" id="7_a2m73"]

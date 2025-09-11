@@ -1,4 +1,5 @@
-extends Entt
+class_name EntityPlayer
+extends Entity
 
 @export
 var code_edit: TextEdit

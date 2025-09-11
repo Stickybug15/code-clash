@@ -1,4 +1,4 @@
-class_name Entt
+class_name Entity
 extends CharacterBody2D
 
 
