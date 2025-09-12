@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=16 format=3 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/entities/Entities.gd" id="2_krip0"]
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
 [ext_resource type="Script" uid="uid://38r2fc733xaa" path="res://godot/commands/jump_command.gd" id="4_rylah"]
+[ext_resource type="Script" uid="uid://di16n7fv27a8" path="res://godot/commands/arc_move_command.gd" id="6_uwghf"]
 [ext_resource type="Script" uid="uid://cg5aabn3qjw7m" path="res://godot/commands/move_command.gd" id="7_owxvn"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
 [ext_resource type="Script" uid="uid://cvscfobqor8e6" path="res://godot/commands/fall_command.gd" id="10_ojwt1"]
@@ -118,6 +119,10 @@ metadata/_custom_type_script = "uid://cvscfobqor8e6"
 script = ExtResource("7_owxvn")
 metadata/_custom_type_script = "uid://cg5aabn3qjw7m"
 
+[node name="ArcMove" type="Node" parent="Entities/Player/Commands"]
+script = ExtResource("6_uwghf")
+metadata/_custom_type_script = "uid://di16n7fv27a8"
+
 [node name="StateMachine" type="Node" parent="Entities/Player"]
 script = ExtResource("11_25y8y")
 metadata/_custom_type_script = "uid://ddaxc5vx0e5ik"
@@ -143,10 +148,11 @@ stats = ExtResource("8_7bxlx")
 event_name = &"to_walk"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
-[node name="Jump" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("jump_cmd", "move_cmd", "fall_state")]
+[node name="Jump" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("jump_cmd", "move_cmd", "arc_move_cmd", "fall_state")]
 script = ExtResource("15_sghct")
 jump_cmd = NodePath("../../Commands/Jump")
 move_cmd = NodePath("../../Commands/Move")
+arc_move_cmd = NodePath("../../Commands/ArcMove")
 stats = ExtResource("8_7bxlx")
 fall_state = NodePath("../Fall")
 event_name = &"to_jump"
