@@ -22,6 +22,7 @@ func _setup(actor: EntityPlayer) -> void:
 		])
 
 # TODO: running animation always reset, in keyboard input.
+# TODO: combining user script and keyboard input can lead to unexpected result.
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
 	if move_cmd and stats:
 		var args: Dictionary = ctx.get_var("args")
