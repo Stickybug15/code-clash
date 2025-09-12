@@ -1,3 +1,4 @@
+# is this really walk?
 extends State
 
 
@@ -5,6 +6,8 @@ extends State
 var move_cmd: MoveCommand
 @export
 var stats: EntityStats
+@export
+var sprite: AnimatedSprite2D
 
 
 func _setup(actor: EntityPlayer) -> void:
@@ -18,15 +21,20 @@ func _setup(actor: EntityPlayer) -> void:
 			{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
 		])
 
-
+# TODO: running animation always reset, in keyboard input.
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
 	if move_cmd and stats:
 		var args: Dictionary = ctx.get_var("args")
 		var method_name = ctx.get_var("method_name")
+
+		sprite.play(&"run")
 		if method_name == "walk_right":
 			ctx.set_var("direction", 1.0)
+			sprite.flip_h = false
 		elif method_name == "walk_left":
 			ctx.set_var("direction", -1.0)
+			sprite.flip_h = true
+
 		move_cmd.initialize(actor, {
 			"direction": ctx.get_var("direction", Input.get_axis("left", "right")),
 			"duration": stats.move_duration * args["step"],

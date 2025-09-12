@@ -43,18 +43,15 @@ func execute(actor: CharacterBody2D, delta: float):
 		# Decelerate along direction
 		actor.velocity -= direction * acceleration_up * delta
 		if actor.velocity.dot(direction) <= 0.0:
-			actor.velocity = Vector2.ZERO
+			going_up = false
 	else:
 		# Accelerate opposite direction
-		actor.velocity += -direction * acceleration_down * delta
-		# Complete when velocity along direction flips again
-		if actor.velocity.dot(-direction) <= 0.0:
-			actor.velocity = Vector2.ZERO
+		actor.velocity -= direction * acceleration_down * delta
 
 
 func complete(actor: CharacterBody2D) -> void:
 	actor.velocity = Vector2.ZERO
-
+	done = true
 
 func is_finished(actor: CharacterBody2D) -> bool:
-	return is_zero_approx(actor.velocity.length())
+	return actor.is_on_floor() and is_zero_approx(actor.velocity.length())

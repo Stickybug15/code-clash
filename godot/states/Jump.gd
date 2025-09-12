@@ -11,13 +11,15 @@ var arc_move_cmd: ArcMoveCommand
 var stats: EntityStats
 @export
 var fall_state: State
+@export
+var sprite: AnimatedSprite2D
 
 var upward: bool = false
 
 
 func _setup(actor: EntityPlayer) -> void:
 	actor.env.add_new_method(
-		"hero", "jump", fall_state, "to_jump", [])
+		"hero", "jump", self, "to_jump", [])
 
 
 func _enter(actor: EntityPlayer, previous_state: State) -> void:
@@ -29,12 +31,14 @@ func _enter(actor: EntityPlayer, previous_state: State) -> void:
 			"direction": Vector2.UP,
 		})
 		upward = true
+		sprite.play("jump")
 
 
 func _update(actor: EntityPlayer, delta: float) -> void:
-	print(actor.velocity)
 	if arc_move_cmd:
 		arc_move_cmd.execute(actor, delta)
+	if not arc_move_cmd.going_up and sprite.animation == "jump":
+		sprite.play("fall")
 	if arc_move_cmd.is_finished(actor):
 		transition_to("to_idle")
 

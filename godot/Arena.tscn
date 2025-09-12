@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=17 format=3 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/entities/Entities.gd" id="2_krip0"]
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
+[ext_resource type="PackedScene" uid="uid://qcrjjeqgf122" path="res://godot/scenes/RedHood.tscn" id="3_rlytp"]
 [ext_resource type="Script" uid="uid://38r2fc733xaa" path="res://godot/commands/jump_command.gd" id="4_rylah"]
 [ext_resource type="Script" uid="uid://di16n7fv27a8" path="res://godot/commands/arc_move_command.gd" id="6_uwghf"]
 [ext_resource type="Script" uid="uid://cg5aabn3qjw7m" path="res://godot/commands/move_command.gd" id="7_owxvn"]
@@ -34,8 +35,8 @@ func _on_viewport_size_changed() -> void:
 	position.y = ground.position.y - screen_size.y * 0.4
 "
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0pclf"]
-size = Vector2(40, 40)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rlytp"]
+size = Vector2(18.5, 37)
 
 [node name="Node2D" type="Node2D"]
 
@@ -74,8 +75,8 @@ offset_bottom = 40.0
 custom_minimum_size = Vector2(600, 400)
 layout_mode = 2
 text = "hero.jump()
-hero.walk_left()
-hero.walk_right()"
+hero.walk_left(5)
+hero.walk_right(5)"
 
 [node name="Run" type="Button" parent="UI/Editor"]
 layout_mode = 2
@@ -86,24 +87,17 @@ script = ExtResource("2_krip0")
 
 [node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit")]
 position = Vector2(0, -60)
+scale = Vector2(2, 2)
 script = ExtResource("3_i14ea")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
 
-[node name="ColorRect" type="ColorRect" parent="Entities/Player"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="RedHood" parent="Entities/Player" instance=ExtResource("3_rlytp")]
+frame = 8
+frame_progress = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Player"]
-shape = SubResource("RectangleShape2D_0pclf")
+position = Vector2(-2.25, 0.5)
+shape = SubResource("RectangleShape2D_rlytp")
 
 [node name="Commands" type="Node" parent="Entities/Player"]
 
@@ -127,9 +121,10 @@ metadata/_custom_type_script = "uid://di16n7fv27a8"
 script = ExtResource("11_25y8y")
 metadata/_custom_type_script = "uid://ddaxc5vx0e5ik"
 
-[node name="Idle" type="Node" parent="Entities/Player/StateMachine"]
+[node name="Idle" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("sprite")]
 script = ExtResource("12_uwghf")
 stats = ExtResource("8_7bxlx")
+sprite = NodePath("../../RedHood")
 event_name = &"to_idle"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
@@ -141,20 +136,22 @@ stats = ExtResource("8_7bxlx")
 event_name = &"to_fall"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
-[node name="Walk" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("move_cmd")]
+[node name="Walk" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("move_cmd", "sprite")]
 script = ExtResource("14_m8h0s")
 move_cmd = NodePath("../../Commands/Move")
 stats = ExtResource("8_7bxlx")
+sprite = NodePath("../../RedHood")
 event_name = &"to_walk"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
-[node name="Jump" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("jump_cmd", "move_cmd", "arc_move_cmd", "fall_state")]
+[node name="Jump" type="Node" parent="Entities/Player/StateMachine" node_paths=PackedStringArray("jump_cmd", "move_cmd", "arc_move_cmd", "fall_state", "sprite")]
 script = ExtResource("15_sghct")
 jump_cmd = NodePath("../../Commands/Jump")
 move_cmd = NodePath("../../Commands/Move")
 arc_move_cmd = NodePath("../../Commands/ArcMove")
 stats = ExtResource("8_7bxlx")
 fall_state = NodePath("../Fall")
+sprite = NodePath("../../RedHood")
 event_name = &"to_jump"
 metadata/_custom_type_script = "uid://dwlfuxn0shdts"
 
