@@ -8,8 +8,9 @@ download() {
   local out=$1
   local url=$2
   echo "downloading $out from $url"
-  mkdir -p $(dirname $out)
-  if ! curl -L -C - -f -o $out $url; then
+  mkdir -p "$cache_dir"
+  echo curl -L -C - -f -o "$out" "$url"
+  if [[ ! $(curl -L -C - -f -o "$out" "$url") ]]; then
     echo "error: failed to download $zipfile"
     exit 1
   fi
@@ -21,7 +22,7 @@ init_addons() {
   local zipfile="$cache_dir/$addon"
   if [[ ! -d "$PWD/addons/limboai" ]]; then
     if [[ ! -f "$zipfile" ]]; then
-      download $zipfile $url
+      download "$zipfile" "$url"
     fi
     unzip -n "$zipfile" 'addons/**/*'
   fi
@@ -31,7 +32,7 @@ init_justfile() {
   local url="https://github.com/casey/just/releases/download/1.42.4/just-1.42.4-x86_64-pc-windows-msvc.zip"
   local zipfile="$cache_dir/$(basename $url)"
   if [[ ! -f "$zipfile" ]]; then
-    download $zipfile $url
+    download "$zipfile" "$url"
   fi
   unzip -n "$zipfile" 'just.exe' -d "$cache_dir"
 }
@@ -40,7 +41,7 @@ init_godot() {
   local url="https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_win64.exe.zip"
   local zipfile="$cache_dir/$(basename $url)"
   if [[ ! -f "$zipfile" ]]; then
-    download $zipfile $url
+    download "$zipfile" "$url"
   fi
   unzip -n "$zipfile" -d "$cache_dir"
 }
@@ -53,7 +54,7 @@ init_scons() {
   local url="https://www.python.org/ftp/python/3.13.7/python-3.13.7-amd64.exe"
   local file="$cache_dir/$(basename $url)"
   if [[ ! -f "$file" ]]; then
-    download $file $url
+    download "$file" "$url"
   fi
 
   local python_bin="python"
@@ -80,7 +81,7 @@ init_compiler() {
   local url="https://github.com/msys2/msys2-installer/releases/download/2025-06-22/msys2-x86_64-20250622.exe"
   local file="$cache_dir/$(basename $url)"
   if [[ ! -f "$file" ]]; then
-    download $file $url
+    download "$file" "$url"
   fi
   if [[ ! -d '/c/msys64' ]]; then
     $file in --confirm-command --accept-messages --root 'C:/msys64'
