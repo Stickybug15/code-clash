@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://coa2mfgcnskhv"]
 
-[ext_resource type="Script" uid="uid://060h6c2u0284" path="res://godot/scripts/logs_menu.gd" id="1_xd5lu"]
-[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_mh5s7"]
-[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_liu7y"]
+[ext_resource type="Script" uid="uid://060h6c2u0284" path="res://godot/scripts/logs_menu.gd" id="1_kih0d"]
+[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_ld8to"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_ke7n1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkq16"]
 
@@ -36,12 +36,12 @@ offset_top = 3.0
 offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_xd5lu")
+script = ExtResource("1_kih0d")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(577, 322.5)
 scale = Vector2(3.61006, 4.0566)
-texture = ExtResource("2_mh5s7")
+texture = ExtResource("2_ld8to")
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 
@@ -55,7 +55,7 @@ offset_left = 73.0
 offset_top = 503.0
 offset_right = 300.0
 offset_bottom = 564.0
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("3_ke7n1")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_jkq16")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
@@ -72,7 +72,7 @@ offset_left = 478.0
 offset_top = 499.0
 offset_right = 705.0
 offset_bottom = 560.0
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("3_ke7n1")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fgv7v")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
@@ -89,7 +89,7 @@ offset_left = 840.0
 offset_top = 500.0
 offset_right = 1067.0
 offset_bottom = 561.0
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("3_ke7n1")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
@@ -116,7 +116,7 @@ theme_override_constants/shadow_offset_x = 10
 theme_override_constants/shadow_offset_y = 3
 theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 9
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("3_ke7n1")
 theme_override_font_sizes/font_size = 116
 text = "CODE CLASH"
 horizontal_alignment = 1
