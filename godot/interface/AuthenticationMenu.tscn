@@ -122,7 +122,6 @@ layout_mode = 2
 text = "Back"
 
 [node name="AccessModeMenu" type="VBoxContainer" parent="."]
-visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="AccessModeMenu"]
@@ -151,6 +150,7 @@ text = "Quit"
 layout_mode = 2
 
 [node name="MainMenu" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MainMenu"]
