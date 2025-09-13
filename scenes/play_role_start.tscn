@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5ldgx3ugik3d"]
+
+[ext_resource type="Texture2D" uid="uid://cqd1d2efgvkst" path="res://assets/player bg role.PNG" id="1_ev4sg"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="2_ccs2q"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_58tb1"]
+texture = ExtResource("1_ev4sg")
+modulate_color = Color(0.835294, 0.835294, 0.835294, 0.803922)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fhrd0"]
+bg_color = Color(0, 0, 0, 0.352941)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="PlayRoleStart" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg_char" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -9.0
+offset_right = -4.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_58tb1")
+
+[node name="selection_label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 293.0
+offset_top = 55.0
+offset_right = 808.0
+offset_bottom = 189.0
+theme_override_fonts/font = ExtResource("2_ccs2q")
+theme_override_font_sizes/font_size = 60
+text = "select your Character"
+horizontal_alignment = 1
+
+[node name="fillbg" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 136.0
+offset_right = 1042.0
+offset_bottom = 582.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_fhrd0")

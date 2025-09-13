@@ -1,0 +1,206 @@
+[gd_scene load_steps=23 format=3 uid="uid://bk7f11a367b30"]
+
+[ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scripts/game_interface.gd" id="1_uvkbs"]
+[ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/game_bg.jpg" id="2_kf2fp"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_r1vw7"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ar3a4"]
+texture = ExtResource("2_kf2fp")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ar3a4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p42tn"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g21cx"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qkfqt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5lt4e"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yayck"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_42238"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t1bx0"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6spp"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqpji"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtesu"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dhjcj"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ntcm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boqgs"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l55gl"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0vlbu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38656"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6sso"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[node name="GameInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uvkbs")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_ar3a4")
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TouchScreenButton"]
+layout_direction = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 317.0
+offset_top = 195.5
+offset_right = 831.0
+offset_bottom = 565.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="Play_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ar3a4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g21cx")
+text = "Play"
+
+[node name="Custom_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_qkfqt")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5lt4e")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_yayck")
+text = "Customization"
+
+[node name="Progress_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_42238")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t1bx0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q6spp")
+text = "Progress"
+
+[node name="LeadB_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tqpji")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mtesu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dhjcj")
+text = "Leaderboard"
+
+[node name="Marketplace_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7ntcm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_boqgs")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l55gl")
+text = "Marketplace"
+
+[node name="Quit_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0vlbu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
+text = "Quit Game"
+
+[node name="tittle" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.482
+anchor_top = 0.218
+anchor_right = 0.482
+anchor_bottom = 0.218
+offset_left = -249.264
+offset_top = -80.264
+offset_right = 291.736
+offset_bottom = 56.736
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 17
+theme_override_constants/paragraph_spacing = 14
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 64
+text = "CODE CLASH"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+max_lines_visible = 9
+
+[connection signal="pressed" from="TouchScreenButton/VBoxContainer/Play_Button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="TouchScreenButton/VBoxContainer/Quit_Button" to="." method="_on_quit_button_pressed"]

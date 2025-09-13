@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://bpeo4x3yithsw"]
+
+[ext_resource type="Script" uid="uid://8m0w6og7bx4m" path="res://godot/scripts/player_name.gd" id="1_e5ipl"]
+[ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/game_bg.jpg" id="2_2ap2d"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_4dbad"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vre3d"]
+texture = ExtResource("2_2ap2d")
+modulate_color = Color(0.31802, 0.31802, 0.31802, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u6vhl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ud8ud"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 5
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e076r"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="PlayerName" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e5ipl")
+
+[node name="BG" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_vre3d")
+
+[node name="title" type="Label" parent="BG"]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 88.0
+offset_right = 857.0
+offset_bottom = 295.0
+theme_override_fonts/font = ExtResource("3_4dbad")
+theme_override_font_sizes/font_size = 40
+text = "Enter a PlayerName:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="BG"]
+
+[node name="Player_name" type="LineEdit" parent="BG/TouchScreenButton"]
+offset_left = 353.0
+offset_top = 275.0
+offset_right = 802.0
+offset_bottom = 405.0
+theme_override_font_sizes/font_size = 31
+placeholder_text = "Enter a Name"
+alignment = 1
+max_length = 6
+
+[node name="start_button" type="Button" parent="BG/TouchScreenButton/Player_name"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.507
+anchor_top = 1.608
+anchor_right = 0.507
+anchor_bottom = 1.608
+offset_left = -120.643
+offset_top = -36.04
+offset_right = 120.357
+offset_bottom = 35.96
+theme_override_fonts/font = ExtResource("3_4dbad")
+theme_override_font_sizes/font_size = 38
+theme_override_styles/focus = SubResource("StyleBoxEmpty_u6vhl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ud8ud")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e076r")
+text = "start"
+
+[connection signal="pressed" from="BG/TouchScreenButton/Player_name/start_button" to="." method="_on_start_button_pressed"]

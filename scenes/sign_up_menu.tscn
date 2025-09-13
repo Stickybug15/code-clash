@@ -1,0 +1,166 @@
+[gd_scene load_steps=13 format=3 uid="uid://4ypkfrgr5it1"]
+
+[ext_resource type="Script" uid="uid://byixvjl1a40at" path="res://godot/scripts/sign_up_menu.gd" id="1_stwcb"]
+[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_hmgtq"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_pd2u5"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mg2vw"]
+texture = ExtResource("2_hmgtq")
+modulate_color = Color(1, 1, 1, 0.486275)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_imqrx"]
+bg_color = Color(0, 0, 0, 0.392157)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jv7un"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snie1"]
+bg_color = Color(0.376471, 0.556863, 0.960784, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m33jf"]
+bg_color = Color(0.000113828, 0.000113828, 0.000113828, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_snie1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m33jf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtnxt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5t5cy"]
+
+[node name="SignUpMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_stwcb")
+
+[node name="BG" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_mg2vw")
+
+[node name="fillbg" type="Panel" parent="BG"]
+layout_mode = 0
+offset_left = 265.0
+offset_top = 47.0
+offset_right = 792.0
+offset_bottom = 534.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_imqrx")
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="BG"]
+
+[node name="email" type="Label" parent="BG/TouchScreenButton"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.463
+anchor_right = 0.5
+anchor_bottom = 0.463
+offset_left = 311.0
+offset_top = 293.0
+offset_right = 386.0
+offset_bottom = 328.0
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_font_sizes/font_size = 34
+text = "email:"
+
+[node name="user" type="LineEdit" parent="BG/TouchScreenButton/email"]
+layout_mode = 0
+offset_left = 92.0
+offset_right = 425.0
+offset_bottom = 31.0
+placeholder_text = "enter a email"
+virtual_keyboard_type = 5
+
+[node name="password" type="Label" parent="BG/TouchScreenButton"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.681
+anchor_right = 0.5
+anchor_bottom = 0.681
+offset_left = 296.0
+offset_top = 375.0
+offset_right = 405.0
+offset_bottom = 406.0
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_font_sizes/font_size = 24
+text = "password:"
+
+[node name="pass" type="LineEdit" parent="BG/TouchScreenButton/password"]
+layout_mode = 0
+offset_left = 106.0
+offset_top = -2.0
+offset_right = 439.0
+offset_bottom = 29.0
+placeholder_text = "enter a password"
+max_length = 9
+virtual_keyboard_type = 6
+clear_button_enabled = true
+
+[node name="Register_Button" type="Button" parent="BG/TouchScreenButton/password/pass"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.41
+anchor_top = 3.081
+anchor_right = 0.41
+anchor_bottom = 3.081
+offset_left = -79.53
+offset_top = -22.511
+offset_right = 79.47
+offset_bottom = 22.489
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_jv7un")
+theme_override_styles/hover = SubResource("StyleBoxFlat_snie1")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_m33jf")
+text = "REGISTER"
+
+[node name="Back_Button" type="Button" parent="BG/TouchScreenButton/password/pass"]
+layout_mode = 0
+offset_left = -377.0
+offset_top = -364.0
+offset_right = -234.0
+offset_bottom = -294.0
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_snie1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_m33jf")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtnxt")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5t5cy")
+text = "Back to MainMenu"
+
+[node name="register sign" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.47
+anchor_top = 0.254
+anchor_right = 0.47
+anchor_bottom = 0.282
+offset_left = -177.44
+offset_top = -103.592
+offset_right = 146.56
+offset_bottom = 95.264
+theme_override_fonts/font = ExtResource("3_pd2u5")
+theme_override_font_sizes/font_size = 48
+text = "REGISTER
+to
+ENter
+GAME"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="BG/TouchScreenButton/password/pass/Back_Button" to="." method="_on_back_button_pressed"]

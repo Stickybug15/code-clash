@@ -1,0 +1,154 @@
+[gd_scene load_steps=13 format=3 uid="uid://dh0d1emcf7ehm"]
+
+[ext_resource type="Script" uid="uid://ccgo1gwgtccaj" path="res://godot/scripts/sign_in_menu.gd" id="1_sg6uc"]
+[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_knubq"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_k0pr4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sraid"]
+texture = ExtResource("2_knubq")
+modulate_color = Color(1, 1, 1, 0.486275)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sraid"]
+bg_color = Color(0, 0, 0, 0.352941)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dubtc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dubtc"]
+bg_color = Color(0.376471, 0.556863, 0.960784, 1)
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akivp"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akivp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sraid"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtent"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p376f"]
+
+[node name="SignInMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sg6uc")
+
+[node name="BG" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_sraid")
+
+[node name="fillbg" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 42.0
+offset_right = 832.0
+offset_bottom = 603.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_sraid")
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+
+[node name="USER" type="Label" parent="TouchScreenButton"]
+offset_left = 415.0
+offset_top = 274.0
+offset_right = 730.0
+offset_bottom = 323.0
+theme_override_fonts/font = ExtResource("3_k0pr4")
+theme_override_font_sizes/font_size = 30
+text = "username:"
+horizontal_alignment = 1
+justification_flags = 171
+
+[node name="LineEdit" type="LineEdit" parent="TouchScreenButton/USER"]
+layout_mode = 0
+offset_top = 48.0
+offset_right = 312.0
+offset_bottom = 91.0
+placeholder_text = "enter username or email"
+virtual_keyboard_type = 5
+clear_button_enabled = true
+
+[node name="PASSWORD" type="Label" parent="TouchScreenButton"]
+offset_left = 417.0
+offset_top = 403.0
+offset_right = 727.0
+offset_bottom = 451.0
+theme_override_fonts/font = ExtResource("3_k0pr4")
+theme_override_font_sizes/font_size = 30
+text = "password:"
+horizontal_alignment = 1
+justification_flags = 171
+
+[node name="pass" type="LineEdit" parent="TouchScreenButton/PASSWORD"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 49.0
+offset_right = 312.0
+offset_bottom = 96.0
+placeholder_text = "enter your password"
+keep_editing_on_text_submit = true
+virtual_keyboard_type = 6
+clear_button_enabled = true
+
+[node name="Login_Button" type="Button" parent="TouchScreenButton/PASSWORD/pass"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 2.149
+anchor_right = 0.5
+anchor_bottom = 2.149
+offset_left = -83.0
+offset_top = -32.003
+offset_right = 70.0
+offset_bottom = 6.997
+theme_override_fonts/font = ExtResource("3_k0pr4")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dubtc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_akivp")
+text = "LOGIN"
+
+[node name="Back_Button" type="Button" parent="TouchScreenButton"]
+offset_left = 25.0
+offset_top = 9.0
+offset_right = 168.0
+offset_bottom = 79.0
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_k0pr4")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_akivp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_sraid")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_p376f")
+text = "Back to MainMenu"
+
+[node name="login sign" type="Label" parent="."]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 74.0
+offset_right = 734.0
+offset_bottom = 255.0
+theme_override_fonts/font = ExtResource("3_k0pr4")
+theme_override_font_sizes/font_size = 50
+text = "LOGIN
+to
+GAME"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="TouchScreenButton/Back_Button" to="." method="_on_back_button_pressed"]
