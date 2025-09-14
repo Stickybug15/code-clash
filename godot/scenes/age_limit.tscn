@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bhnu738xunaln"]
+[gd_scene load_steps=12 format=3 uid="uid://bhnu738xunaln"]
 
 [ext_resource type="Script" uid="uid://dpj2n00qlld32" path="res://godot/scripts/age_limit.gd" id="1_1o2ts"]
 [ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_47pol"]
 [ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_btrvo"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_47pol"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ps2c8"]
 texture = ExtResource("2_47pol")
@@ -114,5 +115,12 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ld6tg")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ixag1")
 text = "NO"
 
+[node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton"]
+stream = ExtResource("4_47pol")
+volume_db = -16.0
+autoplay = true
+
+[connection signal="mouse_entered" from="TouchScreenButton/Yes_Button" to="." method="_on_yes_button_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/Yes_Button" to="." method="_on_yes_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/No_Button" to="." method="_on_no_button_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/No_Button" to="." method="_on_no_button_pressed"]

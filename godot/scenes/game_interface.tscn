@@ -1,8 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://bk7f11a367b30"]
+[gd_scene load_steps=25 format=3 uid="uid://bk7f11a367b30"]
 
 [ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scripts/game_interface.gd" id="1_uvkbs"]
 [ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/game_bg.jpg" id="2_kf2fp"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_r1vw7"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_mdqpr"]
+[ext_resource type="AudioStream" uid="uid://bjjavoq2sedoy" path="res://assets/sound fx/Simulacra-chosic.com_.mp3" id="5_mdqpr"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ar3a4"]
 texture = ExtResource("2_kf2fp")
@@ -174,6 +176,10 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
 text = "Quit Game"
 
+[node name="hover fx" type="AudioStreamPlayer" parent="TouchScreenButton/VBoxContainer"]
+stream = ExtResource("4_mdqpr")
+volume_db = -16.0
+
 [node name="tittle" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -202,5 +208,15 @@ vertical_alignment = 1
 autowrap_mode = 2
 max_lines_visible = 9
 
+[node name="bg fx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_mdqpr")
+autoplay = true
+
+[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Play_Button" to="." method="_on_play_button_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/VBoxContainer/Play_Button" to="." method="_on_play_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Custom_Button" to="." method="_on_custom_button_mouse_entered"]
+[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Progress_Button" to="." method="_on_progress_button_mouse_entered"]
+[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/LeadB_Button" to="." method="_on_lead_b_button_mouse_entered"]
+[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Marketplace_Button" to="." method="_on_marketplace_button_mouse_entered"]
+[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Quit_Button" to="." method="_on_quit_button_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/VBoxContainer/Quit_Button" to="." method="_on_quit_button_pressed"]

@@ -13,3 +13,15 @@ func _on_register_botton_pressed() -> void:
 
 func _on_offline_botton_pressed() -> void:
 	get_tree().change_scene_to_file("res://godot/scenes/game_interface.tscn")
+
+
+
+func _on_login_botton_mouse_entered() -> void:
+	$TouchScreenButton/hover_fx.play()
+
+func _on_register_botton_mouse_entered() -> void:
+	$TouchScreenButton/hover_fx.play()
+
+
+func _on_offline_botton_mouse_entered() -> void:
+	$TouchScreenButton/hover_fx.play()

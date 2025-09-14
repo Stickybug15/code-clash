@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://coa2mfgcnskhv"]
+[gd_scene load_steps=12 format=3 uid="uid://coa2mfgcnskhv"]
 
 [ext_resource type="Script" uid="uid://060h6c2u0284" path="res://godot/scripts/logs_menu.gd" id="1_kih0d"]
 [ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_ld8to"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_ke7n1"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_ld8to"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkq16"]
 
@@ -96,6 +97,10 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_nj70s")
 text = "OFFLINE"
 
+[node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton"]
+stream = ExtResource("4_ld8to")
+volume_db = -16.0
+
 [node name="tittle" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -124,6 +129,9 @@ vertical_alignment = 1
 autowrap_mode = 2
 max_lines_visible = 9
 
+[connection signal="mouse_entered" from="TouchScreenButton/login_botton" to="." method="_on_login_botton_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/login_botton" to="." method="_on_login_botton_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/register_botton" to="." method="_on_register_botton_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/register_botton" to="." method="_on_register_botton_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/offline_botton" to="." method="_on_offline_botton_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/offline_botton" to="." method="_on_offline_botton_pressed"]

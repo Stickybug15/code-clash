@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://dh0d1emcf7ehm"]
+[gd_scene load_steps=14 format=3 uid="uid://dh0d1emcf7ehm"]
 
 [ext_resource type="Script" uid="uid://ccgo1gwgtccaj" path="res://godot/scripts/sign_in_menu.gd" id="1_v8pql"]
 [ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_7gseg"]
 [ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_u6cic"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_7gseg"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sraid"]
 texture = ExtResource("2_7gseg")
@@ -138,6 +139,10 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_p376f")
 text = "Back to MainMenu"
 
+[node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton"]
+stream = ExtResource("4_7gseg")
+volume_db = -16.0
+
 [node name="login sign" type="Label" parent="."]
 layout_mode = 0
 offset_left = 420.0
@@ -151,4 +156,6 @@ to
 GAME"
 horizontal_alignment = 1
 
+[connection signal="mouse_entered" from="TouchScreenButton/PASSWORD/pass/Login_Button" to="." method="_on_login_button_mouse_entered"]
+[connection signal="mouse_entered" from="TouchScreenButton/Back_Button" to="." method="_on_back_button_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/Back_Button" to="." method="_on_back_button_pressed"]

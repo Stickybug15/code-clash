@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bpeo4x3yithsw"]
+[gd_scene load_steps=9 format=3 uid="uid://bpeo4x3yithsw"]
 
 [ext_resource type="Script" uid="uid://8m0w6og7bx4m" path="res://godot/scripts/player_name.gd" id="1_e5ipl"]
 [ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/game_bg.jpg" id="2_2ap2d"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_4dbad"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_s4eq8"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vre3d"]
 texture = ExtResource("2_2ap2d")
@@ -81,4 +82,9 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ud8ud")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e076r")
 text = "start"
 
+[node name="hover_fx" type="AudioStreamPlayer" parent="BG/TouchScreenButton"]
+stream = ExtResource("4_s4eq8")
+volume_db = -16.0
+
+[connection signal="mouse_entered" from="BG/TouchScreenButton/Player_name/start_button" to="." method="_on_start_button_mouse_entered"]
 [connection signal="pressed" from="BG/TouchScreenButton/Player_name/start_button" to="." method="_on_start_button_pressed"]
