@@ -39,7 +39,7 @@ func _update(actor: EntityPlayer, delta: float) -> void:
 		arc_move_cmd.execute(actor, delta)
 	if not arc_move_cmd.going_up and sprite.animation == "jump":
 		sprite.play("fall")
-	if arc_move_cmd.is_finished(actor):
+	if arc_move_cmd.is_completed(actor):
 		transition_to("to_idle")
 
 	if stats:
