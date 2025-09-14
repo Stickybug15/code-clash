@@ -84,7 +84,9 @@ text = "start"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="BG/TouchScreenButton"]
 stream = ExtResource("4_s4eq8")
-volume_db = -16.0
+volume_db = -15.0
+autoplay = true
+bus = &"SFX"
 
 [connection signal="mouse_entered" from="BG/TouchScreenButton/Player_name/start_button" to="." method="_on_start_button_mouse_entered"]
 [connection signal="pressed" from="BG/TouchScreenButton/Player_name/start_button" to="." method="_on_start_button_pressed"]

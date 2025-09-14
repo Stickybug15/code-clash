@@ -1,12 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://dh0d1emcf7ehm"]
+[gd_scene load_steps=15 format=3 uid="uid://dh0d1emcf7ehm"]
 
-[ext_resource type="Script" uid="uid://ccgo1gwgtccaj" path="res://godot/scripts/sign_in_menu.gd" id="1_v8pql"]
-[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_7gseg"]
-[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_u6cic"]
+[ext_resource type="Script" uid="uid://ccgo1gwgtccaj" path="res://godot/scripts/sign_in_menu.gd" id="1_sg6uc"]
+[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_knubq"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_k0pr4"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_7gseg"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="5_u6cic"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sraid"]
-texture = ExtResource("2_7gseg")
+texture = ExtResource("2_knubq")
 modulate_color = Color(1, 1, 1, 0.486275)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sraid"]
@@ -45,7 +46,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_v8pql")
+script = ExtResource("1_sg6uc")
 
 [node name="BG" type="Panel" parent="."]
 layout_mode = 1
@@ -55,6 +56,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_sraid")
+
+[node name="tittle" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.493
+anchor_top = 0.387
+anchor_right = 0.493
+anchor_bottom = 0.387
+offset_left = -355.936
+offset_top = -121.776
+offset_right = 373.064
+offset_bottom = 185.224
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 17
+theme_override_constants/paragraph_spacing = 14
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("5_u6cic")
+theme_override_font_sizes/font_size = 116
+text = "CODE CLASH"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+max_lines_visible = 9
 
 [node name="fillbg" type="Panel" parent="."]
 layout_mode = 0
@@ -71,7 +101,7 @@ offset_left = 415.0
 offset_top = 274.0
 offset_right = 730.0
 offset_bottom = 323.0
-theme_override_fonts/font = ExtResource("3_u6cic")
+theme_override_fonts/font = ExtResource("3_k0pr4")
 theme_override_font_sizes/font_size = 30
 text = "username:"
 horizontal_alignment = 1
@@ -91,7 +121,7 @@ offset_left = 417.0
 offset_top = 403.0
 offset_right = 727.0
 offset_bottom = 451.0
-theme_override_fonts/font = ExtResource("3_u6cic")
+theme_override_fonts/font = ExtResource("3_k0pr4")
 theme_override_font_sizes/font_size = 30
 text = "password:"
 horizontal_alignment = 1
@@ -119,7 +149,7 @@ offset_left = -83.0
 offset_top = -32.003
 offset_right = 70.0
 offset_bottom = 6.997
-theme_override_fonts/font = ExtResource("3_u6cic")
+theme_override_fonts/font = ExtResource("3_k0pr4")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_dubtc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
@@ -132,7 +162,7 @@ offset_top = 9.0
 offset_right = 168.0
 offset_bottom = 79.0
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_u6cic")
+theme_override_fonts/font = ExtResource("3_k0pr4")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_akivp")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_sraid")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
@@ -141,20 +171,32 @@ text = "Back to MainMenu"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton"]
 stream = ExtResource("4_7gseg")
-volume_db = -16.0
+volume_db = -15.0
 
 [node name="login sign" type="Label" parent="."]
 layout_mode = 0
-offset_left = 420.0
-offset_top = 74.0
-offset_right = 734.0
-offset_bottom = 255.0
-theme_override_fonts/font = ExtResource("3_u6cic")
+offset_left = 411.0
+offset_top = 43.0
+offset_right = 725.0
+offset_bottom = 267.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 8
+theme_override_constants/paragraph_spacing = 7
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 14
+theme_override_fonts/font = ExtResource("5_u6cic")
 theme_override_font_sizes/font_size = 50
 text = "LOGIN
-to
+TO
 GAME"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+justification_flags = 171
 
 [connection signal="mouse_entered" from="TouchScreenButton/PASSWORD/pass/Login_Button" to="." method="_on_login_button_mouse_entered"]
 [connection signal="mouse_entered" from="TouchScreenButton/Back_Button" to="." method="_on_back_button_mouse_entered"]

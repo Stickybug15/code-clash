@@ -1,4 +1,9 @@
-[gd_scene format=3 uid="uid://c3jhsr15xuyuq"]
+[gd_scene load_steps=3 format=3 uid="uid://c3jhsr15xuyuq"]
+
+[ext_resource type="Texture2D" uid="uid://0rmgtjt70hkp" path="res://assets/customization_bg.jpg" id="1_j70gy"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2w6sf"]
+texture = ExtResource("1_j70gy")
 
 [node name="CustomizationMenu" type="Control"]
 layout_mode = 3
@@ -7,3 +12,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2w6sf")

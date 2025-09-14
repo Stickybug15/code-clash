@@ -1,10 +1,18 @@
-[gd_scene load_steps=25 format=3 uid="uid://bk7f11a367b30"]
+[gd_scene load_steps=43 format=3 uid="uid://bk7f11a367b30"]
 
 [ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scripts/game_interface.gd" id="1_uvkbs"]
 [ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/game_bg.jpg" id="2_kf2fp"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_r1vw7"]
-[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_mdqpr"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_ai06k"]
 [ext_resource type="AudioStream" uid="uid://bjjavoq2sedoy" path="res://assets/sound fx/Simulacra-chosic.com_.mp3" id="5_mdqpr"]
+[ext_resource type="Texture2D" uid="uid://c3g15sa0we8jy" path="res://assets/setting_buttonjpg-removebg-preview.png" id="6_lbm1t"]
+[ext_resource type="Script" uid="uid://nstg1xhow2wm" path="res://godot/scripts/MusicControl.gd" id="7_attwo"]
+[ext_resource type="Script" uid="uid://dy3h71ihb277q" path="res://godot/scripts/SfxControl.gd" id="8_attwo"]
+[ext_resource type="Script" uid="uid://chd0wepf54ipj" path="res://godot/scripts/FullscreenControl.gd" id="9_6yan0"]
+[ext_resource type="Texture2D" uid="uid://bug6vgjq7lar5" path="res://assets/sound-removebg-preview.png" id="10_qpjw1"]
+[ext_resource type="Texture2D" uid="uid://du0e6kuyx2wjb" path="res://assets/mute-removebg-preview.png" id="11_kukke"]
+[ext_resource type="Script" uid="uid://6sng3ik14imx" path="res://godot/scripts/MusicButton.gd" id="12_kukke"]
+[ext_resource type="Script" uid="uid://dou83cdo0k0tf" path="res://godot/scripts/SfxButton.gd" id="13_443ga"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ar3a4"]
 texture = ExtResource("2_kf2fp")
@@ -87,6 +95,43 @@ border_width_bottom = 4
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6sso"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xx5qh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lbm1t"]
+texture = ExtResource("6_lbm1t")
+region_rect = Rect2(102, 97, 150, 163)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xx5qh"]
+texture = ExtResource("6_lbm1t")
+region_rect = Rect2(102, 97, 150, 163)
+modulate_color = Color(0.847474, 0.847474, 0.847474, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_attwo"]
+texture = ExtResource("6_lbm1t")
+region_rect = Rect2(102, 97, 150, 163)
+modulate_color = Color(0.336608, 0.336608, 0.336608, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6yan0"]
+texture = ExtResource("6_lbm1t")
+region_rect = Rect2(102, 97, 150, 163)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_lbm1t"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_xx5qh"]
+color = Color(0.355696, 0.690186, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_attwo"]
+color = Color(0.355696, 0.690186, 1, 1)
+thickness = 6
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_qpjw1"]
+diffuse_texture = ExtResource("10_qpjw1")
+
+[sub_resource type="ImageTexture" id="ImageTexture_kukke"]
+
 [node name="GameInterface" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -107,7 +152,8 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_ar3a4")
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TouchScreenButton"]
+[node name="MainButtons" type="VBoxContainer" parent="TouchScreenButton"]
+visible = false
 layout_direction = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -122,7 +168,7 @@ grow_vertical = 2
 theme_override_constants/separation = 26
 alignment = 1
 
-[node name="Play_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+[node name="Play_Button" type="Button" parent="TouchScreenButton/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
@@ -131,7 +177,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_g21cx")
 text = "Play"
 
-[node name="Custom_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+[node name="Custom_Button" type="Button" parent="TouchScreenButton/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
@@ -140,7 +186,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_5lt4e")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_yayck")
 text = "Customization"
 
-[node name="Progress_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+[node name="Progress_Button" type="Button" parent="TouchScreenButton/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
@@ -149,7 +195,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_t1bx0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_q6spp")
 text = "Progress"
 
-[node name="LeadB_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+[node name="LeadB_Button" type="Button" parent="TouchScreenButton/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
@@ -158,7 +204,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_mtesu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_dhjcj")
 text = "Leaderboard"
 
-[node name="Marketplace_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+[node name="Marketplace_Button" type="Button" parent="TouchScreenButton/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
@@ -167,7 +213,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_boqgs")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_l55gl")
 text = "Marketplace"
 
-[node name="Quit_Button" type="Button" parent="TouchScreenButton/VBoxContainer"]
+[node name="Quit_Button" type="Button" parent="TouchScreenButton/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
@@ -176,11 +222,12 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
 text = "Quit Game"
 
-[node name="hover fx" type="AudioStreamPlayer" parent="TouchScreenButton/VBoxContainer"]
-stream = ExtResource("4_mdqpr")
-volume_db = -16.0
+[node name="hover fx" type="AudioStreamPlayer" parent="TouchScreenButton/MainButtons"]
+stream = ExtResource("4_ai06k")
+volume_db = -15.0
+bus = &"SFX"
 
-[node name="tittle" type="Label" parent="."]
+[node name="title" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.482
@@ -208,15 +255,166 @@ vertical_alignment = 1
 autowrap_mode = 2
 max_lines_visible = 9
 
-[node name="bg fx" type="AudioStreamPlayer" parent="."]
+[node name="game fx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_mdqpr")
+volume_db = -10.0
 autoplay = true
+bus = &"Music"
 
-[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Play_Button" to="." method="_on_play_button_mouse_entered"]
-[connection signal="pressed" from="TouchScreenButton/VBoxContainer/Play_Button" to="." method="_on_play_button_pressed"]
-[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Custom_Button" to="." method="_on_custom_button_mouse_entered"]
-[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Progress_Button" to="." method="_on_progress_button_mouse_entered"]
-[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/LeadB_Button" to="." method="_on_lead_b_button_mouse_entered"]
-[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Marketplace_Button" to="." method="_on_marketplace_button_mouse_entered"]
-[connection signal="mouse_entered" from="TouchScreenButton/VBoxContainer/Quit_Button" to="." method="_on_quit_button_mouse_entered"]
-[connection signal="pressed" from="TouchScreenButton/VBoxContainer/Quit_Button" to="." method="_on_quit_button_pressed"]
+[node name="Setting_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 31.0
+offset_right = 102.0
+offset_bottom = 85.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xx5qh")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_lbm1t")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xx5qh")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_attwo")
+theme_override_styles/normal = SubResource("StyleBoxTexture_6yan0")
+
+[node name="Settings" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 163.0
+offset_right = 860.0
+offset_bottom = 566.0
+
+[node name="Label" type="Label" parent="Settings"]
+layout_mode = 0
+offset_left = 163.0
+offset_top = 17.0
+offset_right = 405.0
+offset_bottom = 100.0
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 60
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="Return_button" type="Button" parent="Settings/Label"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 319.0
+offset_right = 251.0
+offset_bottom = 359.0
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_0vlbu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
+text = "Return to MainMenu"
+
+[node name="Music_label" type="Label" parent="Settings"]
+layout_mode = 0
+offset_left = 176.0
+offset_top = 89.0
+offset_right = 396.0
+offset_bottom = 153.0
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 42
+text = "music"
+horizontal_alignment = 1
+
+[node name="SFX_Label" type="Label" parent="Settings"]
+layout_mode = 0
+offset_left = 179.0
+offset_top = 166.0
+offset_right = 399.0
+offset_bottom = 230.0
+theme_override_fonts/font = ExtResource("3_r1vw7")
+theme_override_font_sizes/font_size = 40
+text = "SFX"
+horizontal_alignment = 1
+
+[node name="MusicControl" type="HSlider" parent="Settings"]
+layout_mode = 0
+offset_left = 106.0
+offset_top = 118.0
+offset_right = 484.0
+offset_bottom = 176.0
+theme_override_styles/slider = SubResource("StyleBoxLine_lbm1t")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_xx5qh")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_attwo")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("7_attwo")
+audio_bus_name = "Music"
+
+[node name="SFXControl" type="HSlider" parent="Settings"]
+layout_mode = 0
+offset_left = 107.0
+offset_top = 193.0
+offset_right = 485.0
+offset_bottom = 251.0
+theme_override_styles/slider = SubResource("StyleBoxLine_lbm1t")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_xx5qh")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_attwo")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("8_attwo")
+audio_bus_name = "SFX"
+
+[node name="FullscreenControl" type="CheckButton" parent="Settings"]
+layout_mode = 0
+offset_left = 97.0
+offset_top = 250.0
+offset_right = 471.0
+offset_bottom = 305.0
+theme_override_fonts/font = ExtResource("3_r1vw7")
+text = "FullScreen"
+script = ExtResource("9_6yan0")
+
+[node name="Music_Button" type="TextureButton" parent="Settings"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 97.0
+offset_right = 83.0
+offset_bottom = 166.0
+toggle_mode = true
+shortcut_feedback = false
+texture_normal = SubResource("CanvasTexture_qpjw1")
+texture_pressed = ExtResource("11_kukke")
+texture_disabled = ExtResource("11_kukke")
+texture_focused = SubResource("ImageTexture_kukke")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("12_kukke")
+
+[node name="SFX_Button" type="TextureButton" parent="Settings"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 185.0
+offset_right = 83.0
+offset_bottom = 254.0
+toggle_mode = true
+shortcut_feedback = false
+texture_normal = SubResource("CanvasTexture_qpjw1")
+texture_pressed = ExtResource("11_kukke")
+texture_disabled = ExtResource("11_kukke")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("13_443ga")
+
+[connection signal="mouse_entered" from="TouchScreenButton/MainButtons/Play_Button" to="." method="_on_play_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/MainButtons/Play_Button" to="." method="_on_play_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/MainButtons/Custom_Button" to="." method="_on_custom_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/MainButtons/Custom_Button" to="." method="_on_custom_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/MainButtons/Progress_Button" to="." method="_on_progress_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/MainButtons/Progress_Button" to="." method="_on_progress_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/MainButtons/LeadB_Button" to="." method="_on_lead_b_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/MainButtons/LeadB_Button" to="." method="_on_lead_b_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/MainButtons/Marketplace_Button" to="." method="_on_marketplace_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/MainButtons/Marketplace_Button" to="." method="_on_marketplace_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/MainButtons/Quit_Button" to="." method="_on_quit_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/MainButtons/Quit_Button" to="." method="_on_quit_button_pressed"]
+[connection signal="mouse_entered" from="Setting_button" to="." method="_on_setting_button_mouse_entered"]
+[connection signal="pressed" from="Setting_button" to="." method="_on_setting_button_pressed"]
+[connection signal="mouse_entered" from="Settings/Label/Return_button" to="." method="_on_return_button_mouse_entered"]
+[connection signal="pressed" from="Settings/Label/Return_button" to="." method="_on_return_button_pressed"]
+[connection signal="value_changed" from="Settings/MusicControl" to="Settings/MusicControl" method="_on_value_changed"]
+[connection signal="value_changed" from="Settings/SFXControl" to="Settings/SFXControl" method="_on_value_changed"]
+[connection signal="toggled" from="Settings/FullscreenControl" to="Settings/FullscreenControl" method="_on_toggled"]
+[connection signal="pressed" from="Settings/Music_Button" to="Settings/Music_Button" method="_on_pressed"]
+[connection signal="pressed" from="Settings/SFX_Button" to="Settings/SFX_Button" method="_on_pressed"]

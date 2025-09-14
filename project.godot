@@ -29,6 +29,10 @@ gdscript/warnings/unsafe_call_argument=1
 gdscript/warnings/property_used_as_function=2
 gdscript/warnings/constant_used_as_function=2
 
+[display]
+
+window/stretch/mode="canvas_items"
+
 [editor]
 
 naming/script_name_casing=1

@@ -1,12 +1,12 @@
 [gd_scene load_steps=12 format=3 uid="uid://bhnu738xunaln"]
 
-[ext_resource type="Script" uid="uid://dpj2n00qlld32" path="res://godot/scripts/age_limit.gd" id="1_1o2ts"]
-[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_47pol"]
-[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_btrvo"]
+[ext_resource type="Script" uid="uid://dpj2n00qlld32" path="res://godot/scripts/age_limit.gd" id="1_ik616"]
+[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_t5hig"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_u8g6u"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_47pol"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ps2c8"]
-texture = ExtResource("2_47pol")
+texture = ExtResource("2_t5hig")
 modulate_color = Color(1, 1, 1, 0.486275)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t6med"]
@@ -42,7 +42,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_1o2ts")
+script = ExtResource("1_ik616")
 
 [node name="Bg" type="Panel" parent="."]
 layout_mode = 1
@@ -66,7 +66,7 @@ offset_right = 258.0
 offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("3_btrvo")
+theme_override_fonts/font = ExtResource("3_u8g6u")
 theme_override_font_sizes/font_size = 47
 text = "Are you a 13 or Above to Play this ,
  if not you click no button"
@@ -89,7 +89,7 @@ offset_right = 463.0
 offset_bottom = 479.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("3_btrvo")
+theme_override_fonts/font = ExtResource("3_u8g6u")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_t6med")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8vfq8")
@@ -108,7 +108,7 @@ offset_right = 869.0
 offset_bottom = 477.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("3_btrvo")
+theme_override_fonts/font = ExtResource("3_u8g6u")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ps2c8")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ld6tg")
@@ -117,10 +117,10 @@ text = "NO"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton"]
 stream = ExtResource("4_47pol")
-volume_db = -16.0
-autoplay = true
+volume_db = -15.0
+bus = &"SFX"
 
 [connection signal="mouse_entered" from="TouchScreenButton/Yes_Button" to="." method="_on_yes_button_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/Yes_Button" to="." method="_on_yes_button_pressed"]
-[connection signal="mouse_entered" from="TouchScreenButton/No_Button" to="." method="_on_no_button_mouse_entered"]
+[connection signal="mouse_exited" from="TouchScreenButton/No_Button" to="." method="_on_no_button_mouse_exited"]
 [connection signal="pressed" from="TouchScreenButton/No_Button" to="." method="_on_no_button_pressed"]

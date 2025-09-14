@@ -1,56 +1,63 @@
-[gd_scene load_steps=16 format=3 uid="uid://b5ldgx3ugik3d"]
+[gd_scene load_steps=22 format=3 uid="uid://b5ldgx3ugik3d"]
 
+[ext_resource type="Script" uid="uid://cc8fqhx47nctd" path="res://godot/scripts/PlayRoleStart.gd" id="1_4d1t7"]
 [ext_resource type="Texture2D" uid="uid://cqd1d2efgvkst" path="res://assets/player bg role.PNG" id="1_ev4sg"]
-[ext_resource type="Script" uid="uid://cc8fqhx47nctd" path="res://godot/scenes/PlayRoleStart.gd" id="1_imxm1"]
 [ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="2_ccs2q"]
-[ext_resource type="Texture2D" uid="uid://cbl22g4vux82" path="res://assets/characters/ChatGPT Image Sep 14, 2025, 06_54_13 PM.png" id="3_uopxi"]
-[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="5_br1up"]
-[ext_resource type="AudioStream" uid="uid://bjjavoq2sedoy" path="res://assets/sound fx/Simulacra-chosic.com_.mp3" id="6_br1up"]
+[ext_resource type="AudioStream" uid="uid://ca02n66wjoxa7" path="res://assets/sound fx/choose-your-character.mp3" id="3_uopxi"]
+[ext_resource type="AudioStream" uid="uid://h3r2kw1detyo" path="res://assets/sound fx/video-game-music-loop-27629.mp3" id="4_0jqho"]
+[ext_resource type="Texture2D" uid="uid://cbl22g4vux82" path="res://assets/characters/ChatGPT Image Sep 14, 2025, 06_54_13 PM.png" id="5_imxm1"]
+[ext_resource type="AudioStream" uid="uid://cggekvrqho6ty" path="res://assets/sound fx/appear-select.mp3" id="6_phxxa"]
+[ext_resource type="AudioStream" uid="uid://dpyhxilf05o1q" path="res://assets/sound fx/test-select.mp3" id="7_07qmp"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_58tb1"]
 texture = ExtResource("1_ev4sg")
+region_rect = Rect2(0, 0, 420, 240)
 modulate_color = Color(0.835294, 0.835294, 0.835294, 0.803922)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0jqho"]
-texture = ExtResource("3_uopxi")
-texture_margin_top = 13.0
-region_rect = Rect2(79, 213, 397, 598)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uopxi"]
-texture = ExtResource("3_uopxi")
-texture_margin_top = 13.0
-region_rect = Rect2(58, 184, 443, 660)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_imxm1"]
-texture = ExtResource("3_uopxi")
-texture_margin_top = 13.0
-region_rect = Rect2(551, 201, 430, 601)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_07qmp"]
-texture = ExtResource("3_uopxi")
-texture_margin_top = 13.0
-region_rect = Rect2(530, 184, 472, 660)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_br1up"]
-texture = ExtResource("3_uopxi")
-texture_margin_top = 13.0
-region_rect = Rect2(1056, 205, 405, 610)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t4off"]
-texture = ExtResource("3_uopxi")
-texture_margin_top = 13.0
-region_rect = Rect2(1035, 188, 443, 648)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4d1t7"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4d1t7"]
-texture = ExtResource("3_uopxi")
-texture_margin_top = 13.0
-region_rect = Rect2(1056, 205, 410, 610)
-modulate_color = Color(0.347817, 0.347817, 0.347817, 1)
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(73, 210, 409, 605)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phxxa"]
-texture = ExtResource("3_uopxi")
-texture_margin_top = 13.0
-region_rect = Rect2(1056, 205, 405, 610)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t4off"]
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(59, 190, 439, 644)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_imxm1"]
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(59, 190, 439, 644)
+modulate_color = Color(0.282353, 0.282353, 0.282353, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_phxxa"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vbqge"]
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(548, 209, 437, 606)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oejdk"]
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(533, 184, 464, 647)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aacb4"]
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(533, 184, 464, 647)
+modulate_color = Color(0.282353, 0.282353, 0.282353, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_07qmp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kpwhk"]
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(1054, 203, 408, 612)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ieijo"]
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(1035, 187, 439, 644)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8rcpu"]
+texture = ExtResource("5_imxm1")
+region_rect = Rect2(1035, 187, 439, 644)
+modulate_color = Color(0.281187, 0.281187, 0.281187, 1)
 
 [node name="PlayRoleStart" type="Control"]
 layout_mode = 3
@@ -59,73 +66,97 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_imxm1")
+script = ExtResource("1_4d1t7")
 
 [node name="bg_char" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -9.0
-offset_right = -4.0
-offset_bottom = -9.0
+offset_left = 2.0
+offset_top = -8.0
+offset_right = -1.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_58tb1")
 
 [node name="selection_label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 293.0
-offset_top = 55.0
-offset_right = 808.0
-offset_bottom = 189.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -344.5
+offset_right = 344.5
+offset_bottom = 134.0
+grow_horizontal = 2
 theme_override_fonts/font = ExtResource("2_ccs2q")
-theme_override_font_sizes/font_size = 60
-text = "select your Character"
+theme_override_font_sizes/font_size = 80
+text = "choose your Character"
 horizontal_alignment = 1
 
-[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
-
-[node name="char1_Button" type="Button" parent="TouchScreenButton"]
-offset_left = 176.0
-offset_top = 251.0
-offset_right = 371.0
-offset_bottom = 475.0
-theme_override_styles/focus = SubResource("StyleBoxTexture_0jqho")
-theme_override_styles/hover = SubResource("StyleBoxTexture_uopxi")
-theme_override_styles/normal = SubResource("StyleBoxTexture_0jqho")
-
-[node name="char2_Button" type="Button" parent="TouchScreenButton"]
-offset_left = 471.0
-offset_top = 251.0
-offset_right = 666.0
-offset_bottom = 475.0
-theme_override_styles/focus = SubResource("StyleBoxTexture_imxm1")
-theme_override_styles/hover = SubResource("StyleBoxTexture_07qmp")
-theme_override_styles/normal = SubResource("StyleBoxTexture_imxm1")
-
-[node name="char3_Button" type="Button" parent="TouchScreenButton"]
-offset_left = 780.0
-offset_top = 246.0
-offset_right = 975.0
-offset_bottom = 470.0
-theme_override_styles/focus = SubResource("StyleBoxTexture_br1up")
-theme_override_styles/hover = SubResource("StyleBoxTexture_t4off")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_4d1t7")
-theme_override_styles/normal = SubResource("StyleBoxTexture_phxxa")
-
-[node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton"]
-stream = ExtResource("5_br1up")
-volume_db = -16.0
-
-[node name="bg fx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_br1up")
+[node name="Choose-your-character" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_uopxi")
+volume_db = -5.0
 autoplay = true
+bus = &"SFX"
 
-[connection signal="mouse_entered" from="TouchScreenButton/char1_Button" to="." method="_on_char_1_button_mouse_entered"]
-[connection signal="pressed" from="TouchScreenButton/char1_Button" to="." method="_on_char_1_button_pressed"]
-[connection signal="mouse_entered" from="TouchScreenButton/char2_Button" to="." method="_on_char_2_button_mouse_entered"]
-[connection signal="pressed" from="TouchScreenButton/char2_Button" to="." method="_on_char_2_button_pressed"]
-[connection signal="mouse_entered" from="TouchScreenButton/char3_Button" to="." method="_on_char_3_button_mouse_entered"]
-[connection signal="pressed" from="TouchScreenButton/char3_Button" to="." method="_on_char_3_button_pressed"]
+[node name="bg game sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_0jqho")
+volume_db = -10.0
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="Appear-select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_phxxa")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="Test-select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_07qmp")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="char_mage_Button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 82.0
+offset_top = 174.0
+offset_right = 333.0
+offset_bottom = 468.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4d1t7")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_4d1t7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t4off")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_imxm1")
+theme_override_styles/normal = SubResource("StyleBoxTexture_4d1t7")
+
+[node name="char_warrior_Button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 452.0
+offset_top = 182.0
+offset_right = 693.0
+offset_bottom = 466.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_phxxa")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_vbqge")
+theme_override_styles/hover = SubResource("StyleBoxTexture_oejdk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_aacb4")
+theme_override_styles/normal = SubResource("StyleBoxTexture_vbqge")
+
+[node name="char_archer_Button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 819.0
+offset_top = 179.0
+offset_right = 1068.0
+offset_bottom = 467.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_07qmp")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_kpwhk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ieijo")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8rcpu")
+theme_override_styles/normal = SubResource("StyleBoxTexture_kpwhk")
+
+[connection signal="mouse_entered" from="char_mage_Button" to="." method="_on_char_mage_button_mouse_entered"]
+[connection signal="pressed" from="char_mage_Button" to="." method="_on_char_mage_button_pressed"]
+[connection signal="mouse_entered" from="char_warrior_Button" to="." method="_on_char_warrior_button_mouse_entered"]
+[connection signal="pressed" from="char_warrior_Button" to="." method="_on_char_warrior_button_pressed"]
+[connection signal="mouse_entered" from="char_archer_Button" to="." method="_on_char_archer_button_mouse_entered"]
+[connection signal="pressed" from="char_archer_Button" to="." method="_on_char_archer_button_pressed"]

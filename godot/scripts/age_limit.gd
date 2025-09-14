@@ -17,3 +17,7 @@ func _on_yes_button_mouse_entered() -> void:
 
 func _on_no_button_mouse_entered() -> void:
 	$TouchScreenButton/hover_fx.play()
+
+
+func _on_no_button_mouse_exited() -> void:
+	$TouchScreenButton/hover_fx.play()

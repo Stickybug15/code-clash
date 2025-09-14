@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://4ypkfrgr5it1"]
+[gd_scene load_steps=15 format=3 uid="uid://4ypkfrgr5it1"]
 
 [ext_resource type="Script" uid="uid://byixvjl1a40at" path="res://godot/scripts/sign_up_menu.gd" id="1_stwcb"]
 [ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_hmgtq"]
 [ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_pd2u5"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_wry4w"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="5_1jdwq"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mg2vw"]
 texture = ExtResource("2_hmgtq")
@@ -56,12 +57,41 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_mg2vw")
 
+[node name="tittle" type="Label" parent="BG"]
+modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.493
+anchor_top = 0.387
+anchor_right = 0.493
+anchor_bottom = 0.387
+offset_left = -386.936
+offset_top = -71.776
+offset_right = 342.064
+offset_bottom = 235.224
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 17
+theme_override_constants/paragraph_spacing = 14
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("5_1jdwq")
+theme_override_font_sizes/font_size = 116
+text = "CODE CLASH"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+max_lines_visible = 9
+
 [node name="fillbg" type="Panel" parent="BG"]
 layout_mode = 0
-offset_left = 265.0
-offset_top = 47.0
-offset_right = 792.0
-offset_bottom = 534.0
+offset_left = 301.0
+offset_top = 50.0
+offset_right = 828.0
+offset_bottom = 537.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_imqrx")
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="BG"]
@@ -72,10 +102,10 @@ anchor_left = 0.5
 anchor_top = 0.463
 anchor_right = 0.5
 anchor_bottom = 0.463
-offset_left = 311.0
-offset_top = 293.0
-offset_right = 386.0
-offset_bottom = 328.0
+offset_left = 345.0
+offset_top = 298.0
+offset_right = 420.0
+offset_bottom = 333.0
 theme_override_fonts/font = ExtResource("3_pd2u5")
 theme_override_font_sizes/font_size = 34
 text = "email:"
@@ -94,10 +124,10 @@ anchor_left = 0.5
 anchor_top = 0.681
 anchor_right = 0.5
 anchor_bottom = 0.681
-offset_left = 296.0
-offset_top = 375.0
-offset_right = 405.0
-offset_bottom = 406.0
+offset_left = 345.0
+offset_top = 378.0
+offset_right = 454.0
+offset_bottom = 409.0
 theme_override_fonts/font = ExtResource("3_pd2u5")
 theme_override_font_sizes/font_size = 24
 text = "password:"
@@ -120,10 +150,10 @@ anchor_left = 0.41
 anchor_top = 3.081
 anchor_right = 0.41
 anchor_bottom = 3.081
-offset_left = -79.53
-offset_top = -22.511
-offset_right = 79.47
-offset_bottom = 22.489
+offset_left = -113.53
+offset_top = -17.511
+offset_right = 45.47
+offset_bottom = 27.489
 theme_override_fonts/font = ExtResource("3_pd2u5")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_jv7un")
@@ -133,10 +163,10 @@ text = "REGISTER"
 
 [node name="Back_Button" type="Button" parent="BG/TouchScreenButton/password/pass"]
 layout_mode = 0
-offset_left = -377.0
-offset_top = -364.0
-offset_right = -234.0
-offset_bottom = -294.0
+offset_left = -418.0
+offset_top = -359.0
+offset_right = -275.0
+offset_bottom = -289.0
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_pd2u5")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_snie1")
@@ -147,7 +177,8 @@ text = "Back to MainMenu"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="BG/TouchScreenButton"]
 stream = ExtResource("4_wry4w")
-volume_db = -16.0
+volume_db = -15.0
+bus = &"SFX"
 
 [node name="register sign" type="Label" parent="."]
 layout_mode = 1
@@ -156,16 +187,16 @@ anchor_left = 0.47
 anchor_top = 0.254
 anchor_right = 0.47
 anchor_bottom = 0.282
-offset_left = -177.44
-offset_top = -103.592
-offset_right = 146.56
-offset_bottom = 95.264
-theme_override_fonts/font = ExtResource("3_pd2u5")
+offset_left = -143.44
+offset_top = -106.592
+offset_right = 180.56
+offset_bottom = 92.264
+theme_override_fonts/font = ExtResource("5_1jdwq")
 theme_override_font_sizes/font_size = 48
 text = "REGISTER
-to
-ENter
-GAME"
+To
+Code Clash
+Game"
 horizontal_alignment = 1
 
 [connection signal="mouse_entered" from="BG/TouchScreenButton/password/pass/Register_Button" to="." method="_on_register_button_mouse_entered"]

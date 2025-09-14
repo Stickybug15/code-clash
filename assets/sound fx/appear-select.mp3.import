@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cggekvrqho6ty"
+path="res://.godot/imported/appear-select.mp3-d55111fc099f2f1ac4feb23254f4b0c5.mp3str"
+
+[deps]
+
+source_file="res://assets/sound fx/appear-select.mp3"
+dest_files=["res://.godot/imported/appear-select.mp3-d55111fc099f2f1ac4feb23254f4b0c5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
