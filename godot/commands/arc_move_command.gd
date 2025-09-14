@@ -36,7 +36,7 @@ func initialize(actor, msg: Dictionary = {}):
 
 
 func execute(actor: CharacterBody2D, delta: float):
-	if is_finished(actor):
+	if is_completed(actor):
 		return
 
 	if going_up:
@@ -53,5 +53,5 @@ func complete(actor: CharacterBody2D) -> void:
 	actor.velocity = Vector2.ZERO
 	done = true
 
-func is_finished(actor: CharacterBody2D) -> bool:
+func is_completed(actor: CharacterBody2D) -> bool:
 	return actor.is_on_floor() and is_zero_approx(actor.velocity.length())

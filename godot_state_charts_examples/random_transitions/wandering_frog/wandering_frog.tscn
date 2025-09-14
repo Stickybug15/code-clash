@@ -123,12 +123,12 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_au2ov"]
 _data = {
-"RESET": SubResource("Animation_uq0h4"),
-"double_jump": SubResource("Animation_10ku2"),
-"fall": SubResource("Animation_ibg22"),
-"idle": SubResource("Animation_5rh2e"),
-"jump": SubResource("Animation_jaga7"),
-"walk": SubResource("Animation_6odvc")
+&"RESET": SubResource("Animation_uq0h4"),
+&"double_jump": SubResource("Animation_10ku2"),
+&"fall": SubResource("Animation_ibg22"),
+&"idle": SubResource("Animation_5rh2e"),
+&"jump": SubResource("Animation_jaga7"),
+&"walk": SubResource("Animation_6odvc")
 }
 
 [sub_resource type="Resource" id="Resource_27kjk"]

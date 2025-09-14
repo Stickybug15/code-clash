@@ -210,11 +210,11 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5pqa5"]
 _data = {
-"RESET": SubResource("Animation_xvggk"),
-"close_flag": SubResource("Animation_p66ga"),
-"idle_no_flag": SubResource("Animation_w48c8"),
-"idle_with_flag": SubResource("Animation_judeo"),
-"open_flag": SubResource("Animation_gr2w7")
+&"RESET": SubResource("Animation_xvggk"),
+&"close_flag": SubResource("Animation_p66ga"),
+&"idle_no_flag": SubResource("Animation_w48c8"),
+&"idle_with_flag": SubResource("Animation_judeo"),
+&"open_flag": SubResource("Animation_gr2w7")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_06im6"]

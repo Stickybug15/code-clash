@@ -303,10 +303,10 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t7nrw"]
 _data = {
-"Break": SubResource("Animation_toibu"),
-"Hit": SubResource("Animation_rc67x"),
-"Idle": SubResource("Animation_yu346"),
-"RESET": SubResource("Animation_a7q8m")
+&"Break": SubResource("Animation_toibu"),
+&"Hit": SubResource("Animation_rc67x"),
+&"Idle": SubResource("Animation_yu346"),
+&"RESET": SubResource("Animation_a7q8m")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8vd2b"]

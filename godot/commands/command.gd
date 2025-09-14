@@ -14,5 +14,5 @@ func complete(actor) -> void:
 	pass
 
 
-func is_finished(actor) -> bool:
+func is_completed(actor) -> bool:
 	return false

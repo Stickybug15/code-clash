@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://bhnu738xunaln"]
 
-[ext_resource type="Script" uid="uid://dpj2n00qlld32" path="res://godot/scripts/age_limit.gd" id="1_ik616"]
-[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_t5hig"]
-[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_u8g6u"]
+[ext_resource type="Script" uid="uid://dpj2n00qlld32" path="res://godot/scripts/age_limit.gd" id="1_1o2ts"]
+[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_47pol"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_btrvo"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ps2c8"]
-texture = ExtResource("2_t5hig")
+texture = ExtResource("2_47pol")
 modulate_color = Color(1, 1, 1, 0.486275)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t6med"]
@@ -41,7 +41,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_ik616")
+script = ExtResource("1_1o2ts")
 
 [node name="Bg" type="Panel" parent="."]
 layout_mode = 1
@@ -65,7 +65,7 @@ offset_right = 258.0
 offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("3_u8g6u")
+theme_override_fonts/font = ExtResource("3_btrvo")
 theme_override_font_sizes/font_size = 47
 text = "Are you a 13 or Above to Play this ,
  if not you click no button"
@@ -88,7 +88,7 @@ offset_right = 463.0
 offset_bottom = 479.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("3_u8g6u")
+theme_override_fonts/font = ExtResource("3_btrvo")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_t6med")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8vfq8")
@@ -107,7 +107,7 @@ offset_right = 869.0
 offset_bottom = 477.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("3_u8g6u")
+theme_override_fonts/font = ExtResource("3_btrvo")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ps2c8")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ld6tg")

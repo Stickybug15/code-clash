@@ -11,7 +11,6 @@ var sprite: AnimatedSprite2D
 
 
 func _setup(actor: EntityPlayer) -> void:
-	# TODO: also include 'step'
 	actor.env.add_new_method(
 		"hero", "walk_left", self, "to_walk", [
 			{"name": "step", "default_value": 1, "type": type_string(TYPE_INT)},
@@ -44,7 +43,7 @@ func _enter(actor: EntityPlayer, previous_state: State) -> void:
 
 
 func _update(actor: EntityPlayer, delta: float) -> void:
-	if move_cmd.is_finished(actor):
+	if move_cmd.is_completed(actor):
 		transition_to("to_idle")
 
 	if Input.is_action_pressed("jump"):

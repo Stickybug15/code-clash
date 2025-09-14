@@ -26,7 +26,7 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 
 
 func execute(actor: CharacterBody2D, delta: float):
-	if is_finished(actor):
+	if is_completed(actor):
 		return
 
 	elapsed += delta
@@ -41,5 +41,5 @@ func complete(actor: CharacterBody2D) -> void:
 	elapsed = duration
 
 
-func is_finished(actor: CharacterBody2D) -> bool:
+func is_completed(actor: CharacterBody2D) -> bool:
 	return elapsed >= duration or is_zero_approx(direction)
