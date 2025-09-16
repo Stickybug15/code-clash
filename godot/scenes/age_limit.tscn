@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://bhnu738xunaln"]
 
 [ext_resource type="Script" uid="uid://dpj2n00qlld32" path="res://godot/scripts/age_limit.gd" id="1_ik616"]
-[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/background.jpg" id="2_t5hig"]
-[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="3_u8g6u"]
+[ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/BG_ICONS/background.jpg" id="2_t5hig"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/fonts/Pixel Game.otf" id="3_u8g6u"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_47pol"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ps2c8"]

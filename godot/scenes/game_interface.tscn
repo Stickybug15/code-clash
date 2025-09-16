@@ -1,16 +1,16 @@
 [gd_scene load_steps=43 format=3 uid="uid://bk7f11a367b30"]
 
 [ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scripts/game_interface.gd" id="1_uvkbs"]
-[ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/game_bg.jpg" id="2_kf2fp"]
-[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_r1vw7"]
+[ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/BG_ICONS/game_bg.jpg" id="2_kf2fp"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_r1vw7"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_ai06k"]
 [ext_resource type="AudioStream" uid="uid://bjjavoq2sedoy" path="res://assets/sound fx/Simulacra-chosic.com_.mp3" id="5_mdqpr"]
-[ext_resource type="Texture2D" uid="uid://c3g15sa0we8jy" path="res://assets/setting_buttonjpg-removebg-preview.png" id="6_lbm1t"]
+[ext_resource type="Texture2D" uid="uid://c3g15sa0we8jy" path="res://assets/BG_ICONS/setting_buttonjpg-removebg-preview.png" id="6_lbm1t"]
 [ext_resource type="Script" uid="uid://nstg1xhow2wm" path="res://godot/scripts/MusicControl.gd" id="7_attwo"]
 [ext_resource type="Script" uid="uid://dy3h71ihb277q" path="res://godot/scripts/SfxControl.gd" id="8_attwo"]
 [ext_resource type="Script" uid="uid://chd0wepf54ipj" path="res://godot/scripts/FullscreenControl.gd" id="9_6yan0"]
-[ext_resource type="Texture2D" uid="uid://bug6vgjq7lar5" path="res://assets/sound-removebg-preview.png" id="10_qpjw1"]
-[ext_resource type="Texture2D" uid="uid://du0e6kuyx2wjb" path="res://assets/mute-removebg-preview.png" id="11_kukke"]
+[ext_resource type="Texture2D" uid="uid://bug6vgjq7lar5" path="res://assets/BG_ICONS/sound-removebg-preview.png" id="10_qpjw1"]
+[ext_resource type="Texture2D" uid="uid://du0e6kuyx2wjb" path="res://assets/BG_ICONS/mute-removebg-preview.png" id="11_kukke"]
 [ext_resource type="Script" uid="uid://6sng3ik14imx" path="res://godot/scripts/MusicButton.gd" id="12_kukke"]
 [ext_resource type="Script" uid="uid://dou83cdo0k0tf" path="res://godot/scripts/SfxButton.gd" id="13_443ga"]
 
@@ -153,7 +153,6 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_ar3a4")
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 
 [node name="MainButtons" type="VBoxContainer" parent="TouchScreenButton"]
-visible = false
 layout_direction = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -274,6 +273,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_attwo")
 theme_override_styles/normal = SubResource("StyleBoxTexture_6yan0")
 
 [node name="Settings" type="Panel" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 294.0
 offset_top = 163.0

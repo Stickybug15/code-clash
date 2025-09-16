@@ -1,13 +1,14 @@
-[gd_scene load_steps=22 format=3 uid="uid://b5ldgx3ugik3d"]
+[gd_scene load_steps=24 format=3 uid="uid://b5ldgx3ugik3d"]
 
 [ext_resource type="Script" uid="uid://cc8fqhx47nctd" path="res://godot/scripts/PlayRoleStart.gd" id="1_4d1t7"]
-[ext_resource type="Texture2D" uid="uid://cqd1d2efgvkst" path="res://assets/player bg role.PNG" id="1_ev4sg"]
-[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/Pixel Game.otf" id="2_ccs2q"]
+[ext_resource type="Texture2D" uid="uid://cqd1d2efgvkst" path="res://assets/BG_ICONS/player bg role.PNG" id="1_ev4sg"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/fonts/Pixel Game.otf" id="2_ccs2q"]
 [ext_resource type="AudioStream" uid="uid://ca02n66wjoxa7" path="res://assets/sound fx/choose-your-character.mp3" id="3_uopxi"]
 [ext_resource type="AudioStream" uid="uid://h3r2kw1detyo" path="res://assets/sound fx/video-game-music-loop-27629.mp3" id="4_0jqho"]
-[ext_resource type="Texture2D" uid="uid://cbl22g4vux82" path="res://assets/characters/ChatGPT Image Sep 14, 2025, 06_54_13 PM.png" id="5_imxm1"]
 [ext_resource type="AudioStream" uid="uid://cggekvrqho6ty" path="res://assets/sound fx/appear-select.mp3" id="6_phxxa"]
 [ext_resource type="AudioStream" uid="uid://dpyhxilf05o1q" path="res://assets/sound fx/test-select.mp3" id="7_07qmp"]
+[ext_resource type="Texture2D" uid="uid://c1rewfnsuutco" path="res://assets/char_selection/Char_selection-Photoroom.png" id="8_07qmp"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="9_oejdk"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_58tb1"]
 texture = ExtResource("1_ev4sg")
@@ -16,48 +17,55 @@ modulate_color = Color(0.835294, 0.835294, 0.835294, 0.803922)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4d1t7"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4d1t7"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(73, 210, 409, 605)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oejdk"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(123, 310, 84, 127)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t4off"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(59, 190, 439, 644)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_07qmp"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(123, 310, 84, 127)
+modulate_color = Color(0.985326, 0.85335, 0.567314, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_imxm1"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(59, 190, 439, 644)
-modulate_color = Color(0.282353, 0.282353, 0.282353, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aacb4"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(123, 310, 84, 127)
+modulate_color = Color(0.215902, 0.215902, 0.215902, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_phxxa"]
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ieijo"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(15, 6, 59, 104)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8rcpu"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(15, 6, 59, 104)
+modulate_color = Color(0.984314, 0.854902, 0.568627, 1)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vbqge"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(548, 209, 437, 606)
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(15, 6, 59, 104)
+modulate_color = Color(0.215686, 0.215686, 0.215686, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oejdk"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(533, 184, 464, 647)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aacb4"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(533, 184, 464, 647)
-modulate_color = Color(0.282353, 0.282353, 0.282353, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_phxxa"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(15, 6, 59, 104)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_07qmp"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kpwhk"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(1054, 203, 408, 612)
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(132, 153, 63, 96)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ieijo"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(1035, 187, 439, 644)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l7a1c"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(132, 153, 63, 96)
+modulate_color = Color(0.984314, 0.854902, 0.568627, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8rcpu"]
-texture = ExtResource("5_imxm1")
-region_rect = Rect2(1035, 187, 439, 644)
-modulate_color = Color(0.281187, 0.281187, 0.281187, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8042c"]
+texture = ExtResource("8_07qmp")
+region_rect = Rect2(132, 153, 63, 96)
+modulate_color = Color(0.215686, 0.215686, 0.215686, 1)
 
 [node name="PlayRoleStart" type="Control"]
 layout_mode = 3
@@ -118,45 +126,81 @@ stream = ExtResource("7_07qmp")
 volume_db = -12.0
 bus = &"SFX"
 
-[node name="char_mage_Button" type="Button" parent="."]
-layout_mode = 2
-offset_left = 82.0
-offset_top = 174.0
-offset_right = 333.0
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+
+[node name="char_mage_Button" type="Button" parent="TouchScreenButton"]
+offset_left = 98.0
+offset_top = 183.0
+offset_right = 343.0
 offset_bottom = 468.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_4d1t7")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_4d1t7")
-theme_override_styles/hover = SubResource("StyleBoxTexture_t4off")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_imxm1")
-theme_override_styles/normal = SubResource("StyleBoxTexture_4d1t7")
-
-[node name="char_warrior_Button" type="Button" parent="."]
-layout_mode = 2
-offset_left = 452.0
-offset_top = 182.0
-offset_right = 693.0
-offset_bottom = 466.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_phxxa")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_vbqge")
-theme_override_styles/hover = SubResource("StyleBoxTexture_oejdk")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_oejdk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_07qmp")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_aacb4")
-theme_override_styles/normal = SubResource("StyleBoxTexture_vbqge")
+theme_override_styles/normal = SubResource("StyleBoxTexture_oejdk")
 
-[node name="char_archer_Button" type="Button" parent="."]
-layout_mode = 2
-offset_left = 819.0
-offset_top = 179.0
-offset_right = 1068.0
-offset_bottom = 467.0
+[node name="des" type="Label" parent="TouchScreenButton/char_mage_Button"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 238.0
+offset_right = 179.0
+offset_bottom = 294.0
+theme_override_fonts/font = ExtResource("9_oejdk")
+theme_override_font_sizes/font_size = 40
+text = "Mage"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="char_warrior_Button" type="Button" parent="TouchScreenButton"]
+offset_left = 484.0
+offset_top = 194.0
+offset_right = 654.0
+offset_bottom = 438.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_phxxa")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_ieijo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_8rcpu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vbqge")
+theme_override_styles/normal = SubResource("StyleBoxTexture_phxxa")
+alignment = 2
+icon_alignment = 1
+vertical_icon_alignment = 2
+
+[node name="des" type="Label" parent="TouchScreenButton/char_warrior_Button"]
+offset_left = 22.0
+offset_top = 231.0
+offset_right = 147.0
+offset_bottom = 287.0
+theme_override_fonts/font = ExtResource("9_oejdk")
+theme_override_font_sizes/font_size = 40
+text = "Warrior"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="char_archer_Button" type="Button" parent="TouchScreenButton"]
+offset_left = 840.0
+offset_top = 196.0
+offset_right = 1009.0
+offset_bottom = 432.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_07qmp")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_kpwhk")
-theme_override_styles/hover = SubResource("StyleBoxTexture_ieijo")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8rcpu")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l7a1c")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8042c")
 theme_override_styles/normal = SubResource("StyleBoxTexture_kpwhk")
 
-[connection signal="mouse_entered" from="char_mage_Button" to="." method="_on_char_mage_button_mouse_entered"]
-[connection signal="pressed" from="char_mage_Button" to="." method="_on_char_mage_button_pressed"]
-[connection signal="mouse_entered" from="char_warrior_Button" to="." method="_on_char_warrior_button_mouse_entered"]
-[connection signal="pressed" from="char_warrior_Button" to="." method="_on_char_warrior_button_pressed"]
-[connection signal="mouse_entered" from="char_archer_Button" to="." method="_on_char_archer_button_mouse_entered"]
-[connection signal="pressed" from="char_archer_Button" to="." method="_on_char_archer_button_pressed"]
+[node name="des" type="Label" parent="TouchScreenButton/char_archer_Button"]
+offset_left = 20.0
+offset_top = 226.0
+offset_right = 145.0
+offset_bottom = 282.0
+theme_override_fonts/font = ExtResource("9_oejdk")
+theme_override_font_sizes/font_size = 40
+text = "Archer"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="TouchScreenButton/char_mage_Button" to="." method="_on_char_mage_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/char_mage_Button" to="." method="_on_char_mage_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/char_warrior_Button" to="." method="_on_char_warrior_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/char_warrior_Button" to="." method="_on_char_warrior_button_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/char_archer_Button" to="." method="_on_char_archer_button_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/char_archer_Button" to="." method="_on_char_archer_button_pressed"]

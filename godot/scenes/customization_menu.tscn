@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3jhsr15xuyuq"]
+[gd_scene load_steps=8 format=3 uid="uid://c3jhsr15xuyuq"]
 
-[ext_resource type="Texture2D" uid="uid://0rmgtjt70hkp" path="res://assets/customization_bg.jpg" id="1_j70gy"]
+[ext_resource type="Texture2D" uid="uid://cca8d2guqlv0v" path="res://assets/BG_ICONS/PNG/Window01.png" id="1_x3xua"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="4_3f7tt"]
+[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scenes/ExitButton.gd" id="5_3f7tt"]
+[ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="5_t8f4u"]
+[ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="6_3f7tt"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="6_b3ioh"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2w6sf"]
-texture = ExtResource("1_j70gy")
+texture = ExtResource("1_x3xua")
 
 [node name="CustomizationMenu" type="Control"]
 layout_mode = 3
@@ -13,11 +18,54 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="."]
+[node name="bg" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -47.0
+offset_top = -9.0
+offset_right = 47.0
+offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_2w6sf")
+
+[node name="title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 22.0
+offset_right = 844.0
+offset_bottom = 123.0
+theme_override_fonts/font = ExtResource("4_3f7tt")
+theme_override_font_sizes/font_size = 50
+text = "CUSTOMIZE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+
+[node name="Exit_Button" type="TextureButton" parent="TouchScreenButton"]
+offset_left = 48.0
+offset_top = 54.0
+offset_right = 116.0
+offset_bottom = 119.0
+texture_normal = ExtResource("5_t8f4u")
+texture_pressed = ExtResource("6_3f7tt")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("5_3f7tt")
+
+[node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton/Exit_Button"]
+stream = ExtResource("6_b3ioh")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="Label" type="Label" parent="TouchScreenButton"]
+offset_left = 107.0
+offset_top = 264.0
+offset_right = 348.0
+offset_bottom = 331.0
+
+[connection signal="mouse_entered" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
+[connection signal="pressed" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_pressed"]

@@ -14,17 +14,17 @@ func _on_play_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://godot/scenes/player_name.tscn")
 
 func _on_custom_button_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://godot/scenes/customization_menu.tscn")
 
 func _on_progress_button_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://godot/scenes/progress_menu.tscn")
 
 
 func _on_lead_b_button_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://godot/scenes/leaderboards_menu.tscn")
 
 func _on_marketplace_button_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://godot/scenes/marketplace_menu.tscn")
 
 func _on_setting_button_pressed():
 	print("Settings button pressed")

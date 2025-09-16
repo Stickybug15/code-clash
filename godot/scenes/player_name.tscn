@@ -1,17 +1,17 @@
 [gd_scene load_steps=9 format=3 uid="uid://bpeo4x3yithsw"]
 
 [ext_resource type="Script" uid="uid://8m0w6og7bx4m" path="res://godot/scripts/player_name.gd" id="1_e5ipl"]
-[ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/game_bg.jpg" id="2_2ap2d"]
-[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/8bitlim.ttf" id="3_4dbad"]
+[ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/BG_ICONS/game_bg.jpg" id="2_2ap2d"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_4dbad"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_s4eq8"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vre3d"]
 texture = ExtResource("2_2ap2d")
 modulate_color = Color(0.31802, 0.31802, 0.31802, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u6vhl"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s4eq8"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ud8ud"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gytwu"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
 draw_center = false
 border_width_left = 4
@@ -19,8 +19,8 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e076r"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwb10"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
 [node name="PlayerName" type="Control"]
 layout_mode = 3
@@ -54,6 +54,11 @@ vertical_alignment = 1
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="BG"]
 
+[node name="hover_fx" type="AudioStreamPlayer" parent="BG/TouchScreenButton"]
+stream = ExtResource("4_s4eq8")
+volume_db = -15.0
+bus = &"SFX"
+
 [node name="Player_name" type="LineEdit" parent="BG/TouchScreenButton"]
 offset_left = 353.0
 offset_top = 275.0
@@ -64,29 +69,23 @@ placeholder_text = "Enter a Name"
 alignment = 1
 max_length = 6
 
-[node name="start_button" type="Button" parent="BG/TouchScreenButton/Player_name"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.507
-anchor_top = 1.608
-anchor_right = 0.507
-anchor_bottom = 1.608
-offset_left = -120.643
-offset_top = -36.04
-offset_right = 120.357
-offset_bottom = 35.96
+[node name="name" type="Label" parent="BG/TouchScreenButton"]
+offset_left = 402.0
+offset_top = 428.0
+offset_right = 743.0
+offset_bottom = 490.0
+
+[node name="start" type="Button" parent="BG/TouchScreenButton"]
+offset_left = 470.0
+offset_top = 490.0
+offset_right = 692.0
+offset_bottom = 575.0
 theme_override_fonts/font = ExtResource("3_4dbad")
-theme_override_font_sizes/font_size = 38
-theme_override_styles/focus = SubResource("StyleBoxEmpty_u6vhl")
-theme_override_styles/hover = SubResource("StyleBoxFlat_ud8ud")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_e076r")
-text = "start"
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_s4eq8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gytwu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_uwb10")
+text = "Start"
 
-[node name="hover_fx" type="AudioStreamPlayer" parent="BG/TouchScreenButton"]
-stream = ExtResource("4_s4eq8")
-volume_db = -15.0
-autoplay = true
-bus = &"SFX"
-
-[connection signal="mouse_entered" from="BG/TouchScreenButton/Player_name/start_button" to="." method="_on_start_button_mouse_entered"]
-[connection signal="pressed" from="BG/TouchScreenButton/Player_name/start_button" to="." method="_on_start_button_pressed"]
+[connection signal="mouse_entered" from="BG/TouchScreenButton/start" to="." method="_on_start_mouse_entered"]
+[connection signal="pressed" from="BG/TouchScreenButton/start" to="." method="_on_start_pressed"]
