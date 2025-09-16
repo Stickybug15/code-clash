@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://tf7w03eeb3fn"]
+
+[ext_resource type="Script" uid="uid://dvxlonbiymnji" path="res://godot/scripts/Intro.gd" id="1_muuhy"]
+[ext_resource type="Texture2D" uid="uid://bsfw7hq2pcwjb" path="res://assets/intro/Intro.png" id="2_muuhy"]
+[ext_resource type="AudioStream" uid="uid://epmnf4gstvpf" path="res://assets/sound fx/intro_bg.wav" id="3_xpchu"]
+
+[sub_resource type="Animation" id="Animation_t2or8"]
+resource_name = "Fade in"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wntyv"]
+resource_name = "Fade out"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_mx142"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yf06s"]
+_data = {
+&"Fade in": SubResource("Animation_t2or8"),
+&"Fade out": SubResource("Animation_wntyv"),
+&"RESET": SubResource("Animation_mx142")
+}
+
+[node name="Intro" type="Node2D"]
+script = ExtResource("1_muuhy")
+
+[node name="name" type="Sprite2D" parent="."]
+position = Vector2(577, 327.5)
+scale = Vector2(0.596875, 0.600926)
+texture = ExtResource("2_muuhy")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -162.0
+offset_top = -110.0
+offset_right = 1338.0
+offset_bottom = 799.0
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_yf06s")
+}
+
+[node name="IntroBg" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_xpchu")
+volume_db = -13.0
+autoplay = true

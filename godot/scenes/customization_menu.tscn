@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cca8d2guqlv0v" path="res://assets/BG_ICONS/PNG/Window01.png" id="1_x3xua"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="4_3f7tt"]
-[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scenes/ExitButton.gd" id="5_3f7tt"]
+[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/ExitButton.gd" id="5_3f7tt"]
 [ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="5_t8f4u"]
 [ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="6_3f7tt"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="6_b3ioh"]
