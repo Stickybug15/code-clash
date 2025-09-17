@@ -166,6 +166,7 @@ icon_alignment = 1
 vertical_icon_alignment = 2
 
 [node name="des" type="Label" parent="TouchScreenButton/char_warrior_Button"]
+layout_mode = 0
 offset_left = 22.0
 offset_top = 231.0
 offset_right = 147.0
@@ -188,6 +189,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_8042c")
 theme_override_styles/normal = SubResource("StyleBoxTexture_kpwhk")
 
 [node name="des" type="Label" parent="TouchScreenButton/char_archer_Button"]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 226.0
 offset_right = 145.0

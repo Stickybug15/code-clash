@@ -110,7 +110,7 @@ theme_override_fonts/font = ExtResource("3_pd2u5")
 theme_override_font_sizes/font_size = 34
 text = "email:"
 
-[node name="user" type="LineEdit" parent="BG/TouchScreenButton/email"]
+[node name="email" type="LineEdit" parent="BG/TouchScreenButton/email"]
 layout_mode = 0
 offset_left = 92.0
 offset_right = 425.0
