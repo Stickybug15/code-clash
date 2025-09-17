@@ -5,7 +5,7 @@ set -e
 cache_dir="$PWD/.cache"
 
 if [[ -d "$cache_dir" ]]; then
-  mkdir -p $cache_dir
+  mkdir -p "$cache_dir"
 fi
 
 ask() {
