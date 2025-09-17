@@ -20,12 +20,23 @@ var dash_cmd: ImpulseCommand = ImpulseCommand.new()
 var fall_cmd: FallCommand = FallCommand.new()
 var move_cmd: MoveInputCommand = MoveInputCommand.new()
 
+# TODO: probably, just make this a getter and setter?
+var _wait: bool = false
+func wait() -> void:
+	_wait = true
+func post() -> void:
+	if _wait:
+		input.env.poll()
+		_wait = false
+
 
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED
+	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED
+	pass
 
 
 func _physics_process(delta: float) -> void:
+	input.debug()
 	move_and_slide()
 
 # === Idle State ===
@@ -39,16 +50,17 @@ func _on_idle_state_physics_processing(delta: float) -> void:
 
 # === Walking State ===
 func _on_walk_state_entered() -> void:
-	print("walk")
 	animation.play("walk")
 	move_cmd.initialize(self, {
 		"speed": stats.speed,
 	})
+	wait()
 
 func _on_walk_state_physics_processing(delta: float) -> void:
 	move_cmd.execute(self, delta)
 
 	if move_cmd.is_completed(self):
+		post()
 		gsc.send_event("to_idle")
 		return
 	if Input.is_action_pressed("run"):
@@ -58,16 +70,13 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 		gsc.send_event("to_dash")
 		return
 
-
-func _on_walk_state_exited() -> void:
-	input.env.poll()
-
 #  === Running State === TODO: Duplicate of Walking State, but with different speed.
 func _on_run_state_entered() -> void:
 	animation.play("run")
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
 	})
+	wait()
 
 func _on_run_state_physics_processing(delta: float) -> void:
 	if not Input.is_action_pressed("run"):
@@ -80,10 +89,8 @@ func _on_run_state_physics_processing(delta: float) -> void:
 	move_cmd.execute(self, delta)
 
 	if move_cmd.is_completed(self):
+		post()
 		gsc.send_event("to_idle")
-
-func _on_run_state_exited() -> void:
-	input.env.poll()
 
 # === Grounded State ===
 func _on_grounded_state_entered() -> void:
@@ -104,6 +111,7 @@ func _on_jump_state_entered() -> void:
 		"time_to_peak": stats.jump_time_to_peak,
 		"direction": Vector2.UP,
 	})
+	wait()
 
 func _on_jump_state_physics_processing(delta: float) -> void:
 	jump_cmd.execute(self, delta)
@@ -123,10 +131,8 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 	fall_cmd.execute(self, delta)
 
 	if fall_cmd.is_completed(self):
+		post()
 		gsc.send_event("to_grounded")
-
-func _on_falling_state_exited() -> void:
-	input.env.poll()
 
 
 func _on_dash_state_entered() -> void:
@@ -143,6 +149,7 @@ func _on_dash_state_physics_processing(delta: float) -> void:
 	dash_cmd.execute(self, delta)
 
 	if dash_cmd.is_completed(self):
+		post()
 		if signf(Input.get_axis("left", "right")) != 0.0:
 			gsc.send_event("to_idle")
 		else:

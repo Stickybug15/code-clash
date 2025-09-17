@@ -22,6 +22,5 @@ func execute(actor: CharacterBody2D, delta: float) -> void:
 	# apply deceleration opposite to the impulse direction
 	if actor.velocity.dot(direction) > 0.0:
 		actor.velocity += -direction * acceleration * delta
-		print(actor.velocity)
 	else:
 		_to_complete()

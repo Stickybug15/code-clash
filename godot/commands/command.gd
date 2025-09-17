@@ -22,6 +22,16 @@ func initialize(actor, msg: Dictionary = {}) -> void
 func execute(actor, delta: float) -> void
 
 
+func _reset_signal(...p_signal: Array) -> void:
+	for _signal: Signal in p_signal:
+		for conn: Dictionary in _signal.get_connections():
+			_signal.disconnect(conn["callable"] as Callable)
+
+func reset() -> void:
+	_reset_signal(actived, idled, completed)
+	_status = Status.Complete
+
+
 func set_msg(actor, msg: Dictionary) -> void:
 	push_error(name, ".set_msg() not implemented.")
 
