@@ -337,11 +337,13 @@ offset_bottom = 40.0
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "//hero.jump()
+text = "hero.jump()
 hero.dash_right()
 hero.dash_left()
-//hero.walk_left()
-//hero.walk_right()"
+hero.walk_left()
+hero.walk_right()
+hero.run_left()
+hero.run_right()"
 
 [node name="Run" type="Button" parent="UI/Editor"]
 layout_mode = 2

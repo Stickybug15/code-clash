@@ -58,7 +58,6 @@ func _ready() -> void:
 		"dash": 0.0,
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		print("dash_left")
 		actions_press(info.actions)
 	add_method(action)
 
@@ -71,9 +70,33 @@ func _ready() -> void:
 		"dash": 0.0,
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		print("dash_right")
 		actions_press(info.actions)
 	add_method(action)
+
+
+	action = MethodInput.new()
+	action.object_name = "hero"
+	action.method_name = "run_left"
+	action.actions = {
+		"left": 0.5,
+		"run": 0.5,
+	}
+	action.callable = func(info: MethodInput, args: Dictionary) -> void:
+		actions_press(info.actions)
+	add_method(action)
+
+
+	action = MethodInput.new()
+	action.object_name = "hero"
+	action.method_name = "run_right"
+	action.actions = {
+		"right": 0.5,
+		"run": 0.5,
+	}
+	action.callable = func(info: MethodInput, args: Dictionary) -> void:
+		actions_press(info.actions)
+	add_method(action)
+
 
 var methods: Array[MethodInput] = []
 func add_method(action: MethodInput) -> void:
