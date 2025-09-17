@@ -4,6 +4,10 @@ set -e
 
 cache_dir="$PWD/.cache"
 
+if [[ -d "$cache_dir" ]]; then
+  mkdir -p $cache_dir
+fi
+
 ask() {
   local prompt="$1"
   local answer
@@ -49,8 +53,6 @@ download() {
   printf "%sDownloading:%s %s\n" "$(ansi green)" "$(ansi reset)" "$out"
   printf "  from: %s\n" "$url"
 
-  mkdir -p "$cache_dir"
-
   if ! curl -L -C - -f -o "$out" "$url"; then
     printf "%serror:%s failed to download %s\n" "$(ansi red)" "$(ansi reset)" "$out"
     exit 1
@@ -92,12 +94,12 @@ init_scons() {
 
   make_py_script() {
     local sh_file="$cache_dir/python.sh"
-    rm -rf $sh_file
+    rm -rf "$sh_file"
     local shebang='#!/bin/bash'
     local python="exec python $@"
-    printf '%s\n' "$shebang" >> $sh_file
-    printf 'exec %s $@\n' "$1" >> $sh_file
-    chmod +x $sh_file
+    printf '%s\n' "$shebang" >> "$sh_file"
+    printf 'exec %s $@\n' "$1" >> "$sh_file"
+    chmod +x "$sh_file"
   }
 
   local python_bin=""
