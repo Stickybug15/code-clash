@@ -128,7 +128,7 @@ init_scons() {
 }
 
 init_compiler() {
-  local url="https://github.com/msys2/msys2-installer/releases/download/2025-06-22/msys2-x86_64-20250622.exe"
+  local url="https://github.com/msys2/msys2-installer/releases/download/nightly-x86_64/msys2-x86_64-latest.exe"
   local file="$cache_dir/$(basename $url)"
   if [[ ! -f "$file" ]]; then
     download "$file" "$url"
