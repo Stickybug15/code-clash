@@ -134,11 +134,11 @@ init_compiler() {
     download "$file" "$url"
   fi
   if [[ ! -d '/c/msys64' ]]; then
-    $file in --confirm-command --accept-messages --root 'C:/msys64'
+    "$file" in --confirm-command --accept-messages --root 'C:/msys64'
     powershell -Command 'setx PATH "%PATH%;C:/msys64/mingw64/bin"'
   fi
   local pacman="/c/msys64/usr/bin/pacman"
-  $pacman -S mingw-w64-x86_64-gcc mingw-w64-i686-gcc --noconfirm --needed
+  "$pacman" -S mingw-w64-x86_64-gcc mingw-w64-i686-gcc --noconfirm --needed
 
   ./just.sh --set build_library yes build-windows-x86_64
 }
