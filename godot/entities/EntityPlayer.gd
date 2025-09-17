@@ -36,7 +36,6 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	input.debug()
 	move_and_slide()
 
 # === Idle State ===
