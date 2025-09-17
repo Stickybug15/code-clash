@@ -3,6 +3,7 @@ compile_commands := if compiledb == "yes" { "compiledb" } else { "" }
 api_dir := "src/api/"
 build_library := "no"
 mode := "debug"
+android_flags := "ndk_version=28.2.13676358"
 flag_target := if mode == "debug" {
   "target=template_debug debug_symbols=yes use_hot_reload=yes generate_bindings=yes"
 } else if mode == "release" {
@@ -30,14 +31,14 @@ build-linux $SCONS_CACHE="build-linux":
   {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=linux
 
 build-android-arm32 $SCONS_CACHE="build-android-arm32":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=arm32
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=arm32
 build-android-arm64 $SCONS_CACHE="build-android-arm64":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=arm64
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=arm64
 
 build-android-x86_32 $SCONS_CACHE="build-android-x86_32":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=x86_32
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=x86_32
 build-android-x86_64 $SCONS_CACHE="build-android-x86_64":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android arch=x86_64
+  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=x86_64
 
 build-windows-x86_32 $SCONS_CACHE="build-windows-x86_32":
   {{scons}} {{compile_commands}} {{flag_target}} use_llvm=no gdextension_dir={{api_dir}} build_library={{build_library}} mingw_prefix='C:/msys64/mingw64' {{mingw}} platform=windows arch=x86_32
