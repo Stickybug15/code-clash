@@ -1,17 +1,12 @@
-[gd_scene load_steps=28 format=3 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=24 format=3 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Theme" uid="uid://c30mdi5ed2iah" path="res://assets/fonts/monospace.tres" id="1_m8h0s"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="1_osepa"]
 [ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/entities/Entities.gd" id="2_krip0"]
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
-[ext_resource type="Script" uid="uid://38r2fc733xaa" path="res://godot/commands/jump_command.gd" id="4_rylah"]
 [ext_resource type="Script" uid="uid://ml1jfdu58bxm" path="res://godot/script_environment/SimulateInput.gd" id="4_sghct"]
 [ext_resource type="SpriteFrames" uid="uid://cftgtps75voyf" path="res://assets/characters/lune_blade/LuneBlade.tres" id="6_mwwg5"]
-[ext_resource type="Script" uid="uid://di16n7fv27a8" path="res://godot/commands/arc_move_command.gd" id="6_uwghf"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
-[ext_resource type="Script" uid="uid://cc0gmnbmja00h" path="res://godot/commands/move_input_command.gd" id="8_sghct"]
-[ext_resource type="Script" uid="uid://cvscfobqor8e6" path="res://godot/commands/fall_command.gd" id="10_ojwt1"]
-[ext_resource type="Script" uid="uid://uja8eba3ek00" path="res://godot/commands/impulse_command.gd" id="11_llv2m"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="16_15rco"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="17_5qqfe"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="17_vra06"]
@@ -38,6 +33,33 @@ func _on_viewport_size_changed() -> void:
 
 	position.y = ground.position.y - screen_size.y * 0.4
 "
+
+[sub_resource type="Animation" id="Animation_llv2m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"walk"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
 
 [sub_resource type="Animation" id="Animation_3op1n"]
 resource_name = "fall"
@@ -183,8 +205,8 @@ tracks/1/keys = {
 "values": [0, 5]
 }
 
-[sub_resource type="Animation" id="Animation_llv2m"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_15rco"]
+resource_name = "dash"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -195,7 +217,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"walk"]
+"values": [&"dash"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -204,15 +226,16 @@ tracks/1/path = NodePath(".:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [5]
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 11]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dvuyy"]
 _data = {
 &"RESET": SubResource("Animation_llv2m"),
+&"dash": SubResource("Animation_15rco"),
 &"fall": SubResource("Animation_3op1n"),
 &"idle": SubResource("Animation_mb05r"),
 &"jump": SubResource("Animation_dvuyy"),
@@ -278,16 +301,12 @@ initial_node_to_watch = NodePath("../../Entities/Player/StateChart")
 [node name="Entities" type="Node" parent="."]
 script = ExtResource("2_krip0")
 
-[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "input", "impulse_cmd", "fall_cmd", "move_cmd", "jump_cmd", "gsc")]
+[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "input", "gsc")]
 position = Vector2(0, -77)
 scale = Vector2(4, 4)
 script = ExtResource("3_i14ea")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
 input = NodePath("SimulateInput")
-impulse_cmd = NodePath("Commands/Impulse")
-fall_cmd = NodePath("Commands/Fall")
-move_cmd = NodePath("Commands/Move")
-jump_cmd = NodePath("Commands/Jump")
 stats = ExtResource("8_7bxlx")
 gsc = NodePath("StateChart")
 metadata/_edit_group_ = true
@@ -314,29 +333,6 @@ visible = false
 position = Vector2(-0.5, -1)
 shape = SubResource("RectangleShape2D_rlytp")
 
-[node name="Commands" type="Node" parent="Entities/Player"]
-
-[node name="Jump" type="Node" parent="Entities/Player/Commands"]
-script = ExtResource("4_rylah")
-metadata/_custom_type_script = "uid://38r2fc733xaa"
-
-[node name="Fall" type="Node" parent="Entities/Player/Commands"]
-script = ExtResource("10_ojwt1")
-metadata/_custom_type_script = "uid://cvscfobqor8e6"
-
-[node name="Move" type="Node" parent="Entities/Player/Commands" node_paths=PackedStringArray("sprite")]
-script = ExtResource("8_sghct")
-sprite = NodePath("../../Sprite")
-metadata/_custom_type_script = "uid://cc0gmnbmja00h"
-
-[node name="Impulse" type="Node" parent="Entities/Player/Commands"]
-script = ExtResource("11_llv2m")
-metadata/_custom_type_script = "uid://uja8eba3ek00"
-
-[node name="ArcMove" type="Node" parent="Entities/Player/Commands"]
-script = ExtResource("6_uwghf")
-metadata/_custom_type_script = "uid://di16n7fv27a8"
-
 [node name="StateChart" type="Node" parent="Entities/Player"]
 script = ExtResource("16_15rco")
 metadata/_custom_type_script = "uid://couw105c3bde4"
@@ -357,6 +353,12 @@ to = NodePath("../../Walk")
 event = &"to_walking"
 delay_in_seconds = "0.0"
 
+[node name="ToDash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Idle"]
+script = ExtResource("19_5qqfe")
+to = NodePath("../../Dash")
+event = &"to_dash"
+delay_in_seconds = "0.0"
+
 [node name="Walk" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
 script = ExtResource("18_vra06")
 
@@ -372,6 +374,12 @@ to = NodePath("../../Run")
 event = &"to_running"
 delay_in_seconds = "0.0"
 
+[node name="ToDash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Walk"]
+script = ExtResource("19_5qqfe")
+to = NodePath("../../Dash")
+event = &"to_dash"
+delay_in_seconds = "0.0"
+
 [node name="Run" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
 script = ExtResource("18_vra06")
 
@@ -382,6 +390,27 @@ event = &"to_idle"
 delay_in_seconds = "0.0"
 
 [node name="ToWalking" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Run"]
+script = ExtResource("19_5qqfe")
+to = NodePath("../../Walk")
+event = &"to_walking"
+delay_in_seconds = "0.0"
+
+[node name="ToDash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Run"]
+script = ExtResource("19_5qqfe")
+to = NodePath("../../Dash")
+event = &"to_dash"
+delay_in_seconds = "0.0"
+
+[node name="Dash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
+script = ExtResource("18_vra06")
+
+[node name="ToIdle" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Dash"]
+script = ExtResource("19_5qqfe")
+to = NodePath("../../Idle")
+event = &"to_idle"
+delay_in_seconds = "0.0"
+
+[node name="ToWalking" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Dash"]
 script = ExtResource("19_5qqfe")
 to = NodePath("../../Walk")
 event = &"to_walking"
@@ -439,6 +468,9 @@ delay_in_seconds = "0.0"
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Run" to="Entities/Player" method="_on_run_state_entered"]
 [connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Run" to="Entities/Player" method="_on_run_state_exited"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Run" to="Entities/Player" method="_on_run_state_physics_processing"]
+[connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_entered"]
+[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_exited"]
+[connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_physics_processing"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/AirBorne/Grounded" to="Entities/Player" method="_on_grounded_state_entered"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Grounded" to="Entities/Player" method="_on_grounded_state_physics_processing"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/AirBorne/Falling" to="Entities/Player" method="_on_falling_state_entered"]

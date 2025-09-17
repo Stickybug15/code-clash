@@ -7,6 +7,9 @@ var speed: float =  300
 var running_speed: float =  speed * 2
 var distance: int = 40
 
+var dash_distance: float = 300
+var dash_duration: float = 0.5
+
 
 @export var jump_height : float = 80:
 	get:
