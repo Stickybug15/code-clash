@@ -3,11 +3,12 @@ extends Resource
 
 
 var move_duration: float = 0.2
-var speed: float =  200
+var speed: float =  300
+var running_speed: float =  speed * 2
 var distance: int = 40
 
 
-@export var jump_height : float = 40:
+@export var jump_height : float = 80:
 	get:
 		return jump_height
 	set(value):

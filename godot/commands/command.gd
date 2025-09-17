@@ -18,13 +18,12 @@ var _status: Status = Status.Complete
 @abstract
 func initialize(actor, msg: Dictionary = {}) -> void
 
+@abstract
+func execute(actor, delta: float) -> void
+
 
 func set_msg(actor, msg: Dictionary) -> void:
 	push_error(name, ".set_msg() not implemented.")
-
-
-func execute(actor, delta: float) -> void:
-	pass
 
 
 func complete(actor) -> void:

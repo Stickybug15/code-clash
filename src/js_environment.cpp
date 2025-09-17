@@ -4,6 +4,7 @@
 #include "godot_cpp/classes/object.hpp"
 #include "godot_cpp/classes/ref.hpp"
 #include "godot_cpp/classes/ref_counted.hpp"
+#include "godot_cpp/classes/resource.hpp"
 #include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
 #include "godot_cpp/variant/callable_method_pointer.hpp"
@@ -26,6 +27,8 @@ namespace godot {
 void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("add_method", "method_info"),
                        &JSEnvironment::add_method);
+  ClassDB::bind_method(D_METHOD("method", "resource"),
+                       &JSEnvironment::method);
   ClassDB::bind_method(D_METHOD("eval", "code"), &JSEnvironment::eval);
   ClassDB::bind_method(D_METHOD("eval_async", "code"),
                        &JSEnvironment::eval_async);
@@ -102,8 +105,10 @@ void JSEnvironment::_eval_pending_code(String code) {
 }
 
 void JSEnvironment::_method_finished() {
-  print_line("_method_finished: post");
   semaphore->post();
+}
+
+void JSEnvironment::method(Ref<Resource> resource) {
 }
 
 Dictionary obj_to_dict(duk_context *ctx);
