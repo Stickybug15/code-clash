@@ -17,10 +17,10 @@ var stats: EntityStats
 @export
 var gsc: StateChart
 
-var jump_cmd: ImpulseCommand = ImpulseCommand.new()
-var dash_cmd: ImpulseCommand = ImpulseCommand.new()
-var fall_cmd: FallCommand = FallCommand.new()
-var move_cmd: MoveInputCommand = MoveInputCommand.new()
+var jump_cmd: Command = ImpulseCommand.new()
+var dash_cmd: Command = ImpulseCommand.new()
+var fall_cmd: Command = FallCommand.new()
+var move_cmd: Command = MoveInputCommand.new()
 
 # TODO: probably, just make this a getter and setter?
 var _wait: bool = false
@@ -50,9 +50,11 @@ func _on_idle_state_entered() -> void:
 
 	velocity = Vector2.ZERO
 
+
 func _on_idle_state_physics_processing(delta: float) -> void:
 	if signf(Input.get_axis("left", "right")) != 0.0:
 		gsc.send_event("to_walking")
+
 
 func _on_idle_state_exited() -> void:
 	anim_tree["parameters/conditions/is_idle"] = false
@@ -66,7 +68,11 @@ func _on_walk_state_entered() -> void:
 	move_cmd.initialize(self, {
 		"speed": stats.speed,
 	})
+
+	sprite.flip_h = Input.get_axis("left", "right") < 0
+
 	wait()
+
 
 func _on_walk_state_physics_processing(delta: float) -> void:
 	move_cmd.execute(self, delta)
@@ -82,6 +88,7 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 		gsc.send_event("to_dash")
 		return
 
+
 func _on_walk_state_exited() -> void:
 	anim_tree["parameters/conditions/is_walking"] = false
 
@@ -94,6 +101,7 @@ func _on_run_state_entered() -> void:
 		"speed": stats.running_speed,
 	})
 	wait()
+
 
 func _on_run_state_physics_processing(delta: float) -> void:
 	if not Input.is_action_pressed("run"):
@@ -108,6 +116,7 @@ func _on_run_state_physics_processing(delta: float) -> void:
 	if move_cmd.is_completed(self):
 		post()
 		gsc.send_event("to_idle")
+
 
 func _on_run_state_exited() -> void:
 	anim_tree["parameters/conditions/is_running"] = false
@@ -133,6 +142,7 @@ func _on_jump_state_entered() -> void:
 	})
 	wait()
 
+
 func _on_jump_state_physics_processing(delta: float) -> void:
 	jump_cmd.execute(self, delta)
 
@@ -148,6 +158,7 @@ func _on_falling_state_entered() -> void:
 		"height": stats.jump_height,
 		"time_to_descent": stats.jump_time_to_descent,
 	})
+
 
 func _on_falling_state_physics_processing(delta: float) -> void:
 	fall_cmd.execute(self, delta)
@@ -168,20 +179,22 @@ func _on_dash_state_entered() -> void:
 		"direction": Vector2(Input.get_axis("left", "right"),  0),
 		"preserve_velocity": true,
 	})
+
+	sprite.flip_h = Input.get_axis("left", "right") < 0
+
 	await dash_cmd.actived
 	gsc.set_expression_property(&"is_dash_applied", true)
 	await dash_cmd.completed
 	gsc.set_expression_property(&"is_dash_applied", false)
+
 
 func _on_dash_state_physics_processing(delta: float) -> void:
 	dash_cmd.execute(self, delta)
 
 	if dash_cmd.is_completed(self):
 		post()
-		if signf(Input.get_axis("left", "right")) != 0.0:
-			gsc.send_event("to_walking")
-		else:
-			gsc.send_event("to_idle")
+		gsc.send_event("to_idle")
+
 
 func _on_dash_state_exited() -> void:
 	anim_tree["parameters/dash/TimeScale/scale"] = 1.0

@@ -264,7 +264,6 @@ animation = &"dash"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_mwwg5"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_uwghf"]
-graph_offset = Vector2(159.60759, 49.378742)
 nodes/output/position = Vector2(826.6667, 160)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_sghct")
 nodes/Animation/position = Vector2(293.33334, 186.66667)
