@@ -152,7 +152,8 @@ func _on_jump_state_physics_processing(delta: float) -> void:
 
 # === Falling State ===
 func _on_falling_state_entered() -> void:
-	anim_tree_fsm.travel(&"fall")
+	# TODO: Why .travel isn't working, but .start does?
+	anim_tree_fsm.start(&"fall")
 	anim_tree.get_animation(&"fall").length = stats.jump_time_to_descent
 	fall_cmd.initialize(self, {
 		"height": stats.jump_height,
