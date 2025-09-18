@@ -9,11 +9,11 @@ func _ready():
 	line_edit.text_submitted.connect(_on_line_edit_text_entered)
 
 func _on_line_edit_text_entered(newtext: String) -> void:
-	name_label.text = "Player Name: " + newtext
+	name_label.text = "PlayerName: " + newtext
 	start_button.visible = true
 
 func _on_start_pressed() -> void:
-	get_tree().change_scene_to_file("res://godot/scenes/play_role_start.tscn")
+	get_tree().change_scene_to_file("res://godot/Arena.tscn")
 
 
 func _on_start_mouse_entered() -> void:
