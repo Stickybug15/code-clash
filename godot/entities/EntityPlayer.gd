@@ -107,7 +107,7 @@ func _on_run_state_physics_processing(delta: float) -> void:
 	if not Input.is_action_pressed("run"):
 		gsc.send_event("to_walking")
 		return
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_pressed("dash"):
 		gsc.send_event("to_dash")
 		return
 
@@ -191,9 +191,16 @@ func _on_dash_state_entered() -> void:
 func _on_dash_state_physics_processing(delta: float) -> void:
 	dash_cmd.execute(self, delta)
 
+	var dir: float = signf(Input.get_axis("left", "right"))
+	if dir != 0.0 and signf(velocity.x) != dir:
+		dash_cmd.complete(self)
+
 	if dash_cmd.is_completed(self):
 		post()
-		gsc.send_event("to_idle")
+		if dir != 0.0:
+			gsc.send_event("to_walking")
+		else:
+			gsc.send_event("to_idle")
 
 
 func _on_dash_state_exited() -> void:
