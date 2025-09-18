@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=56 format=3 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Theme" uid="uid://c30mdi5ed2iah" path="res://assets/fonts/monospace.tres" id="1_m8h0s"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="1_osepa"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ml1jfdu58bxm" path="res://godot/script_environment/SimulateInput.gd" id="4_sghct"]
 [ext_resource type="SpriteFrames" uid="uid://cftgtps75voyf" path="res://assets/characters/lune_blade/LuneBlade.tres" id="6_mwwg5"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
+[ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="13_rlytp"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="16_15rco"]
 [ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="17_5qqfe"]
 [ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="17_vra06"]
@@ -71,6 +72,34 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_15rco"]
+resource_name = "dash"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"dash"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 11]
 }
 
 [sub_resource type="Animation" id="Animation_3op1n"]
@@ -217,33 +246,6 @@ tracks/1/keys = {
 "values": [0, 5]
 }
 
-[sub_resource type="Animation" id="Animation_15rco"]
-resource_name = "dash"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"dash"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 11]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dvuyy"]
 _data = {
 &"RESET": SubResource("Animation_llv2m"),
@@ -255,8 +257,104 @@ _data = {
 &"walk": SubResource("Animation_mwwg5")
 }
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sghct"]
+animation = &"dash"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_mwwg5"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_uwghf"]
+graph_offset = Vector2(159.60759, 49.378742)
+nodes/output/position = Vector2(826.6667, 160)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_sghct")
+nodes/Animation/position = Vector2(293.33334, 186.66667)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_mwwg5")
+nodes/TimeScale/position = Vector2(560, 160)
+node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uwghf"]
+animation = &"fall"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rlytp"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m8h0s"]
+animation = &"jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mwwg5"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_llv2m"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sghct"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0s35q"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mrbje"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a07hc"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t6a0t"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_i74lf"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_snonw"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rlytp"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m8h0s"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vra06"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_osepa"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xlkdc"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0aqgn"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_llv2m"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mwwg5"]
+advance_mode = 2
+advance_condition = &"is_walking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_15rco"]
+advance_mode = 2
+advance_condition = &"is_running"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5qqfe"]
+advance_mode = 2
+advance_condition = &"is_idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3gog7"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ow3cj"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_uwghf"]
+states/End/position = Vector2(789.3333, 92.39392)
+states/Start/position = Vector2(142.66667, 97.43349)
+states/dash/node = SubResource("AnimationNodeBlendTree_uwghf")
+states/dash/position = Vector2(168.72833, -45.707283)
+states/fall/node = SubResource("AnimationNodeAnimation_uwghf")
+states/fall/position = Vector2(571.8954, 91.713974)
+states/idle/node = SubResource("AnimationNodeAnimation_rlytp")
+states/idle/position = Vector2(366.71075, 97.40479)
+states/jump/node = SubResource("AnimationNodeAnimation_m8h0s")
+states/jump/position = Vector2(480.72833, 182.95364)
+states/run/node = SubResource("AnimationNodeAnimation_mwwg5")
+states/run/position = Vector2(570.86163, -45.42697)
+states/walk/node = SubResource("AnimationNodeAnimation_llv2m")
+states/walk/position = Vector2(367.09372, -131.82074)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_sghct"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_0s35q"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_mrbje"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_a07hc"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_t6a0t"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_i74lf"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_snonw"), "dash", "walk", SubResource("AnimationNodeStateMachineTransition_rlytp"), "walk", "dash", SubResource("AnimationNodeStateMachineTransition_m8h0s"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_vra06"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_osepa"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_xlkdc"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_0aqgn"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_llv2m"), "fall", "walk", SubResource("AnimationNodeStateMachineTransition_mwwg5"), "fall", "run", SubResource("AnimationNodeStateMachineTransition_15rco"), "fall", "idle", SubResource("AnimationNodeStateMachineTransition_5qqfe"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_3gog7"), "idle", "fall", SubResource("AnimationNodeStateMachineTransition_ow3cj")]
+graph_offset = Vector2(-12.572993, -146.56622)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rlytp"]
 size = Vector2(15, 18)
+
+[sub_resource type="Resource" id="Resource_m8h0s"]
+script = ExtResource("13_rlytp")
+expression = "not is_dash_applied"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
 [node name="Node2D" type="Node2D"]
 script = SubResource("GDScript_uwghf")
@@ -375,12 +473,21 @@ sprite_frames = ExtResource("6_mwwg5")
 animation = &"walk"
 frame = 5
 
-[node name="Animation" type="AnimationPlayer" parent="Entities/Player"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/Player"]
 root_node = NodePath("../Sprite")
 callback_mode_process = 0
 libraries = {
 &"": SubResource("AnimationLibrary_dvuyy")
 }
+
+[node name="AnimationTree" type="AnimationTree" parent="Entities/Player"]
+root_node = NodePath("../Sprite")
+tree_root = SubResource("AnimationNodeStateMachine_uwghf")
+anim_player = NodePath("../AnimationPlayer")
+parameters/conditions/is_idle = false
+parameters/conditions/is_running = false
+parameters/conditions/is_walking = false
+parameters/dash/TimeScale/scale = 1.0
 
 [node name="SimulateInput" type="Node" parent="Entities/Player" node_paths=PackedStringArray("code_edit")]
 script = ExtResource("4_sghct")
@@ -392,6 +499,9 @@ shape = SubResource("RectangleShape2D_rlytp")
 
 [node name="StateChart" type="Node" parent="Entities/Player"]
 script = ExtResource("16_15rco")
+initial_expression_properties = {
+&"is_dash_applied": false
+}
 metadata/_custom_type_script = "uid://couw105c3bde4"
 
 [node name="ParallelState" type="Node" parent="Entities/Player/StateChart"]
@@ -414,6 +524,7 @@ delay_in_seconds = "0.0"
 script = ExtResource("19_5qqfe")
 to = NodePath("../../Dash")
 event = &"to_dash"
+guard = SubResource("Resource_m8h0s")
 delay_in_seconds = "0.0"
 
 [node name="Walk" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
@@ -435,6 +546,7 @@ delay_in_seconds = "0.0"
 script = ExtResource("19_5qqfe")
 to = NodePath("../../Dash")
 event = &"to_dash"
+guard = SubResource("Resource_m8h0s")
 delay_in_seconds = "0.0"
 
 [node name="Run" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
@@ -456,6 +568,7 @@ delay_in_seconds = "0.0"
 script = ExtResource("19_5qqfe")
 to = NodePath("../../Dash")
 event = &"to_dash"
+guard = SubResource("Resource_m8h0s")
 delay_in_seconds = "0.0"
 
 [node name="Dash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
@@ -520,8 +633,10 @@ delay_in_seconds = "0.0"
 [connection signal="body_entered" from="RightWall" to="." method="_on_wall_body_entered"]
 [connection signal="pressed" from="UI/Editor/Run" to="Entities/Player/SimulateInput" method="_on_run_pressed"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_entered"]
+[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_exited"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_physics_processing"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_entered"]
+[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_exited"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_physics_processing"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Run" to="Entities/Player" method="_on_run_state_entered"]
 [connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Run" to="Entities/Player" method="_on_run_state_exited"]
@@ -529,7 +644,6 @@ delay_in_seconds = "0.0"
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_entered"]
 [connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_exited"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_physics_processing"]
-[connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/AirBorne/Grounded" to="Entities/Player" method="_on_grounded_state_entered"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Grounded" to="Entities/Player" method="_on_grounded_state_physics_processing"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/AirBorne/Falling" to="Entities/Player" method="_on_falling_state_entered"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Falling" to="Entities/Player" method="_on_falling_state_physics_processing"]

@@ -13,6 +13,7 @@ func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 
 
 func execute(actor: EntityPlayer, delta: float) -> void:
+	print(actor.velocity)
 	var direction := Input.get_axis("left", "right")
 
 	if direction:

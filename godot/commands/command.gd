@@ -18,8 +18,9 @@ var _status: Status = Status.Complete
 @abstract
 func initialize(actor, msg: Dictionary = {}) -> void
 
-@abstract
-func execute(actor, delta: float) -> void
+
+func execute(actor, delta: float) -> void:
+	pass
 
 
 func _reset_signal(...p_signal: Array) -> void:
