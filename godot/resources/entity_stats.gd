@@ -3,8 +3,8 @@ extends Resource
 
 
 var move_duration: float = 0.2
-var speed: float =  300
-var running_speed: float =  speed * 2
+var speed: float =  400
+var running_speed: float =  speed * 1.6
 var distance: int = 40
 
 var dash_distance: float = 200
