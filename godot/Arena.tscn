@@ -316,15 +316,15 @@ animation = &"walk"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mwwg5"]
 advance_mode = 2
-advance_condition = &"is_walking"
+advance_expression = "walk_state.active and grounded_state.active"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_15rco"]
 advance_mode = 2
-advance_condition = &"is_running"
+advance_expression = "run_state.active and grounded_state.active"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5qqfe"]
 advance_mode = 2
-advance_condition = &"is_idle"
+advance_expression = "idle_state.active and grounded_state.active"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3gog7"]
 
@@ -346,7 +346,7 @@ states/run/position = Vector2(570.86163, -45.42697)
 states/walk/node = SubResource("AnimationNodeAnimation_llv2m")
 states/walk/position = Vector2(367.09372, -131.82074)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_sghct"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_0s35q"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_mrbje"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_a07hc"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_t6a0t"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_i74lf"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_snonw"), "dash", "walk", SubResource("AnimationNodeStateMachineTransition_rlytp"), "walk", "dash", SubResource("AnimationNodeStateMachineTransition_m8h0s"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_vra06"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_osepa"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_xlkdc"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_0aqgn"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_llv2m"), "fall", "walk", SubResource("AnimationNodeStateMachineTransition_mwwg5"), "fall", "run", SubResource("AnimationNodeStateMachineTransition_15rco"), "fall", "idle", SubResource("AnimationNodeStateMachineTransition_5qqfe"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_3gog7"), "idle", "fall", SubResource("AnimationNodeStateMachineTransition_ow3cj")]
-graph_offset = Vector2(-12.572993, -146.56622)
+graph_offset = Vector2(-12.572993, -140.4334)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rlytp"]
 size = Vector2(15, 18)
@@ -483,10 +483,8 @@ libraries = {
 [node name="AnimationTree" type="AnimationTree" parent="Entities/Player"]
 root_node = NodePath("../Sprite")
 tree_root = SubResource("AnimationNodeStateMachine_uwghf")
+advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/conditions/is_idle = false
-parameters/conditions/is_running = false
-parameters/conditions/is_walking = false
 parameters/dash/TimeScale/scale = 1.0
 
 [node name="SimulateInput" type="Node" parent="Entities/Player" node_paths=PackedStringArray("code_edit")]

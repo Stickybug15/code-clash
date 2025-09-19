@@ -22,6 +22,23 @@ var dash_cmd: Command = ImpulseCommand.new()
 var fall_cmd: Command = FallCommand.new()
 var move_cmd: Command = MoveInputCommand.new()
 
+@onready
+var idle_state: AtomicState = $StateChart/ParallelState/Locomotion/Idle
+@onready
+var walk_state: AtomicState = $StateChart/ParallelState/Locomotion/Walk
+@onready
+var run_state: AtomicState = $StateChart/ParallelState/Locomotion/Run
+@onready
+var dash_state: AtomicState = $StateChart/ParallelState/Locomotion/Dash
+
+@onready
+var grounded_state: AtomicState = $StateChart/ParallelState/AirBorne/Grounded
+@onready
+var falling_state: AtomicState = $StateChart/ParallelState/AirBorne/Falling
+@onready
+var jump_state: AtomicState = $StateChart/ParallelState/AirBorne/Jump
+
+
 # TODO: probably, just make this a getter and setter?
 var _wait: bool = false
 func wait() -> void:
@@ -45,7 +62,6 @@ func _physics_process(delta: float) -> void:
 
 # === Idle State ===
 func _on_idle_state_entered() -> void:
-	anim_tree["parameters/conditions/is_idle"] = true
 	anim_tree_fsm.travel(&"idle")
 
 	velocity = Vector2.ZERO
@@ -57,12 +73,11 @@ func _on_idle_state_physics_processing(delta: float) -> void:
 
 
 func _on_idle_state_exited() -> void:
-	anim_tree["parameters/conditions/is_idle"] = false
+	pass
 
 
 # === Walking State ===
 func _on_walk_state_entered() -> void:
-	anim_tree["parameters/conditions/is_walking"] = true
 	anim_tree_fsm.travel(&"walk")
 
 	move_cmd.initialize(self, {
@@ -90,12 +105,11 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 
 
 func _on_walk_state_exited() -> void:
-	anim_tree["parameters/conditions/is_walking"] = false
+	pass
 
 
 #  === Running State === TODO: Duplicate of Walking State, but with different speed.
 func _on_run_state_entered() -> void:
-	anim_tree["parameters/conditions/is_running"] = true
 	anim_tree_fsm.travel(&"run")
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
@@ -119,7 +133,7 @@ func _on_run_state_physics_processing(delta: float) -> void:
 
 
 func _on_run_state_exited() -> void:
-	anim_tree["parameters/conditions/is_running"] = false
+	pass
 
 
 # === Grounded State ===
@@ -152,8 +166,7 @@ func _on_jump_state_physics_processing(delta: float) -> void:
 
 # === Falling State ===
 func _on_falling_state_entered() -> void:
-	# TODO: Why .travel isn't working, but .start does?
-	anim_tree_fsm.start(&"fall")
+	anim_tree_fsm.travel(&"fall")
 	anim_tree.get_animation(&"fall").length = stats.jump_time_to_descent
 	fall_cmd.initialize(self, {
 		"height": stats.jump_height,
