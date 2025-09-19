@@ -10,7 +10,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:color")
+tracks/0/path = NodePath("Control/ColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -26,7 +26,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:color")
+tracks/0/path = NodePath("Control/ColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -41,7 +41,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:color")
+tracks/0/path = NodePath("Control/ColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -58,27 +58,38 @@ _data = {
 &"RESET": SubResource("Animation_mx142")
 }
 
-[node name="Intro" type="Node2D"]
+[node name="Intro" type="CanvasLayer"]
 script = ExtResource("1_muuhy")
 
-[node name="name" type="Sprite2D" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="name" type="Sprite2D" parent="Control"]
 position = Vector2(577, 327.5)
 scale = Vector2(0.596875, 0.600926)
 texture = ExtResource("2_muuhy")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -162.0
-offset_top = -110.0
-offset_right = 1338.0
-offset_bottom = 799.0
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control"]
+root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_yf06s")
 }
 
-[node name="IntroBg" type="AudioStreamPlayer" parent="."]
+[node name="IntroBg" type="AudioStreamPlayer" parent="Control"]
 stream = ExtResource("3_xpchu")
 volume_db = -13.0
 autoplay = true
