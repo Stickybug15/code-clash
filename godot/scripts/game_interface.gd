@@ -4,8 +4,11 @@ extends CanvasLayer
 @onready var settings: Control = $Control/Settings
 @onready var hover_sfx: AudioStreamPlayer = $hover_fx
 
+@onready
+var greetings_msg: Label = $Control/GreetingsMessage
 
 func _ready() -> void:
+	greetings_msg.text = Auth.email
 	set_visible_main_buttons(true)
 
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://cr14f5om1a0if"]
 
-[ext_resource type="Script" uid="uid://ccgo1gwgtccaj" path="res://godot/scripts/sign_in_menu.gd" id="1_1jdwq"]
+[ext_resource type="Script" uid="uid://byixvjl1a40at" path="res://godot/scripts/sign_up_menu.gd" id="1_stwcb"]
 [ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/BG_ICONS/background.jpg" id="2_hmgtq"]
 [ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/fonts/Pixel Game.otf" id="3_pd2u5"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_wry4w"]
@@ -40,7 +40,7 @@ border_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akivp"]
 
 [node name="Auths" type="CanvasLayer"]
-script = ExtResource("1_1jdwq")
+script = ExtResource("1_stwcb")
 
 [node name="BG" type="Panel" parent="."]
 anchors_preset = 15
@@ -153,15 +153,16 @@ layout_mode = 2
 placeholder_text = "Enter your password"
 virtual_keyboard_type = 6
 clear_button_enabled = true
+secret = true
 
-[node name="Login_Button" type="Button" parent="SignUpMenu"]
+[node name="RegisterButton" type="Button" parent="SignUpMenu"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_pd2u5")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/pressed = SubResource("StyleBoxFlat_akivp")
 theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_dubtc")
-text = "LOGIN"
+text = "REGISTER"
 
 [node name="AuthStatusLabel" type="RichTextLabel" parent="SignUpMenu"]
 layout_mode = 2
@@ -185,6 +186,7 @@ text = "Back to MainMenu"
 stream = ExtResource("4_wry4w")
 volume_db = -15.0
 
-[connection signal="mouse_entered" from="SignUpMenu/Login_Button" to="." method="_on_mouse_entered"]
+[connection signal="mouse_entered" from="SignUpMenu/RegisterButton" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="SignUpMenu/RegisterButton" to="." method="_on_register_button_pressed"]
 [connection signal="mouse_entered" from="Back_Button" to="." method="_on_mouse_entered"]
 [connection signal="pressed" from="Back_Button" to="." method="_on_back_button_pressed"]

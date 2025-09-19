@@ -152,6 +152,7 @@ layout_mode = 2
 placeholder_text = "Enter your password"
 virtual_keyboard_type = 6
 clear_button_enabled = true
+secret = true
 
 [node name="Login_Button" type="Button" parent="SignInMenu"]
 layout_mode = 2
@@ -185,5 +186,6 @@ stream = ExtResource("4_7gseg")
 volume_db = -15.0
 
 [connection signal="mouse_entered" from="SignInMenu/Login_Button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="SignInMenu/Login_Button" to="." method="_on_login_button_pressed"]
 [connection signal="mouse_entered" from="Back_Button" to="." method="_on_mouse_entered"]
 [connection signal="pressed" from="Back_Button" to="." method="_on_back_button_pressed"]
