@@ -163,6 +163,11 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_dubtc")
 text = "LOGIN"
 
+[node name="AuthStatusLabel" type="RichTextLabel" parent="SignUpMenu"]
+layout_mode = 2
+fit_content = true
+horizontal_alignment = 1
+
 [node name="Back_Button" type="Button" parent="."]
 offset_left = 25.0
 offset_top = 9.0
