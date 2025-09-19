@@ -17,7 +17,8 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jv7un"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m33jf"]
+bg_color = Color(0.000113828, 0.000113828, 0.000113828, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snie1"]
 bg_color = Color(0.376471, 0.556863, 0.960784, 1)
@@ -28,16 +29,15 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m33jf"]
-bg_color = Color(0.000113828, 0.000113828, 0.000113828, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jv7un"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_snie1"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m33jf"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5t5cy"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtnxt"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5t5cy"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m33jf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_snie1"]
 
 [node name="SignUpMenu" type="Control"]
 layout_mode = 3
@@ -115,7 +115,7 @@ layout_mode = 0
 offset_left = 92.0
 offset_right = 425.0
 offset_bottom = 31.0
-placeholder_text = "enter a email"
+placeholder_text = "Enter a email"
 virtual_keyboard_type = 5
 
 [node name="password" type="Label" parent="BG/TouchScreenButton"]
@@ -138,8 +138,7 @@ offset_left = 106.0
 offset_top = -2.0
 offset_right = 439.0
 offset_bottom = 29.0
-placeholder_text = "enter a password"
-max_length = 9
+placeholder_text = "Enter a password"
 virtual_keyboard_type = 6
 clear_button_enabled = true
 
@@ -156,9 +155,9 @@ offset_right = 45.47
 offset_bottom = 27.489
 theme_override_fonts/font = ExtResource("3_pd2u5")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/focus = SubResource("StyleBoxEmpty_jv7un")
-theme_override_styles/hover = SubResource("StyleBoxFlat_snie1")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_m33jf")
+theme_override_styles/hover = SubResource("StyleBoxFlat_snie1")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_jv7un")
 text = "REGISTER"
 
 [node name="Back_Button" type="Button" parent="BG/TouchScreenButton/password/pass"]
@@ -169,10 +168,10 @@ offset_right = -275.0
 offset_bottom = -289.0
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_pd2u5")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_snie1")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_m33jf")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtnxt")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_5t5cy")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtnxt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_m33jf")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_snie1")
 text = "Back to MainMenu"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="BG/TouchScreenButton"]
