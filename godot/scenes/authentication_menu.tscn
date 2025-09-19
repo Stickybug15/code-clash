@@ -104,7 +104,7 @@ layout_mode = 2
 theme_override_constants/separation = 60
 alignment = 1
 
-[node name="login_botton" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+[node name="login_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_liu7y")
@@ -114,7 +114,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_jkq16")
 text = "LOGIN"
 
-[node name="register_botton" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+[node name="register_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_liu7y")
@@ -124,7 +124,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fgv7v")
 text = "REGISTER"
 
-[node name="offline_botton" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+[node name="offline_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_liu7y")
@@ -132,11 +132,11 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/pressed = SubResource("StyleBoxFlat_nj70s")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
-text = "OFFLINE"
+text = "ANONYMOUS"
 
-[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/login_botton" to="." method="_on_mouse_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/login_botton" to="." method="_on_login_botton_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/register_botton" to="." method="_on_mouse_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/register_botton" to="." method="_on_register_botton_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/offline_botton" to="." method="_on_mouse_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/offline_botton" to="." method="_on_offline_botton_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/login_button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/login_button" to="." method="_on_login_botton_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/register_button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/register_button" to="." method="_on_register_botton_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/offline_button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/offline_button" to="." method="_on_offline_botton_pressed"]
