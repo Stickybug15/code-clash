@@ -103,16 +103,16 @@ offset_right = 730.0
 offset_bottom = 323.0
 theme_override_fonts/font = ExtResource("3_k0pr4")
 theme_override_font_sizes/font_size = 30
-text = "username:"
+text = "Email:"
 horizontal_alignment = 1
 justification_flags = 171
 
-[node name="LineEdit" type="LineEdit" parent="TouchScreenButton/USER"]
+[node name="Email" type="LineEdit" parent="TouchScreenButton/USER"]
 layout_mode = 0
 offset_top = 48.0
 offset_right = 312.0
 offset_bottom = 91.0
-placeholder_text = "enter username or email"
+placeholder_text = "enter your email"
 virtual_keyboard_type = 5
 clear_button_enabled = true
 

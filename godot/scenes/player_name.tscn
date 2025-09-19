@@ -9,7 +9,8 @@
 texture = ExtResource("2_2ap2d")
 modulate_color = Color(0.31802, 0.31802, 0.31802, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s4eq8"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwb10"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gytwu"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -19,8 +20,7 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwb10"]
-bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s4eq8"]
 
 [node name="PlayerName" type="Control"]
 layout_mode = 3
@@ -67,7 +67,7 @@ offset_bottom = 405.0
 theme_override_font_sizes/font_size = 31
 placeholder_text = "Enter a Name"
 alignment = 1
-max_length = 6
+max_length = 255
 
 [node name="name" type="Label" parent="BG/TouchScreenButton"]
 offset_left = 402.0
@@ -82,9 +82,9 @@ offset_right = 692.0
 offset_bottom = 575.0
 theme_override_fonts/font = ExtResource("3_4dbad")
 theme_override_font_sizes/font_size = 20
-theme_override_styles/focus = SubResource("StyleBoxEmpty_s4eq8")
-theme_override_styles/hover = SubResource("StyleBoxFlat_gytwu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_uwb10")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gytwu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_s4eq8")
 text = "Start"
 
 [connection signal="mouse_entered" from="BG/TouchScreenButton/start" to="." method="_on_start_mouse_entered"]

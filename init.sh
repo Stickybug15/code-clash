@@ -130,10 +130,10 @@ init_scons() {
 init_compiler() {
   local url="https://github.com/msys2/msys2-installer/releases/download/nightly-x86_64/msys2-x86_64-latest.exe"
   local file="$cache_dir/$(basename $url)"
-  if [[ ! -f "$file" ]]; then
-    download "$file" "$url"
-  fi
   if [[ ! -d '/c/msys64' ]]; then
+    if [[ ! -f "$file" ]]; then
+      download "$file" "$url"
+    fi
     "$file" in --confirm-command --accept-messages --root 'C:/msys64'
     powershell -Command 'setx PATH "%PATH%;C:/msys64/mingw64/bin"'
   fi
