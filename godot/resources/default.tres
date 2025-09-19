@@ -4,4 +4,9 @@
 
 [resource]
 script = ExtResource("1_pwl7h")
+speed = 100.0
+running_speed = 250.0
+dash_distance = 100.0
+dash_duration = 0.4
+jump_height = 30.0
 metadata/_custom_type_script = "uid://dx2ngltys2237"

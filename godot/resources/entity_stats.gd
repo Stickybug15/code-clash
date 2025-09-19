@@ -2,12 +2,18 @@ class_name EntityStats
 extends Resource
 
 
+@export
 var move_duration: float = 0.2
+@export
 var speed: float =  400
-var running_speed: float =  speed * 1.6
+@export
+var running_speed: float = 400 * 1.6
+@export
 var distance: int = 40
 
+@export
 var dash_distance: float = 200
+@export
 var dash_duration: float = 0.5
 
 
