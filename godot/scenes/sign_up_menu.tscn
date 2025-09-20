@@ -17,8 +17,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akivp"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dubtc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dubtc"]
 bg_color = Color(0.376471, 0.556863, 0.960784, 1)
@@ -29,15 +28,16 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dubtc"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akivp"]
+bg_color = Color(0, 0, 0, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p376f"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtent"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akivp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sraid"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akivp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtent"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p376f"]
 
 [node name="Auths" type="CanvasLayer"]
 script = ExtResource("1_stwcb")
@@ -159,9 +159,9 @@ secret = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_pd2u5")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_akivp")
-theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_dubtc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_akivp")
 text = "REGISTER"
 
 [node name="AuthStatusLabel" type="RichTextLabel" parent="SignUpMenu"]
@@ -176,10 +176,10 @@ offset_right = 168.0
 offset_bottom = 79.0
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_pd2u5")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_p376f")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_sraid")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_akivp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_sraid")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_p376f")
 text = "Back to MainMenu"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]

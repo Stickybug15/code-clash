@@ -34,6 +34,9 @@ func _on_wall_body_entered(body: Node2D) -> void:
 
 [sub_resource type="Resource" id="Resource_5qqfe"]
 script = ExtResource("7_15rco")
+duration = 1.0
+transition = 0
+ease = 2
 
 [sub_resource type="Animation" id="Animation_llv2m"]
 length = 0.001
@@ -252,12 +255,12 @@ animation = &"dash"
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_mwwg5"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_uwghf"]
-nodes/output/position = Vector2(826.6667, 160)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_sghct")
-nodes/Animation/position = Vector2(293.33334, 186.66667)
+nodes/Animation/position = Vector2(293.333, 186.667)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_mwwg5")
 nodes/TimeScale/position = Vector2(560, 160)
-node_connections = [&"output", 0, &"TimeScale", &"TimeScale", 0, &"Animation"]
+nodes/output/position = Vector2(826.667, 160)
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uwghf"]
 animation = &"fall"
@@ -319,22 +322,22 @@ advance_expression = "idle_state.active and grounded_state.active"
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ow3cj"]
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_uwghf"]
-states/End/position = Vector2(789.3333, 92.39392)
-states/Start/position = Vector2(142.66667, 97.43349)
+states/End/position = Vector2(789.333, 92.3939)
+states/Start/position = Vector2(142.667, 97.4335)
 states/dash/node = SubResource("AnimationNodeBlendTree_uwghf")
-states/dash/position = Vector2(168.72833, -45.707283)
+states/dash/position = Vector2(168.728, -45.7073)
 states/fall/node = SubResource("AnimationNodeAnimation_uwghf")
-states/fall/position = Vector2(571.8954, 91.713974)
+states/fall/position = Vector2(571.895, 91.714)
 states/idle/node = SubResource("AnimationNodeAnimation_rlytp")
-states/idle/position = Vector2(366.71075, 97.40479)
+states/idle/position = Vector2(366.711, 97.4048)
 states/jump/node = SubResource("AnimationNodeAnimation_m8h0s")
-states/jump/position = Vector2(480.72833, 182.95364)
+states/jump/position = Vector2(480.728, 182.954)
 states/run/node = SubResource("AnimationNodeAnimation_mwwg5")
-states/run/position = Vector2(570.86163, -45.42697)
+states/run/position = Vector2(570.862, -45.427)
 states/walk/node = SubResource("AnimationNodeAnimation_llv2m")
-states/walk/position = Vector2(367.09372, -131.82074)
+states/walk/position = Vector2(367.094, -131.821)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_sghct"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_0s35q"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_mrbje"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_a07hc"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_t6a0t"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_i74lf"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_snonw"), "dash", "walk", SubResource("AnimationNodeStateMachineTransition_rlytp"), "walk", "dash", SubResource("AnimationNodeStateMachineTransition_m8h0s"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_vra06"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_osepa"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_xlkdc"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_0aqgn"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_llv2m"), "fall", "walk", SubResource("AnimationNodeStateMachineTransition_mwwg5"), "fall", "run", SubResource("AnimationNodeStateMachineTransition_15rco"), "fall", "idle", SubResource("AnimationNodeStateMachineTransition_5qqfe"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_3gog7"), "idle", "fall", SubResource("AnimationNodeStateMachineTransition_ow3cj")]
-graph_offset = Vector2(-12.572993, -140.4334)
+graph_offset = Vector2(-12.573, -140.433)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rlytp"]
 size = Vector2(15, 18)
@@ -431,9 +434,9 @@ script = ExtResource("2_krip0")
 [node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "input", "gsc")]
 position = Vector2(192, 104)
 script = ExtResource("3_i14ea")
+stats = ExtResource("8_7bxlx")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
 input = NodePath("SimulateInput")
-stats = ExtResource("8_7bxlx")
 gsc = NodePath("StateChart")
 metadata/_edit_group_ = true
 
@@ -622,7 +625,7 @@ tile_set = ExtResource("14_m8h0s")
 physics_interpolation_mode = 1
 position = Vector2(192, 40)
 zoom = Vector2(3.4, 3.4)
-limit_enabled = false
+process_callback = 0
 editor_draw_limits = true
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]

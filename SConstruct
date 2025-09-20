@@ -27,6 +27,11 @@ sources = Glob("src/*.cpp")
 sources += Glob("./src/deps/tree-sitter/lib/src/lib.c")
 sources += Glob("./src/deps/duktape/src/duktape.c")
 
+if os.system("command -v ccache > /dev/null 2>&1") == 0:
+  print("Using ccache for compilation.")
+  env["CC"] = "ccache " + env["CC"]
+  env["CXX"] = "ccache " + env["CXX"]
+
 if env["target"] in ["editor", "template_debug"]:
   try:
     doc_data = env.GodotCPPDocData("src/gen/doc_data.gen.cpp", source=Glob("doc_classes/*.xml"))
