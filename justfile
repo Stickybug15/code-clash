@@ -26,19 +26,21 @@ mingw := if os() == "windows" {
 } else {
   "mingw_prefix='/' use_mingw=no"
 }
+use_llvm := "yes"
+job := `nproc`
 
 build-linux $SCONS_CACHE="build-linux":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=linux
+  {{scons}} {{compile_commands}} -j{{job}} {{flag_target}} use_llvm={{use_llvm}} gdextension_dir={{api_dir}} build_library={{build_library}} platform=linux
 
 build-android-arm32 $SCONS_CACHE="build-android-arm32":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=arm32
+  {{scons}} {{compile_commands}} -j{{job}} {{flag_target}} use_llvm={{use_llvm}} gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=arm32
 build-android-arm64 $SCONS_CACHE="build-android-arm64":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=arm64
+  {{scons}} {{compile_commands}} -j{{job}} {{flag_target}} use_llvm={{use_llvm}} gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=arm64
 
 build-android-x86_32 $SCONS_CACHE="build-android-x86_32":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=x86_32
+  {{scons}} {{compile_commands}} -j{{job}} {{flag_target}} use_llvm={{use_llvm}} gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=x86_32
 build-android-x86_64 $SCONS_CACHE="build-android-x86_64":
-  {{scons}} {{compile_commands}} -j4 {{flag_target}} use_llvm=yes gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=x86_64
+  {{scons}} {{compile_commands}} -j{{job}} {{flag_target}} use_llvm={{use_llvm}} gdextension_dir={{api_dir}} build_library={{build_library}} platform=android {{android_flags}} arch=x86_64
 
 build-windows-x86_32 $SCONS_CACHE="build-windows-x86_32":
   {{scons}} {{compile_commands}} {{flag_target}} use_llvm=no gdextension_dir={{api_dir}} build_library={{build_library}} mingw_prefix='C:/msys64/mingw64' {{mingw}} platform=windows arch=x86_32
