@@ -11,10 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://dobuey1ouahv5" path="res://assets/backgrounds/glacial_mountains/Layers/clouds_mg_2.png" id="5_xlkdc"]
 [ext_resource type="Texture2D" uid="uid://b05y6yl7ny70o" path="res://assets/backgrounds/glacial_mountains/Layers/clouds_mg_3.png" id="6_3gog7"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_llv2m"]
-[ext_resource type="SpriteFrames" uid="uid://cftgtps75voyf" path="res://assets/characters/lune_blade/LuneBlade.tres" id="6_mwwg5"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_15rco"]
 [ext_resource type="Texture2D" uid="uid://mho8kf2fob0y" path="res://assets/backgrounds/glacial_mountains/Layers/clouds_mg_1.png" id="7_a07hc"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
+[ext_resource type="PackedScene" uid="uid://t1cq0num0y7h" path="res://godot/characters/sprites/LuneBlade.tscn" id="13_0s35q"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="13_rlytp"]
 [ext_resource type="TileSet" uid="uid://cf67hragx43fq" path="res://assets/tilesets/adve/adve.tres" id="14_m8h0s"]
 [ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="16_15rco"]
@@ -434,9 +434,9 @@ script = ExtResource("2_krip0")
 [node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "input", "gsc")]
 position = Vector2(192, 104)
 script = ExtResource("3_i14ea")
-stats = ExtResource("8_7bxlx")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
 input = NodePath("SimulateInput")
+stats = ExtResource("8_7bxlx")
 gsc = NodePath("StateChart")
 metadata/_edit_group_ = true
 
@@ -454,11 +454,7 @@ follow_axis_lock = 2
 draw_limits = true
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
-[node name="Sprite" type="AnimatedSprite2D" parent="Entities/Player"]
-texture_filter = 1
-sprite_frames = ExtResource("6_mwwg5")
-animation = &"walk"
-frame = 5
+[node name="Sprite" parent="Entities/Player" instance=ExtResource("13_0s35q")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/Player"]
 root_node = NodePath("../Sprite")
