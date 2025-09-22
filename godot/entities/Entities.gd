@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	#next = true
+	next = true
 	execute()
 
 

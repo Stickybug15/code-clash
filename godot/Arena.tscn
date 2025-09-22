@@ -35,11 +35,11 @@ script = SubResource("GDScript_uwghf")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Editor" type="VBoxContainer" parent="UI"]
+[node name="PlayerEditor" type="VBoxContainer" parent="UI"]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="CodeEdit" type="TextEdit" parent="UI/Editor"]
+[node name="CodeEdit" type="TextEdit" parent="UI/PlayerEditor"]
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
@@ -51,59 +51,82 @@ hero.walk_right()
 hero.run_left()
 hero.run_right()"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Editor"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2
 
-[node name="RunPlayer" type="Button" parent="UI/Editor/HBoxContainer"]
+[node name="RunPlayer" type="Button" parent="UI/PlayerEditor/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Run Player"
 
-[node name="RunEnemy" type="Button" parent="UI/Editor/HBoxContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
+layout_mode = 2
+
+[node name="PlaybackPlayer" type="HBoxContainer" parent="UI/PlayerEditor/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Play" type="Button" parent="UI/PlayerEditor/VBoxContainer/PlaybackPlayer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Play"
+
+[node name="Pause" type="Button" parent="UI/PlayerEditor/VBoxContainer/PlaybackPlayer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pause"
+
+[node name="EnemyEditor" type="VBoxContainer" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_bottom = 325.0
+grow_horizontal = 0
+
+[node name="CodeEdit" type="TextEdit" parent="UI/EnemyEditor"]
+custom_minimum_size = Vector2(300, 220)
+layout_mode = 2
+theme = ExtResource("1_m8h0s")
+text = "hero.walk_left()
+hero.dash_right()
+hero.jump()
+hero.walk_right()
+hero.run_right()
+hero.walk_right()
+hero.dash_left()"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/EnemyEditor"]
+layout_mode = 2
+
+[node name="RunEnemy" type="Button" parent="UI/EnemyEditor/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Run Enemy"
 
-[node name="VBoxContainer" type="HBoxContainer" parent="UI/Editor"]
+[node name="VBoxContainer" type="HBoxContainer" parent="UI/EnemyEditor"]
 layout_mode = 2
 
-[node name="PlaybackPlayer" type="HBoxContainer" parent="UI/Editor/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Play" type="Button" parent="UI/Editor/VBoxContainer/PlaybackPlayer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Play"
-
-[node name="Pause" type="Button" parent="UI/Editor/VBoxContainer/PlaybackPlayer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Pause"
-
-[node name="PlaybackEnemy" type="HBoxContainer" parent="UI/Editor/VBoxContainer"]
+[node name="PlaybackEnemy" type="HBoxContainer" parent="UI/EnemyEditor/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Play" type="Button" parent="UI/Editor/VBoxContainer/PlaybackEnemy"]
+[node name="Play" type="Button" parent="UI/EnemyEditor/VBoxContainer/PlaybackEnemy"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Play"
 
-[node name="Pause" type="Button" parent="UI/Editor/VBoxContainer/PlaybackEnemy"]
+[node name="Pause" type="Button" parent="UI/EnemyEditor/VBoxContainer/PlaybackEnemy"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Pause"
-
-[node name="Next" type="Button" parent="UI/Editor"]
-layout_mode = 2
-text = "Next"
 
 [node name="StateChartDebugger" parent="UI" instance=ExtResource("1_osepa")]
 offset_left = 773.0
 offset_right = -2.0
 offset_bottom = -6.0
 theme = ExtResource("1_m8h0s")
+enabled = false
 initial_node_to_watch = NodePath("../../Entities/Player")
 
 [node name="Background" type="Node2D" parent="."]
@@ -172,13 +195,13 @@ metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Player" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
 position = Vector2(192, 71)
-code_edit = NodePath("../../UI/Editor/CodeEdit")
-run_button = NodePath("../../UI/Editor/HBoxContainer/RunPlayer")
+code_edit = NodePath("../../UI/PlayerEditor/CodeEdit")
+run_button = NodePath("../../UI/PlayerEditor/HBoxContainer/RunPlayer")
 
 [node name="Enemy" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
 position = Vector2(320, 72)
-code_edit = NodePath("../../UI/Editor/CodeEdit")
-run_button = NodePath("../../UI/Editor/HBoxContainer/RunEnemy")
+code_edit = NodePath("../../UI/EnemyEditor/CodeEdit")
+run_button = NodePath("../../UI/EnemyEditor/HBoxContainer/RunEnemy")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
@@ -197,8 +220,7 @@ process_physics_priority = 300
 script = ExtResource("3_llv2m")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackPlayer/Play" to="Entities" method="play_player"]
-[connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackPlayer/Pause" to="Entities" method="pause_player"]
-[connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackEnemy/Play" to="Entities" method="play_enemy"]
-[connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackEnemy/Pause" to="Entities" method="pause_enemy"]
-[connection signal="pressed" from="UI/Editor/Next" to="Entities" method="_on_next_pressed"]
+[connection signal="pressed" from="UI/PlayerEditor/VBoxContainer/PlaybackPlayer/Play" to="Entities" method="play_player"]
+[connection signal="pressed" from="UI/PlayerEditor/VBoxContainer/PlaybackPlayer/Pause" to="Entities" method="pause_player"]
+[connection signal="pressed" from="UI/EnemyEditor/VBoxContainer/PlaybackEnemy/Play" to="Entities" method="play_enemy"]
+[connection signal="pressed" from="UI/EnemyEditor/VBoxContainer/PlaybackEnemy/Pause" to="Entities" method="pause_enemy"]
