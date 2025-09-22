@@ -41,23 +41,30 @@ var move_cmd: Command
 
 # TODO: probably, just make this a getter and setter?
 var _wait: bool = false
-func wait() -> void:
+func _try_wait() -> void:
 	_wait = true
+func _try_post() -> void:
+	if _wait:
+		as_waiting()
+
 func post() -> void:
 	if _wait:
-		input.env.poll()
+		input.resume()
 		_wait = false
+func can_post() -> bool:
+	return _wait
 
 
 func _ready() -> void:
 	anim_tree.active = true
 	anim_tree_fsm = anim_tree["parameters/playback"]
 	input = SimulateInput.new(self, code_edit, run_button)
+	add_child(input)
 
 	jump_cmd = ImpulseCommand.new()
 	dash_cmd = ImpulseCommand.new()
 	fall_cmd = FallCommand.new()
-	move_cmd = MoveInputCommand.new(input)
+	move_cmd = MoveInputCommand.new(input, sprite)
 
 
 func _physics_process(delta: float) -> void:
@@ -88,23 +95,21 @@ func _on_walk_state_entered() -> void:
 		"speed": stats.speed,
 	})
 
-	sprite.flip_h = input.get_axis("left", "right") < 0
-
-	wait()
+	_try_wait()
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
-	move_cmd.execute(self, delta)
-
-	if move_cmd.is_completed(self):
-		post()
-		gsc.send_event("to_idle")
-		return
 	if input.is_action_pressed("run"):
 		gsc.send_event("to_running")
 		return
 	if input.is_action_pressed("dash"):
 		gsc.send_event("to_dash")
+		return
+
+	move_cmd.execute(self, delta)
+	if move_cmd.is_completed(self):
+		_try_post()
+		gsc.send_event("to_idle")
 		return
 
 
@@ -118,7 +123,7 @@ func _on_run_state_entered() -> void:
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
 	})
-	wait()
+	_try_wait()
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
@@ -132,7 +137,7 @@ func _on_run_state_physics_processing(delta: float) -> void:
 	move_cmd.execute(self, delta)
 
 	if move_cmd.is_completed(self):
-		post()
+		_try_post()
 		gsc.send_event("to_idle")
 
 
@@ -158,7 +163,7 @@ func _on_jump_state_entered() -> void:
 		"time_to_peak": stats.jump_time_to_peak,
 		"direction": Vector2.UP,
 	})
-	wait()
+	_try_wait()
 
 
 func _on_jump_state_physics_processing(delta: float) -> void:
@@ -182,7 +187,7 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 	fall_cmd.execute(self, delta)
 
 	if fall_cmd.is_completed(self):
-		post()
+		_try_post()
 		gsc.send_event("to_grounded")
 
 
@@ -200,21 +205,24 @@ func _on_dash_state_entered() -> void:
 
 	sprite.flip_h = input.get_axis("left", "right") < 0.0
 
-	await dash_cmd.actived
-	gsc.set_expression_property(&"is_dash_applied", true)
-	await dash_cmd.completed
-	gsc.set_expression_property(&"is_dash_applied", false)
+	dash_cmd.actived.connect(
+		gsc.set_expression_property.bind(&"is_dash_applied", true),
+		ConnectFlags.CONNECT_ONE_SHOT)
+	dash_cmd.completed.connect(
+		gsc.set_expression_property.bind(&"is_dash_applied", false),
+		ConnectFlags.CONNECT_ONE_SHOT)
 
 
 func _on_dash_state_physics_processing(delta: float) -> void:
 	dash_cmd.execute(self, delta)
 
 	var dir: float = signf(input.get_axis("left", "right"))
-	if dir != 0.0 and signf(velocity.x) != dir:
-		dash_cmd.complete(self)
+	#if dir != 0.0 and signf(velocity.x) != dir:
+		#dash_cmd.complete(self)
+		#print("force complete")
 
 	if dash_cmd.is_completed(self):
-		post()
+		_try_post()
 		if dir != 0.0:
 			gsc.send_event("to_walking")
 		else:

@@ -4,10 +4,9 @@ extends CustomInput
 # this epsilon is too big, but using 0.01 doesn't work.
 var EPSILON: float = 0.1
 
-var env: ScriptEnvironment = ScriptEnvironment.new()
+var _env: ScriptEnvironment = ScriptEnvironment.new()
 
 var _actions: Dictionary[String, bool] = {}
-var timer: Timer = Timer.new()
 
 # required variables.
 var _entity: Entity
@@ -21,7 +20,8 @@ func _init(entity: Entity, code_edit: TextEdit, run: Button) -> void:
 	_run = run
 
 	_run.pressed.connect(_on_run_pressed)
-	add_child(timer)
+
+	_env.finished.connect(_on_env_finished)
 
 	# TODO: investigate why isn't showing any errors(in env) when passing arguments to methods that doesn't have parameters
 	var action := MethodInput.new()
@@ -112,7 +112,7 @@ func _init(entity: Entity, code_edit: TextEdit, run: Button) -> void:
 var methods: Array[MethodInput] = []
 func _add_method(action: MethodInput) -> void:
 	methods.append(action)
-	env.add_method(action)
+	_env.add_method(action)
 
 var prev: String = ""
 func _debug() -> void:
@@ -120,7 +120,7 @@ func _debug() -> void:
 	for action in methods:
 		out += "{0}.[color=cyan]{1}[/color]: ".format([action.object_name, action.method_name])
 		for action_name: String in action.actions.keys():
-			var pressed: String = "[color=green]true" if Input.is_action_pressed(action_name) else "[color=red]false"
+			var pressed: String = "[color=green]true" if is_action_pressed(action_name) else "[color=red]false"
 			out += "{0}={1}[/color], ".format([action_name, pressed])
 	if prev != out:
 		prev = out
@@ -128,32 +128,45 @@ func _debug() -> void:
 
 
 func _actions_press(actions: Dictionary[String, float]) -> void:
+	var tasks: Array[Callable] = []
+	_entity.as_pending()
 	for action_name: String in actions.keys():
-		_action_press(action_name, actions[action_name] as float)
+		var task := _action_press.bind(action_name, actions[action_name] as float)
+		tasks.append(task)
+
+	await Awaiter.all(tasks)
+
 
 
 func _action_press(action_name: StringName, duration: float) -> void:
-	_entity.as_pending()
 	_actions[action_name] = true
 
-	if duration < 0.0:
-		duration = 0.0
-	if is_zero_approx(duration):
-		duration += EPSILON
+	duration = maxf(duration, EPSILON)
 
 	# TODO: what's better way to do this?
-	timer.start(duration)
+	var timer := Timer.new()
+	timer.autostart = true
+	timer.one_shot = true
+	timer.wait_time = duration
+	add_child(timer)
 	await timer.timeout
-	_entity.as_waiting()
 	_actions[action_name] = false
 
 
 func _on_run_pressed() -> void:
-	env.eval_async(_code_edit.text)
-	if not env.finished.has_connections():
-		env.finished.connect(func() -> void:
-			_on_run_pressed())
-	#env.finished.connect(debug, ConnectFlags.CONNECT_ONE_SHOT)
+	_env.eval_async(_code_edit.text)
+	#if not _env.finished.has_connections():
+		#_env.finished.connect(func() -> void:
+			#_on_run_pressed())
+
+
+func _on_env_finished() -> void:
+	_entity.as_running()
+
+
+func resume() -> void:
+	_env.poll()
+
 
 # === Overrides ===
 

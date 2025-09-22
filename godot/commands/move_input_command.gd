@@ -1,29 +1,27 @@
 class_name MoveInputCommand
 extends Command
 
-@export
+
 var sprite: AnimatedSprite2D
 var speed: float = 0
-var initial_direction: float
 
 var input: CustomInput
 
 
-func _init(input: CustomInput) -> void:
+func _init(input: CustomInput, sprite: AnimatedSprite2D) -> void:
 	self.input = input
+	self.sprite = sprite
 
 
 func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	speed = get_var(msg, "speed", typeof(speed))
-	initial_direction = input.get_axis("left", "right")
 
 	_to_active()
 
 
 func execute(actor: EntityPlayer, delta: float) -> void:
-	var direction := input.get_axis("left", "right")
-	if not is_equal_approx(direction, initial_direction):
-		direction = 0.0
+	var direction: float = input.get_axis("left", "right")
+	sprite.flip_h = direction < 0.0
 
 	if direction:
 		actor.velocity.x = move_toward(actor.velocity.x, direction * speed, speed * 0.5)

@@ -95,6 +95,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Pause"
 
+[node name="Next" type="Button" parent="UI/Editor"]
+layout_mode = 2
+text = "Next"
+
 [node name="StateChartDebugger" parent="UI" instance=ExtResource("1_osepa")]
 offset_left = 773.0
 offset_right = -2.0
@@ -154,12 +158,11 @@ centered = false
 [node name="Entities" type="Node" parent="."]
 script = ExtResource("2_krip0")
 
-[node name="PhantomCamera" type="Node2D" parent="Entities" node_paths=PackedStringArray("follow_targets")]
+[node name="PhantomCamera" type="Node2D" parent="Entities"]
 top_level = true
 position = Vector2(256, 71.5)
 script = ExtResource("6_llv2m")
 follow_mode = 3
-follow_targets = [NodePath("../Player"), NodePath("../Enemy")]
 zoom = Vector2(5, 5)
 tween_resource = SubResource("Resource_rlytp")
 follow_damping = true
@@ -184,10 +187,8 @@ tile_map_data = PackedByteArray("AAD7/wAAAQAKAAEAAAD8/wAAAQAMAAEAAAD+/wAAAQALAAE
 tile_set = ExtResource("14_m8h0s")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-physics_interpolation_mode = 1
 position = Vector2(256, 71.5)
 zoom = Vector2(5, 5)
-process_callback = 0
 editor_draw_limits = true
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
@@ -200,3 +201,4 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 [connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackPlayer/Pause" to="Entities" method="pause_player"]
 [connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackEnemy/Play" to="Entities" method="play_enemy"]
 [connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackEnemy/Pause" to="Entities" method="pause_enemy"]
+[connection signal="pressed" from="UI/Editor/Next" to="Entities" method="_on_next_pressed"]
