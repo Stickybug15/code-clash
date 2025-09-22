@@ -38,8 +38,7 @@ var dash_cmd: Command
 var fall_cmd: Command
 var move_cmd: Command
 
-
-# TODO: probably, just make this a getter and setter?
+var _mouse_entered := false
 
 
 func _ready() -> void:
@@ -55,6 +54,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_pressed("left_mouse_button") and _mouse_entered:
+		position = get_global_mouse_position()
+		return
 	move_and_slide()
 
 
@@ -218,3 +220,11 @@ func _on_dash_state_physics_processing(delta: float) -> void:
 
 func _on_dash_state_exited() -> void:
 	anim_tree["parameters/dash/TimeScale/scale"] = 1.0
+
+
+func _on_mouse_entered() -> void:
+	_mouse_entered = true
+
+
+func _on_mouse_exited() -> void:
+	_mouse_entered = false

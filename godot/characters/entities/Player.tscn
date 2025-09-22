@@ -320,6 +320,7 @@ expression = "not is_dash_applied"
 metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gsc")]
+input_pickable = true
 script = ExtResource("1_kw088")
 stats = ExtResource("2_i0s5h")
 gsc = NodePath("StateChart")
@@ -478,6 +479,8 @@ to = NodePath("../../Falling")
 event = &"to_falling"
 delay_in_seconds = "0.0"
 
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_physics_processing"]
