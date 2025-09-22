@@ -51,7 +51,7 @@ func post() -> void:
 func _ready() -> void:
 	anim_tree.active = true
 	anim_tree_fsm = anim_tree["parameters/playback"]
-	input = SimulateInput.new(code_edit, run_button)
+	input = SimulateInput.new(self, code_edit, run_button)
 	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 	pass
 

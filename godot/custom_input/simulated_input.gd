@@ -10,11 +10,13 @@ var _actions: Dictionary[String, bool] = {}
 var timer: Timer = Timer.new()
 
 # required variables.
+var _entity: Entity
 var _code_edit: TextEdit
 var _run: Button
 
 
-func _init(code_edit: TextEdit, run: Button) -> void:
+func _init(entity: Entity, code_edit: TextEdit, run: Button) -> void:
+	_entity = entity
 	_code_edit = code_edit
 	_run = run
 
@@ -131,15 +133,20 @@ func _actions_press(actions: Dictionary[String, float]) -> void:
 
 
 func _action_press(action_name: StringName, duration: float) -> void:
+	_entity.as_pending()
 	_actions[action_name] = true
 	Input.action_press(action_name)
+
 	if duration < 0.0:
 		duration = 0.0
 	if is_zero_approx(duration):
 		duration += EPSILON
+
 	# TODO: what's better way to do this?
 	timer.start(duration)
 	await timer.timeout
+
+	_entity.as_waiting()
 	_actions[action_name] = false
 	Input.action_release(action_name)
 
@@ -148,6 +155,7 @@ func _on_run_pressed() -> void:
 	env.eval_async(_code_edit.text)
 	#env.finished.connect(debug, ConnectFlags.CONNECT_ONE_SHOT)
 
+# === Overrides ===
 
 func is_action_pressed(action: StringName) -> bool:
 	return _actions.get(action, false)

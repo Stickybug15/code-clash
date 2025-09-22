@@ -29,16 +29,10 @@ func as_pending():
 	_toggle_processing(false)
 func as_waiting():
 	_status = Status.Waiting
-	_toggle_processing(false)
+	_toggle_processing(true)
 func as_running():
 	_status = Status.Running
 	_toggle_processing(true)
-
-
-
-func execute() -> void:
-	_state_chart.thaw()
-	pass
 
 
 func _toggle_processing(enable_processing: bool):

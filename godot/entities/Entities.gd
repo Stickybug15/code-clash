@@ -13,11 +13,15 @@ func is_ready() -> bool:
 			return c.is_pending())
 
 
+func _process(delta: float) -> void:
+	execute()
+
+
 func execute() -> void:
 	if not is_ready():
 		return
 	for c: Entity in find_children("*", "Entity"):
-		c.execute()
+		c.as_running()
 
 
 func play() -> void:
