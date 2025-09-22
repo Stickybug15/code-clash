@@ -40,19 +40,6 @@ var move_cmd: Command
 
 
 # TODO: probably, just make this a getter and setter?
-var _wait: bool = false
-func _try_wait() -> void:
-	_wait = true
-func _try_post() -> void:
-	if _wait:
-		as_waiting()
-
-func post() -> void:
-	if _wait:
-		input.resume()
-		_wait = false
-func can_post() -> bool:
-	return _wait
 
 
 func _ready() -> void:
@@ -95,7 +82,7 @@ func _on_walk_state_entered() -> void:
 		"speed": stats.speed,
 	})
 
-	_try_wait()
+	input._try_wait()
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
@@ -108,7 +95,7 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
-		_try_post()
+		input._try_post()
 		gsc.send_event("to_idle")
 		return
 
@@ -123,7 +110,7 @@ func _on_run_state_entered() -> void:
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
 	})
-	_try_wait()
+	input._try_wait()
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
@@ -137,7 +124,7 @@ func _on_run_state_physics_processing(delta: float) -> void:
 	move_cmd.execute(self, delta)
 
 	if move_cmd.is_completed(self):
-		_try_post()
+		input._try_post()
 		gsc.send_event("to_idle")
 
 
@@ -163,7 +150,7 @@ func _on_jump_state_entered() -> void:
 		"time_to_peak": stats.jump_time_to_peak,
 		"direction": Vector2.UP,
 	})
-	_try_wait()
+	input._try_wait()
 
 
 func _on_jump_state_physics_processing(delta: float) -> void:
@@ -187,7 +174,7 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 	fall_cmd.execute(self, delta)
 
 	if fall_cmd.is_completed(self):
-		_try_post()
+		input._try_post()
 		gsc.send_event("to_grounded")
 
 
@@ -222,7 +209,7 @@ func _on_dash_state_physics_processing(delta: float) -> void:
 		#print("force complete")
 
 	if dash_cmd.is_completed(self):
-		_try_post()
+		input._try_post()
 		if dir != 0.0:
 			gsc.send_event("to_walking")
 		else:

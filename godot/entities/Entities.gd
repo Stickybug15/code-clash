@@ -1,8 +1,12 @@
 class_name Entities
 extends Node
 
-
-var next: bool = false
+var is_running := false:
+	set(v):
+		print("is running" if v else "not running")
+		is_running = v
+	get: return is_running
+var next := false
 @onready
 var camera: PhantomCamera2D = $PhantomCamera
 
@@ -11,14 +15,37 @@ func _ready() -> void:
 	var entities: Array[Node2D] = []
 	for entt: EntityPlayer in find_children("*", "EntityPlayer"):
 		entities.append(entt)
-		if entt.input is SimulateInput:
-			var sim_input: SimulateInput = entt.input
 	camera.follow_targets = entities
 
 
-func _process(delta: float) -> void:
+func is_ready() -> bool:
+	return find_children("*", "EntityPlayer").all(
+		func(c: EntityPlayer) -> bool:
+			return c.input.is_ready()
+	)
+
+func run_all() -> void:
+	if not is_ready():
+		return
+	for e: EntityPlayer in find_children("*", "EntityPlayer"):
+		e.input.run()
+	is_running = true
+
+
+func _physics_process(delta: float) -> void:
+	if not is_running:
+		run_all()
+		return
+
 	next = true
 	execute()
+
+	if not find_children("*", "EntityPlayer").all(
+		func(e: EntityPlayer):
+			return e.input.is_running()
+	):
+		is_running = false
+
 
 
 func execute() -> void:
@@ -44,13 +71,9 @@ func execute() -> void:
 		return
 
 	if is_waiting.call() and next:
-		#var can_post := entities.all(func(e: EntityPlayer) -> bool:
-			#return e.can_post())
-		#if can_post:
-		print_rich("[color=green]is_waiting[/color]")
 		for e: EntityPlayer in entities:
 			e.as_running()
-			e.post()
+			e.input.post()
 		next = false
 		return
 

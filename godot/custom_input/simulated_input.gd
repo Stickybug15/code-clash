@@ -7,6 +7,8 @@ var EPSILON: float = 0.1
 var _env: ScriptEnvironment = ScriptEnvironment.new()
 
 var _actions: Dictionary[String, bool] = {}
+var _wait: bool = false
+var _pending_code: String = ""
 
 # required variables.
 var _entity: Entity
@@ -154,7 +156,7 @@ func _action_press(action_name: StringName, duration: float) -> void:
 
 
 func _on_run_pressed() -> void:
-	_env.eval_async(_code_edit.text)
+	_pending_code = _code_edit.text
 	#if not _env.finished.has_connections():
 		#_env.finished.connect(func() -> void:
 			#_on_run_pressed())
@@ -176,3 +178,35 @@ func is_action_pressed(action: StringName) -> bool:
 
 func get_axis(negative_action: StringName, positive_action: StringName) -> float:
 	return float(is_action_pressed(positive_action)) - float(is_action_pressed(negative_action))
+
+
+func _try_wait() -> void:
+	_wait = true
+
+
+func _try_post() -> void:
+	if _wait:
+		_entity.as_waiting()
+
+
+func post() -> void:
+	if _wait:
+		_entity.input.resume()
+		_wait = false
+
+
+func can_post() -> bool:
+	return _wait
+
+
+func is_ready() -> bool:
+	return not _pending_code.is_empty()
+
+
+func is_running() -> bool:
+	return _env.is_running()
+
+
+func run() -> void:
+	_env.eval_async(_pending_code)
+	_pending_code = ""

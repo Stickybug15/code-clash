@@ -12,7 +12,7 @@ enum Status {
 @onready
 var _state_chart: StateChart = $StateChart
 
-var _pending: bool = false
+var _is_ready: bool = false
 var _status: Status = Status.Running
 var _first_run: bool = true
 
