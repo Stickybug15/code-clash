@@ -1,17 +1,26 @@
 class_name SimulateInput
-extends Node
+extends CustomInput
 
 # this epsilon is too big, but using 0.01 doesn't work.
 var EPSILON: float = 0.1
 
 var env: ScriptEnvironment = ScriptEnvironment.new()
-@export
-var fsm: StateMachine
-@export
-var code_edit: TextEdit
+
+var _actions: Dictionary[String, bool] = {}
+var timer: Timer = Timer.new()
+
+# required variables.
+var _code_edit: TextEdit
+var _run: Button
 
 
-func _ready() -> void:
+func _init(code_edit: TextEdit, run: Button) -> void:
+	_code_edit = code_edit
+	_run = run
+
+	_run.pressed.connect(_on_run_pressed)
+	add_child(timer)
+
 	# TODO: investigate why isn't showing any errors(in env) when passing arguments to methods that doesn't have parameters
 	var action := MethodInput.new()
 	action.object_name = "hero"
@@ -24,8 +33,8 @@ func _ready() -> void:
 			#"args": args,
 			#"method_name": info.method_name,
 		#})
-		actions_press(info.actions)
-	add_method(action)
+		_actions_press(info.actions)
+	_add_method(action)
 
 
 	action = MethodInput.new()
@@ -35,8 +44,8 @@ func _ready() -> void:
 		"left": 0.5
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		actions_press(info.actions)
-	add_method(action)
+		_actions_press(info.actions)
+	_add_method(action)
 
 
 	action = MethodInput.new()
@@ -46,8 +55,8 @@ func _ready() -> void:
 		"right": 0.5
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		actions_press(info.actions)
-	add_method(action)
+		_actions_press(info.actions)
+	_add_method(action)
 
 
 	action = MethodInput.new()
@@ -58,8 +67,8 @@ func _ready() -> void:
 		"dash": 0.0,
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		actions_press(info.actions)
-	add_method(action)
+		_actions_press(info.actions)
+	_add_method(action)
 
 
 	action = MethodInput.new()
@@ -70,8 +79,8 @@ func _ready() -> void:
 		"dash": 0.0,
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		actions_press(info.actions)
-	add_method(action)
+		_actions_press(info.actions)
+	_add_method(action)
 
 
 	action = MethodInput.new()
@@ -82,8 +91,8 @@ func _ready() -> void:
 		"run": 0.5,
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		actions_press(info.actions)
-	add_method(action)
+		_actions_press(info.actions)
+	_add_method(action)
 
 
 	action = MethodInput.new()
@@ -94,17 +103,17 @@ func _ready() -> void:
 		"run": 0.5,
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		actions_press(info.actions)
-	add_method(action)
+		_actions_press(info.actions)
+	_add_method(action)
 
 
 var methods: Array[MethodInput] = []
-func add_method(action: MethodInput) -> void:
+func _add_method(action: MethodInput) -> void:
 	methods.append(action)
 	env.add_method(action)
 
 var prev: String = ""
-func debug() -> void:
+func _debug() -> void:
 	var out: String = ""
 	for action in methods:
 		out += "{0}.[color=cyan]{1}[/color]: ".format([action.object_name, action.method_name])
@@ -116,22 +125,33 @@ func debug() -> void:
 		print_rich("methods: ", out)
 
 
-func actions_press(actions: Dictionary[String, float]) -> void:
+func _actions_press(actions: Dictionary[String, float]) -> void:
 	for action_name: String in actions.keys():
-		action_press(action_name, actions[action_name] as float)
+		_action_press(action_name, actions[action_name] as float)
 
 
-func action_press(action_name: StringName, duration: float) -> void:
+func _action_press(action_name: StringName, duration: float) -> void:
+	_actions[action_name] = true
 	Input.action_press(action_name)
 	if duration < 0.0:
 		duration = 0.0
 	if is_zero_approx(duration):
 		duration += EPSILON
 	# TODO: what's better way to do this?
-	await get_tree().create_timer(duration).timeout
+	timer.start(duration)
+	await timer.timeout
+	_actions[action_name] = false
 	Input.action_release(action_name)
 
 
 func _on_run_pressed() -> void:
-	env.eval_async(code_edit.text)
+	env.eval_async(_code_edit.text)
 	#env.finished.connect(debug, ConnectFlags.CONNECT_ONE_SHOT)
+
+
+func is_action_pressed(action: StringName) -> bool:
+	return _actions.get(action, false)
+
+
+func get_axis(negative_action: StringName, positive_action: StringName) -> float:
+	return float(is_action_pressed(positive_action)) - float(is_action_pressed(negative_action))

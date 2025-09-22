@@ -4,18 +4,17 @@ extends Entity
 @export
 var code_edit: TextEdit
 @export
-var input: SimulateInput
+var run_button: Button
+@export
+var stats: EntityStats
+@export
+var gsc: StateChart
 
 @onready
 var anim_tree: AnimationTree = $AnimationTree
 var anim_tree_fsm: AnimationNodeStateMachinePlayback
 @onready
 var sprite: AnimatedSprite2D = $Sprite
-
-@export
-var stats: EntityStats
-@export
-var gsc: StateChart
 
 var jump_cmd: Command = ImpulseCommand.new()
 var dash_cmd: Command = ImpulseCommand.new()
@@ -52,6 +51,7 @@ func post() -> void:
 func _ready() -> void:
 	anim_tree.active = true
 	anim_tree_fsm = anim_tree["parameters/playback"]
+	input = SimulateInput.new(code_edit, run_button)
 	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED
 	pass
 
@@ -68,7 +68,7 @@ func _on_idle_state_entered() -> void:
 
 
 func _on_idle_state_physics_processing(delta: float) -> void:
-	if signf(Input.get_axis("left", "right")) != 0.0:
+	if signf(input.get_axis("left", "right")) != 0.0:
 		gsc.send_event("to_walking")
 
 
@@ -84,7 +84,7 @@ func _on_walk_state_entered() -> void:
 		"speed": stats.speed,
 	})
 
-	sprite.flip_h = Input.get_axis("left", "right") < 0
+	sprite.flip_h = input.get_axis("left", "right") < 0
 
 	wait()
 
@@ -96,10 +96,10 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 		post()
 		gsc.send_event("to_idle")
 		return
-	if Input.is_action_pressed("run"):
+	if input.is_action_pressed("run"):
 		gsc.send_event("to_running")
 		return
-	if Input.is_action_pressed("dash"):
+	if input.is_action_pressed("dash"):
 		gsc.send_event("to_dash")
 		return
 
@@ -118,10 +118,10 @@ func _on_run_state_entered() -> void:
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
-	if not Input.is_action_pressed("run"):
+	if not input.is_action_pressed("run"):
 		gsc.send_event("to_walking")
 		return
-	if Input.is_action_pressed("dash"):
+	if input.is_action_pressed("dash"):
 		gsc.send_event("to_dash")
 		return
 
@@ -138,7 +138,7 @@ func _on_run_state_exited() -> void:
 
 # === Grounded State ===
 func _on_grounded_state_physics_processing(delta: float) -> void:
-	if Input.is_action_pressed("jump"):
+	if input.is_action_pressed("jump"):
 		gsc.send_event("to_jump")
 
 	if not is_on_floor():
@@ -190,11 +190,11 @@ func _on_dash_state_entered() -> void:
 	dash_cmd.initialize(self, {
 		"magnitude": stats.dash_distance,
 		"time_to_peak": stats.dash_duration,
-		"direction": Vector2(Input.get_axis("left", "right"),  0),
+		"direction": Vector2(input.get_axis("left", "right"),  0),
 		"preserve_velocity": true,
 	})
 
-	sprite.flip_h = Input.get_axis("left", "right") < 0
+	sprite.flip_h = input.get_axis("left", "right") < 0.0
 
 	await dash_cmd.actived
 	gsc.set_expression_property(&"is_dash_applied", true)
@@ -205,7 +205,7 @@ func _on_dash_state_entered() -> void:
 func _on_dash_state_physics_processing(delta: float) -> void:
 	dash_cmd.execute(self, delta)
 
-	var dir: float = signf(Input.get_axis("left", "right"))
+	var dir: float = signf(input.get_axis("left", "right"))
 	if dir != 0.0 and signf(velocity.x) != dir:
 		dash_cmd.complete(self)
 

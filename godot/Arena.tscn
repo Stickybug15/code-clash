@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=4 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=62 format=4 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Theme" uid="uid://c30mdi5ed2iah" path="res://assets/fonts/monospace.tres" id="1_m8h0s"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="1_osepa"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_llv2m"]
 [ext_resource type="Texture2D" uid="uid://kp0p3g1yny2s" path="res://assets/backgrounds/glacial_mountains/Layers/glacial_mountains.png" id="4_mrbje"]
-[ext_resource type="Script" uid="uid://ml1jfdu58bxm" path="res://godot/script_environment/SimulateInput.gd" id="4_sghct"]
 [ext_resource type="Texture2D" uid="uid://dobuey1ouahv5" path="res://assets/backgrounds/glacial_mountains/Layers/clouds_mg_2.png" id="5_xlkdc"]
 [ext_resource type="Texture2D" uid="uid://b05y6yl7ny70o" path="res://assets/backgrounds/glacial_mountains/Layers/clouds_mg_3.png" id="6_3gog7"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_llv2m"]
@@ -372,6 +371,19 @@ hero.run_right()"
 layout_mode = 2
 text = "Run"
 
+[node name="Playback" type="HBoxContainer" parent="UI/Editor"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="UI/Editor/Playback"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Play"
+
+[node name="Pause" type="Button" parent="UI/Editor/Playback"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pause"
+
 [node name="StateChartDebugger" parent="UI" instance=ExtResource("1_osepa")]
 offset_left = 773.0
 offset_right = -2.0
@@ -431,11 +443,11 @@ centered = false
 [node name="Entities" type="Node" parent="."]
 script = ExtResource("2_krip0")
 
-[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "input", "gsc")]
+[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button", "gsc")]
 position = Vector2(192, 104)
 script = ExtResource("3_i14ea")
 code_edit = NodePath("../../UI/Editor/CodeEdit")
-input = NodePath("SimulateInput")
+run_button = NodePath("../../UI/Editor/Run")
 stats = ExtResource("8_7bxlx")
 gsc = NodePath("StateChart")
 metadata/_edit_group_ = true
@@ -469,10 +481,6 @@ tree_root = SubResource("AnimationNodeStateMachine_uwghf")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 parameters/dash/TimeScale/scale = 1.0
-
-[node name="SimulateInput" type="Node" parent="Entities/Player" node_paths=PackedStringArray("code_edit")]
-script = ExtResource("4_sghct")
-code_edit = NodePath("../../../UI/Editor/CodeEdit")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Player"]
 visible = false
@@ -630,7 +638,8 @@ process_physics_priority = 300
 script = ExtResource("3_llv2m")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[connection signal="pressed" from="UI/Editor/Run" to="Entities/Player/SimulateInput" method="_on_run_pressed"]
+[connection signal="pressed" from="UI/Editor/Playback/Play" to="Entities" method="play"]
+[connection signal="pressed" from="UI/Editor/Playback/Pause" to="Entities" method="pause"]
 [connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_entered"]
 [connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_exited"]
 [connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_physics_processing"]
