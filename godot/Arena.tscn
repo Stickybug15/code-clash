@@ -1,10 +1,9 @@
-[gd_scene load_steps=62 format=4 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=16 format=4 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Theme" uid="uid://c30mdi5ed2iah" path="res://assets/fonts/monospace.tres" id="1_m8h0s"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="1_osepa"]
 [ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/entities/Entities.gd" id="2_krip0"]
 [ext_resource type="Texture2D" uid="uid://c88cmx2ttner5" path="res://assets/backgrounds/glacial_mountains/Layers/sky.png" id="3_0s35q"]
-[ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="3_i14ea"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_llv2m"]
 [ext_resource type="Texture2D" uid="uid://kp0p3g1yny2s" path="res://assets/backgrounds/glacial_mountains/Layers/glacial_mountains.png" id="4_mrbje"]
 [ext_resource type="Texture2D" uid="uid://dobuey1ouahv5" path="res://assets/backgrounds/glacial_mountains/Layers/clouds_mg_2.png" id="5_xlkdc"]
@@ -12,15 +11,8 @@
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="6_llv2m"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="7_15rco"]
 [ext_resource type="Texture2D" uid="uid://mho8kf2fob0y" path="res://assets/backgrounds/glacial_mountains/Layers/clouds_mg_1.png" id="7_a07hc"]
-[ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="8_7bxlx"]
-[ext_resource type="PackedScene" uid="uid://t1cq0num0y7h" path="res://godot/characters/sprites/LuneBlade.tscn" id="13_0s35q"]
-[ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="13_rlytp"]
+[ext_resource type="PackedScene" uid="uid://bcbu4qmsumgm8" path="res://godot/characters/entities/Player.tscn" id="9_25y8y"]
 [ext_resource type="TileSet" uid="uid://cf67hragx43fq" path="res://assets/tilesets/adve/adve.tres" id="14_m8h0s"]
-[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="16_15rco"]
-[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="17_5qqfe"]
-[ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="17_vra06"]
-[ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="18_vra06"]
-[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="19_5qqfe"]
 
 [sub_resource type="GDScript" id="GDScript_uwghf"]
 script/source = "extends Node2D
@@ -31,320 +23,12 @@ func _on_wall_body_entered(body: Node2D) -> void:
 		body.position = Vector2(0, -77)
 "
 
-[sub_resource type="Resource" id="Resource_5qqfe"]
+[sub_resource type="Resource" id="Resource_rlytp"]
 script = ExtResource("7_15rco")
 duration = 1.0
-transition = 0
+transition = 7
 ease = 2
-
-[sub_resource type="Animation" id="Animation_llv2m"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"walk"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [5]
-}
-
-[sub_resource type="Animation" id="Animation_15rco"]
-resource_name = "dash"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"dash"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 11]
-}
-
-[sub_resource type="Animation" id="Animation_3op1n"]
-resource_name = "fall"
-length = 0.3
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"fall"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 3]
-}
-
-[sub_resource type="Animation" id="Animation_mb05r"]
-resource_name = "idle"
-length = 0.76
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"idle"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.76),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 6]
-}
-
-[sub_resource type="Animation" id="Animation_dvuyy"]
-resource_name = "jump"
-length = 0.3
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"jump"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 3]
-}
-
-[sub_resource type="Animation" id="Animation_78ohg"]
-resource_name = "run"
-length = 0.44
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"run"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.44),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 4]
-}
-
-[sub_resource type="Animation" id="Animation_mwwg5"]
-resource_name = "walk"
-length = 0.8
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"walk"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 5]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_dvuyy"]
-_data = {
-&"RESET": SubResource("Animation_llv2m"),
-&"dash": SubResource("Animation_15rco"),
-&"fall": SubResource("Animation_3op1n"),
-&"idle": SubResource("Animation_mb05r"),
-&"jump": SubResource("Animation_dvuyy"),
-&"run": SubResource("Animation_78ohg"),
-&"walk": SubResource("Animation_mwwg5")
-}
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sghct"]
-animation = &"dash"
-
-[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_mwwg5"]
-
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_uwghf"]
-nodes/Animation/node = SubResource("AnimationNodeAnimation_sghct")
-nodes/Animation/position = Vector2(293.333, 186.667)
-nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_mwwg5")
-nodes/TimeScale/position = Vector2(560, 160)
-nodes/output/position = Vector2(826.667, 160)
-node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uwghf"]
-animation = &"fall"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rlytp"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m8h0s"]
-animation = &"jump"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mwwg5"]
-animation = &"run"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_llv2m"]
-animation = &"walk"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sghct"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0s35q"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mrbje"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a07hc"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t6a0t"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_i74lf"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_snonw"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rlytp"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m8h0s"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vra06"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_osepa"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xlkdc"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0aqgn"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_llv2m"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mwwg5"]
-advance_mode = 2
-advance_expression = "walk_state.active and grounded_state.active"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_15rco"]
-advance_mode = 2
-advance_expression = "run_state.active and grounded_state.active"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5qqfe"]
-advance_mode = 2
-advance_expression = "idle_state.active and grounded_state.active"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3gog7"]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ow3cj"]
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_uwghf"]
-states/End/position = Vector2(789.333, 92.3939)
-states/Start/position = Vector2(142.667, 97.4335)
-states/dash/node = SubResource("AnimationNodeBlendTree_uwghf")
-states/dash/position = Vector2(168.728, -45.7073)
-states/fall/node = SubResource("AnimationNodeAnimation_uwghf")
-states/fall/position = Vector2(571.895, 91.714)
-states/idle/node = SubResource("AnimationNodeAnimation_rlytp")
-states/idle/position = Vector2(366.711, 97.4048)
-states/jump/node = SubResource("AnimationNodeAnimation_m8h0s")
-states/jump/position = Vector2(480.728, 182.954)
-states/run/node = SubResource("AnimationNodeAnimation_mwwg5")
-states/run/position = Vector2(570.862, -45.427)
-states/walk/node = SubResource("AnimationNodeAnimation_llv2m")
-states/walk/position = Vector2(367.094, -131.821)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_sghct"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_0s35q"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_mrbje"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_a07hc"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_t6a0t"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_i74lf"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_snonw"), "dash", "walk", SubResource("AnimationNodeStateMachineTransition_rlytp"), "walk", "dash", SubResource("AnimationNodeStateMachineTransition_m8h0s"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_vra06"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_osepa"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_xlkdc"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_0aqgn"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_llv2m"), "fall", "walk", SubResource("AnimationNodeStateMachineTransition_mwwg5"), "fall", "run", SubResource("AnimationNodeStateMachineTransition_15rco"), "fall", "idle", SubResource("AnimationNodeStateMachineTransition_5qqfe"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_3gog7"), "idle", "fall", SubResource("AnimationNodeStateMachineTransition_ow3cj")]
-graph_offset = Vector2(-12.573, -140.433)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rlytp"]
-size = Vector2(15, 18)
-
-[sub_resource type="Resource" id="Resource_m8h0s"]
-script = ExtResource("13_rlytp")
-expression = "not is_dash_applied"
-metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+metadata/_custom_type_script = "uid://8umksf8e80fw"
 
 [node name="Node2D" type="Node2D"]
 script = SubResource("GDScript_uwghf")
@@ -367,19 +51,46 @@ hero.walk_right()
 hero.run_left()
 hero.run_right()"
 
-[node name="Run" type="Button" parent="UI/Editor"]
-layout_mode = 2
-text = "Run"
-
-[node name="Playback" type="HBoxContainer" parent="UI/Editor"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Editor"]
 layout_mode = 2
 
-[node name="Play" type="Button" parent="UI/Editor/Playback"]
+[node name="RunPlayer" type="Button" parent="UI/Editor/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Run Player"
+
+[node name="RunEnemy" type="Button" parent="UI/Editor/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Run Enemy"
+
+[node name="VBoxContainer" type="HBoxContainer" parent="UI/Editor"]
+layout_mode = 2
+
+[node name="PlaybackPlayer" type="HBoxContainer" parent="UI/Editor/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Play" type="Button" parent="UI/Editor/VBoxContainer/PlaybackPlayer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Play"
 
-[node name="Pause" type="Button" parent="UI/Editor/Playback"]
+[node name="Pause" type="Button" parent="UI/Editor/VBoxContainer/PlaybackPlayer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pause"
+
+[node name="PlaybackEnemy" type="HBoxContainer" parent="UI/Editor/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Play" type="Button" parent="UI/Editor/VBoxContainer/PlaybackEnemy"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Play"
+
+[node name="Pause" type="Button" parent="UI/Editor/VBoxContainer/PlaybackEnemy"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Pause"
@@ -389,7 +100,7 @@ offset_left = 773.0
 offset_right = -2.0
 offset_bottom = -6.0
 theme = ExtResource("1_m8h0s")
-initial_node_to_watch = NodePath("../../Entities/Player/StateChart")
+initial_node_to_watch = NodePath("../../Entities/Player")
 
 [node name="Background" type="Node2D" parent="."]
 texture_filter = 1
@@ -443,192 +154,39 @@ centered = false
 [node name="Entities" type="Node" parent="."]
 script = ExtResource("2_krip0")
 
-[node name="Player" type="CharacterBody2D" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button", "gsc")]
-position = Vector2(192, 104)
-script = ExtResource("3_i14ea")
-code_edit = NodePath("../../UI/Editor/CodeEdit")
-run_button = NodePath("../../UI/Editor/Run")
-stats = ExtResource("8_7bxlx")
-gsc = NodePath("StateChart")
-metadata/_edit_group_ = true
-
-[node name="PhantomCamera2D" type="Node2D" parent="Entities/Player" node_paths=PackedStringArray("follow_target")]
+[node name="PhantomCamera" type="Node2D" parent="Entities" node_paths=PackedStringArray("follow_targets")]
 top_level = true
-position = Vector2(192, 40)
+position = Vector2(256, 71.5)
 script = ExtResource("6_llv2m")
-follow_mode = 2
-follow_target = NodePath("..")
-zoom = Vector2(3.4, 3.4)
-tween_resource = SubResource("Resource_5qqfe")
-follow_offset = Vector2(0, -64)
+follow_mode = 3
+follow_targets = [NodePath("../Player"), NodePath("../Enemy")]
+zoom = Vector2(5, 5)
+tween_resource = SubResource("Resource_rlytp")
 follow_damping = true
-follow_axis_lock = 2
+auto_zoom = true
 draw_limits = true
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
-[node name="Sprite" parent="Entities/Player" instance=ExtResource("13_0s35q")]
+[node name="Player" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
+position = Vector2(192, 71)
+code_edit = NodePath("../../UI/Editor/CodeEdit")
+run_button = NodePath("../../UI/Editor/HBoxContainer/RunPlayer")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/Player"]
-root_node = NodePath("../Sprite")
-callback_mode_process = 0
-libraries = {
-&"": SubResource("AnimationLibrary_dvuyy")
-}
-
-[node name="AnimationTree" type="AnimationTree" parent="Entities/Player"]
-root_node = NodePath("../Sprite")
-tree_root = SubResource("AnimationNodeStateMachine_uwghf")
-advance_expression_base_node = NodePath("..")
-anim_player = NodePath("../AnimationPlayer")
-parameters/dash/TimeScale/scale = 1.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/Player"]
-visible = false
-position = Vector2(-0.5, -1)
-shape = SubResource("RectangleShape2D_rlytp")
-
-[node name="StateChart" type="Node" parent="Entities/Player"]
-script = ExtResource("16_15rco")
-initial_expression_properties = {
-&"is_dash_applied": false
-}
-metadata/_custom_type_script = "uid://couw105c3bde4"
-
-[node name="ParallelState" type="Node" parent="Entities/Player/StateChart"]
-script = ExtResource("17_vra06")
-
-[node name="Locomotion" type="Node" parent="Entities/Player/StateChart/ParallelState"]
-script = ExtResource("17_5qqfe")
-initial_state = NodePath("Idle")
-
-[node name="Idle" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
-script = ExtResource("18_vra06")
-
-[node name="ToWalking" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Idle"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Walk")
-event = &"to_walking"
-delay_in_seconds = "0.0"
-
-[node name="ToDash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Idle"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Dash")
-event = &"to_dash"
-guard = SubResource("Resource_m8h0s")
-delay_in_seconds = "0.0"
-
-[node name="Walk" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
-script = ExtResource("18_vra06")
-
-[node name="ToIdle" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Walk"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="ToRunning" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Walk"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Run")
-event = &"to_running"
-delay_in_seconds = "0.0"
-
-[node name="ToDash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Walk"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Dash")
-event = &"to_dash"
-guard = SubResource("Resource_m8h0s")
-delay_in_seconds = "0.0"
-
-[node name="Run" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
-script = ExtResource("18_vra06")
-
-[node name="ToIdle" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Run"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="ToWalking" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Run"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Walk")
-event = &"to_walking"
-delay_in_seconds = "0.0"
-
-[node name="ToDash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Run"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Dash")
-event = &"to_dash"
-guard = SubResource("Resource_m8h0s")
-delay_in_seconds = "0.0"
-
-[node name="Dash" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion"]
-script = ExtResource("18_vra06")
-
-[node name="ToIdle" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Dash"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="ToWalking" type="Node" parent="Entities/Player/StateChart/ParallelState/Locomotion/Dash"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Walk")
-event = &"to_walking"
-delay_in_seconds = "0.0"
-
-[node name="AirBorne" type="Node" parent="Entities/Player/StateChart/ParallelState"]
-script = ExtResource("17_5qqfe")
-initial_state = NodePath("Grounded")
-
-[node name="Grounded" type="Node" parent="Entities/Player/StateChart/ParallelState/AirBorne"]
-script = ExtResource("18_vra06")
-
-[node name="ToFalling" type="Node" parent="Entities/Player/StateChart/ParallelState/AirBorne/Grounded"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Falling")
-event = &"to_falling"
-delay_in_seconds = "0.0"
-
-[node name="ToJump" type="Node" parent="Entities/Player/StateChart/ParallelState/AirBorne/Grounded"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Jump")
-event = &"to_jump"
-delay_in_seconds = "0.0"
-
-[node name="ToIdle" type="Node" parent="Entities/Player/StateChart/ParallelState/AirBorne/Grounded"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../../Locomotion/Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="Falling" type="Node" parent="Entities/Player/StateChart/ParallelState/AirBorne"]
-script = ExtResource("18_vra06")
-
-[node name="ToGrounded" type="Node" parent="Entities/Player/StateChart/ParallelState/AirBorne/Falling"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Grounded")
-event = &"to_grounded"
-delay_in_seconds = "0.0"
-
-[node name="Jump" type="Node" parent="Entities/Player/StateChart/ParallelState/AirBorne"]
-script = ExtResource("18_vra06")
-
-[node name="ToFalling" type="Node" parent="Entities/Player/StateChart/ParallelState/AirBorne/Jump"]
-script = ExtResource("19_5qqfe")
-to = NodePath("../../Falling")
-event = &"to_falling"
-delay_in_seconds = "0.0"
+[node name="Enemy" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
+position = Vector2(320, 72)
+code_edit = NodePath("../../UI/Editor/CodeEdit")
+run_button = NodePath("../../UI/Editor/HBoxContainer/RunEnemy")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
 position = Vector2(200, 120)
-tile_map_data = PackedByteArray("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AADm/wIAAQAKAAUAAADl/wIAAQAMAAUAAADn/wIAAQAMAAUAAAAYAAAAAQAMAAEAAAAZAAAAAQAMAAEAAAAaAAAAAQAKAAEAAAAaAAEAAQAKAAQAAAAaAAIAAQAMAAUAAAAZAAIAAQAMAAUAAAAYAAIAAQAKAAUAAAAZAAEAAQAMAAMAAAAYAAEAAQAKAAMAAADk/wIAAQAMAAUAAADk/wEAAQAMAAMAAADk/wAAAQAKAAEAAADj/wIAAQALAAUAAADj/wEAAQAKAAIAAADj/wAAAQAMAAEAAADi/wIAAQAKAAUAAADi/wEAAQAKAAMAAADi/wAAAQAMAAEAAADh/wIAAQALAAUAAADh/wEAAQAMAAMAAADh/wAAAQAKAAEAAADg/wIAAQALAAUAAADg/wEAAQAMAAMAAADg/wAAAQALAAEAAADf/wIAAQAKAAUAAADf/wEAAQAMAAQAAADf/wAAAQALAAEAAADe/wIAAQAMAAUAAADe/wEAAQALAAMAAADe/wAAAQAMAAEAAADd/wIAAQALAAUAAADd/wEAAQAKAAQAAADd/wAAAQAMAAEAAADc/wIAAQALAAUAAADc/wEAAQALAAQAAADc/wAAAQAKAAEAAADb/wIAAQAKAAUAAADb/wEAAQAMAAMAAADb/wAAAQALAAEAAADa/wIAAQAKAAUAAADa/wEAAQAMAAIAAADa/wAAAQAMAAEAAADZ/wIAAQAMAAUAAADZ/wEAAQAMAAMAAADZ/wAAAQALAAEAAADY/wIAAQAJAAUAAADY/wEAAQAJAAMAAADY/wAAAQAJAAEAAAAnAAIAAQANAAUAAAAnAAEAAQANAAQAAAAnAAAAAQANAAEAAAAmAAIAAQAMAAUAAAAmAAEAAQALAAMAAAAmAAAAAQALAAEAAAAlAAIAAQALAAUAAAAlAAEAAQAMAAQAAAAlAAAAAQAMAAEAAAAkAAIAAQAKAAUAAAAkAAEAAQAKAAIAAAAkAAAAAQAKAAEAAAAjAAIAAQAMAAUAAAAjAAEAAQALAAQAAAAjAAAAAQALAAEAAAAiAAIAAQALAAUAAAAiAAEAAQAMAAQAAAAiAAAAAQALAAEAAAAhAAIAAQAMAAUAAAAhAAEAAQALAAIAAAAhAAAAAQAMAAEAAAAgAAIAAQAMAAUAAAAgAAEAAQALAAIAAAAgAAAAAQALAAEAAAAfAAIAAQALAAUAAAAfAAEAAQALAAQAAAAfAAAAAQAMAAEAAAAeAAIAAQAKAAUAAAAeAAEAAQALAAIAAAAeAAAAAQAMAAEAAAAdAAIAAQALAAUAAAAdAAEAAQALAAQAAAAdAAAAAQALAAEAAAAcAAIAAQALAAUAAAAcAAEAAQALAAMAAAAcAAAAAQALAAEAAAAbAAIAAQALAAUAAAAbAAEAAQAKAAIAAAAbAAAAAQAMAAEAAAA=")
+tile_map_data = PackedByteArray("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AADm/wIAAQALAAIAAADl/wIAAQALAAIAAADn/wIAAQAKAAMAAAAYAAAAAQAKAAEAAAAZAAAAAQAKAAEAAAAaAAAAAQAKAAEAAAAaAAEAAQALAAMAAAAaAAIAAQALAAMAAAAZAAIAAQALAAMAAAAYAAIAAQAMAAMAAAAZAAEAAQALAAIAAAAYAAEAAQALAAIAAADk/wIAAQAMAAQAAADk/wEAAQAMAAQAAADk/wAAAQAKAAEAAADj/wIAAQAKAAMAAADj/wEAAQAMAAIAAADj/wAAAQALAAEAAADi/wIAAQALAAIAAADi/wEAAQAMAAMAAADi/wAAAQALAAEAAADh/wIAAQAMAAMAAADh/wEAAQAMAAQAAADh/wAAAQAKAAEAAADg/wIAAQAKAAMAAADg/wEAAQALAAIAAADg/wAAAQAKAAEAAADf/wIAAQAKAAMAAADf/wEAAQAKAAQAAADf/wAAAQAMAAEAAADe/wIAAQAMAAIAAADe/wEAAQAKAAMAAADe/wAAAQALAAEAAADd/wIAAQALAAMAAADd/wEAAQAMAAMAAADd/wAAAQALAAEAAADc/wIAAQAKAAQAAADc/wEAAQAKAAQAAADc/wAAAQALAAEAAADb/wIAAQALAAIAAADb/wEAAQALAAIAAADb/wAAAQALAAEAAADa/wIAAQAKAAIAAADa/wEAAQALAAMAAADa/wAAAQALAAEAAADZ/wIAAQALAAMAAADZ/wEAAQAKAAMAAADZ/wAAAQALAAEAAADY/wIAAQAJAAIAAADY/wEAAQAJAAIAAADY/wAAAQAJAAEAAAAnAAIAAQANAAQAAAAnAAEAAQANAAQAAAAnAAAAAQANAAEAAAAmAAIAAQALAAIAAAAmAAEAAQALAAQAAAAmAAAAAQALAAEAAAAlAAIAAQALAAMAAAAlAAEAAQALAAQAAAAlAAAAAQAMAAEAAAAkAAIAAQALAAMAAAAkAAEAAQAKAAIAAAAkAAAAAQAKAAEAAAAjAAIAAQAKAAQAAAAjAAEAAQALAAIAAAAjAAAAAQAKAAEAAAAiAAIAAQAMAAMAAAAiAAEAAQAMAAQAAAAiAAAAAQAKAAEAAAAhAAIAAQALAAQAAAAhAAEAAQALAAQAAAAhAAAAAQAKAAEAAAAgAAIAAQALAAQAAAAgAAEAAQAKAAMAAAAgAAAAAQALAAEAAAAfAAIAAQAMAAIAAAAfAAEAAQAMAAQAAAAfAAAAAQAMAAEAAAAeAAIAAQAKAAQAAAAeAAEAAQAKAAIAAAAeAAAAAQALAAEAAAAdAAIAAQAMAAQAAAAdAAEAAQAMAAMAAAAdAAAAAQAMAAEAAAAcAAIAAQALAAQAAAAcAAEAAQAKAAMAAAAcAAAAAQALAAEAAAAbAAIAAQAKAAIAAAAbAAEAAQAMAAIAAAAbAAAAAQALAAEAAADY/wMAAQAJAAQAAADZ/wMAAQAKAAMAAADa/wMAAQALAAIAAADb/wMAAQALAAIAAADc/wMAAQAKAAQAAADd/wMAAQAKAAMAAADe/wMAAQAKAAQAAADf/wMAAQAMAAIAAADg/wMAAQALAAIAAADh/wMAAQALAAQAAADi/wMAAQALAAIAAADj/wMAAQALAAIAAADk/wMAAQALAAQAAADl/wMAAQAMAAQAAADm/wMAAQALAAMAAADn/wMAAQAMAAIAAADo/wMAAQALAAMAAADp/wMAAQALAAMAAADq/wMAAQAKAAQAAADr/wMAAQAKAAMAAADs/wMAAQALAAMAAADt/wMAAQAKAAMAAADu/wMAAQALAAQAAADv/wMAAQALAAQAAADw/wMAAQAMAAQAAADx/wMAAQALAAIAAADy/wMAAQAMAAIAAADz/wMAAQAKAAMAAAD0/wMAAQAMAAMAAAD1/wMAAQAKAAMAAAD2/wMAAQAMAAMAAAD3/wMAAQALAAQAAAD4/wMAAQAMAAIAAAD5/wMAAQAMAAMAAAD7/wMAAQAKAAQAAAD8/wMAAQALAAIAAAD9/wMAAQALAAIAAAD6/wMAAQAMAAQAAAD+/wMAAQALAAIAAAD//wMAAQAMAAIAAAAAAAMAAQAMAAQAAAABAAMAAQALAAIAAAACAAMAAQAMAAMAAAADAAMAAQALAAQAAAAEAAMAAQALAAQAAAAFAAMAAQAKAAIAAAAGAAMAAQAKAAMAAAAHAAMAAQALAAIAAAAIAAMAAQALAAQAAAAJAAMAAQAMAAIAAAAKAAMAAQAMAAIAAAAEAAUAAQAKAAQAAAAFAAYAAQAMAAQAAAAGAAYAAQAKAAIAAAAIAAcAAQAKAAQAAAAHAAYAAQALAAQAAAAKAAkAAQAKAAMAAAAJAAgAAQAKAAMAAAAMAAoAAQAKAAMAAAALAAkAAQALAAIAAAANAAsAAQALAAMAAAAPAAsAAQAKAAQAAAAOAAsAAQAKAAIAAAAQAAwAAQAKAAIAAAARAAwAAQAKAAMAAAARAAsAAQAKAAMAAAARAAoAAQALAAMAAAASAAoAAQAKAAIAAAASAAkAAQAKAAMAAAASAAgAAQAMAAIAAAAnAA0AAQANAAUAAAAnAAwAAQANAAIAAAAnAAsAAQANAAIAAAAnAAoAAQANAAQAAAAnAAkAAQANAAQAAAAnAAgAAQANAAQAAAAnAAcAAQANAAQAAAAnAAYAAQANAAMAAAAnAAUAAQANAAIAAAAnAAQAAQANAAIAAAAnAAMAAQANAAMAAAAmAA0AAQALAAUAAAAmAAwAAQAKAAMAAAAmAAsAAQAKAAIAAAAmAAoAAQALAAIAAAAmAAkAAQALAAQAAAAmAAgAAQALAAQAAAAmAAcAAQAMAAIAAAAmAAYAAQAKAAMAAAAmAAUAAQALAAMAAAAmAAQAAQALAAIAAAAmAAMAAQAMAAMAAAAlAA0AAQAKAAUAAAAlAAwAAQALAAMAAAAlAAsAAQAKAAMAAAAlAAoAAQALAAMAAAAlAAkAAQALAAQAAAAlAAgAAQAKAAMAAAAlAAcAAQAKAAIAAAAlAAYAAQAKAAIAAAAlAAUAAQALAAMAAAAlAAQAAQAMAAMAAAAlAAMAAQALAAIAAAAkAA0AAQAMAAUAAAAkAAwAAQALAAQAAAAkAAsAAQAMAAMAAAAkAAoAAQALAAMAAAAkAAkAAQAKAAIAAAAkAAgAAQALAAIAAAAkAAcAAQAMAAQAAAAkAAYAAQAKAAMAAAAkAAUAAQALAAIAAAAkAAQAAQAKAAMAAAAkAAMAAQALAAQAAAAjAA0AAQAMAAUAAAAjAAwAAQAMAAMAAAAjAAsAAQALAAQAAAAjAAoAAQALAAIAAAAjAAkAAQALAAMAAAAjAAgAAQAMAAMAAAAjAAcAAQAMAAIAAAAjAAYAAQAMAAQAAAAjAAUAAQAKAAMAAAAjAAQAAQAMAAIAAAAjAAMAAQAMAAIAAAAiAA0AAQAMAAUAAAAiAAwAAQALAAQAAAAiAAsAAQAKAAIAAAAiAAoAAQAKAAMAAAAiAAkAAQAMAAQAAAAiAAgAAQALAAIAAAAiAAcAAQAMAAQAAAAiAAYAAQAMAAMAAAAiAAUAAQAMAAMAAAAiAAQAAQAKAAIAAAAiAAMAAQAKAAQAAAAhAA0AAQALAAUAAAAhAAwAAQAMAAQAAAAhAAsAAQAKAAMAAAAhAAoAAQALAAIAAAAhAAkAAQAMAAQAAAAhAAgAAQAMAAIAAAAhAAcAAQALAAMAAAAhAAYAAQAMAAIAAAAhAAUAAQAKAAMAAAAhAAQAAQAMAAIAAAAhAAMAAQALAAMAAAAgAA0AAQAMAAUAAAAgAAwAAQAKAAIAAAAgAAsAAQAKAAIAAAAgAAoAAQAMAAMAAAAgAAkAAQAKAAIAAAAgAAgAAQALAAIAAAAgAAcAAQAKAAMAAAAgAAYAAQAMAAQAAAAgAAUAAQALAAQAAAAgAAQAAQAMAAMAAAAgAAMAAQAKAAIAAAAfAA0AAQAMAAUAAAAfAAwAAQALAAIAAAAfAAsAAQALAAQAAAAfAAoAAQALAAIAAAAfAAkAAQAMAAMAAAAfAAgAAQALAAMAAAAfAAcAAQAKAAIAAAAfAAYAAQALAAQAAAAfAAUAAQAKAAMAAAAfAAQAAQAKAAMAAAAfAAMAAQAMAAQAAAAeAA0AAQAKAAUAAAAeAAwAAQAKAAQAAAAeAAsAAQAMAAIAAAAeAAoAAQAMAAIAAAAeAAkAAQAKAAQAAAAeAAgAAQAKAAIAAAAeAAcAAQAKAAMAAAAeAAYAAQAKAAIAAAAeAAUAAQALAAMAAAAeAAQAAQAMAAIAAAAeAAMAAQALAAMAAAAdAA0AAQAKAAUAAAAdAAwAAQAMAAMAAAAdAAsAAQAKAAIAAAAdAAoAAQALAAQAAAAdAAkAAQALAAMAAAAdAAgAAQAMAAMAAAAdAAcAAQALAAMAAAAdAAYAAQAMAAIAAAAdAAUAAQALAAIAAAAdAAQAAQAMAAMAAAAdAAMAAQALAAIAAAAcAA0AAQAMAAUAAAAcAAwAAQAKAAIAAAAcAAsAAQAKAAMAAAAcAAoAAQALAAMAAAAcAAkAAQALAAIAAAAcAAgAAQALAAQAAAAcAAcAAQALAAQAAAAcAAYAAQAKAAIAAAAcAAUAAQAMAAMAAAAcAAQAAQALAAIAAAAcAAMAAQALAAQAAAAbAA0AAQALAAUAAAAbAAwAAQAMAAMAAAAbAAsAAQALAAIAAAAbAAoAAQAMAAMAAAAbAAkAAQALAAIAAAAbAAgAAQALAAIAAAAbAAcAAQAKAAMAAAAbAAYAAQAMAAMAAAAbAAUAAQAKAAQAAAAbAAQAAQAKAAQAAAAbAAMAAQAMAAMAAAAaAA0AAQAKAAUAAAAaAAwAAQAKAAQAAAAaAAsAAQALAAMAAAAaAAoAAQALAAQAAAAaAAkAAQALAAQAAAAaAAgAAQAKAAIAAAAaAAcAAQAKAAIAAAAaAAYAAQALAAIAAAAaAAUAAQAMAAQAAAAaAAQAAQAKAAIAAAAaAAMAAQALAAMAAAAZAA0AAQALAAUAAAAZAAwAAQALAAMAAAAZAAsAAQALAAMAAAAZAAoAAQALAAQAAAAZAAkAAQAMAAIAAAAZAAgAAQALAAQAAAAZAAcAAQALAAMAAAAZAAYAAQAKAAQAAAAZAAUAAQAKAAIAAAAZAAQAAQALAAIAAAAZAAMAAQALAAQAAAAYAA0AAQAMAAUAAAAYAAwAAQAKAAIAAAAYAAsAAQAKAAQAAAAYAAoAAQALAAQAAAAYAAkAAQAKAAMAAAAYAAgAAQAMAAIAAAAYAAcAAQAMAAMAAAAYAAYAAQAMAAMAAAAYAAUAAQALAAIAAAAYAAQAAQALAAMAAAAYAAMAAQAMAAQAAAAXAA0AAQALAAUAAAAXAAwAAQALAAMAAAAXAAsAAQALAAIAAAAXAAoAAQAKAAIAAAAXAAkAAQAMAAIAAAAXAAgAAQAMAAIAAAAXAAcAAQALAAMAAAAXAAYAAQALAAMAAAAXAAUAAQALAAQAAAAXAAQAAQALAAQAAAAXAAMAAQALAAQAAAAWAA0AAQAKAAUAAAAWAAwAAQAMAAQAAAAWAAsAAQALAAMAAAAWAAoAAQALAAMAAAAWAAkAAQAMAAMAAAAWAAgAAQAKAAMAAAAWAAcAAQAKAAIAAAAWAAYAAQAKAAMAAAAWAAUAAQAMAAQAAAAWAAQAAQAKAAQAAAAWAAMAAQAKAAQAAAAVAA0AAQALAAUAAAAVAAwAAQALAAQAAAAVAAsAAQALAAIAAAAVAAoAAQALAAMAAAAVAAkAAQAMAAMAAAAVAAgAAQAMAAQAAAAVAAcAAQAKAAIAAAAVAAYAAQAKAAMAAAAVAAUAAQAKAAMAAAAVAAQAAQALAAQAAAAVAAMAAQALAAMAAAAUAA0AAQALAAUAAAAUAAwAAQAKAAIAAAAUAAsAAQAKAAQAAAAUAAoAAQALAAMAAAAUAAkAAQAKAAQAAAAUAAgAAQAKAAMAAAAUAAcAAQALAAQAAAAUAAYAAQAKAAQAAAAUAAUAAQALAAIAAAAUAAQAAQAKAAIAAAAUAAMAAQALAAIAAAATAA0AAQAMAAUAAAATAAwAAQAKAAMAAAATAAsAAQAKAAQAAAATAAoAAQAMAAMAAAATAAkAAQALAAIAAAATAAgAAQAMAAQAAAATAAcAAQAKAAIAAAATAAYAAQAMAAMAAAATAAUAAQAKAAMAAAATAAQAAQAMAAMAAAATAAMAAQALAAMAAAASAA0AAQALAAUAAAASAAwAAQAKAAIAAAASAAsAAQAKAAIAAAASAAcAAQALAAQAAAASAAYAAQALAAQAAAASAAUAAQAKAAMAAAASAAQAAQAMAAMAAAASAAMAAQALAAMAAAARAA0AAQALAAUAAAARAAkAAQAKAAMAAAARAAgAAQALAAMAAAARAAcAAQAKAAMAAAARAAYAAQAKAAQAAAARAAUAAQALAAQAAAARAAQAAQALAAMAAAARAAMAAQALAAQAAAAQAA0AAQAMAAUAAAAQAAsAAQAMAAQAAAAQAAoAAQAMAAQAAAAQAAkAAQAMAAIAAAAQAAgAAQALAAMAAAAQAAcAAQAKAAIAAAAQAAYAAQALAAQAAAAQAAUAAQAMAAQAAAAQAAQAAQAKAAMAAAAQAAMAAQALAAQAAAAPAA0AAQALAAUAAAAPAAwAAQAKAAIAAAAPAAoAAQAMAAQAAAAPAAkAAQAKAAIAAAAPAAgAAQAKAAMAAAAPAAcAAQAKAAQAAAAPAAYAAQAMAAMAAAAPAAUAAQAKAAQAAAAPAAQAAQAMAAMAAAAPAAMAAQALAAMAAAAOAA0AAQALAAUAAAAOAAwAAQAMAAMAAAAOAAoAAQAKAAQAAAAOAAkAAQALAAMAAAAOAAgAAQAKAAIAAAAOAAcAAQAMAAQAAAAOAAYAAQAKAAIAAAAOAAUAAQAKAAIAAAAOAAQAAQAKAAQAAAAOAAMAAQAMAAQAAAANAA0AAQAMAAUAAAANAAwAAQAKAAIAAAANAAoAAQALAAIAAAANAAkAAQALAAIAAAANAAgAAQAKAAMAAAANAAcAAQALAAMAAAANAAYAAQAMAAQAAAANAAUAAQAMAAQAAAANAAQAAQAKAAQAAAANAAMAAQAKAAQAAAAMAA0AAQAMAAUAAAAMAAwAAQAKAAQAAAAMAAsAAQALAAIAAAAMAAkAAQALAAIAAAAMAAgAAQAKAAIAAAAMAAcAAQAKAAIAAAAMAAYAAQALAAMAAAAMAAUAAQALAAIAAAAMAAQAAQAKAAMAAAAMAAMAAQALAAMAAAALAA0AAQAKAAUAAAALAAwAAQALAAIAAAALAAsAAQAMAAQAAAALAAoAAQALAAIAAAALAAgAAQALAAIAAAALAAcAAQAMAAIAAAALAAYAAQAKAAMAAAALAAUAAQAKAAMAAAALAAQAAQAMAAQAAAALAAMAAQALAAQAAAAKAA0AAQAMAAUAAAAKAAwAAQAKAAQAAAAKAAsAAQAKAAQAAAAKAAoAAQAMAAIAAAAKAAgAAQALAAIAAAAKAAcAAQAKAAIAAAAKAAYAAQAKAAMAAAAKAAUAAQALAAIAAAAKAAQAAQALAAMAAAAJAA0AAQAMAAUAAAAJAAwAAQAMAAMAAAAJAAsAAQALAAQAAAAJAAoAAQAMAAMAAAAJAAkAAQALAAMAAAAJAAcAAQALAAQAAAAJAAYAAQAKAAMAAAAJAAUAAQAMAAMAAAAJAAQAAQAKAAQAAAAIAA0AAQAMAAUAAAAIAAwAAQAKAAMAAAAIAAsAAQAKAAIAAAAIAAoAAQALAAIAAAAIAAkAAQAKAAMAAAAIAAgAAQALAAIAAAAIAAYAAQALAAMAAAAIAAUAAQALAAQAAAAIAAQAAQAMAAIAAAAHAA0AAQAKAAUAAAAHAAwAAQAMAAMAAAAHAAsAAQAKAAMAAAAHAAoAAQAMAAMAAAAHAAkAAQAMAAIAAAAHAAgAAQALAAMAAAAHAAcAAQAMAAIAAAAHAAUAAQAMAAQAAAAHAAQAAQAKAAIAAAAGAA0AAQAKAAUAAAAGAAwAAQAMAAQAAAAGAAsAAQAMAAQAAAAGAAoAAQALAAMAAAAGAAkAAQAMAAQAAAAGAAgAAQAMAAMAAAAGAAcAAQAMAAMAAAAGAAUAAQAMAAIAAAAGAAQAAQALAAMAAAAFAA0AAQAMAAUAAAAFAAwAAQALAAQAAAAFAAsAAQAKAAQAAAAFAAoAAQAKAAIAAAAFAAkAAQAKAAMAAAAFAAgAAQAMAAMAAAAFAAcAAQAMAAMAAAAFAAUAAQAMAAIAAAAFAAQAAQALAAIAAAAEAA0AAQAKAAUAAAAEAAwAAQAMAAMAAAAEAAsAAQAMAAMAAAAEAAoAAQAMAAQAAAAEAAkAAQAKAAIAAAAEAAgAAQALAAMAAAAEAAcAAQAMAAQAAAAEAAYAAQAKAAIAAAAEAAQAAQAMAAMAAAADAA0AAQAKAAUAAAADAAwAAQAMAAIAAAADAAsAAQALAAIAAAADAAoAAQALAAIAAAADAAkAAQAMAAIAAAADAAgAAQAKAAQAAAADAAcAAQALAAIAAAADAAYAAQALAAIAAAADAAUAAQALAAQAAAADAAQAAQAMAAMAAAACAA0AAQALAAUAAAACAAwAAQALAAMAAAACAAsAAQALAAMAAAACAAoAAQAMAAMAAAACAAkAAQAMAAIAAAACAAgAAQAMAAMAAAACAAcAAQALAAIAAAACAAYAAQALAAMAAAACAAUAAQAKAAMAAAACAAQAAQAKAAIAAAABAA0AAQAMAAUAAAABAAwAAQALAAIAAAABAAsAAQAKAAMAAAABAAoAAQAKAAMAAAABAAkAAQAMAAIAAAABAAgAAQALAAIAAAABAAcAAQAMAAMAAAABAAYAAQAKAAQAAAABAAUAAQALAAMAAAABAAQAAQALAAQAAAAAAA0AAQAMAAUAAAAAAAwAAQAKAAIAAAAAAAsAAQAMAAMAAAAAAAoAAQALAAQAAAAAAAkAAQALAAIAAAAAAAgAAQAMAAMAAAAAAAcAAQALAAIAAAAAAAYAAQAMAAIAAAAAAAUAAQAMAAMAAAAAAAQAAQAKAAMAAAD//w0AAQAKAAUAAAD//wwAAQALAAMAAAD//wsAAQAKAAIAAAD//woAAQALAAMAAAD//wkAAQAKAAQAAAD//wgAAQAKAAMAAAD//wcAAQAMAAQAAAD//wYAAQALAAMAAAD//wUAAQALAAIAAAD//wQAAQAMAAIAAAD+/w0AAQALAAUAAAD+/wwAAQAKAAQAAAD+/wsAAQAMAAMAAAD+/woAAQAMAAQAAAD+/wkAAQALAAQAAAD+/wgAAQALAAIAAAD+/wcAAQAMAAQAAAD+/wYAAQALAAQAAAD+/wUAAQAMAAIAAAD+/wQAAQAMAAIAAAD9/w0AAQAMAAUAAAD9/wwAAQALAAIAAAD9/wsAAQAMAAQAAAD9/woAAQALAAMAAAD9/wkAAQALAAQAAAD9/wgAAQALAAMAAAD9/wcAAQAMAAIAAAD9/wYAAQAKAAQAAAD9/wUAAQALAAMAAAD9/wQAAQAKAAMAAAD8/w0AAQALAAUAAAD8/wwAAQAKAAMAAAD8/wsAAQAMAAIAAAD8/woAAQAKAAIAAAD8/wkAAQALAAQAAAD8/wgAAQAMAAQAAAD8/wcAAQAKAAIAAAD8/wYAAQAMAAMAAAD8/wUAAQAMAAQAAAD8/wQAAQAMAAQAAAD7/w0AAQALAAUAAAD7/wwAAQAKAAIAAAD7/wsAAQAKAAIAAAD7/woAAQAKAAIAAAD7/wkAAQALAAMAAAD7/wgAAQAMAAIAAAD7/wcAAQALAAMAAAD7/wYAAQALAAQAAAD7/wUAAQAKAAIAAAD7/wQAAQALAAQAAAD6/w0AAQAKAAUAAAD6/wwAAQAKAAQAAAD6/wsAAQAMAAIAAAD6/woAAQALAAQAAAD6/wkAAQALAAMAAAD6/wgAAQALAAMAAAD6/wcAAQAMAAIAAAD6/wYAAQAMAAIAAAD6/wUAAQAKAAMAAAD6/wQAAQAMAAMAAAD5/w0AAQAMAAUAAAD5/wwAAQAKAAIAAAD5/wsAAQALAAMAAAD5/woAAQALAAMAAAD5/wkAAQAMAAQAAAD5/wgAAQALAAQAAAD5/wcAAQAMAAQAAAD5/wYAAQALAAMAAAD5/wUAAQALAAMAAAD5/wQAAQAKAAQAAAD4/w0AAQALAAUAAAD4/wwAAQAMAAIAAAD4/wsAAQAMAAQAAAD4/woAAQALAAIAAAD4/wkAAQALAAMAAAD4/wgAAQALAAIAAAD4/wcAAQALAAQAAAD4/wYAAQAKAAQAAAD4/wUAAQAMAAIAAAD4/wQAAQALAAQAAAD3/w0AAQAKAAUAAAD3/wwAAQAMAAIAAAD3/wsAAQALAAMAAAD3/woAAQAMAAQAAAD3/wkAAQALAAIAAAD3/wgAAQALAAIAAAD3/wcAAQAMAAIAAAD3/wYAAQAMAAQAAAD3/wUAAQAKAAMAAAD3/wQAAQAMAAIAAAD2/w0AAQAKAAUAAAD2/wwAAQAMAAIAAAD2/wsAAQALAAQAAAD2/woAAQAMAAMAAAD2/wkAAQAKAAIAAAD2/wgAAQAKAAQAAAD2/wcAAQAKAAIAAAD2/wYAAQALAAQAAAD2/wUAAQALAAMAAAD2/wQAAQALAAQAAAD1/w0AAQALAAUAAAD1/wwAAQALAAMAAAD1/wsAAQAMAAMAAAD1/woAAQAMAAQAAAD1/wkAAQAMAAMAAAD1/wgAAQAMAAIAAAD1/wcAAQALAAIAAAD1/wYAAQAMAAQAAAD1/wUAAQALAAIAAAD1/wQAAQALAAIAAAD0/w0AAQAMAAUAAAD0/wwAAQALAAQAAAD0/wsAAQAKAAIAAAD0/woAAQAMAAIAAAD0/wkAAQALAAIAAAD0/wgAAQAKAAMAAAD0/wcAAQALAAQAAAD0/wYAAQALAAMAAAD0/wUAAQALAAIAAAD0/wQAAQAKAAQAAADz/w0AAQAKAAUAAADz/wwAAQAMAAQAAADz/wsAAQALAAMAAADz/woAAQAMAAMAAADz/wkAAQALAAMAAADz/wgAAQAMAAQAAADz/wcAAQALAAMAAADz/wYAAQAKAAIAAADz/wUAAQALAAQAAADz/wQAAQAMAAMAAADy/w0AAQALAAUAAADy/wwAAQAMAAQAAADy/wsAAQAMAAIAAADy/woAAQAKAAMAAADy/wkAAQAKAAQAAADy/wgAAQALAAMAAADy/wcAAQAMAAIAAADy/wYAAQAMAAQAAADy/wUAAQAKAAQAAADy/wQAAQALAAMAAADx/w0AAQAMAAUAAADx/wwAAQAMAAIAAADx/wsAAQALAAIAAADx/woAAQAKAAMAAADx/wkAAQALAAQAAADx/wgAAQALAAMAAADx/wcAAQAMAAQAAADx/wYAAQAKAAIAAADx/wUAAQAKAAQAAADx/wQAAQALAAIAAADw/w0AAQAKAAUAAADw/wwAAQALAAQAAADw/wsAAQAMAAMAAADw/woAAQALAAMAAADw/wkAAQALAAIAAADw/wgAAQAMAAQAAADw/wcAAQAKAAMAAADw/wYAAQAKAAMAAADw/wUAAQALAAQAAADw/wQAAQALAAMAAADv/w0AAQALAAUAAADv/wwAAQAKAAMAAADv/wsAAQALAAIAAADv/woAAQAKAAIAAADv/wkAAQAKAAQAAADv/wgAAQALAAMAAADv/wcAAQALAAQAAADv/wYAAQAMAAMAAADv/wUAAQAMAAIAAADv/wQAAQALAAMAAADu/w0AAQAKAAUAAADu/wwAAQALAAMAAADu/wsAAQAKAAQAAADu/woAAQAMAAMAAADu/wkAAQAMAAQAAADu/wgAAQAKAAMAAADu/wcAAQAKAAIAAADu/wYAAQAMAAQAAADu/wUAAQAMAAIAAADu/wQAAQAKAAIAAADt/w0AAQALAAUAAADt/wwAAQAKAAQAAADt/wsAAQALAAQAAADt/woAAQAKAAQAAADt/wkAAQAKAAMAAADt/wgAAQAMAAQAAADt/wcAAQALAAMAAADt/wYAAQAMAAMAAADt/wUAAQALAAMAAADt/wQAAQAMAAIAAADs/w0AAQAMAAUAAADs/wwAAQAMAAMAAADs/wsAAQALAAMAAADs/woAAQAKAAQAAADs/wkAAQAMAAIAAADs/wgAAQAKAAMAAADs/wcAAQAKAAMAAADs/wYAAQAKAAQAAADs/wUAAQALAAIAAADs/wQAAQAMAAQAAADr/w0AAQALAAUAAADr/wwAAQAMAAQAAADr/wsAAQAKAAIAAADr/woAAQAKAAMAAADr/wkAAQAKAAQAAADr/wgAAQAMAAQAAADr/wcAAQAKAAIAAADr/wYAAQAKAAQAAADr/wUAAQALAAQAAADr/wQAAQAKAAQAAADq/w0AAQAKAAUAAADq/wwAAQALAAIAAADq/wsAAQALAAIAAADq/woAAQAKAAMAAADq/wkAAQALAAMAAADq/wgAAQALAAQAAADq/wcAAQALAAIAAADq/wYAAQAMAAMAAADq/wUAAQALAAIAAADq/wQAAQAKAAIAAADp/w0AAQALAAUAAADp/wwAAQAMAAMAAADp/wsAAQALAAQAAADp/woAAQALAAMAAADp/wkAAQAKAAMAAADp/wgAAQAMAAIAAADp/wcAAQAMAAQAAADp/wYAAQAKAAQAAADp/wUAAQAMAAMAAADp/wQAAQALAAMAAADo/w0AAQAMAAUAAADo/wwAAQAKAAMAAADo/wsAAQAMAAQAAADo/woAAQAKAAMAAADo/wkAAQAKAAIAAADo/wgAAQAKAAMAAADo/wcAAQALAAQAAADo/wYAAQALAAQAAADo/wUAAQAKAAQAAADo/wQAAQAMAAMAAADn/w0AAQALAAUAAADn/wwAAQAMAAMAAADn/wsAAQALAAQAAADn/woAAQALAAMAAADn/wkAAQALAAMAAADn/wgAAQALAAQAAADn/wcAAQALAAIAAADn/wYAAQAKAAQAAADn/wUAAQAKAAMAAADn/wQAAQAMAAIAAADm/w0AAQAKAAUAAADm/wwAAQALAAIAAADm/wsAAQAKAAMAAADm/woAAQALAAMAAADm/wkAAQAKAAQAAADm/wgAAQAMAAMAAADm/wcAAQALAAQAAADm/wYAAQALAAIAAADm/wUAAQALAAMAAADm/wQAAQAKAAMAAADl/w0AAQAMAAUAAADl/wwAAQAKAAMAAADl/wsAAQAMAAMAAADl/woAAQALAAMAAADl/wkAAQALAAMAAADl/wgAAQALAAMAAADl/wcAAQAKAAMAAADl/wYAAQAKAAMAAADl/wUAAQAKAAMAAADl/wQAAQAMAAQAAADk/w0AAQAMAAUAAADk/wwAAQAMAAQAAADk/wsAAQAKAAMAAADk/woAAQAMAAMAAADk/wkAAQALAAIAAADk/wgAAQAMAAMAAADk/wcAAQAKAAQAAADk/wYAAQALAAQAAADk/wUAAQAMAAQAAADk/wQAAQAKAAMAAADj/w0AAQAKAAUAAADj/wwAAQAMAAIAAADj/wsAAQALAAQAAADj/woAAQALAAMAAADj/wkAAQAKAAQAAADj/wgAAQAKAAMAAADj/wcAAQALAAIAAADj/wYAAQALAAMAAADj/wUAAQALAAMAAADj/wQAAQALAAIAAADi/w0AAQAMAAUAAADi/wwAAQAMAAIAAADi/wsAAQAMAAMAAADi/woAAQALAAIAAADi/wkAAQAMAAQAAADi/wgAAQALAAMAAADi/wcAAQAKAAMAAADi/wYAAQAMAAIAAADi/wUAAQALAAMAAADi/wQAAQAMAAQAAADh/w0AAQALAAUAAADh/wwAAQAMAAQAAADh/wsAAQAKAAMAAADh/woAAQALAAIAAADh/wkAAQAKAAIAAADh/wgAAQALAAIAAADh/wcAAQAMAAMAAADh/wYAAQAMAAQAAADh/wUAAQAKAAQAAADh/wQAAQAKAAIAAADg/w0AAQAKAAUAAADg/wwAAQALAAIAAADg/wsAAQAKAAIAAADg/woAAQAMAAMAAADg/wkAAQAMAAMAAADg/wgAAQALAAQAAADg/wcAAQAMAAMAAADg/wYAAQALAAQAAADg/wUAAQALAAQAAADg/wQAAQAMAAMAAADf/w0AAQAKAAUAAADf/wwAAQALAAQAAADf/wsAAQAKAAMAAADf/woAAQAKAAQAAADf/wkAAQALAAQAAADf/wgAAQAMAAIAAADf/wcAAQALAAQAAADf/wYAAQALAAQAAADf/wUAAQALAAMAAADf/wQAAQALAAMAAADe/w0AAQAMAAUAAADe/wwAAQAKAAIAAADe/wsAAQAMAAQAAADe/woAAQALAAIAAADe/wkAAQAMAAIAAADe/wgAAQAMAAMAAADe/wcAAQAKAAIAAADe/wYAAQAMAAMAAADe/wUAAQALAAIAAADe/wQAAQAMAAMAAADd/w0AAQALAAUAAADd/wwAAQALAAQAAADd/wsAAQAMAAMAAADd/woAAQAMAAMAAADd/wkAAQAMAAMAAADd/wgAAQALAAIAAADd/wcAAQALAAQAAADd/wYAAQAKAAQAAADd/wUAAQALAAMAAADd/wQAAQALAAQAAADc/w0AAQAKAAUAAADc/wwAAQAKAAIAAADc/wsAAQAMAAQAAADc/woAAQAKAAMAAADc/wkAAQAMAAMAAADc/wgAAQAMAAMAAADc/wcAAQALAAMAAADc/wYAAQAMAAIAAADc/wUAAQALAAQAAADc/wQAAQAKAAMAAADb/w0AAQALAAUAAADb/wwAAQAMAAQAAADb/wsAAQALAAIAAADb/woAAQAMAAMAAADb/wkAAQALAAIAAADb/wgAAQALAAMAAADb/wcAAQAKAAIAAADb/wYAAQAMAAQAAADb/wUAAQAKAAQAAADb/wQAAQAMAAQAAADa/w0AAQAMAAUAAADa/wwAAQAMAAMAAADa/wsAAQALAAMAAADa/woAAQAMAAMAAADa/wkAAQALAAMAAADa/wgAAQAKAAMAAADa/wcAAQAKAAMAAADa/wYAAQALAAIAAADa/wUAAQAKAAQAAADa/wQAAQAMAAIAAADZ/w0AAQAMAAUAAADZ/wwAAQAMAAIAAADZ/wsAAQAKAAMAAADZ/woAAQAKAAQAAADZ/wkAAQAKAAMAAADZ/wgAAQALAAIAAADZ/wcAAQALAAQAAADZ/wYAAQAKAAMAAADZ/wUAAQAMAAQAAADZ/wQAAQALAAIAAADY/w0AAQAJAAUAAADY/wwAAQAJAAMAAADY/wsAAQAJAAMAAADY/woAAQAJAAMAAADY/wkAAQAJAAQAAADY/wgAAQAJAAQAAADY/wcAAQAJAAMAAADY/wYAAQAJAAIAAADY/wUAAQAJAAQAAADY/wQAAQAJAAMAAAA=")
 tile_set = ExtResource("14_m8h0s")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1
-position = Vector2(192, 40)
-zoom = Vector2(3.4, 3.4)
+position = Vector2(256, 71.5)
+zoom = Vector2(5, 5)
 process_callback = 0
 editor_draw_limits = true
 
@@ -638,22 +196,7 @@ process_physics_priority = 300
 script = ExtResource("3_llv2m")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[connection signal="pressed" from="UI/Editor/Playback/Play" to="Entities" method="play"]
-[connection signal="pressed" from="UI/Editor/Playback/Pause" to="Entities" method="pause"]
-[connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_entered"]
-[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_exited"]
-[connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Idle" to="Entities/Player" method="_on_idle_state_physics_processing"]
-[connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_entered"]
-[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_exited"]
-[connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Walk" to="Entities/Player" method="_on_walk_state_physics_processing"]
-[connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Run" to="Entities/Player" method="_on_run_state_entered"]
-[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Run" to="Entities/Player" method="_on_run_state_exited"]
-[connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Run" to="Entities/Player" method="_on_run_state_physics_processing"]
-[connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_entered"]
-[connection signal="state_exited" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_exited"]
-[connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/Locomotion/Dash" to="Entities/Player" method="_on_dash_state_physics_processing"]
-[connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Grounded" to="Entities/Player" method="_on_grounded_state_physics_processing"]
-[connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/AirBorne/Falling" to="Entities/Player" method="_on_falling_state_entered"]
-[connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Falling" to="Entities/Player" method="_on_falling_state_physics_processing"]
-[connection signal="state_entered" from="Entities/Player/StateChart/ParallelState/AirBorne/Jump" to="Entities/Player" method="_on_jump_state_entered"]
-[connection signal="state_physics_processing" from="Entities/Player/StateChart/ParallelState/AirBorne/Jump" to="Entities/Player" method="_on_jump_state_physics_processing"]
+[connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackPlayer/Play" to="Entities" method="play_player"]
+[connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackPlayer/Pause" to="Entities" method="pause_player"]
+[connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackEnemy/Play" to="Entities" method="play_enemy"]
+[connection signal="pressed" from="UI/Editor/VBoxContainer/PlaybackEnemy/Pause" to="Entities" method="pause_enemy"]

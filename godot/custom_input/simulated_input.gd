@@ -135,7 +135,6 @@ func _actions_press(actions: Dictionary[String, float]) -> void:
 func _action_press(action_name: StringName, duration: float) -> void:
 	_entity.as_pending()
 	_actions[action_name] = true
-	Input.action_press(action_name)
 
 	if duration < 0.0:
 		duration = 0.0
@@ -145,14 +144,15 @@ func _action_press(action_name: StringName, duration: float) -> void:
 	# TODO: what's better way to do this?
 	timer.start(duration)
 	await timer.timeout
-
 	_entity.as_waiting()
 	_actions[action_name] = false
-	Input.action_release(action_name)
 
 
 func _on_run_pressed() -> void:
 	env.eval_async(_code_edit.text)
+	if not env.finished.has_connections():
+		env.finished.connect(func() -> void:
+			_on_run_pressed())
 	#env.finished.connect(debug, ConnectFlags.CONNECT_ONE_SHOT)
 
 # === Overrides ===

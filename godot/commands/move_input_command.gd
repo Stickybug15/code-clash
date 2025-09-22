@@ -6,16 +6,22 @@ var sprite: AnimatedSprite2D
 var speed: float = 0
 var initial_direction: float
 
+var input: CustomInput
+
+
+func _init(input: CustomInput) -> void:
+	self.input = input
+
 
 func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	speed = get_var(msg, "speed", typeof(speed))
-	initial_direction = Input.get_axis("left", "right")
+	initial_direction = input.get_axis("left", "right")
 
 	_to_active()
 
 
 func execute(actor: EntityPlayer, delta: float) -> void:
-	var direction := Input.get_axis("left", "right")
+	var direction := input.get_axis("left", "right")
 	if not is_equal_approx(direction, initial_direction):
 		direction = 0.0
 

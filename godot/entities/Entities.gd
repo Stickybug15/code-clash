@@ -24,9 +24,16 @@ func execute() -> void:
 		c.as_running()
 
 
-func play() -> void:
+func play_player() -> void:
 	for c: Entity in find_children("*", "Entity"):
 		c.as_running()
-func pause() -> void:
+func pause_player() -> void:
+	for c: Entity in find_children("*", "Entity"):
+		c.as_waiting()
+
+func play_enemy() -> void:
+	for c: Entity in find_children("*", "Entity"):
+		c.as_running()
+func pause_enemy() -> void:
 	for c: Entity in find_children("*", "Entity"):
 		c.as_waiting()

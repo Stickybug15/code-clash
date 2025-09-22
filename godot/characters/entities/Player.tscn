@@ -1,0 +1,497 @@
+[gd_scene load_steps=48 format=3 uid="uid://bcbu4qmsumgm8"]
+
+[ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="1_kw088"]
+[ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="2_i0s5h"]
+[ext_resource type="PackedScene" uid="uid://t1cq0num0y7h" path="res://godot/characters/sprites/LuneBlade.tscn" id="5_h78px"]
+[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="6_wiru1"]
+[ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="7_vfsdm"]
+[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="8_0k5uw"]
+[ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="9_7pvmf"]
+[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="10_wvh0p"]
+[ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="11_msno0"]
+
+[sub_resource type="Animation" id="Animation_llv2m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"walk"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_15rco"]
+resource_name = "dash"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"dash"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 11]
+}
+
+[sub_resource type="Animation" id="Animation_3op1n"]
+resource_name = "fall"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"fall"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_mb05r"]
+resource_name = "idle"
+length = 0.76
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.76),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 6]
+}
+
+[sub_resource type="Animation" id="Animation_dvuyy"]
+resource_name = "jump"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"jump"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_78ohg"]
+resource_name = "run"
+length = 0.44
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"run"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.44),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 4]
+}
+
+[sub_resource type="Animation" id="Animation_mwwg5"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"walk"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dvuyy"]
+_data = {
+&"RESET": SubResource("Animation_llv2m"),
+&"dash": SubResource("Animation_15rco"),
+&"fall": SubResource("Animation_3op1n"),
+&"idle": SubResource("Animation_mb05r"),
+&"jump": SubResource("Animation_dvuyy"),
+&"run": SubResource("Animation_78ohg"),
+&"walk": SubResource("Animation_mwwg5")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sghct"]
+animation = &"dash"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_mwwg5"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_uwghf"]
+nodes/Animation/node = SubResource("AnimationNodeAnimation_sghct")
+nodes/Animation/position = Vector2(293.333, 186.667)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_mwwg5")
+nodes/TimeScale/position = Vector2(560, 160)
+nodes/output/position = Vector2(826.667, 160)
+node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uwghf"]
+animation = &"fall"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rlytp"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_m8h0s"]
+animation = &"jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mwwg5"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_llv2m"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sghct"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0s35q"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mrbje"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_a07hc"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t6a0t"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_i74lf"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_snonw"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rlytp"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m8h0s"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vra06"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_osepa"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xlkdc"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0aqgn"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_llv2m"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mwwg5"]
+advance_mode = 2
+advance_expression = "walk_state.active and grounded_state.active"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_15rco"]
+advance_mode = 2
+advance_expression = "run_state.active and grounded_state.active"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5qqfe"]
+advance_mode = 2
+advance_expression = "idle_state.active and grounded_state.active"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_3gog7"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ow3cj"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_uwghf"]
+states/End/position = Vector2(789.333, 92.3939)
+states/Start/position = Vector2(142.667, 97.4335)
+states/dash/node = SubResource("AnimationNodeBlendTree_uwghf")
+states/dash/position = Vector2(168.728, -45.7073)
+states/fall/node = SubResource("AnimationNodeAnimation_uwghf")
+states/fall/position = Vector2(571.895, 91.714)
+states/idle/node = SubResource("AnimationNodeAnimation_rlytp")
+states/idle/position = Vector2(366.711, 97.4048)
+states/jump/node = SubResource("AnimationNodeAnimation_m8h0s")
+states/jump/position = Vector2(480.728, 182.954)
+states/run/node = SubResource("AnimationNodeAnimation_mwwg5")
+states/run/position = Vector2(570.862, -45.427)
+states/walk/node = SubResource("AnimationNodeAnimation_llv2m")
+states/walk/position = Vector2(367.094, -131.821)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_sghct"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_0s35q"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_mrbje"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_a07hc"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_t6a0t"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_i74lf"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_snonw"), "dash", "walk", SubResource("AnimationNodeStateMachineTransition_rlytp"), "walk", "dash", SubResource("AnimationNodeStateMachineTransition_m8h0s"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_vra06"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_osepa"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_xlkdc"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_0aqgn"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_llv2m"), "fall", "walk", SubResource("AnimationNodeStateMachineTransition_mwwg5"), "fall", "run", SubResource("AnimationNodeStateMachineTransition_15rco"), "fall", "idle", SubResource("AnimationNodeStateMachineTransition_5qqfe"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_3gog7"), "idle", "fall", SubResource("AnimationNodeStateMachineTransition_ow3cj")]
+graph_offset = Vector2(-12.573, -140.433)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rlytp"]
+size = Vector2(15, 18)
+
+[sub_resource type="Resource" id="Resource_m8h0s"]
+script = ExtResource("11_msno0")
+expression = "not is_dash_applied"
+metadata/_custom_type_script = "uid://le5w1cm0ul8p"
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gsc")]
+script = ExtResource("1_kw088")
+stats = ExtResource("2_i0s5h")
+gsc = NodePath("StateChart")
+metadata/_edit_group_ = true
+
+[node name="Sprite" parent="." instance=ExtResource("5_h78px")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite")
+callback_mode_process = 0
+libraries = {
+&"": SubResource("AnimationLibrary_dvuyy")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Sprite")
+tree_root = SubResource("AnimationNodeStateMachine_uwghf")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/dash/TimeScale/scale = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-0.5, -1)
+shape = SubResource("RectangleShape2D_rlytp")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("6_wiru1")
+initial_expression_properties = {
+&"is_dash_applied": false
+}
+metadata/_custom_type_script = "uid://couw105c3bde4"
+
+[node name="ParallelState" type="Node" parent="StateChart"]
+script = ExtResource("7_vfsdm")
+
+[node name="Locomotion" type="Node" parent="StateChart/ParallelState"]
+script = ExtResource("8_0k5uw")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/ParallelState/Locomotion"]
+script = ExtResource("9_7pvmf")
+
+[node name="ToWalking" type="Node" parent="StateChart/ParallelState/Locomotion/Idle"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Walk")
+event = &"to_walking"
+delay_in_seconds = "0.0"
+
+[node name="ToDash" type="Node" parent="StateChart/ParallelState/Locomotion/Idle"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Dash")
+event = &"to_dash"
+guard = SubResource("Resource_m8h0s")
+delay_in_seconds = "0.0"
+
+[node name="Walk" type="Node" parent="StateChart/ParallelState/Locomotion"]
+script = ExtResource("9_7pvmf")
+
+[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Walk"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Idle")
+event = &"to_idle"
+delay_in_seconds = "0.0"
+
+[node name="ToRunning" type="Node" parent="StateChart/ParallelState/Locomotion/Walk"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Run")
+event = &"to_running"
+delay_in_seconds = "0.0"
+
+[node name="ToDash" type="Node" parent="StateChart/ParallelState/Locomotion/Walk"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Dash")
+event = &"to_dash"
+guard = SubResource("Resource_m8h0s")
+delay_in_seconds = "0.0"
+
+[node name="Run" type="Node" parent="StateChart/ParallelState/Locomotion"]
+script = ExtResource("9_7pvmf")
+
+[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Run"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Idle")
+event = &"to_idle"
+delay_in_seconds = "0.0"
+
+[node name="ToWalking" type="Node" parent="StateChart/ParallelState/Locomotion/Run"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Walk")
+event = &"to_walking"
+delay_in_seconds = "0.0"
+
+[node name="ToDash" type="Node" parent="StateChart/ParallelState/Locomotion/Run"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Dash")
+event = &"to_dash"
+guard = SubResource("Resource_m8h0s")
+delay_in_seconds = "0.0"
+
+[node name="Dash" type="Node" parent="StateChart/ParallelState/Locomotion"]
+script = ExtResource("9_7pvmf")
+
+[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Dash"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Idle")
+event = &"to_idle"
+delay_in_seconds = "0.0"
+
+[node name="ToWalking" type="Node" parent="StateChart/ParallelState/Locomotion/Dash"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Walk")
+event = &"to_walking"
+delay_in_seconds = "0.0"
+
+[node name="AirBorne" type="Node" parent="StateChart/ParallelState"]
+script = ExtResource("8_0k5uw")
+initial_state = NodePath("Grounded")
+
+[node name="Grounded" type="Node" parent="StateChart/ParallelState/AirBorne"]
+script = ExtResource("9_7pvmf")
+
+[node name="ToFalling" type="Node" parent="StateChart/ParallelState/AirBorne/Grounded"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Falling")
+event = &"to_falling"
+delay_in_seconds = "0.0"
+
+[node name="ToJump" type="Node" parent="StateChart/ParallelState/AirBorne/Grounded"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Jump")
+event = &"to_jump"
+delay_in_seconds = "0.0"
+
+[node name="ToIdle" type="Node" parent="StateChart/ParallelState/AirBorne/Grounded"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../../Locomotion/Idle")
+event = &"to_idle"
+delay_in_seconds = "0.0"
+
+[node name="Falling" type="Node" parent="StateChart/ParallelState/AirBorne"]
+script = ExtResource("9_7pvmf")
+
+[node name="ToGrounded" type="Node" parent="StateChart/ParallelState/AirBorne/Falling"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Grounded")
+event = &"to_grounded"
+delay_in_seconds = "0.0"
+
+[node name="Jump" type="Node" parent="StateChart/ParallelState/AirBorne"]
+script = ExtResource("9_7pvmf")
+
+[node name="ToFalling" type="Node" parent="StateChart/ParallelState/AirBorne/Jump"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Falling")
+event = &"to_falling"
+delay_in_seconds = "0.0"
+
+[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Walk" to="." method="_on_walk_state_entered"]
+[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Walk" to="." method="_on_walk_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Walk" to="." method="_on_walk_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Run" to="." method="_on_run_state_entered"]
+[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Run" to="." method="_on_run_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Run" to="." method="_on_run_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Dash" to="." method="_on_dash_state_entered"]
+[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Dash" to="." method="_on_dash_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Dash" to="." method="_on_dash_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/AirBorne/Grounded" to="." method="_on_grounded_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/ParallelState/AirBorne/Falling" to="." method="_on_falling_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/AirBorne/Falling" to="." method="_on_falling_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/ParallelState/AirBorne/Jump" to="." method="_on_jump_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/AirBorne/Jump" to="." method="_on_jump_state_physics_processing"]

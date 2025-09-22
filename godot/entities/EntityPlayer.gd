@@ -16,11 +16,6 @@ var anim_tree_fsm: AnimationNodeStateMachinePlayback
 @onready
 var sprite: AnimatedSprite2D = $Sprite
 
-var jump_cmd: Command = ImpulseCommand.new()
-var dash_cmd: Command = ImpulseCommand.new()
-var fall_cmd: Command = FallCommand.new()
-var move_cmd: Command = MoveInputCommand.new()
-
 @onready
 var idle_state: AtomicState = $StateChart/ParallelState/Locomotion/Idle
 @onready
@@ -38,6 +33,12 @@ var falling_state: AtomicState = $StateChart/ParallelState/AirBorne/Falling
 var jump_state: AtomicState = $StateChart/ParallelState/AirBorne/Jump
 
 
+var jump_cmd: Command
+var dash_cmd: Command
+var fall_cmd: Command
+var move_cmd: Command
+
+
 # TODO: probably, just make this a getter and setter?
 var _wait: bool = false
 func wait() -> void:
@@ -52,8 +53,11 @@ func _ready() -> void:
 	anim_tree.active = true
 	anim_tree_fsm = anim_tree["parameters/playback"]
 	input = SimulateInput.new(self, code_edit, run_button)
-	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED
-	pass
+
+	jump_cmd = ImpulseCommand.new()
+	dash_cmd = ImpulseCommand.new()
+	fall_cmd = FallCommand.new()
+	move_cmd = MoveInputCommand.new(input)
 
 
 func _physics_process(delta: float) -> void:

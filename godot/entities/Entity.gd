@@ -11,10 +11,11 @@ enum Status {
 @onready
 var _state_chart: StateChart = $StateChart
 
-var input: CustomInput
-
 var _pending: bool = false
 var _status: Status = Status.Waiting
+
+# === Required Variables ===
+var input: CustomInput
 
 
 func is_pending() -> bool:
