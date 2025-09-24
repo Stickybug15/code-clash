@@ -92,7 +92,6 @@ grow_vertical = 2
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "hero.walk_left()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/EnemyEditor"]
 layout_mode = 2
@@ -124,7 +123,6 @@ custom_minimum_size = Vector2(300, 280)
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_m8h0s")
-initial_node_to_watch = NodePath("../../../Entities/Enemy")
 
 [node name="Run" type="Button" parent="UI"]
 custom_minimum_size = Vector2(60, 0)
@@ -211,7 +209,7 @@ code_edit = NodePath("../../UI/PlayerEditor/CodeEdit")
 run_button = NodePath("../../UI/PlayerEditor/HBoxContainer/RunPlayer")
 
 [node name="Enemy" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
-position = Vector2(316, 72)
+position = Vector2(222, 71)
 code_edit = NodePath("../../UI/EnemyEditor/CodeEdit")
 run_button = NodePath("../../UI/EnemyEditor/HBoxContainer/RunEnemy")
 

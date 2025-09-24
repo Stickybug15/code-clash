@@ -12,6 +12,69 @@
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="10_wvh0p"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="11_msno0"]
 
+[sub_resource type="Animation" id="Animation_vq287"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../HitBox/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../HitBox/CollisionShape2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -0.5)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../HitBox/CollisionShape2D:shape:size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(12, 17)]
+}
+
 [sub_resource type="Animation" id="Animation_8n7k5"]
 resource_name = "attack_1"
 length = 0.6
@@ -24,7 +87,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
+"update": 0,
 "values": [&"attack_1"]
 }
 tracks/1/type = "value"
@@ -46,7 +109,7 @@ tracks/2/path = NodePath("../HitBox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.17, 0.24),
+"times": PackedFloat32Array(0, 0.17, 0.235),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, false, true]
@@ -58,10 +121,10 @@ tracks/3/path = NodePath("../HitBox/CollisionShape2D:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.01, 0.17, 0.24),
+"times": PackedFloat32Array(0, 0.17, 0.235),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [Vector2(0, -0.5), Vector2(20, 1.5), Vector2(0, -0.5)]
+"values": [Vector2(0, -0.5), Vector2(20, -0.5), Vector2(0, -0.5)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -70,10 +133,10 @@ tracks/4/path = NodePath("../HitBox/CollisionShape2D:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.01, 0.17, 0.24),
+"times": PackedFloat32Array(0, 0.17, 0.235),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [Vector2(12, 17), Vector2(40, 13), Vector2(12, 17)]
+"values": [Vector2(12, 17), Vector2(40, 17), Vector2(12, 17)]
 }
 
 [sub_resource type="Animation" id="Animation_15rco"]
@@ -131,6 +194,34 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0, 3]
+}
+
+[sub_resource type="Animation" id="Animation_30ba4"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"hurt"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 2]
 }
 
 [sub_resource type="Animation" id="Animation_mb05r"]
@@ -247,61 +338,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0, 5]
-}
-
-[sub_resource type="Animation" id="Animation_30ba4"]
-resource_name = "hurt"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:animation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"hurt"]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0, 2]
-}
-
-[sub_resource type="Animation" id="Animation_vq287"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [2]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:animation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [&"idle"]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dvuyy"]
@@ -441,7 +477,7 @@ metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 size = Vector2(12, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vq287"]
-size = Vector2(0, 0)
+size = Vector2(12, 17)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gsc")]
 collision_mask = 3
@@ -611,6 +647,12 @@ delay_in_seconds = "0.0"
 [node name="Hurt" type="Node" parent="StateChart/ParallelState/Locomotion"]
 script = ExtResource("9_7pvmf")
 
+[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Hurt"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../Idle")
+event = &"to_idle"
+delay_in_seconds = "0.0"
+
 [node name="AirBorne" type="Node" parent="StateChart/ParallelState"]
 script = ExtResource("8_0k5uw")
 initial_state = NodePath("Grounded")
@@ -662,9 +704,8 @@ event = &"to_grounded"
 delay_in_seconds = "0.0"
 
 [node name="HurtBox" type="Area2D" parent="."]
-visible = false
-collision_layer = 4
-collision_mask = 0
+collision_layer = 0
+collision_mask = 2
 monitorable = false
 script = ExtResource("10_30ba4")
 metadata/_edit_lock_ = true
@@ -674,12 +715,13 @@ position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_30ba4")
 
 [node name="HitBox" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
+collision_layer = 0
+collision_mask = 0
 monitoring = false
 script = ExtResource("10_sk81y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_vq287")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
@@ -700,6 +742,7 @@ shape = SubResource("RectangleShape2D_vq287")
 [connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Attack" to="." method="_on_attack_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Attack" to="." method="_on_attack_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Hurt" to="." method="_on_hurt_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Hurt" to="." method="_on_hurt_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/AirBorne/Grounded" to="." method="_on_grounded_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/ParallelState/AirBorne/Falling" to="." method="_on_falling_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/AirBorne/Falling" to="." method="_on_falling_state_physics_processing"]

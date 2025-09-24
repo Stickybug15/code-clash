@@ -243,6 +243,11 @@ func _on_hurt_state_entered() -> void:
 	anim_tree_fsm.travel(&"hurt")
 
 
+func _on_hurt_state_physics_processing(delta: float) -> void:
+	if anim_tree_fsm.get_current_node() == "idle":
+		gsc.send_event("to_idle")
+
+
 func _on_mouse_entered() -> void:
 	_mouse_entered = true
 
@@ -259,5 +264,6 @@ func take_damage(damage: float) -> void:
 
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
+	print(area.name)
 	if area is HitBox:
 		take_damage(area.damage)

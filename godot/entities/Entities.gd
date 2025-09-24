@@ -26,7 +26,8 @@ func run_all() -> void:
 	if not all_ready():
 		return
 	for p in players:
-		p.input.run()
+		if not p.input.is_running():
+			p.input.run()
 	is_running = true
 
 
@@ -42,12 +43,22 @@ func _physics_process(delta: float) -> void:
 		is_running = false
 
 
+# TODO: when an one entity is activated, it will paused in pending state.
 func execute(entities: Array[EntityPlayer]) -> void:
+	if entities.is_empty():
+		return
 	# Debug status
-	var msg := ", ".join(entities.map(
-		func(e: EntityPlayer) -> String: return "%s: %s" % [e.name, str(e._status)]
-	))
-	print("status: ", msg)
+	#var msg := ", ".join(entities.map(
+		#func(e: EntityPlayer) -> String:
+			#var status := ""
+			#match e._status:
+				#e.Status.Idle: status = "Idle"
+				#e.Status.Pending: status = "Pending"
+				#e.Status.Running: status = "Running"
+				#e.Status.Waiting: status = "Waiting"
+			#return "%s: %s" % [e.name, status]
+	#))
+	#print("status: ", msg)
 
 	if entities.all(func(p: EntityPlayer) -> bool: return p.is_pending()):
 		for p in entities: p.as_running()
@@ -58,7 +69,6 @@ func execute(entities: Array[EntityPlayer]) -> void:
 			p.as_running()
 			p.input.post()
 		next = false
-
 
 
 func play_player() -> void:

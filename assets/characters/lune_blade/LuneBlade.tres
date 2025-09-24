@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bqrh18hb7g7pb" path="res://assets/characters/lune_blade/Idle.png" id="1_w0tjy"]
 [ext_resource type="Texture2D" uid="uid://biojvcc83jksf" path="res://assets/characters/lune_blade/Run.png" id="2_2dqck"]
 [ext_resource type="Texture2D" uid="uid://dpjlg88f5cd7c" path="res://assets/characters/lune_blade/Jump.png" id="3_52wer"]
-[ext_resource type="Texture2D" uid="uid://bfqk1n4088wiw" path="res://assets/characters/lune_blade/Hurt.png" id="4_y6kyd"]
+[ext_resource type="Texture2D" uid="uid://bfqk1n4088wiw" path="res://assets/characters/lune_blade/Hurt.png" id="6_y6kyd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dyirv"]
 atlas = ExtResource("1_2qmv3")
@@ -113,15 +113,15 @@ atlas = ExtResource("1_k2nv4")
 region = Rect2(432, 0, 144, 144)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p82dx"]
-atlas = ExtResource("4_y6kyd")
+atlas = ExtResource("6_y6kyd")
 region = Rect2(0, 0, 144, 144)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dyupw"]
-atlas = ExtResource("4_y6kyd")
+atlas = ExtResource("6_y6kyd")
 region = Rect2(144, 0, 144, 144)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k3jdj"]
-atlas = ExtResource("4_y6kyd")
+atlas = ExtResource("6_y6kyd")
 region = Rect2(288, 0, 144, 144)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_relly"]
