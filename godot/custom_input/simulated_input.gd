@@ -174,7 +174,7 @@ func _on_run_pressed() -> void:
 
 
 func _on_env_finished() -> void:
-	_entity.as_running()
+	_entity.as_idle()
 
 
 func resume() -> void:

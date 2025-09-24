@@ -1,34 +1,32 @@
 class_name Entities
 extends Node
 
-var is_running := false:
-	set(v):
-		print("is running" if v else "not running")
-		is_running = v
-	get: return is_running
+var is_running := false
 var next := false
-@onready
-var camera: PhantomCamera2D = $PhantomCamera
+
+@onready var camera: PhantomCamera2D = $PhantomCamera
+var players: Array[EntityPlayer]
 
 
 func _ready() -> void:
-	var entities: Array[Node2D] = []
-	for entt: EntityPlayer in find_children("*", "EntityPlayer"):
-		entities.append(entt)
-	camera.follow_targets = entities
+	for p: EntityPlayer in find_children("*", "EntityPlayer"):
+		players.append(p)
+		camera.append_follow_targets(p)
 
 
-func is_ready() -> bool:
-	return find_children("*", "EntityPlayer").all(
-		func(c: EntityPlayer) -> bool:
-			return c.input.is_ready()
-	)
+func all_ready() -> bool:
+	return players.all(func(p): return p.input.is_ready())
+
+
+func all_idle() -> bool:
+	return players.all(func(p): return p.is_idle())
+
 
 func run_all() -> void:
-	if not is_ready():
+	if not all_ready():
 		return
-	for e: EntityPlayer in find_children("*", "EntityPlayer"):
-		e.input.run()
+	for p in players:
+		p.input.run()
 	is_running = true
 
 
@@ -38,43 +36,29 @@ func _physics_process(delta: float) -> void:
 		return
 
 	next = true
-	execute()
+	execute(players.filter(func(p): return not p.is_idle()))
 
-	if not find_children("*", "EntityPlayer").all(
-		func(e: EntityPlayer):
-			return e.input.is_running()
-	):
+	if all_idle():
 		is_running = false
 
 
-func execute() -> void:
-	var pending_entities := {}
-	var entities := find_children("*", "EntityPlayer")
+func execute(entities: Array[EntityPlayer]) -> void:
+	# Debug status
+	var msg := ", ".join(entities.map(
+		func(e): return "%s: %s" % [e.name, str(e._status)]
+	))
+	print("status: ", msg)
 
-	var is_pending := entities.all.bind(
-		func(c: EntityPlayer) -> bool:
-			return c.is_pending())
-	var is_waiting := entities.all.bind(
-		func(c: EntityPlayer) -> bool:
-			return c.is_waiting())
-	var is_idle := entities.all.bind(
-		func(c: EntityPlayer) -> bool:
-			return c.is_idle())
-
-	if is_idle.call():
+	if entities.all(func(p): return p.is_pending()):
+		for p in entities: p.as_running()
 		return
 
-	if is_pending.call():
-		for c: Entity in find_children("*", "Entity"):
-			c.as_running()
-		return
-
-	if is_waiting.call() and next:
-		for e: EntityPlayer in entities:
-			e.as_running()
-			e.input.post()
+	if entities.all(func(p): return p.is_waiting()) and next:
+		for p in entities:
+			p.as_running()
+			p.input.post()
 		next = false
-		return
+
 
 
 func play_player() -> void:

@@ -13,7 +13,7 @@ enum Status {
 var _state_chart: StateChart = $StateChart
 
 var _is_ready: bool = false
-var _status: Status = Status.Running
+var _status: Status = Status.Idle
 var _first_run: bool = true
 
 var health: float = 100.0
@@ -33,7 +33,7 @@ func is_waiting() -> bool:
 
 func as_idle():
 	_status = Status.Idle
-	_toggle_processing(false)
+	_toggle_processing(true)
 func as_pending():
 	_status = Status.Pending
 	_toggle_processing(false)
