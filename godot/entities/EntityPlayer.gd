@@ -240,7 +240,8 @@ func _on_attack_state_exited() -> void:
 
 
 func _on_hurt_state_entered() -> void:
-	anim_tree_fsm.travel(&"hurt")
+	# TODO: WHY .travel ISN'T WORKING???
+	anim_tree_fsm.start(&"hurt")
 
 
 func _on_hurt_state_physics_processing(delta: float) -> void:
@@ -264,6 +265,5 @@ func take_damage(damage: float) -> void:
 
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
-	print(area.name)
 	if area is HitBox:
 		take_damage(area.damage)

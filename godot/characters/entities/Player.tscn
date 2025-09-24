@@ -87,7 +87,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
+"update": 1,
 "values": [&"attack_1"]
 }
 tracks/1/type = "value"
@@ -372,7 +372,7 @@ node_connections = [&"TimeScale", 0, &"Animation", &"output", 0, &"TimeScale"]
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uwghf"]
 animation = &"fall"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5d35a"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_30ba4"]
 animation = &"hurt"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rlytp"]
@@ -437,9 +437,9 @@ advance_expression = "idle_state.active and grounded_state.active"
 switch_mode = 2
 advance_mode = 2
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8ct1f"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vq287"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_fgxtr"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5d35a"]
 switch_mode = 2
 advance_mode = 2
 
@@ -452,8 +452,8 @@ states/dash/node = SubResource("AnimationNodeBlendTree_uwghf")
 states/dash/position = Vector2(168.728, -45.7073)
 states/fall/node = SubResource("AnimationNodeAnimation_uwghf")
 states/fall/position = Vector2(571.895, 91.714)
-states/hurt/node = SubResource("AnimationNodeAnimation_5d35a")
-states/hurt/position = Vector2(237.094, 176.534)
+states/hurt/node = SubResource("AnimationNodeAnimation_30ba4")
+states/hurt/position = Vector2(226.427, 176.059)
 states/idle/node = SubResource("AnimationNodeAnimation_rlytp")
 states/idle/position = Vector2(366.711, 97.4048)
 states/jump/node = SubResource("AnimationNodeAnimation_m8h0s")
@@ -462,8 +462,8 @@ states/run/node = SubResource("AnimationNodeAnimation_mwwg5")
 states/run/position = Vector2(570.862, -45.427)
 states/walk/node = SubResource("AnimationNodeAnimation_llv2m")
 states/walk/position = Vector2(367.094, -131.821)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_sghct"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_0s35q"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_mrbje"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_a07hc"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_t6a0t"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_i74lf"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_snonw"), "dash", "walk", SubResource("AnimationNodeStateMachineTransition_rlytp"), "walk", "dash", SubResource("AnimationNodeStateMachineTransition_m8h0s"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_vra06"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_osepa"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_xlkdc"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_0aqgn"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_llv2m"), "fall", "walk", SubResource("AnimationNodeStateMachineTransition_mwwg5"), "fall", "run", SubResource("AnimationNodeStateMachineTransition_15rco"), "fall", "idle", SubResource("AnimationNodeStateMachineTransition_5qqfe"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_3gog7"), "idle", "fall", SubResource("AnimationNodeStateMachineTransition_ow3cj"), "idle", "attack_1", SubResource("AnimationNodeStateMachineTransition_8n7k5"), "attack_1", "idle", SubResource("AnimationNodeStateMachineTransition_sk81y"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_8ct1f"), "hurt", "idle", SubResource("AnimationNodeStateMachineTransition_fgxtr")]
-graph_offset = Vector2(-12.573, -195.858)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_sghct"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_0s35q"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_mrbje"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_a07hc"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_t6a0t"), "run", "walk", SubResource("AnimationNodeStateMachineTransition_i74lf"), "walk", "run", SubResource("AnimationNodeStateMachineTransition_snonw"), "dash", "walk", SubResource("AnimationNodeStateMachineTransition_rlytp"), "walk", "dash", SubResource("AnimationNodeStateMachineTransition_m8h0s"), "dash", "run", SubResource("AnimationNodeStateMachineTransition_vra06"), "run", "dash", SubResource("AnimationNodeStateMachineTransition_osepa"), "dash", "idle", SubResource("AnimationNodeStateMachineTransition_xlkdc"), "idle", "dash", SubResource("AnimationNodeStateMachineTransition_0aqgn"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_llv2m"), "fall", "walk", SubResource("AnimationNodeStateMachineTransition_mwwg5"), "fall", "run", SubResource("AnimationNodeStateMachineTransition_15rco"), "fall", "idle", SubResource("AnimationNodeStateMachineTransition_5qqfe"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_3gog7"), "idle", "fall", SubResource("AnimationNodeStateMachineTransition_ow3cj"), "idle", "attack_1", SubResource("AnimationNodeStateMachineTransition_8n7k5"), "attack_1", "idle", SubResource("AnimationNodeStateMachineTransition_sk81y"), "idle", "hurt", SubResource("AnimationNodeStateMachineTransition_vq287"), "hurt", "idle", SubResource("AnimationNodeStateMachineTransition_5d35a")]
+graph_offset = Vector2(-12.573, -67.608)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rlytp"]
 size = Vector2(12, 17)
@@ -704,8 +704,8 @@ event = &"to_grounded"
 delay_in_seconds = "0.0"
 
 [node name="HurtBox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
+collision_layer = 2
+collision_mask = 4
 monitorable = false
 script = ExtResource("10_30ba4")
 metadata/_edit_lock_ = true
@@ -715,7 +715,7 @@ position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_30ba4")
 
 [node name="HitBox" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 2
 collision_mask = 0
 monitoring = false
 script = ExtResource("10_sk81y")

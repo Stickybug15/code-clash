@@ -123,6 +123,7 @@ custom_minimum_size = Vector2(300, 280)
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_m8h0s")
+initial_node_to_watch = NodePath("../../../Entities/Enemy")
 
 [node name="Run" type="Button" parent="UI"]
 custom_minimum_size = Vector2(60, 0)
@@ -209,9 +210,16 @@ code_edit = NodePath("../../UI/PlayerEditor/CodeEdit")
 run_button = NodePath("../../UI/PlayerEditor/HBoxContainer/RunPlayer")
 
 [node name="Enemy" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
-position = Vector2(222, 71)
+position = Vector2(215, 71)
 code_edit = NodePath("../../UI/EnemyEditor/CodeEdit")
 run_button = NodePath("../../UI/EnemyEditor/HBoxContainer/RunEnemy")
+
+[node name="HurtBox" parent="Entities/Enemy" index="5"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="HitBox" parent="Entities/Enemy" index="6"]
+collision_layer = 4
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
@@ -235,3 +243,5 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 [connection signal="pressed" from="UI/EnemyEditor/VBoxContainer/PlaybackEnemy/Play" to="Entities" method="play_enemy"]
 [connection signal="pressed" from="UI/EnemyEditor/VBoxContainer/PlaybackEnemy/Pause" to="Entities" method="pause_enemy"]
 [connection signal="pressed" from="UI/Run" to="Entities" method="_on_run_pressed"]
+
+[editable path="Entities/Enemy"]
