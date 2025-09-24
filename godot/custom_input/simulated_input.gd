@@ -9,6 +9,7 @@ var _env: ScriptEnvironment = ScriptEnvironment.new()
 var _actions: Dictionary[String, bool] = {}
 var _wait: bool = false
 var _pending_code: String = ""
+var _to_run := false
 
 # required variables.
 var _entity: Entity
@@ -167,13 +168,14 @@ func _action_press(action_name: StringName, duration: float) -> void:
 
 
 func _on_run_pressed() -> void:
-	_pending_code = _code_edit.text
+	run()
 	#if not _env.finished.has_connections():
 		#_env.finished.connect(func() -> void:
 			#_on_run_pressed())
 
 
 func _on_env_finished() -> void:
+	_to_run = false
 	_entity.as_idle()
 
 
@@ -211,7 +213,7 @@ func can_post() -> bool:
 
 
 func is_ready() -> bool:
-	return not _pending_code.is_empty()
+	return _to_run
 
 
 func is_running() -> bool:
@@ -219,5 +221,5 @@ func is_running() -> bool:
 
 
 func run() -> void:
-	_env.eval_async(_pending_code)
-	_pending_code = ""
+	_to_run = true
+	_env.eval_async(_code_edit.text)
