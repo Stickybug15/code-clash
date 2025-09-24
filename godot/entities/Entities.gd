@@ -15,11 +15,11 @@ func _ready() -> void:
 
 
 func all_ready() -> bool:
-	return players.all(func(p): return p.input.is_ready())
+	return players.all(func(p: EntityPlayer) -> bool: return p.input.is_ready())
 
 
 func all_idle() -> bool:
-	return players.all(func(p): return p.is_idle())
+	return players.all(func(p: EntityPlayer) -> bool: return p.is_idle())
 
 
 func run_all() -> void:
@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	next = true
-	execute(players.filter(func(p): return not p.is_idle()))
+	execute(players.filter(func(p: EntityPlayer) -> bool: return not p.is_idle()))
 
 	if all_idle():
 		is_running = false
@@ -45,15 +45,15 @@ func _physics_process(delta: float) -> void:
 func execute(entities: Array[EntityPlayer]) -> void:
 	# Debug status
 	var msg := ", ".join(entities.map(
-		func(e): return "%s: %s" % [e.name, str(e._status)]
+		func(e: EntityPlayer) -> String: return "%s: %s" % [e.name, str(e._status)]
 	))
 	print("status: ", msg)
 
-	if entities.all(func(p): return p.is_pending()):
+	if entities.all(func(p: EntityPlayer) -> bool: return p.is_pending()):
 		for p in entities: p.as_running()
 		return
 
-	if entities.all(func(p): return p.is_waiting()) and next:
+	if entities.all(func(p: EntityPlayer) -> bool: return p.is_waiting()) and next:
 		for p in entities:
 			p.as_running()
 			p.input.post()
