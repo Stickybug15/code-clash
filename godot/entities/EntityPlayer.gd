@@ -240,7 +240,8 @@ func _on_attack_state_exited() -> void:
 
 
 func _on_hurt_state_entered() -> void:
-	# TODO: WHY .travel ISN'T WORKING???
+	# TODO: delaying sending event to gsc by one frame will fix the issue of immidiately switching to to_idle animation.
+	# will be using .start for temporary fix.
 	anim_tree_fsm.start(&"hurt")
 
 
