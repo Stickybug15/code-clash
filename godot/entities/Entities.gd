@@ -92,5 +92,11 @@ func pause_enemy() -> void:
 		c.as_waiting()
 
 
+func _on_run_pressed() -> void:
+	for c: Entity in find_children("*", "Entity"):
+		if c.input.has_method("_on_run_pressed"):
+			c.input._on_run_pressed()
+
+
 func _on_next_pressed() -> void:
 	next = true

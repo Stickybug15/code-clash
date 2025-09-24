@@ -45,7 +45,7 @@ grow_vertical = 2
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "hero.walk_left()"
+text = "hero.attack()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2
@@ -126,6 +126,20 @@ size_flags_vertical = 3
 theme = ExtResource("1_m8h0s")
 initial_node_to_watch = NodePath("../../../Entities/Enemy")
 
+[node name="Run" type="Button" parent="UI"]
+custom_minimum_size = Vector2(60, 0)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -19.5
+offset_top = -31.0
+offset_right = 19.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "Run"
+
 [node name="Background" type="Node2D" parent="."]
 texture_filter = 1
 position = Vector2(0, -72)
@@ -197,7 +211,7 @@ code_edit = NodePath("../../UI/PlayerEditor/CodeEdit")
 run_button = NodePath("../../UI/PlayerEditor/HBoxContainer/RunPlayer")
 
 [node name="Enemy" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
-position = Vector2(320, 72)
+position = Vector2(316, 72)
 code_edit = NodePath("../../UI/EnemyEditor/CodeEdit")
 run_button = NodePath("../../UI/EnemyEditor/HBoxContainer/RunEnemy")
 
@@ -222,3 +236,4 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 [connection signal="pressed" from="UI/PlayerEditor/VBoxContainer/PlaybackPlayer/Pause" to="Entities" method="pause_player"]
 [connection signal="pressed" from="UI/EnemyEditor/VBoxContainer/PlaybackEnemy/Play" to="Entities" method="play_enemy"]
 [connection signal="pressed" from="UI/EnemyEditor/VBoxContainer/PlaybackEnemy/Pause" to="Entities" method="pause_enemy"]
+[connection signal="pressed" from="UI/Run" to="Entities" method="_on_run_pressed"]
