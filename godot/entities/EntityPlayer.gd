@@ -118,18 +118,13 @@ func _on_run_state_entered() -> void:
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
-	if not input.is_action_pressed("run"):
-		gsc.send_event("to_walking")
-		return
-	if input.is_action_pressed("dash"):
-		gsc.send_event("to_dash")
-		return
 
 	move_cmd.execute(self, delta)
 
 	if move_cmd.is_completed(self):
 		input._try_post()
 		gsc.send_event("to_idle")
+		return
 
 
 func _on_run_state_exited() -> void:
@@ -185,7 +180,7 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 # === Dashing State ===
 func _on_dash_state_entered() -> void:
 	anim_tree_fsm.travel(&"dash")
-	anim_tree["parameters/dash/TimeScale/scale"] = stats.dash_duration
+	anim_tree["parameters/dash/TimeScale/scalez"] = stats.dash_duration
 
 	dash_cmd.initialize(self, {
 		"magnitude": stats.dash_distance,

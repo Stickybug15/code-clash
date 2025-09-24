@@ -45,7 +45,9 @@ grow_vertical = 2
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "hero.attack()"
+text = "hero.run_right()
+hero.jump()
+hero.run_left()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2
@@ -92,6 +94,9 @@ grow_vertical = 2
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
+text = "hero.run_left()
+hero.jump()
+hero.run_right()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/EnemyEditor"]
 layout_mode = 2
@@ -205,12 +210,12 @@ draw_limits = true
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="Player" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
-position = Vector2(192, 71)
+position = Vector2(152, 71)
 code_edit = NodePath("../../UI/PlayerEditor/CodeEdit")
 run_button = NodePath("../../UI/PlayerEditor/HBoxContainer/RunPlayer")
 
 [node name="Enemy" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
-position = Vector2(215, 71)
+position = Vector2(354, 71)
 code_edit = NodePath("../../UI/EnemyEditor/CodeEdit")
 run_button = NodePath("../../UI/EnemyEditor/HBoxContainer/RunEnemy")
 
@@ -220,6 +225,7 @@ collision_mask = 2
 
 [node name="HitBox" parent="Entities/Enemy" index="6"]
 collision_layer = 4
+monitorable = false
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1

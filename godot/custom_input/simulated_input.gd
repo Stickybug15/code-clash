@@ -92,8 +92,8 @@ func _init(entity: Entity, code_edit: TextEdit, run: Button) -> void:
 	action.object_name = "hero"
 	action.method_name = "run_left"
 	action.actions = {
-		"left": 0.5,
 		"run": 0.5,
+		"left": 0.5,
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
 		_actions_press(info.actions)
@@ -104,8 +104,8 @@ func _init(entity: Entity, code_edit: TextEdit, run: Button) -> void:
 	action.object_name = "hero"
 	action.method_name = "run_right"
 	action.actions = {
-		"right": 0.5,
 		"run": 0.5,
+		"right": 0.5,
 	}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:
 		_actions_press(info.actions)
@@ -130,15 +130,21 @@ func _add_method(action: MethodInput) -> void:
 
 var prev: String = ""
 func _debug() -> void:
-	var out: String = ""
+	var lines_out: Array[String] = []
 	for action in methods:
-		out += "{0}.[color=cyan]{1}[/color]: ".format([action.object_name, action.method_name])
+		var line := ""
+		line += "{0}.[color=cyan]{1}[/color]:".format([action.object_name, action.method_name])
 		for action_name: String in action.actions.keys():
 			var pressed: String = "[color=green]true" if is_action_pressed(action_name) else "[color=red]false"
-			out += "{0}={1}[/color], ".format([action_name, pressed])
+			line += " {0}={1}[/color]".format([action_name, pressed])
+		lines_out.append(line)
+
+	var out := "\n".join(lines_out)
 	if prev != out:
 		prev = out
-		print_rich("methods: ", out)
+		print_rich("methods: \n",  out)
+#func _physics_process(delta: float) -> void:
+	#_debug()
 
 
 func _actions_press(actions: Dictionary[String, float]) -> void:
