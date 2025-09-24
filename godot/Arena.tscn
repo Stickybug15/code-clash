@@ -36,20 +36,16 @@ script = SubResource("GDScript_uwghf")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="PlayerEditor" type="VBoxContainer" parent="UI"]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 300.0
+grow_vertical = 2
 
 [node name="CodeEdit" type="TextEdit" parent="UI/PlayerEditor"]
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "hero.jump()
-hero.dash_right()
-hero.dash_left()
-hero.walk_left()
-hero.walk_right()
-hero.run_left()
-hero.run_right()"
+text = "hero.walk_left()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2
@@ -76,25 +72,27 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Pause"
 
+[node name="StateChartDebugger" parent="UI/PlayerEditor" instance=ExtResource("1_osepa")]
+custom_minimum_size = Vector2(300, 280)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_m8h0s")
+initial_node_to_watch = NodePath("../../../Entities/Player")
+
 [node name="EnemyEditor" type="VBoxContainer" parent="UI"]
-anchors_preset = 1
+anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = -300.0
-offset_bottom = 325.0
 grow_horizontal = 0
+grow_vertical = 2
 
 [node name="CodeEdit" type="TextEdit" parent="UI/EnemyEditor"]
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "hero.walk_left()
-hero.dash_right()
-hero.jump()
-hero.walk_right()
-hero.run_right()
-hero.walk_right()
-hero.dash_left()"
+text = "hero.attack()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/EnemyEditor"]
 layout_mode = 2
@@ -121,13 +119,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Pause"
 
-[node name="StateChartDebugger" parent="UI" instance=ExtResource("1_osepa")]
-offset_left = 773.0
-offset_right = -2.0
-offset_bottom = -6.0
+[node name="StateChartDebugger" parent="UI/EnemyEditor" instance=ExtResource("1_osepa")]
+custom_minimum_size = Vector2(300, 280)
+layout_mode = 2
+size_flags_vertical = 3
 theme = ExtResource("1_m8h0s")
-enabled = false
-initial_node_to_watch = NodePath("../../Entities/Player")
+initial_node_to_watch = NodePath("../../../Entities/Enemy")
 
 [node name="Background" type="Node2D" parent="."]
 texture_filter = 1

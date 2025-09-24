@@ -47,7 +47,6 @@ func _physics_process(delta: float) -> void:
 		is_running = false
 
 
-
 func execute() -> void:
 	var pending_entities := {}
 	var entities := find_children("*", "EntityPlayer")

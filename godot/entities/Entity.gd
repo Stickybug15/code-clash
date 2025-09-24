@@ -16,6 +16,8 @@ var _is_ready: bool = false
 var _status: Status = Status.Running
 var _first_run: bool = true
 
+var health: float = 100.0
+
 # === Required Variables ===
 var input: CustomInput
 

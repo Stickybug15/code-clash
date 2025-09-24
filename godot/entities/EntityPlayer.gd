@@ -70,6 +70,8 @@ func _on_idle_state_entered() -> void:
 func _on_idle_state_physics_processing(delta: float) -> void:
 	if signf(input.get_axis("left", "right")) != 0.0:
 		gsc.send_event("to_walking")
+	if input.is_action_pressed("attack_1"):
+		gsc.send_event("to_attack_1")
 
 
 func _on_idle_state_exited() -> void:
@@ -222,9 +224,40 @@ func _on_dash_state_exited() -> void:
 	anim_tree["parameters/dash/TimeScale/scale"] = 1.0
 
 
+func _on_attack_state_entered() -> void:
+	anim_tree_fsm.travel(&"attack_1")
+
+	input._try_wait()
+
+
+func _on_attack_state_physics_processing(delta: float) -> void:
+	if anim_tree_fsm.get_current_node() == "idle":
+		gsc.send_event("to_idle")
+
+
+func _on_attack_state_exited() -> void:
+	input._try_post()
+
+
+func _on_hurt_state_entered() -> void:
+	anim_tree_fsm.travel(&"hurt")
+
+
 func _on_mouse_entered() -> void:
 	_mouse_entered = true
 
 
 func _on_mouse_exited() -> void:
 	_mouse_entered = false
+
+
+func take_damage(damage: float) -> void:
+	if idle_state.active or walk_state.active or run_state.active:
+		health -= damage
+		gsc.send_event("to_hurt")
+		gsc.send_event("to_grounded")
+
+
+func _on_hurt_box_area_entered(area: Area2D) -> void:
+	if area is HitBox:
+		take_damage(area.damage)
