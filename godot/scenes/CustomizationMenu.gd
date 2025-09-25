@@ -2,9 +2,12 @@ extends Control
 
 @onready var input_name: LineEdit = $TouchScreenButton/VBoxContainer/input_name
 @onready var name_label: Label = $TouchScreenButton/VBoxContainer/name
+@onready var inputname: LineEdit = $TouchScreenButton/VBoxContainer/Input_Name
+@onready var namelabel: Label = $TouchScreenButton/VBoxContainer/Name_Label
+
 
 func _ready():
-	input_name.text_submitted.connect(_on_LineEdit_text_entered)
+	inputname.text_submitted.connect(_on_LineEdit_text_entered)
 
 func _on_LineEdit_text_entered(new_text: String):
-	name_label.text =  new_text
+	namelabel.text = "Your Name is: " + new_text
