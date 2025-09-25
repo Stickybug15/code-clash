@@ -4,23 +4,17 @@ extends Entity
 @export
 var code_edit: TextEdit
 @export
-var input: SimulateInput
+var run_button: Button
+@export
+var stats: EntityStats
+@export
+var gsc: StateChart
 
 @onready
 var anim_tree: AnimationTree = $AnimationTree
 var anim_tree_fsm: AnimationNodeStateMachinePlayback
 @onready
 var sprite: AnimatedSprite2D = $Sprite
-
-@export
-var stats: EntityStats
-@export
-var gsc: StateChart
-
-var jump_cmd: Command = ImpulseCommand.new()
-var dash_cmd: Command = ImpulseCommand.new()
-var fall_cmd: Command = FallCommand.new()
-var move_cmd: Command = MoveInputCommand.new()
 
 @onready
 var idle_state: AtomicState = $StateChart/ParallelState/Locomotion/Idle
@@ -39,24 +33,30 @@ var falling_state: AtomicState = $StateChart/ParallelState/AirBorne/Falling
 var jump_state: AtomicState = $StateChart/ParallelState/AirBorne/Jump
 
 
-# TODO: probably, just make this a getter and setter?
-var _wait: bool = false
-func wait() -> void:
-	_wait = true
-func post() -> void:
-	if _wait:
-		input.env.poll()
-		_wait = false
+var jump_cmd: Command
+var dash_cmd: Command
+var fall_cmd: Command
+var move_cmd: Command
+
+var _mouse_entered := false
 
 
 func _ready() -> void:
 	anim_tree.active = true
 	anim_tree_fsm = anim_tree["parameters/playback"]
-	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED
-	pass
+	input = SimulateInput.new(self, code_edit, run_button)
+	add_child(input)
+
+	jump_cmd = ImpulseCommand.new()
+	dash_cmd = ImpulseCommand.new()
+	fall_cmd = FallCommand.new()
+	move_cmd = MoveInputCommand.new(input, sprite)
 
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_pressed("left_mouse_button") and _mouse_entered:
+		position = get_global_mouse_position()
+		return
 	move_and_slide()
 
 
@@ -68,8 +68,10 @@ func _on_idle_state_entered() -> void:
 
 
 func _on_idle_state_physics_processing(delta: float) -> void:
-	if signf(Input.get_axis("left", "right")) != 0.0:
+	if signf(input.get_axis("left", "right")) != 0.0:
 		gsc.send_event("to_walking")
+	if input.is_action_pressed("attack_1"):
+		gsc.send_event("to_attack_1")
 
 
 func _on_idle_state_exited() -> void:
@@ -84,23 +86,21 @@ func _on_walk_state_entered() -> void:
 		"speed": stats.speed,
 	})
 
-	sprite.flip_h = Input.get_axis("left", "right") < 0
-
-	wait()
+	input._try_wait()
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
-	move_cmd.execute(self, delta)
-
-	if move_cmd.is_completed(self):
-		post()
-		gsc.send_event("to_idle")
-		return
-	if Input.is_action_pressed("run"):
+	if input.is_action_pressed("run"):
 		gsc.send_event("to_running")
 		return
-	if Input.is_action_pressed("dash"):
+	if input.is_action_pressed("dash"):
 		gsc.send_event("to_dash")
+		return
+
+	move_cmd.execute(self, delta)
+	if move_cmd.is_completed(self):
+		input._try_post()
+		gsc.send_event("to_idle")
 		return
 
 
@@ -114,22 +114,17 @@ func _on_run_state_entered() -> void:
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
 	})
-	wait()
+	input._try_wait()
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
-	if not Input.is_action_pressed("run"):
-		gsc.send_event("to_walking")
-		return
-	if Input.is_action_pressed("dash"):
-		gsc.send_event("to_dash")
-		return
 
 	move_cmd.execute(self, delta)
 
 	if move_cmd.is_completed(self):
-		post()
+		input._try_post()
 		gsc.send_event("to_idle")
+		return
 
 
 func _on_run_state_exited() -> void:
@@ -138,7 +133,7 @@ func _on_run_state_exited() -> void:
 
 # === Grounded State ===
 func _on_grounded_state_physics_processing(delta: float) -> void:
-	if Input.is_action_pressed("jump"):
+	if input.is_action_pressed("jump"):
 		gsc.send_event("to_jump")
 
 	if not is_on_floor():
@@ -154,7 +149,7 @@ func _on_jump_state_entered() -> void:
 		"time_to_peak": stats.jump_time_to_peak,
 		"direction": Vector2.UP,
 	})
-	wait()
+	input._try_wait()
 
 
 func _on_jump_state_physics_processing(delta: float) -> void:
@@ -178,39 +173,42 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 	fall_cmd.execute(self, delta)
 
 	if fall_cmd.is_completed(self):
-		post()
+		input._try_post()
 		gsc.send_event("to_grounded")
 
 
 # === Dashing State ===
 func _on_dash_state_entered() -> void:
 	anim_tree_fsm.travel(&"dash")
-	anim_tree["parameters/dash/TimeScale/scale"] = stats.dash_duration
+	anim_tree["parameters/dash/TimeScale/scalez"] = stats.dash_duration
 
 	dash_cmd.initialize(self, {
 		"magnitude": stats.dash_distance,
 		"time_to_peak": stats.dash_duration,
-		"direction": Vector2(Input.get_axis("left", "right"),  0),
+		"direction": Vector2(input.get_axis("left", "right"),  0),
 		"preserve_velocity": true,
 	})
 
-	sprite.flip_h = Input.get_axis("left", "right") < 0
+	sprite.flip_h = input.get_axis("left", "right") < 0.0
 
-	await dash_cmd.actived
-	gsc.set_expression_property(&"is_dash_applied", true)
-	await dash_cmd.completed
-	gsc.set_expression_property(&"is_dash_applied", false)
+	dash_cmd.actived.connect(
+		gsc.set_expression_property.bind(&"is_dash_applied", true),
+		ConnectFlags.CONNECT_ONE_SHOT)
+	dash_cmd.completed.connect(
+		gsc.set_expression_property.bind(&"is_dash_applied", false),
+		ConnectFlags.CONNECT_ONE_SHOT)
 
 
 func _on_dash_state_physics_processing(delta: float) -> void:
 	dash_cmd.execute(self, delta)
 
-	var dir: float = signf(Input.get_axis("left", "right"))
-	if dir != 0.0 and signf(velocity.x) != dir:
-		dash_cmd.complete(self)
+	var dir: float = signf(input.get_axis("left", "right"))
+	#if dir != 0.0 and signf(velocity.x) != dir:
+		#dash_cmd.complete(self)
+		#print("force complete")
 
 	if dash_cmd.is_completed(self):
-		post()
+		input._try_post()
 		if dir != 0.0:
 			gsc.send_event("to_walking")
 		else:
@@ -219,3 +217,49 @@ func _on_dash_state_physics_processing(delta: float) -> void:
 
 func _on_dash_state_exited() -> void:
 	anim_tree["parameters/dash/TimeScale/scale"] = 1.0
+
+
+func _on_attack_state_entered() -> void:
+	anim_tree_fsm.travel(&"attack_1")
+
+	input._try_wait()
+
+
+func _on_attack_state_physics_processing(delta: float) -> void:
+	if anim_tree_fsm.get_current_node() == "idle":
+		gsc.send_event("to_idle")
+
+
+func _on_attack_state_exited() -> void:
+	input._try_post()
+
+
+func _on_hurt_state_entered() -> void:
+	# TODO: delaying sending event to gsc by one frame will fix the issue of immidiately switching to to_idle animation.
+	# will be using .start for temporary fix.
+	anim_tree_fsm.start(&"hurt")
+
+
+func _on_hurt_state_physics_processing(delta: float) -> void:
+	if anim_tree_fsm.get_current_node() == "idle":
+		gsc.send_event("to_idle")
+
+
+func _on_mouse_entered() -> void:
+	_mouse_entered = true
+
+
+func _on_mouse_exited() -> void:
+	_mouse_entered = false
+
+
+func take_damage(damage: float) -> void:
+	if idle_state.active or walk_state.active or run_state.active:
+		health -= damage
+		gsc.send_event("to_hurt")
+		gsc.send_event("to_grounded")
+
+
+func _on_hurt_box_area_entered(area: Area2D) -> void:
+	if area is HitBox:
+		take_damage(area.damage)

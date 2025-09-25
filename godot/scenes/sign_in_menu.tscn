@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dh0d1emcf7ehm"]
+[gd_scene load_steps=15 format=3 uid="uid://dh0d1emcf7ehm"]
 
 [ext_resource type="Script" uid="uid://ccgo1gwgtccaj" path="res://godot/scripts/sign_in_menu.gd" id="1_sg6uc"]
 [ext_resource type="Texture2D" uid="uid://dq8xe0fpqsci1" path="res://assets/BG_ICONS/background.jpg" id="2_knubq"]
@@ -10,8 +10,14 @@
 texture = ExtResource("2_knubq")
 modulate_color = Color(1, 1, 1, 0.486275)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akivp"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sraid"]
+bg_color = Color(0, 0, 0, 0.352941)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dubtc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dubtc"]
 bg_color = Color(0.376471, 0.556863, 0.960784, 1)
@@ -22,15 +28,16 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dubtc"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_akivp"]
+bg_color = Color(0, 0, 0, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p376f"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtent"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akivp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sraid"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_akivp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vtent"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p376f"]
 
 [node name="Auths" type="CanvasLayer"]
 script = ExtResource("1_sg6uc")
@@ -71,6 +78,13 @@ text = "CODE CLASH"
 horizontal_alignment = 1
 vertical_alignment = 1
 max_lines_visible = 9
+
+[node name="fillbg" type="Panel" parent="."]
+offset_left = 328.0
+offset_top = 42.0
+offset_right = 832.0
+offset_bottom = 603.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_sraid")
 
 [node name="SignInMenu" type="VBoxContainer" parent="."]
 anchors_preset = 8
@@ -144,9 +158,9 @@ secret = true
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_k0pr4")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_akivp")
-theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_dubtc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dubtc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_akivp")
 text = "LOGIN"
 
 [node name="AuthStatusLabel" type="RichTextLabel" parent="SignInMenu"]
@@ -161,10 +175,10 @@ offset_right = 168.0
 offset_bottom = 79.0
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_k0pr4")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_p376f")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_sraid")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_akivp")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_sraid")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_vtent")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_p376f")
 text = "Back to MainMenu"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]

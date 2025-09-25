@@ -17,28 +17,27 @@
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ar3a4"]
 texture = ExtResource("2_kf2fp")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6yan0"]
-texture = ExtResource("6_lbm1t")
-region_rect = Rect2(102, 97, 150, 163)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xx5qh"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_attwo"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lbm1t"]
 texture = ExtResource("6_lbm1t")
 region_rect = Rect2(102, 97, 150, 163)
-modulate_color = Color(0.336608, 0.336608, 0.336608, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xx5qh"]
 texture = ExtResource("6_lbm1t")
 region_rect = Rect2(102, 97, 150, 163)
 modulate_color = Color(0.847474, 0.847474, 0.847474, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lbm1t"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_attwo"]
+texture = ExtResource("6_lbm1t")
+region_rect = Rect2(102, 97, 150, 163)
+modulate_color = Color(0.336608, 0.336608, 0.336608, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6yan0"]
 texture = ExtResource("6_lbm1t")
 region_rect = Rect2(102, 97, 150, 163)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xx5qh"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g21cx"]
-bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ar3a4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p42tn"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -48,10 +47,10 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ar3a4"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yayck"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g21cx"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qkfqt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5lt4e"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -61,10 +60,10 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qkfqt"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6spp"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yayck"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_42238"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t1bx0"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -74,10 +73,10 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_42238"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dhjcj"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6spp"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqpji"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtesu"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -87,10 +86,10 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tqpji"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l55gl"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dhjcj"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ntcm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boqgs"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -100,10 +99,10 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ntcm"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6sso"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l55gl"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0vlbu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38656"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -113,7 +112,8 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0vlbu"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6sso"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_qpjw1"]
 diffuse_texture = ExtResource("10_qpjw1")
@@ -174,11 +174,11 @@ offset_left = -96.0
 offset_top = -96.0
 offset_right = -32.0
 offset_bottom = -32.0
-theme_override_styles/normal = SubResource("StyleBoxTexture_6yan0")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_attwo")
-theme_override_styles/hover = SubResource("StyleBoxTexture_xx5qh")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_lbm1t")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_xx5qh")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_lbm1t")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xx5qh")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_attwo")
+theme_override_styles/normal = SubResource("StyleBoxTexture_6yan0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 1
@@ -223,54 +223,54 @@ custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_g21cx")
-theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ar3a4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g21cx")
 text = "Play"
 
 [node name="Custom_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_yayck")
-theme_override_styles/hover = SubResource("StyleBoxFlat_5lt4e")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_qkfqt")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5lt4e")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_yayck")
 text = "Customization"
 
 [node name="Progress_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_q6spp")
-theme_override_styles/hover = SubResource("StyleBoxFlat_t1bx0")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_42238")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t1bx0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_q6spp")
 text = "Progress"
 
 [node name="LeadB_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_dhjcj")
-theme_override_styles/hover = SubResource("StyleBoxFlat_mtesu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_tqpji")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mtesu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dhjcj")
 text = "Leaderboard"
 
 [node name="Marketplace_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_l55gl")
-theme_override_styles/hover = SubResource("StyleBoxFlat_boqgs")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7ntcm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_boqgs")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l55gl")
 text = "Marketplace"
 
 [node name="Quit_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
-theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_0vlbu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
 text = "Quit Game"
 
 [node name="Settings" type="Control" parent="Control"]
@@ -408,9 +408,9 @@ script = ExtResource("9_6yan0")
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_r1vw7")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
-theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_0vlbu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
 text = "Return to MainMenu"
 
 [node name="GreetingsMessage" type="Label" parent="Control"]

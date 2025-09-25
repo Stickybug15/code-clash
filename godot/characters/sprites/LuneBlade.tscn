@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://t1cq0num0y7h"]
+
+[ext_resource type="SpriteFrames" uid="uid://cftgtps75voyf" path="res://assets/characters/lune_blade/LuneBlade.tres" id="1_bqt0p"]
+
+[node name="Sprite" type="AnimatedSprite2D"]
+texture_filter = 1
+sprite_frames = ExtResource("1_bqt0p")
+animation = &"walk"
+frame = 5

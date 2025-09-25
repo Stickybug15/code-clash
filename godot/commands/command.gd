@@ -1,4 +1,3 @@
-@abstract
 class_name Command
 extends Node
 
@@ -15,21 +14,21 @@ signal completed
 var _status: Status = Status.Complete
 
 
-@abstract
-func initialize(actor, msg: Dictionary = {}) -> void
+func initialize(actor, msg: Dictionary = {}) -> void:
+	pass
 
 
 func execute(actor, delta: float) -> void:
 	pass
 
 
-func _reset_signal(...p_signal: Array) -> void:
+func _reset_signal(p_signal: Array[Signal]) -> void:
 	for _signal: Signal in p_signal:
 		for conn: Dictionary in _signal.get_connections():
 			_signal.disconnect(conn["callable"] as Callable)
 
 func reset() -> void:
-	_reset_signal(actived, idled, completed)
+	_reset_signal([actived, idled, completed])
 	_status = Status.Complete
 
 

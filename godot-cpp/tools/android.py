@@ -9,12 +9,12 @@ def options(opts):
     opts.Add(
         "android_api_level",
         "Target Android API level",
-        "24",
+        "21",
     )
     opts.Add(
         "ndk_version",
         "Fully qualified version of ndk to use for compilation.",
-        "28.1.13356709",
+        "23.2.8568313",
     )
     opts.Add(
         "ANDROID_HOME",
@@ -48,9 +48,9 @@ def generate(env):
         my_spawn.configure(env)
 
     # Validate API level
-    if int(env["android_api_level"]) < 24:
-        print("WARNING: minimum supported Android target api is 24. Forcing target api 24.")
-        env["android_api_level"] = "24"
+    if int(env["android_api_level"]) < 21:
+        print("WARNING: minimum supported Android target api is 21. Forcing target api 21.")
+        env["android_api_level"] = "21"
 
     # Setup toolchain
     toolchain = get_android_ndk_root(env) + "/toolchains/llvm/prebuilt/"

@@ -12,8 +12,7 @@ load_path = "res://.godot/imported/background.jpg-56dcd7e866ba18082dbfe2ec73ced1
 texture = SubResource("CompressedTexture2D_8lgll")
 modulate_color = Color(1, 1, 1, 0.486275)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipyu"]
-bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkq16"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wm0df"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -23,17 +22,18 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkq16"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m0d5q"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xipyu"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgv7v"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nj70s"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m0d5q"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ndlwy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nj70s"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
 [node name="LogsMenu" type="CanvasLayer"]
 script = ExtResource("1_xd5lu")
@@ -109,9 +109,9 @@ custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_liu7y")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_xipyu")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_jkq16")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xipyu")
 text = "LOGIN"
 
 [node name="register_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
@@ -119,9 +119,9 @@ custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_liu7y")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_m0d5q")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fgv7v")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_m0d5q")
 text = "REGISTER"
 
 [node name="offline_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
@@ -129,9 +129,9 @@ custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_liu7y")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_nj70s")
-theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nj70s")
 text = "ANONYMOUS"
 
 [connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/login_button" to="." method="_on_mouse_entered"]
