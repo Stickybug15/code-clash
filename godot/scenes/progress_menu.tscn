@@ -46,6 +46,24 @@ stream = ExtResource("5_1vqhh")
 volume_db = -15.0
 bus = &"SFX"
 
+[node name="Quest_Panel" type="PanelContainer" parent="bg/TouchScreenButton"]
+offset_left = 140.0
+offset_top = 128.0
+offset_right = 542.0
+offset_bottom = 576.0
+
+[node name="Label" type="Label" parent="bg/TouchScreenButton/Quest_Panel"]
+layout_mode = 2
+
+[node name="Completed_panel" type="PanelContainer" parent="bg/TouchScreenButton"]
+offset_left = 625.0
+offset_top = 128.0
+offset_right = 1027.0
+offset_bottom = 576.0
+
+[node name="Label" type="Label" parent="bg/TouchScreenButton/Completed_panel"]
+layout_mode = 2
+
 [node name="title" type="Label" parent="."]
 layout_mode = 0
 offset_left = 374.0
@@ -57,26 +75,6 @@ theme_override_font_sizes/font_size = 50
 text = "Progress"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Quest_Panel" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_left = 140.0
-offset_top = 128.0
-offset_right = 542.0
-offset_bottom = 576.0
-
-[node name="Label" type="Label" parent="Quest_Panel"]
-layout_mode = 2
-
-[node name="Completed_panel" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_left = 625.0
-offset_top = 128.0
-offset_right = 1027.0
-offset_bottom = 576.0
-
-[node name="Label" type="Label" parent="Completed_panel"]
-layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
