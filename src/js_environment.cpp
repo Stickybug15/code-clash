@@ -37,6 +37,7 @@ void JSEnvironment::_bind_methods() {
 
   ClassDB::bind_method(D_METHOD("is_running"), &JSEnvironment::is_running);
 
+  ADD_SIGNAL(MethodInfo("started"));
   ADD_SIGNAL(MethodInfo("finished"));
   ADD_SIGNAL(MethodInfo("function_invoked"));
 }
@@ -100,6 +101,7 @@ void JSEnvironment::eval_async(String code) {
 }
 
 void JSEnvironment::_eval_pending_code(String code) {
+  call_deferred("emit_signal", "started");
   eval(code);
   running = false;
   call_deferred("emit_signal", "finished");

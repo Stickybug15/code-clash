@@ -46,9 +46,8 @@ custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
 text = "hero.attack()
-//hero.run_left()
-//hero.jump()
-//hero.dash_right()"
+hero.jump()
+hero.attack()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2
@@ -79,11 +78,10 @@ custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
 text = "hero.jump()
-hero.walk_left()
 hero.attack()
-//hero.run_left()
-//hero.dash_right()
-//hero.dash_left()"
+hero.run_right()
+hero.run_left()
+hero.attack()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/EnemyEditor"]
 layout_mode = 2
@@ -100,19 +98,29 @@ size_flags_vertical = 3
 theme = ExtResource("1_m8h0s")
 initial_node_to_watch = NodePath("../../../Entities/Enemy")
 
-[node name="Run" type="Button" parent="UI"]
-custom_minimum_size = Vector2(60, 0)
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -19.5
-offset_top = -31.0
-offset_right = 19.5
+offset_left = -30.0
+offset_top = -40.0
+offset_right = 30.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="Run" type="Button" parent="UI/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_vertical = 8
 text = "Run"
+
+[node name="Force Run" type="Button" parent="UI/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_vertical = 8
+text = "Force Run"
 
 [node name="Background" type="Node2D" parent="."]
 texture_filter = 1
@@ -189,13 +197,8 @@ position = Vector2(271, 71)
 code_edit = NodePath("../../UI/EnemyEditor/CodeEdit")
 run_button = NodePath("../../UI/EnemyEditor/HBoxContainer/RunEnemy")
 
-[node name="HurtBox" parent="Entities/Enemy" index="5"]
+[node name="HurtBox" parent="Entities/Enemy" index="6"]
 collision_layer = 4
-collision_mask = 2
-
-[node name="HitBox" parent="Entities/Enemy" index="6"]
-collision_layer = 4
-collision_mask = 2
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
@@ -214,6 +217,7 @@ process_physics_priority = 300
 script = ExtResource("3_llv2m")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[connection signal="pressed" from="UI/Run" to="Entities" method="_on_run_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/Run" to="Entities" method="_on_run_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/Force Run" to="Entities" method="_on_force_run_pressed"]
 
 [editable path="Entities/Enemy"]

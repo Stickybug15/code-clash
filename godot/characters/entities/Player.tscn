@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://bcbu4qmsumgm8"]
+[gd_scene load_steps=62 format=3 uid="uid://bcbu4qmsumgm8"]
 
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="1_kw088"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="2_i0s5h"]
@@ -11,6 +11,16 @@
 [ext_resource type="Script" uid="uid://df5xyaap2vwpi" path="res://godot/hit_box.gd" id="10_sk81y"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="10_wvh0p"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="11_msno0"]
+
+[sub_resource type="SystemFont" id="SystemFont_30ba4"]
+hinting = 2
+
+[sub_resource type="Theme" id="Theme_vq287"]
+default_font = SubResource("SystemFont_30ba4")
+default_font_size = 6
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vq287"]
+size = Vector2(12, 17)
 
 [sub_resource type="Animation" id="Animation_vq287"]
 length = 0.001
@@ -41,7 +51,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../HitBox/CollisionShape2D:disabled")
+tracks/2/path = NodePath("HitBox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -53,7 +63,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HitBox/CollisionShape2D:position")
+tracks/3/path = NodePath("HitBox/CollisionShape2D:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -65,7 +75,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../HitBox/CollisionShape2D:shape:size")
+tracks/4/path = NodePath("HitBox/CollisionShape2D:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -77,7 +87,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../HitBox:monitorable")
+tracks/5/path = NodePath("HitBox:monitorable")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -117,7 +127,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../HitBox/CollisionShape2D:disabled")
+tracks/2/path = NodePath("HitBox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -129,7 +139,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../HitBox/CollisionShape2D:position")
+tracks/3/path = NodePath("HitBox/CollisionShape2D:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -141,7 +151,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../HitBox/CollisionShape2D:shape:size")
+tracks/4/path = NodePath("HitBox/CollisionShape2D:shape:size")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -153,7 +163,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../HitBox:monitorable")
+tracks/5/path = NodePath("HitBox:monitorable")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -500,9 +510,6 @@ metadata/_custom_type_script = "uid://le5w1cm0ul8p"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30ba4"]
 size = Vector2(12, 17)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vq287"]
-size = Vector2(12, 17)
-
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gsc")]
 collision_mask = 3
 input_pickable = true
@@ -511,9 +518,36 @@ stats = ExtResource("2_i0s5h")
 gsc = NodePath("StateChart")
 metadata/_edit_group_ = true
 
+[node name="Status" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -36.0
+offset_top = -25.0
+offset_right = 37.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_vq287")
+vertical_alignment = 2
+autowrap_mode = 3
+
 [node name="Sprite" parent="." instance=ExtResource("5_h78px")]
 animation = &"idle"
 frame = 2
+
+[node name="HitBox" type="Area2D" parent="Sprite"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+monitorable = false
+script = ExtResource("10_sk81y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/HitBox"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_vq287")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite")
@@ -735,7 +769,7 @@ delay_in_seconds = "0.0"
 
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 2
-collision_mask = 4
+collision_mask = 2
 monitorable = false
 script = ExtResource("10_30ba4")
 metadata/_edit_lock_ = true
@@ -743,17 +777,6 @@ metadata/_edit_lock_ = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_30ba4")
-
-[node name="HitBox" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 0
-monitoring = false
-monitorable = false
-script = ExtResource("10_sk81y")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_vq287")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

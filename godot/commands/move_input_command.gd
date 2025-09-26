@@ -16,9 +16,6 @@ func _init(input: CustomInput, sprite: AnimatedSprite2D) -> void:
 func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	speed = get_var(msg, "speed", typeof(speed))
 
-	var direction: float = input.get_axis("left", "right")
-	sprite.flip_h = direction < 0.0
-
 	_to_active()
 
 

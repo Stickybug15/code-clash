@@ -19,7 +19,8 @@ func all_ready() -> bool:
 
 
 func all_idle() -> bool:
-	return syncs.all(func(s: Syncronizer) -> bool: return s.is_idle())
+	return syncs.all(func(s: Syncronizer) -> bool:
+		return s.is_idle())
 
 
 func run_all() -> void:
@@ -72,6 +73,12 @@ func execute(_syncs: Array[Syncronizer]) -> void:
 func _on_run_pressed() -> void:
 	for sync: Syncronizer in syncs:
 		sync.run_code_from_input()
+
+
+func _on_force_run_pressed() -> void:
+	for sync: Syncronizer in syncs:
+		sync.run_code_from_input()
+		sync.run()
 
 
 func _on_next_pressed() -> void:

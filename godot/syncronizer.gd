@@ -50,6 +50,15 @@ func is_waiting() -> bool:
 	return _status == Status.Waiting
 
 
+func status_as_str() -> String:
+	match _status:
+		Status.Idle: return "Idle"
+		Status.Pending: return "Pending"
+		Status.Running: return "Running"
+		Status.Waiting: return "Waiting"
+		_: return ""
+
+
 func as_idle():
 	_status = Status.Idle
 	_toggle_processing(true)
@@ -122,6 +131,7 @@ func _on_run_pressed() -> void:
 
 
 func _on_env_finished() -> void:
+	print(get_parent().name, ": _on_env_finished")
 	_ready_to_run = false
 	_queue_enabled = false
 	as_idle()

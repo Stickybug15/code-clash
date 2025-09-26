@@ -32,6 +32,11 @@ var falling_state: AtomicState = $StateChart/ParallelState/AirBorne/Falling
 @onready
 var jump_state: AtomicState = $StateChart/ParallelState/AirBorne/Jump
 
+@onready
+var _hit_box: HitBox = $Sprite/HitBox
+@onready
+var _status_label: Label = $Status
+
 
 var jump_cmd: Command
 var dash_cmd: Command
@@ -55,6 +60,11 @@ func _ready() -> void:
 	fall_cmd = FallCommand.new()
 	move_cmd = MoveInputCommand.new(input, sprite)
 
+	input.env.started.connect(func() -> void:
+		_status_label.text = "Env is Started")
+	input.env.finished.connect(func() -> void:
+		_status_label.text = "Env is Finished")
+
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("left_mouse_button") and _mouse_entered:
@@ -74,6 +84,8 @@ func _on_idle_state_physics_processing(delta: float) -> void:
 	if signf(input.get_axis("left", "right")) != 0.0:
 		if input.is_action_pressed("run"):
 			gsc.send_event("to_running")
+		elif input.is_action_pressed("dash"):
+			gsc.send_event("to_dash")
 		else:
 			gsc.send_event("to_walking")
 		return
@@ -95,6 +107,7 @@ func _on_walk_state_entered() -> void:
 		"speed": stats.speed,
 	})
 
+	sprite.scale.x = -1 if input.get_axis("left", "right") < 0.0 else 1
 	sync.queue()
 
 
@@ -122,6 +135,8 @@ func _on_run_state_entered() -> void:
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
 	})
+
+	sprite.scale.x = -1 if input.get_axis("left", "right") < 0.0 else 1
 	sync.queue()
 
 
@@ -198,7 +213,7 @@ func _on_dash_state_entered() -> void:
 		"preserve_velocity": true,
 	})
 
-	sprite.flip_h = input.get_axis("left", "right") < 0.0
+	sprite.scale.x = -1 if input.get_axis("left", "right") < 0.0 else 1
 
 	dash_cmd.actived.connect(
 		gsc.set_expression_property.bind(&"is_dash_applied", true),
@@ -273,6 +288,8 @@ func take_damage(damage: float) -> void:
 
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
-	print("hurt")
+	if _hit_box == area:
+		return
+
 	if area is HitBox:
 		take_damage(area.damage)
