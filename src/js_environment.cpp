@@ -38,6 +38,7 @@ void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("is_running"), &JSEnvironment::is_running);
 
   ADD_SIGNAL(MethodInfo("finished"));
+  ADD_SIGNAL(MethodInfo("function_invoked"));
 }
 
 bool JSEnvironment::is_running() const { return running; }
@@ -338,6 +339,7 @@ duk_ret_t c_function(duk_context *ctx) {
 
   while (self->semaphore->try_wait())
     ;
+  self->call_deferred("emit_signal", "function_invoked");
   self->semaphore->wait();
   return 0;
 }

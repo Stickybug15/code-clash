@@ -7,7 +7,7 @@ var _content:Array[String] = []
 var _index = 0
 
 ## The size of the ring buffer
-var _size = 0 
+var _size = 0
 
 ## Whether the buffer is fully populated
 var _filled = false
@@ -16,9 +16,9 @@ var _filled = false
 func _init(size:int = 300):
 	_size = size
 	_content.resize(size)
-	
-	
-## Sets the maximum number of lines to store. This clears the buffer.	
+
+
+## Sets the maximum number of lines to store. This clears the buffer.
 func set_maximum_lines(lines:int):
 	_size = lines
 	_content.resize(lines)
@@ -40,15 +40,15 @@ func join():
 	if _filled:
 		# start by _index + 1, run to the end and then continue from the start
 		for i in range(_index, _size):
-			result += _content[i] 
+			result += _content[i]
 
 	# when not filled, just start at the beginning
 	for i in _index:
 		result += _content[i]
-		
+
 	return result
 
-		
+
 func clear():
 	_index = 0
-	_filled = false 	
+	_filled = false

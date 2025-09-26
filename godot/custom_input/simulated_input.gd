@@ -7,6 +7,7 @@ var EPSILON: float = 0.1
 var _env: ScriptEnvironment = ScriptEnvironment.new()
 
 var _actions: Dictionary[String, bool] = {}
+var _timers: Array[Timer] = []
 
 # required variables.
 var _sync: Syncronizer
@@ -161,10 +162,16 @@ func _action_press(action_name: StringName, duration: float) -> void:
 	timer.autostart = true
 	timer.one_shot = true
 	timer.wait_time = duration
+	_timers.append(timer)
 	add_child(timer)
 	await timer.timeout
 	_actions[action_name] = false
+	timer.queue_free()
 
+
+func clear() -> void:
+	# TODO: how about the timers?
+	_actions.clear()
 
 # === Overrides ===
 

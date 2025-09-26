@@ -63,10 +63,9 @@ func execute(_syncs: Array[Syncronizer]) -> void:
 		for s in _syncs: s.as_running()
 		return
 
-	if _syncs.all(func(s: Syncronizer) -> bool: return s.is_waiting()) and next:
+	if _syncs.all(func(s: Syncronizer) -> bool: return s.can_resume()) and next:
 		for s in _syncs:
-			s.as_running()
-			s.post()
+			s.resume()
 		next = false
 
 

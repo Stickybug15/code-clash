@@ -72,9 +72,15 @@ func _on_idle_state_entered() -> void:
 
 func _on_idle_state_physics_processing(delta: float) -> void:
 	if signf(input.get_axis("left", "right")) != 0.0:
-		gsc.send_event("to_walking")
+		if input.is_action_pressed("run"):
+			gsc.send_event("to_running")
+		else:
+			gsc.send_event("to_walking")
+		return
+
 	if input.is_action_pressed("attack_1"):
 		gsc.send_event("to_attack_1")
+		return
 
 
 func _on_idle_state_exited() -> void:
@@ -89,7 +95,7 @@ func _on_walk_state_entered() -> void:
 		"speed": stats.speed,
 	})
 
-	sync.try_wait()
+	sync.queue()
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
@@ -102,13 +108,12 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
-		sync.try_post()
 		gsc.send_event("to_idle")
 		return
 
 
 func _on_walk_state_exited() -> void:
-	pass
+	sync.dequeue()
 
 
 #  === Running State === TODO: Duplicate of Walking State, but with different speed.
@@ -117,20 +122,19 @@ func _on_run_state_entered() -> void:
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
 	})
-	sync.try_wait()
+	sync.queue()
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
 	move_cmd.execute(self, delta)
 
 	if move_cmd.is_completed(self):
-		sync.try_post()
 		gsc.send_event("to_idle")
 		return
 
 
 func _on_run_state_exited() -> void:
-	pass
+	sync.dequeue()
 
 
 # === Grounded State ===
@@ -151,7 +155,7 @@ func _on_jump_state_entered() -> void:
 		"time_to_peak": stats.jump_time_to_peak,
 		"direction": Vector2.UP,
 	})
-	sync.try_wait()
+	sync.queue()
 
 
 func _on_jump_state_physics_processing(delta: float) -> void:
@@ -175,14 +179,17 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 	fall_cmd.execute(self, delta)
 
 	if fall_cmd.is_completed(self):
-		sync.try_post()
 		gsc.send_event("to_grounded")
+
+
+func _on_falling_state_exited() -> void:
+	sync.dequeue()
 
 
 # === Dashing State ===
 func _on_dash_state_entered() -> void:
 	anim_tree_fsm.travel(&"dash")
-	anim_tree["parameters/dash/TimeScale/scalez"] = stats.dash_duration
+	anim_tree["parameters/dash/TimeScale/scale"] = stats.dash_duration
 
 	dash_cmd.initialize(self, {
 		"magnitude": stats.dash_distance,
@@ -199,6 +206,7 @@ func _on_dash_state_entered() -> void:
 	dash_cmd.completed.connect(
 		gsc.set_expression_property.bind(&"is_dash_applied", false),
 		ConnectFlags.CONNECT_ONE_SHOT)
+	sync.queue()
 
 
 func _on_dash_state_physics_processing(delta: float) -> void:
@@ -210,7 +218,6 @@ func _on_dash_state_physics_processing(delta: float) -> void:
 		#print("force complete")
 
 	if dash_cmd.is_completed(self):
-		sync.try_post()
 		if dir != 0.0:
 			gsc.send_event("to_walking")
 		else:
@@ -219,12 +226,13 @@ func _on_dash_state_physics_processing(delta: float) -> void:
 
 func _on_dash_state_exited() -> void:
 	anim_tree["parameters/dash/TimeScale/scale"] = 1.0
+	sync.dequeue()
 
 
 func _on_attack_state_entered() -> void:
 	anim_tree_fsm.travel(&"attack_1")
 
-	sync.try_wait()
+	sync.queue()
 
 
 func _on_attack_state_physics_processing(delta: float) -> void:
@@ -233,13 +241,15 @@ func _on_attack_state_physics_processing(delta: float) -> void:
 
 
 func _on_attack_state_exited() -> void:
-	sync.try_post()
+	sync.dequeue()
 
 
 func _on_hurt_state_entered() -> void:
 	# TODO: delaying sending event to gsc by one frame will fix the issue of immidiately switching to to_idle animation.
 	# will be using .start for temporary fix.
 	anim_tree_fsm.start(&"hurt")
+	sync.queue_reset()
+	velocity = Vector2.ZERO
 
 
 func _on_hurt_state_physics_processing(delta: float) -> void:
@@ -263,5 +273,6 @@ func take_damage(damage: float) -> void:
 
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
+	print("hurt")
 	if area is HitBox:
 		take_damage(area.damage)

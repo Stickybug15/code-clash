@@ -19,6 +19,8 @@ var _ready_to_run: bool = false
 var _code_edit: TextEdit
 var _run: Button
 
+var _ready_to_resume: bool = false
+
 
 var status: Status:
 	get: return _status
@@ -33,8 +35,9 @@ func _init(agent: Node, code_edit: TextEdit, run: Button) -> void:
 	_run = run
 	add_child(input)
 
-	run.pressed.connect(_on_run_pressed)
+	_run.pressed.connect(_on_run_pressed)
 	_input.env.finished.connect(_on_env_finished)
+	_input.env.function_invoked.connect(_on_function_invoked)
 
 
 func is_idle():
@@ -73,23 +76,27 @@ func _toggle_processing(enable_processing: bool):
 	_agent.set_process_unhandled_input(enable_processing)
 
 
-func try_wait() -> void:
-	_wait = true
+var _queue_enabled := false
+var _queue : int = -1
+func queue() -> void:
+	if _ready_to_resume or not _queue_enabled:
+		return
+	_queue = max(1, _queue + 1)
 
 
-func try_post() -> void:
-	if _wait:
-		as_waiting()
+func dequeue() -> void:
+	if _ready_to_resume or not _queue_enabled:
+		return
+	_queue = max(-1, _queue - 1)
+	if _queue == 0:
+		_ready_to_resume = true
 
 
-func post() -> void:
-	if _wait:
-		env_resume()
-		_wait = false
-
-
-func can_post() -> bool:
-	return _wait
+func queue_reset() -> void:
+	if _ready_to_resume or not _queue_enabled:
+		return
+	while _queue >= 0:
+		dequeue()
 
 
 func is_ready() -> bool:
@@ -111,18 +118,28 @@ func run_code_from_input() -> void:
 
 
 func _on_run_pressed() -> void:
-	print("run pressed")
 	run_code_from_input()
 
 
 func _on_env_finished() -> void:
 	_ready_to_run = false
+	_queue_enabled = false
 	as_idle()
+
+
+func _on_function_invoked() -> void:
+	_queue_enabled = true
 
 
 func env_is_running() -> void:
 	return _input.env.is_running()
 
 
-func env_resume() -> void:
+func resume() -> void:
+	_ready_to_resume = false
+	_input.clear()
 	_input.env.poll()
+
+
+func can_resume() -> bool:
+	return _ready_to_resume
