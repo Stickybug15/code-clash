@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://bcbu4qmsumgm8"]
+[gd_scene load_steps=61 format=3 uid="uid://bcbu4qmsumgm8"]
 
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="1_kw088"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="2_i0s5h"]
@@ -12,12 +12,8 @@
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="10_wvh0p"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="11_msno0"]
 
-[sub_resource type="SystemFont" id="SystemFont_30ba4"]
-hinting = 2
-
-[sub_resource type="Theme" id="Theme_vq287"]
-default_font = SubResource("SystemFont_30ba4")
-default_font_size = 6
+[sub_resource type="Theme" id="Theme_30ba4"]
+default_font_size = 7
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vq287"]
 size = Vector2(12, 17)
@@ -530,7 +526,7 @@ offset_right = 37.0
 offset_bottom = -11.0
 grow_horizontal = 2
 grow_vertical = 0
-theme = SubResource("Theme_vq287")
+theme = SubResource("Theme_30ba4")
 vertical_alignment = 2
 autowrap_mode = 3
 
