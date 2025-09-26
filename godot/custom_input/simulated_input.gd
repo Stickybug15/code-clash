@@ -7,13 +7,8 @@ var EPSILON: float = 0.1
 var _env: ScriptEnvironment = ScriptEnvironment.new()
 
 var _actions: Dictionary[String, bool] = {}
-var _wait: bool = false
-var _pending_code: String = ""
-var _to_run := false
 
 # required variables.
-var _code_edit: TextEdit
-var _run: Button
 var _sync: Syncronizer
 
 
@@ -21,14 +16,8 @@ var env: ScriptEnvironment:
 	get: return _env
 
 
-func _init(sync: Syncronizer, code_edit: TextEdit, run: Button) -> void:
-	_code_edit = code_edit
-	_run = run
+func _init(sync: Syncronizer) -> void:
 	_sync = sync
-
-	_run.pressed.connect(_on_run_pressed)
-
-	_env.finished.connect(_on_env_finished)
 
 	# TODO: investigate why isn't showing any errors(in env) when passing arguments to methods that doesn't have parameters
 	var action := MethodInput.new()
@@ -177,22 +166,6 @@ func _action_press(action_name: StringName, duration: float) -> void:
 	_actions[action_name] = false
 
 
-func _on_run_pressed() -> void:
-	run()
-	#if not _env.finished.has_connections():
-		#_env.finished.connect(func() -> void:
-			#_on_run_pressed())
-
-
-func _on_env_finished() -> void:
-	_to_run = false
-	_sync.as_idle()
-
-
-func resume() -> void:
-	_env.poll()
-
-
 # === Overrides ===
 
 func is_action_pressed(action: StringName) -> bool:
@@ -201,35 +174,3 @@ func is_action_pressed(action: StringName) -> bool:
 
 func get_axis(negative_action: StringName, positive_action: StringName) -> float:
 	return float(is_action_pressed(positive_action)) - float(is_action_pressed(negative_action))
-
-
-func _try_wait() -> void:
-	_wait = true
-
-
-func _try_post() -> void:
-	if _wait:
-		_sync.as_waiting()
-
-
-func post() -> void:
-	if _wait:
-		resume()
-		_wait = false
-
-
-func can_post() -> bool:
-	return _wait
-
-
-func is_ready() -> bool:
-	return _to_run
-
-
-func is_running() -> bool:
-	return _env.is_running()
-
-
-func run() -> void:
-	_to_run = true
-	_env.eval_async(_code_edit.text)

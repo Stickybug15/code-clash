@@ -14,6 +14,11 @@ var _wait: bool = false
 var _agent: Node
 var _input: SimulateInput
 
+var _pending_code: String = ""
+var _ready_to_run: bool = false
+var _code_edit: TextEdit
+var _run: Button
+
 
 var status: Status:
 	get: return _status
@@ -23,8 +28,13 @@ var input: CustomInput:
 
 func _init(agent: Node, code_edit: TextEdit, run: Button) -> void:
 	_agent = agent
-	_input = SimulateInput.new(self, code_edit, run)
+	_input = SimulateInput.new(self)
+	_code_edit = code_edit
+	_run = run
 	add_child(input)
+
+	run.pressed.connect(_on_run_pressed)
+	_input.env.finished.connect(_on_env_finished)
 
 
 func is_idle():
@@ -64,7 +74,6 @@ func _toggle_processing(enable_processing: bool):
 
 
 func try_wait() -> void:
-	_input._try_wait()
 	_wait = true
 
 
@@ -75,7 +84,7 @@ func try_post() -> void:
 
 func post() -> void:
 	if _wait:
-		_input.resume()
+		env_resume()
 		_wait = false
 
 
@@ -84,9 +93,36 @@ func can_post() -> bool:
 
 
 func is_ready() -> bool:
-	return _input.is_ready()
+	return _ready_to_run
 
 
 func run() -> void:
 	if is_ready():
-		_input.run()
+		_input.env.eval_async(_pending_code)
+
+
+func run_code(code: String) -> void:
+	_pending_code = code
+	_ready_to_run = true
+
+
+func run_code_from_input() -> void:
+	run_code(_code_edit.text)
+
+
+func _on_run_pressed() -> void:
+	print("run pressed")
+	run_code_from_input()
+
+
+func _on_env_finished() -> void:
+	_ready_to_run = false
+	as_idle()
+
+
+func env_is_running() -> void:
+	return _input.env.is_running()
+
+
+func env_resume() -> void:
+	_input.env.poll()

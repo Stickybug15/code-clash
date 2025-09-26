@@ -5,17 +5,12 @@ var is_running := false
 var next := false
 
 @onready var camera: PhantomCamera2D = $PhantomCamera
-var players: Array[EntityPlayer]
-
 var syncs: Array[Syncronizer] = []
 
 
 func _ready() -> void:
 	for p: EntityPlayer in find_children("*", "EntityPlayer"):
 		syncs.append(p.sync)
-
-	for p: EntityPlayer in find_children("*", "EntityPlayer"):
-		players.append(p)
 		camera.append_follow_targets(p)
 
 
@@ -30,9 +25,8 @@ func all_idle() -> bool:
 func run_all() -> void:
 	if not all_ready():
 		return
-	for p in players:
-		if not p.input.is_running():
-			p.input.run()
+	for s: Syncronizer in syncs:
+		s.run()
 	is_running = true
 
 
@@ -76,25 +70,9 @@ func execute(_syncs: Array[Syncronizer]) -> void:
 		next = false
 
 
-func play_player() -> void:
-	for c: Entity in find_children("*", "Entity"):
-		c.as_running()
-func pause_player() -> void:
-	for c: Entity in find_children("*", "Entity"):
-		c.as_waiting()
-
-func play_enemy() -> void:
-	for c: Entity in find_children("*", "Entity"):
-		c.as_running()
-func pause_enemy() -> void:
-	for c: Entity in find_children("*", "Entity"):
-		c.as_waiting()
-
-
 func _on_run_pressed() -> void:
-	for c: Entity in find_children("*", "Entity"):
-		if c.input.has_method("_on_run_pressed"):
-			c.input.run()
+	for sync: Syncronizer in syncs:
+		sync.run_code_from_input()
 
 
 func _on_next_pressed() -> void:

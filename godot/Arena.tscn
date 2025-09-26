@@ -57,23 +57,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Run Player"
 
-[node name="VBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
-layout_mode = 2
-
-[node name="PlaybackPlayer" type="HBoxContainer" parent="UI/PlayerEditor/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Play" type="Button" parent="UI/PlayerEditor/VBoxContainer/PlaybackPlayer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Play"
-
-[node name="Pause" type="Button" parent="UI/PlayerEditor/VBoxContainer/PlaybackPlayer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Pause"
-
 [node name="StateChartDebugger" parent="UI/PlayerEditor" instance=ExtResource("1_osepa")]
 custom_minimum_size = Vector2(300, 280)
 layout_mode = 2
@@ -105,23 +88,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Run Enemy"
-
-[node name="VBoxContainer" type="HBoxContainer" parent="UI/EnemyEditor"]
-layout_mode = 2
-
-[node name="PlaybackEnemy" type="HBoxContainer" parent="UI/EnemyEditor/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Play" type="Button" parent="UI/EnemyEditor/VBoxContainer/PlaybackEnemy"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Play"
-
-[node name="Pause" type="Button" parent="UI/EnemyEditor/VBoxContainer/PlaybackEnemy"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Pause"
 
 [node name="StateChartDebugger" parent="UI/EnemyEditor" instance=ExtResource("1_osepa")]
 custom_minimum_size = Vector2(300, 280)
@@ -243,10 +209,6 @@ process_physics_priority = 300
 script = ExtResource("3_llv2m")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
-[connection signal="pressed" from="UI/PlayerEditor/VBoxContainer/PlaybackPlayer/Play" to="Entities" method="play_player"]
-[connection signal="pressed" from="UI/PlayerEditor/VBoxContainer/PlaybackPlayer/Pause" to="Entities" method="pause_player"]
-[connection signal="pressed" from="UI/EnemyEditor/VBoxContainer/PlaybackEnemy/Play" to="Entities" method="play_enemy"]
-[connection signal="pressed" from="UI/EnemyEditor/VBoxContainer/PlaybackEnemy/Pause" to="Entities" method="pause_enemy"]
 [connection signal="pressed" from="UI/Run" to="Entities" method="_on_run_pressed"]
 
 [editable path="Entities/Enemy"]
