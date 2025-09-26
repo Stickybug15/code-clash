@@ -39,13 +39,16 @@ var fall_cmd: Command
 var move_cmd: Command
 
 var _mouse_entered := false
+var sync: Syncronizer
+var input: SimulateInput:
+	get: return sync.input
 
 
 func _ready() -> void:
 	anim_tree.active = true
 	anim_tree_fsm = anim_tree["parameters/playback"]
-	input = SimulateInput.new(self, code_edit, run_button)
-	add_child(input)
+	sync = Syncronizer.new(self, code_edit, run_button)
+	add_child(sync)
 
 	jump_cmd = ImpulseCommand.new()
 	dash_cmd = ImpulseCommand.new()
@@ -86,7 +89,7 @@ func _on_walk_state_entered() -> void:
 		"speed": stats.speed,
 	})
 
-	input._try_wait()
+	sync.try_wait()
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
@@ -99,7 +102,7 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
-		input._try_post()
+		sync.try_post()
 		gsc.send_event("to_idle")
 		return
 
@@ -114,15 +117,14 @@ func _on_run_state_entered() -> void:
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
 	})
-	input._try_wait()
+	sync.try_wait()
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
-
 	move_cmd.execute(self, delta)
 
 	if move_cmd.is_completed(self):
-		input._try_post()
+		sync.try_post()
 		gsc.send_event("to_idle")
 		return
 
@@ -149,7 +151,7 @@ func _on_jump_state_entered() -> void:
 		"time_to_peak": stats.jump_time_to_peak,
 		"direction": Vector2.UP,
 	})
-	input._try_wait()
+	sync.try_wait()
 
 
 func _on_jump_state_physics_processing(delta: float) -> void:
@@ -173,7 +175,7 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 	fall_cmd.execute(self, delta)
 
 	if fall_cmd.is_completed(self):
-		input._try_post()
+		sync.try_post()
 		gsc.send_event("to_grounded")
 
 
@@ -208,7 +210,7 @@ func _on_dash_state_physics_processing(delta: float) -> void:
 		#print("force complete")
 
 	if dash_cmd.is_completed(self):
-		input._try_post()
+		sync.try_post()
 		if dir != 0.0:
 			gsc.send_event("to_walking")
 		else:
@@ -222,7 +224,7 @@ func _on_dash_state_exited() -> void:
 func _on_attack_state_entered() -> void:
 	anim_tree_fsm.travel(&"attack_1")
 
-	input._try_wait()
+	sync.try_wait()
 
 
 func _on_attack_state_physics_processing(delta: float) -> void:
@@ -231,7 +233,7 @@ func _on_attack_state_physics_processing(delta: float) -> void:
 
 
 func _on_attack_state_exited() -> void:
-	input._try_post()
+	sync.try_post()
 
 
 func _on_hurt_state_entered() -> void:

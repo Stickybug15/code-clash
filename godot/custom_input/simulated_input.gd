@@ -12,15 +12,19 @@ var _pending_code: String = ""
 var _to_run := false
 
 # required variables.
-var _entity: Entity
 var _code_edit: TextEdit
 var _run: Button
+var _sync: Syncronizer
 
 
-func _init(entity: Entity, code_edit: TextEdit, run: Button) -> void:
-	_entity = entity
+var env: ScriptEnvironment:
+	get: return _env
+
+
+func _init(sync: Syncronizer, code_edit: TextEdit, run: Button) -> void:
 	_code_edit = code_edit
 	_run = run
+	_sync = sync
 
 	_run.pressed.connect(_on_run_pressed)
 
@@ -149,7 +153,7 @@ func _debug() -> void:
 
 func _actions_press(actions: Dictionary[String, float]) -> void:
 	var tasks: Array[Callable] = []
-	_entity.as_pending()
+	_sync.as_pending()
 	for action_name: String in actions.keys():
 		var task := _action_press.bind(action_name, actions[action_name] as float)
 		tasks.append(task)
@@ -182,7 +186,7 @@ func _on_run_pressed() -> void:
 
 func _on_env_finished() -> void:
 	_to_run = false
-	_entity.as_idle()
+	_sync.as_idle()
 
 
 func resume() -> void:
@@ -205,12 +209,12 @@ func _try_wait() -> void:
 
 func _try_post() -> void:
 	if _wait:
-		_entity.as_waiting()
+		_sync.as_waiting()
 
 
 func post() -> void:
 	if _wait:
-		_entity.input.resume()
+		resume()
 		_wait = false
 
 
