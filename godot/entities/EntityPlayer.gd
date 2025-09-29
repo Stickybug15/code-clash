@@ -38,10 +38,10 @@ var _hit_box: HitBox = $Sprite/HitBox
 var _status_label: Label = $Status
 
 
-var jump_cmd: Command
-var dash_cmd: Command
-var fall_cmd: Command
-var move_cmd: Command
+var jump_cmd: ImpulseCommand
+var dash_cmd: ImpulseCommand
+var fall_cmd: FallCommand
+var move_cmd: MoveInputCommand
 
 var _mouse_entered := false
 var sync: Syncronizer
@@ -162,7 +162,9 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 
 
 # === Jumping State ===
+var _jumping := true
 func _on_jump_state_entered() -> void:
+	_jumping = true
 	anim_tree_fsm.travel(&"jump")
 	anim_tree.get_animation(&"jump").length = stats.jump_time_to_peak
 	jump_cmd.initialize(self, {
@@ -174,10 +176,26 @@ func _on_jump_state_entered() -> void:
 
 
 func _on_jump_state_physics_processing(delta: float) -> void:
-	jump_cmd.execute(self, delta)
+	if _jumping:
+		jump_cmd.execute(self, delta)
 
-	if jump_cmd.is_completed(self):
-		gsc.send_event("to_falling")
+		if jump_cmd.is_completed(self):
+			anim_tree_fsm.travel(&"fall")
+			anim_tree.get_animation(&"fall").length = stats.jump_time_to_descent
+			fall_cmd.initialize(self, {
+				"height": stats.jump_height,
+				"time_to_descent": stats.jump_time_to_descent,
+			})
+			_jumping = false
+	else:
+		fall_cmd.execute(self, delta)
+
+		if fall_cmd.is_completed(self):
+			gsc.send_event("to_grounded")
+
+
+func _on_jump_state_exited() -> void:
+	sync.dequeue()
 
 
 # === Falling State ===
@@ -198,7 +216,8 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 
 
 func _on_falling_state_exited() -> void:
-	sync.dequeue()
+	#sync.dequeue()
+	pass
 
 
 # === Dashing State ===

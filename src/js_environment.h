@@ -29,6 +29,7 @@ public:
   void _eval_pending_code(String code);
 
   void add_method(Ref<Resource> method_info);
+  void add_method_v2(Ref<Resource> method_info);
   void method(Ref<Resource> resource);
   void _method_finished();
 

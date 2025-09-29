@@ -117,6 +117,18 @@ func _init(sync: Syncronizer) -> void:
 	_add_method(action)
 
 
+	action = MethodInput.new()
+	action.object_name = "hero"
+	action.method_name = "attack"
+	action.path = "hero.dev.wait"
+	action.actions = {
+		"attack_1": 0.0,
+	}
+	action.callable = func(info: MethodInput, args: Dictionary) -> void:
+		_actions_press(info.actions)
+	_add_method(action)
+
+
 var methods: Array[MethodInput] = []
 func _add_method(action: MethodInput) -> void:
 	methods.append(action)

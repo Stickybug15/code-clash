@@ -27,6 +27,8 @@ namespace godot {
 void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("add_method", "method_info"),
                        &JSEnvironment::add_method);
+  ClassDB::bind_method(D_METHOD("add_method_v2", "method_info"),
+                       &JSEnvironment::add_method_v2);
   ClassDB::bind_method(D_METHOD("method", "resource"),
                        &JSEnvironment::method);
   ClassDB::bind_method(D_METHOD("eval", "code"), &JSEnvironment::eval);
@@ -346,6 +348,137 @@ duk_ret_t c_function(duk_context *ctx) {
   return 0;
 }
 
+duk_ret_t c_function_v2(duk_context *ctx) {
+  duk_push_current_function(ctx);
+
+  duk_get_prop_string(ctx, -1, "__this");
+  JSEnvironment* self = static_cast<JSEnvironment*>(duk_to_pointer(ctx, -1));
+  duk_pop(ctx);
+
+  duk_get_prop_string(ctx, -1, "__path");
+  const char* path = duk_safe_to_string(ctx, -1);
+  duk_pop(ctx);
+
+  duk_get_prop_string(ctx, -1, "__name");
+  const char *method_name = duk_safe_to_string(ctx, -1);
+  duk_pop(ctx);
+
+  // pop current function
+  duk_pop(ctx);
+
+  Ref<Resource> method_info = self->object_methods[String(path)];
+  String dispatch_name = method_info->get("dispatch_name");
+
+  Dictionary arguments{};
+  Array params = method_info->get("params_schema");
+  int expected_argc = 0;
+  for (Dictionary schema : params) {
+    expected_argc += 1;
+    if (!schema.has("default_value")) {
+      break;
+    }
+  }
+
+  auto type_to_string = [](duk_int_t type, bool is_array = false) -> String {
+    switch (type) {
+    case DUK_TYPE_NULL:
+      return "null";
+    case DUK_TYPE_BOOLEAN:
+      return "boolean";
+    case DUK_TYPE_NUMBER:
+      return "number";
+    case DUK_TYPE_STRING:
+      return "string";
+    case DUK_TYPE_OBJECT:
+      if (is_array) {
+        return "array";
+      } else {
+        return "object";
+      }
+    default:
+      return "undefined";
+    }
+  };
+
+  // TODO: user might add argument even if the method didnt accept any
+  // arguments.
+  int argc = duk_get_top(ctx);
+  for (int i = 0; i < argc; i += 1) {
+    Dictionary schema = params[i];
+    String name = schema["name"];
+    duk_int_t type = duk_get_type(ctx, i);
+    switch (type) {
+    case DUK_TYPE_UNDEFINED:
+      if (schema.has("default_value")) {
+        arguments[name] = schema["default_value"];
+      } else {
+        DUK_THROW("Too few arguments for '{0}' call. Expected at "
+                  "least {1} but received {2}.",
+                  path, expected_argc, i);
+      }
+      break;
+    case DUK_TYPE_NULL:
+      if (schema["type"] == "Nil") {
+        arguments[name] = Variant{};
+      } else {
+        DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "null",
+                  type_to_string(type));
+      }
+      break;
+    case DUK_TYPE_BOOLEAN:
+      if (schema["type"] == "bool") {
+        arguments[name] = duk_get_boolean(ctx, i);
+      } else {
+        DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "bool",
+                  type_to_string(type));
+      }
+      break;
+    case DUK_TYPE_NUMBER:
+      if (schema["type"] == "int" || schema["type"] == "float") {
+        arguments[name] = duk_get_number(ctx, i);
+      } else {
+        DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "number",
+                  type_to_string(type));
+      }
+      break;
+    case DUK_TYPE_STRING:
+      if (schema["type"] == "String") {
+        arguments[name] = duk_get_string(ctx, i);
+      } else {
+        DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "string",
+                  type_to_string(type));
+      }
+      break;
+    case DUK_TYPE_OBJECT:
+      if (schema["type"] == "Array" && duk_is_array(ctx, i)) {
+        arguments[name] = array_to_array(ctx);
+      } else if (schema["type"] == "Dictionary" && duk_is_object(ctx, i)) {
+        arguments[name] = obj_to_dict(ctx);
+      } else {
+        if (schema["type"] == "Array") {
+          DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "Array",
+                    type_to_string(type));
+        } else if (schema["type"] == "Dictionary") {
+          DUK_THROW(TYPE_ERROR_STRING, path, i + 1, "Map",
+                    type_to_string(type));
+        }
+      }
+      break;
+    }
+  }
+
+  Callable cb = method_info->get("callable");
+  if (cb.is_valid()) {
+    cb.call_deferred(method_info, arguments);
+  }
+  // while (self->semaphore->try_wait())
+  //   ;
+  self->call_deferred("emit_signal", "function_invoked");
+  print_line(GD_FORMAT("invoked: {0}", path));
+  // self->semaphore->wait();
+  return 0;
+}
+
 void JSEnvironment::add_method(Ref<Resource> method_info) {
   CharString object_name = ((String)method_info->get("object_name")).ascii();
   CharString method_name = ((String)method_info->get("method_name")).ascii();
@@ -385,6 +518,63 @@ void JSEnvironment::add_method(Ref<Resource> method_info) {
   print_line("registered: ", full_path, " = ",
              duk_has_prop_string(ctx, -1, object_name.ptr()));
   duk_pop(ctx);
+}
+
+void JSEnvironment::add_method_v2(Ref<Resource> method_info) {
+  const String path = (String)method_info->get("path");
+
+  print_line(GD_FORMAT("registering {0}()", path));
+
+  if (object_methods.has(path)) {
+    print_error(path, " already exist. overriding it.");
+  }
+  object_methods[path] = method_info;
+
+  Array method_path = path.split(".", false);
+  const String method_name = method_path.pop_back();
+
+  duk_push_global_object(ctx);
+
+  // TODO: put full path of object to object itself.
+  for (const String component : method_path) {
+    if (duk_has_prop_string(ctx, -1, component.ascii()) != 1) {
+      duk_push_object(ctx);
+
+      // object.__name = component
+      duk_push_string(ctx, component.ascii());
+      duk_put_prop_string(ctx, -2, "__name");
+
+      duk_put_prop_string(ctx, -2, component.ascii());
+    }
+    duk_get_prop_string(ctx, -1, component.ascii());
+  }
+
+  {
+    const duk_int_t argc = ((Array)method_info->get("params_schema")).size();
+    print_line(GD_FORMAT("  {0}({2})", path, argc));
+
+    // &method_path.method_name
+    duk_push_c_function(ctx, c_function_v2, argc);
+
+    // method_name.__this = this
+    duk_push_pointer(ctx, static_cast<void*>(this));
+    duk_put_prop_string(ctx, -2, "__this");
+
+    // method_name.__path = path
+    duk_push_string(ctx, path.ascii());
+    duk_put_prop_string(ctx, -2, "__path");
+
+    // method_name.__name = method_name
+    duk_push_string(ctx, method_name.ascii());
+    duk_put_prop_string(ctx, -2, "__name");
+
+    // method_path.method_name = c_function_v2
+    duk_put_prop_string(ctx, -2, method_name.ascii());
+  }
+
+  duk_pop_n(ctx, duk_get_top(ctx));
+  print_line(GD_FORMAT("  stack top {0}", path));
+  print_line(GD_FORMAT("registered {0}()", path));
 }
 
 JSEnvironment::JSEnvironment() {

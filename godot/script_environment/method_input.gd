@@ -4,6 +4,7 @@ extends Resource
 
 var object_name: String
 var method_name: String
+var path: String
 # key = action, value = duration
 var actions: Dictionary[String, float]
 var callable: Callable
