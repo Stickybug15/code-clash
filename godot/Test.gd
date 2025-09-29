@@ -5,7 +5,6 @@ var env: JSEnvironment = JSEnvironment.new()
 func _ready() -> void:
 	var action := MethodInput.new()
 
-
 	action.path = "hero.dev.wait"
 	action.actions = {}
 	action.callable = func(info: MethodInput, args: Dictionary) -> void:

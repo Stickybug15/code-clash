@@ -470,6 +470,7 @@ duk_ret_t c_function_v2(duk_context *ctx) {
   Callable cb = method_info->get("callable");
   if (cb.is_valid()) {
     cb.call_deferred(method_info, arguments);
+    print_line(GD_FORMAT("callable invoked: {0}, {1}", path, cb));
   }
   // while (self->semaphore->try_wait())
   //   ;

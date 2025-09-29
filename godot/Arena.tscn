@@ -45,9 +45,7 @@ grow_vertical = 2
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "hero.attack()
-hero.jump()
-hero.attack()"
+text = "hero.dev.walk()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2
@@ -96,7 +94,6 @@ custom_minimum_size = Vector2(300, 280)
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_m8h0s")
-initial_node_to_watch = NodePath("../../../Entities/Enemy")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 anchors_preset = 7
@@ -192,14 +189,6 @@ position = Vector2(241, 71)
 code_edit = NodePath("../../UI/PlayerEditor/CodeEdit")
 run_button = NodePath("../../UI/PlayerEditor/HBoxContainer/RunPlayer")
 
-[node name="Enemy" parent="Entities" node_paths=PackedStringArray("code_edit", "run_button") instance=ExtResource("9_25y8y")]
-position = Vector2(271, 71)
-code_edit = NodePath("../../UI/EnemyEditor/CodeEdit")
-run_button = NodePath("../../UI/EnemyEditor/HBoxContainer/RunEnemy")
-
-[node name="HurtBox" parent="Entities/Enemy" index="6"]
-collision_layer = 4
-
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 texture_filter = 1
 position = Vector2(200, 120)
@@ -219,5 +208,3 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [connection signal="pressed" from="UI/HBoxContainer/Run" to="Entities" method="_on_run_pressed"]
 [connection signal="pressed" from="UI/HBoxContainer/Force Run" to="Entities" method="_on_force_run_pressed"]
-
-[editable path="Entities/Enemy"]

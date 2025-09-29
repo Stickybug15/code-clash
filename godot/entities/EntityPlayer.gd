@@ -44,15 +44,18 @@ var fall_cmd: FallCommand
 var move_cmd: MoveInputCommand
 
 var _mouse_entered := false
-var sync: Syncronizer
-var input: SimulateInput:
+@onready
+var sync: Syncronizer = Syncronizer.new(self, code_edit, run_button)
+var input: CustomInput:
 	get: return sync.input
+
+
+var _face_direction := Vector2.RIGHT
 
 
 func _ready() -> void:
 	anim_tree.active = true
 	anim_tree_fsm = anim_tree["parameters/playback"]
-	sync = Syncronizer.new(self, code_edit, run_button)
 	add_child(sync)
 
 	jump_cmd = ImpulseCommand.new()
@@ -81,6 +84,9 @@ func _on_idle_state_entered() -> void:
 
 
 func _on_idle_state_physics_processing(delta: float) -> void:
+	if input.is_action_pressed(StateNames.walk):
+		gsc.send_event(&"to_walking")
+		return
 	if signf(input.get_axis("left", "right")) != 0.0:
 		if input.is_action_pressed("run"):
 			gsc.send_event("to_running")
@@ -101,23 +107,23 @@ func _on_idle_state_exited() -> void:
 
 # === Walking State ===
 func _on_walk_state_entered() -> void:
-	anim_tree_fsm.travel(&"walk")
+	anim_tree_fsm.travel(StateNames.walk)
 
 	move_cmd.initialize(self, {
 		"speed": stats.speed,
 	})
 
-	sprite.scale.x = -1 if input.get_axis("left", "right") < 0.0 else 1
+	sprite.scale.x = _face_direction.x
 	sync.queue()
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
-	if input.is_action_pressed("run"):
-		gsc.send_event("to_running")
-		return
-	if input.is_action_pressed("dash"):
-		gsc.send_event("to_dash")
-		return
+	#if input.is_action_pressed("run"):
+		#gsc.send_event("to_running")
+		#return
+	#if input.is_action_pressed("dash"):
+		#gsc.send_event("to_dash")
+		#return
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
@@ -126,6 +132,7 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 
 
 func _on_walk_state_exited() -> void:
+	input.action_release(StateNames.walk)
 	sync.dequeue()
 
 
@@ -149,6 +156,7 @@ func _on_run_state_physics_processing(delta: float) -> void:
 
 
 func _on_run_state_exited() -> void:
+	input.action_release(StateNames.walk)
 	sync.dequeue()
 
 
@@ -163,6 +171,7 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 
 # === Jumping State ===
 var _jumping := true
+
 func _on_jump_state_entered() -> void:
 	_jumping = true
 	anim_tree_fsm.travel(&"jump")

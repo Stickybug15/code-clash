@@ -116,17 +116,28 @@ func _init(sync: Syncronizer) -> void:
 		_actions_press(info.actions)
 	_add_method(action)
 
+	_init_v2()
 
-	action = MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "attack"
-	action.path = "hero.dev.wait"
-	action.actions = {
-		"attack_1": 0.0,
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		_actions_press(info.actions)
-	_add_method(action)
+
+func _init_v2() -> void:
+	var info := MethodInput.new()
+
+	info.path = "hero.dev.wait"
+	info.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]here[/color]")
+
+	_env.add_method_v2(info)
+
+	info.path = "hero.dev.walk"
+	info.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]here[/color]")
+		action_pressed(StateNames.walk)
+	_env.add_method_v2(info)
+
+	info.path = "hero.dev.run"
+	info.callable = func(info: MethodInput, args: Dictionary) -> void:
+		action_pressed(StateNames.run)
+	_env.add_method_v2(info)
 
 
 var methods: Array[MethodInput] = []
@@ -186,6 +197,14 @@ func clear() -> void:
 	_actions.clear()
 
 # === Overrides ===
+
+func action_pressed(action: StringName) -> void:
+	_actions[action] = true
+
+
+func action_release(action: StringName) -> void:
+	_actions[action] = false
+
 
 func is_action_pressed(action: StringName) -> bool:
 	return _actions.get(action, false)
