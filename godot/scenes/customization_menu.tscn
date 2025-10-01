@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c3jhsr15xuyuq"]
+[gd_scene load_steps=27 format=3 uid="uid://c3jhsr15xuyuq"]
 
 [ext_resource type="Script" uid="uid://ci6ghu68cyk0x" path="res://godot/scenes/CustomizationMenu.gd" id="1_3f7tt"]
 [ext_resource type="Texture2D" uid="uid://cca8d2guqlv0v" path="res://assets/BG_ICONS/PNG/Window01.png" id="1_x3xua"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="6_3f7tt"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="6_b3ioh"]
 [ext_resource type="Texture2D" uid="uid://dufbjhmjeh1pq" path="res://assets/Avatars/PNG/background/1.png" id="8_5q70s"]
-[ext_resource type="Script" uid="uid://c7r7r8l6qe3ul" path="res://godot/scenes/HBoxContainer2.gd" id="8_d3wop"]
 [ext_resource type="Texture2D" uid="uid://wg4o12n54n3g" path="res://assets/Avatars/PNG/without bg/1.png" id="9_mv8gi"]
 [ext_resource type="Texture2D" uid="uid://dks66mgx0kjm" path="res://assets/Avatars/PNG/background/2.png" id="10_e007v"]
 [ext_resource type="Texture2D" uid="uid://chewi8nrm1f15" path="res://assets/Avatars/PNG/without bg/2.png" id="11_m1ako"]
@@ -31,12 +30,40 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dxvok"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x3t8d"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3wop"]
 draw_center = false
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eif5d"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2thl"]
 
 [node name="CustomizationMenu" type="Control"]
 layout_mode = 3
@@ -134,7 +161,6 @@ offset_top = 323.0
 offset_right = 1073.0
 offset_bottom = 436.0
 theme_override_constants/separation = 50
-script = ExtResource("8_d3wop")
 
 [node name="avatar1" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
@@ -208,14 +234,17 @@ theme_override_constants/separation = 100
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxFlat_x3t8d")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_dxvok")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_x3t8d")
 text = "Save"
 
 [node name="Edit" type="Button" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxFlat_d3wop")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_eif5d")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_p2thl")
 text = "Edit"
 
 [connection signal="mouse_entered" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_pressed"]
-[connection signal="mouse_entered" from="TouchScreenButton/HBoxContainer2/avatar1" to="TouchScreenButton/HBoxContainer2" method="_on_avatar_1_mouse_entered"]
