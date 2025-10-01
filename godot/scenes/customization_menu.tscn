@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3jhsr15xuyuq"]
+[gd_scene load_steps=24 format=3 uid="uid://c3jhsr15xuyuq"]
 
 [ext_resource type="Script" uid="uid://ci6ghu68cyk0x" path="res://godot/scenes/CustomizationMenu.gd" id="1_3f7tt"]
 [ext_resource type="Texture2D" uid="uid://cca8d2guqlv0v" path="res://assets/BG_ICONS/PNG/Window01.png" id="1_x3xua"]
@@ -7,9 +7,36 @@
 [ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="5_t8f4u"]
 [ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="6_3f7tt"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="6_b3ioh"]
+[ext_resource type="Texture2D" uid="uid://dufbjhmjeh1pq" path="res://assets/Avatars/PNG/background/1.png" id="8_5q70s"]
+[ext_resource type="Script" uid="uid://c7r7r8l6qe3ul" path="res://godot/scenes/HBoxContainer2.gd" id="8_d3wop"]
+[ext_resource type="Texture2D" uid="uid://wg4o12n54n3g" path="res://assets/Avatars/PNG/without bg/1.png" id="9_mv8gi"]
+[ext_resource type="Texture2D" uid="uid://dks66mgx0kjm" path="res://assets/Avatars/PNG/background/2.png" id="10_e007v"]
+[ext_resource type="Texture2D" uid="uid://chewi8nrm1f15" path="res://assets/Avatars/PNG/without bg/2.png" id="11_m1ako"]
+[ext_resource type="Texture2D" uid="uid://cuyr7b84fkkyi" path="res://assets/Avatars/PNG/background/3.png" id="11_v0a4t"]
+[ext_resource type="Texture2D" uid="uid://3ds50ujc14t6" path="res://assets/Avatars/PNG/background/4.png" id="12_m1ako"]
+[ext_resource type="Texture2D" uid="uid://cltb6n4d5l71i" path="res://assets/Avatars/PNG/without bg/3.png" id="13_d3wop"]
+[ext_resource type="Texture2D" uid="uid://drsbxudy0tgk7" path="res://assets/Avatars/PNG/background/5.png" id="13_x3t8d"]
+[ext_resource type="Texture2D" uid="uid://ysrc3ub7qs0u" path="res://assets/Avatars/PNG/without bg/5.png" id="14_d3wop"]
+[ext_resource type="Texture2D" uid="uid://hab0v0cgib60" path="res://assets/Avatars/PNG/without bg/4.png" id="15_dxvok"]
+[ext_resource type="Texture2D" uid="uid://bekrsvq04hlj1" path="res://assets/Avatars/PNG/background/6.png" id="18_x3t8d"]
+[ext_resource type="Texture2D" uid="uid://dupqa50bm2inr" path="res://assets/Avatars/PNG/without bg/6.png" id="19_d3wop"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2w6sf"]
 texture = ExtResource("1_x3xua")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3t8d"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3wop"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 
 [node name="CustomizationMenu" type="Control"]
 layout_mode = 3
@@ -101,5 +128,94 @@ text = "Avatars"
 horizontal_alignment = 1
 autowrap_mode = 1
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="TouchScreenButton"]
+offset_left = 81.0
+offset_top = 323.0
+offset_right = 1073.0
+offset_bottom = 436.0
+theme_override_constants/separation = 50
+script = ExtResource("8_d3wop")
+
+[node name="avatar1" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("8_5q70s")
+texture_pressed = ExtResource("9_mv8gi")
+texture_hover = ExtResource("9_mv8gi")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar2" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_direction = 1
+layout_mode = 2
+texture_normal = ExtResource("10_e007v")
+texture_pressed = ExtResource("11_m1ako")
+texture_hover = ExtResource("11_m1ako")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar3" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("11_v0a4t")
+texture_pressed = ExtResource("13_d3wop")
+texture_hover = ExtResource("13_d3wop")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar4" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("12_m1ako")
+texture_pressed = ExtResource("15_dxvok")
+texture_hover = ExtResource("15_dxvok")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar5" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("13_x3t8d")
+texture_pressed = ExtResource("14_d3wop")
+texture_hover = ExtResource("14_d3wop")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="avatar6" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture_normal = ExtResource("18_x3t8d")
+texture_pressed = ExtResource("19_d3wop")
+texture_hover = ExtResource("19_d3wop")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_left = 414.0
+offset_top = 533.0
+offset_right = 861.0
+offset_bottom = 621.0
+theme_override_constants/separation = 100
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="save" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_x3t8d")
+text = "Save"
+
+[node name="Edit" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_d3wop")
+text = "Edit"
+
 [connection signal="mouse_entered" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
 [connection signal="pressed" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_pressed"]
+[connection signal="mouse_entered" from="TouchScreenButton/HBoxContainer2/avatar1" to="TouchScreenButton/HBoxContainer2" method="_on_avatar_1_mouse_entered"]
