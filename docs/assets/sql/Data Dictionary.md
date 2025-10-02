@@ -1,0 +1,56 @@
+
+| Name                                | Description                           | Attribute Name        | Attribute Type | Sample                                    | Location                              |
+| :---------------------------------- | :------------------------------------ | :-------------------- | :------------- | :---------------------------------------- | :------------------------------------ |
+| Concept Primary Key                 | Unique identifier for concept         | id                    | UUID           | 123e4567-e89b-12d3-a456-426614174000      | public.concepts                       |
+| Concept Name                        | Name of the programming concept       | name                  | TEXT           | Variables & Data Types                    | public.concepts                       |
+| Concept Description                 | Detailed explanation of concept       | description           | TEXT           | Basic variable declaration and data types | public.concepts                       |
+| Scenario Primary Key                | Unique identifier for scenario        | id                    | UUID           | 123e4567-e89b-12d3-a456-426614174001      | public.scenarios                      |
+| Scenario Concept Foreign Key        | Reference to associated concept       | concept\_id           | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174000      | public.scenarios                      |
+| Scenario Name                       | Name of the scenario/level            | name                  | TEXT           | Variable Basics                           | public.scenarios                      |
+| Scenario Index                      | Order position of scenario            | index                 | INTEGER        | 1                                         | public.scenarios                      |
+| Run Primary Key                     | Unique identifier for player run      | id                    | UUID           | 123e4567-e89b-12d3-a456-426614174002      | public.player\_scenario\_runs         |
+| Run User Foreign Key                | Reference to player                   | user\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174003      | public.player\_scenario\_runs         |
+| Run Scenario Foreign Key            | Reference to scenario                 | scenario\_id          | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174001      | public.player\_scenario\_runs         |
+| Run Speed                           | Completion time in seconds            | speed\_seconds        | FLOAT          | 45.2                                      | public.player\_scenario\_runs         |
+| Run Accuracy                        | Score based on correct lines          | accuracy\_score       | INTEGER        | 95                                        | public.player\_scenario\_runs         |
+| Run Efficiency                      | Score based on tiles used             | efficiency\_score     | FLOAT          | 8.5                                       | public.player\_scenario\_runs         |
+| Run First Completion                | First time completion flag            | is\_first\_completion | BOOLEAN        | TRUE                                      | public.player\_scenario\_runs         |
+| Run Completion Count                | Times scenario completed              | completion\_count     | INTEGER        | 3                                         | public.player\_scenario\_runs         |
+| Run Completion Time                 | When scenario was completed           | completed\_at         | TIMESTAMPTZ    | 2023-10-15 14:30:00+00                    | public.player\_scenario\_runs         |
+| Unlock User Foreign Key             | Reference to player                   | user\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174003      | public.player\_concept\_unlocks       |
+| Unlock Concept Foreign Key          | Reference to concept                  | concept\_id           | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174000      | public.player\_concept\_unlocks       |
+| Unlock Status                       | Whether concept is unlocked           | is\_unlocked          | BOOLEAN        | TRUE                                      | public.player\_concept\_unlocks       |
+| Unlock Time                         | When concept was unlocked             | unlocked\_at          | TIMESTAMPTZ    | 2023-10-15 14:25:00+00                    | public.player\_concept\_unlocks       |
+| Save User Foreign Key               | Reference to player                   | user\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174003      | public.player\_scenario\_saves        |
+| Save Scenario Foreign Key           | Reference to scenario                 | scenario\_id          | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174001      | public.player\_scenario\_saves        |
+| Save Data                           | JSON save state data                  | save\_data            | JSONB          | {"tiles": \["var", "x", "=", "5"\]}       | public.player\_scenario\_saves        |
+| Save Update Time                    | Last save update time                 | updated\_at           | TIMESTAMPTZ    | 2023-10-15 14:35:00+00                    | public.player\_scenario\_saves        |
+| Skin Primary Key                    | Unique identifier for skin            | id                    | UUID           | 123e4567-e89b-12d3-a456-426614174004      | public.skins                          |
+| Skin Identifier                     | Unique skin identifier                | identifier            | TEXT           | "python\_expert"                          | public.skins                          |
+| Skin Name                           | Skin name                             | name                  | TEXT           | "Python Expert"                           | public.skins                          |
+| Skin Cost                           | Cost of the Skin in In-Game Currency  | cost                  | NUMERIC        | 100                                       | public.skins                          |
+| Skin is Purchasable                 | Indication if the Skin is purchasable | purchasable           | BOOLEAN        | TRUE                                      | public.skins                          |
+| Player Skin User Foreign Key        | Reference to player                   | user\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174003      | public.player\_skins                  |
+| Player Skin Foreign Key             | Reference to skin                     | skin\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174004      | public.player\_skins                  |
+| Player Skin Unlock Time             | When skin was unlocked                | unlocked\_at          | TIMESTAMPTZ    | 2023-10-15 14:40:00+00                    | public.player\_skins                  |
+| Selected Skin User Foreign Key      | Reference to player                   | user\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174003      | public.player\_selected\_skin         |
+| Selected Skin Foreign Key           | Reference to selected skin            | skin\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174004      | public.player\_selected\_skin         |
+| Selected Skin Time                  | When skin was selected                | selected\_at          | TIMESTAMPTZ    | 2023-10-15 14:45:00+00                    | public.player\_selected\_skin         |
+| Achievement Primary Key             | Unique identifier for achievement     | id                    | UUID           | 123e4567-e89b-12d3-a456-426614174005      | public.achievements                   |
+| Achievement Name                    | Name of achievement                   | name                  | TEXT           | First Program                             | public.achievements                   |
+| Achievement Description             | Description of achievement            | description           | TEXT           | Completed your first program              | public.achievements                   |
+| Player Achievement User Foreign Key | Reference to player                   | user\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174003      | public.player\_achievements           |
+| Player Achievement Foreign Key      | Reference to achievement              | achievement\_id       | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174005      | public.player\_achievements           |
+| Player Achievement Unlock Time      | When achievement was unlocked         | unlocked\_at          | TIMESTAMPTZ    | 2023-10-15 14:50:00+00                    | public.player\_achievements           |
+| Proficiency User Foreign Key        | Reference to player                   | user\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174003      | public.player\_concept\_proficiencies |
+| Proficiency Concept Foreign Key     | Reference to concept                  | concept\_id           | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174000      | public.player\_concept\_proficiencies |
+| Proficiency Score                   | Player's proficiency score            | proficiency           | FLOAT          | 85.5                                      | public.player\_concept\_proficiencies |
+| Proficiency Update Time             | Last proficiency update               | last\_updated         | TIMESTAMPTZ    | 2023-10-15 14:55:00+00                    | public.player\_concept\_proficiencies |
+| Mastery User Foreign Key            | Reference to player                   | user\_id              | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174003      | public.player\_masteries              |
+| Mastery Score                       | Player's overall mastery              | mastery               | FLOAT          | 78.3                                      | public.player\_masteries              |
+| Mastery Update Time                 | Last mastery update                   | last\_updated         | TIMESTAMPTZ    | 2023-10-15 15:00:00+00                    | public.player\_masteries              |
+| Best Score Scenario Foreign Key     | Reference to scenario                 | scenario\_id          | UUID (FK)      | 123e4567-e89b-12d3-a456-426614174001      | public.scenario\_best\_scores         |
+| Best Speed Score                    | Fastest completion time               | speed\_seconds        | FLOAT          | 30.5                                      | public.scenario\_best\_scores         |
+| Best Accuracy Score                 | Highest accuracy achieved             | accuracy\_score       | INTEGER        | 100                                       | public.scenario\_best\_scores         |
+| Best Efficiency Score               | Most efficient solution               | efficiency\_score     | FLOAT          | 10.0                                      | public.scenario\_best\_scores         |
+| Best Score Update Time              | Last record update                    | updated\_at           | TIMESTAMPTZ    | 2023-10-15 15:05:00+00                    | public.scenario\_best\_scores         |

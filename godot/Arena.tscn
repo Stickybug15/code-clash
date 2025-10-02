@@ -25,7 +25,9 @@ func _on_wall_body_entered(body: Node2D) -> void:
 
 [sub_resource type="Resource" id="Resource_rlytp"]
 script = ExtResource("7_15rco")
+duration = 1.0
 transition = 7
+ease = 2
 metadata/_custom_type_script = "uid://8umksf8e80fw"
 
 [node name="Node2D" type="Node2D"]
