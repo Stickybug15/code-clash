@@ -2,7 +2,7 @@
 
 ## Schema
 
-[Tables](../assets/sql/schema.sql)
+[Tables](../assets/sql/Schema.sql.md)
 
 ## Data Dictionary
 
