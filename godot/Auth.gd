@@ -26,3 +26,23 @@ func register(p_email: String, password: String) -> String:
 	else:
 		_user = task.user
 		return "Success"
+
+
+func login_anon() -> String:
+	var task: AuthTask = Supabase.auth.sign_in_anonymous()
+	task = await task.completed
+	if task.error:
+		return task.error.message
+	else:
+		_user = task.user
+		if _user.is_anonymous:
+			_user.email = "anonymous@email.com"
+		return "Success"
+
+
+func start_offline() -> String:
+	_user = SupabaseUser.new({
+		"email": "Offline"
+	})
+	await get_tree().create_timer(0).timeout
+	return "Success"
