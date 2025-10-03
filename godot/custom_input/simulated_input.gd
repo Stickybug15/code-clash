@@ -120,24 +120,52 @@ func _init(sync: Syncronizer) -> void:
 
 
 func _init_v2() -> void:
-	var info := MethodInput.new()
+	var entry := MethodInput.new()
 
-	info.path = "hero.dev.wait"
-	info.callable = func(info: MethodInput, args: Dictionary) -> void:
-		print_rich("[color=green]here[/color]")
+	entry = MethodInput.new()
+	entry.params_schema = [{
+		"name": "duration",
+		"type": "float",
+		# "default": 1.0,
+	}]
+	entry.path = "hero.dev.wait"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> String:
+		if not args.has("duration"):
+			push_error("missing argument 'duration' for method {0}".format(info.path))
+			return ""
+		print_rich("[color=green]wait[/color]")
+		var duration: float = maxf(args.get("duration", 0.0) as float, EPSILON)
+		get_tree().create_timer(duration).timeout.connect(func() -> void:
+			_sync.resume()
+		)
+		return "wait"
+	_env.add_method_v2(entry)
 
-	_env.add_method_v2(info)
-
-	info.path = "hero.dev.walk"
-	info.callable = func(info: MethodInput, args: Dictionary) -> void:
-		print_rich("[color=green]here[/color]")
+	entry = MethodInput.new()
+	entry.path = "hero.dev.walk"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]walk[/color]")
 		action_pressed(StateNames.walk)
-	_env.add_method_v2(info)
+	_env.add_method_v2(entry)
 
-	info.path = "hero.dev.run"
-	info.callable = func(info: MethodInput, args: Dictionary) -> void:
-		action_pressed(StateNames.run)
-	_env.add_method_v2(info)
+	entry = MethodInput.new()
+	entry.path = "hero.dev.face_left"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]face_left[/color]")
+		action_pressed(StateNames.left)
+	_env.add_method_v2(entry)
+
+	#entry.path = "hero.dev.face_right"
+	#entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		#print_rich("[color=green]face_right[/color]")
+		#action_pressed(StateNames.right)
+	#_env.add_method_v2(info)
+
+	#info.path = "hero.dev.run"
+	#info.callable = func(info: MethodInput, args: Dictionary) -> void:
+		#print_rich("[color=green]run[/color]")
+		#action_pressed(StateNames.run)
+	#_env.add_method_v2(info)
 
 
 var methods: Array[MethodInput] = []

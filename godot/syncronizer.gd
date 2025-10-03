@@ -24,7 +24,7 @@ var _ready_to_resume: bool = false
 
 var status: Status:
 	get: return _status
-var input: CustomInput:
+var input: SimulateInput:
 	get: return _input
 
 
