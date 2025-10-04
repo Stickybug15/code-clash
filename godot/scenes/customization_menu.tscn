@@ -23,12 +23,7 @@
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2w6sf"]
 texture = ExtResource("1_x3xua")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3t8d"]
-draw_center = false
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x3t8d"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dxvok"]
 content_margin_left = 4.0
@@ -42,14 +37,14 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x3t8d"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3wop"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3t8d"]
 draw_center = false
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2thl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eif5d"]
 content_margin_left = 4.0
@@ -63,7 +58,12 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_p2thl"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d3wop"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 
 [node name="CustomizationMenu" type="Control"]
 layout_mode = 3
@@ -233,17 +233,17 @@ theme_override_constants/separation = 100
 [node name="save" type="Button" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_x3t8d")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_dxvok")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_x3t8d")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_dxvok")
+theme_override_styles/hover = SubResource("StyleBoxFlat_x3t8d")
 text = "Save"
 
 [node name="Edit" type="Button" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_d3wop")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_eif5d")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_p2thl")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_eif5d")
+theme_override_styles/hover = SubResource("StyleBoxFlat_d3wop")
 text = "Edit"
 
 [connection signal="mouse_entered" from="TouchScreenButton/Exit_Button" to="TouchScreenButton/Exit_Button" method="_on_mouse_entered"]

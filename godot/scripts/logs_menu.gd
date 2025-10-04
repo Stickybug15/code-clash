@@ -14,8 +14,18 @@ func _on_register_botton_pressed() -> void:
 
 
 func _on_offline_botton_pressed() -> void:
-	get_tree().change_scene_to_file("res://godot/scenes/game_interface.tscn")
+	var status: String = await Auth.start_offline()
+
+	if status == "Success":
+		get_tree().change_scene_to_file("res://godot/scenes/game_interface.tscn")
 
 
 func _on_mouse_entered() -> void:
 	hover_sfx.play()
+
+
+func _on_anon_button_pressed() -> void:
+	var status: String = await Auth.login_anon()
+
+	if status == "Success":
+		get_tree().change_scene_to_file("res://godot/scenes/game_interface.tscn")

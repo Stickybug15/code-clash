@@ -4,6 +4,7 @@ extends Command
 
 var sprite: AnimatedSprite2D
 var speed: float = 0
+var direction: float
 
 var input: CustomInput
 
@@ -15,12 +16,13 @@ func _init(input: CustomInput, sprite: AnimatedSprite2D) -> void:
 
 func initialize(actor: CharacterBody2D, msg: Dictionary = {}) -> void:
 	speed = get_var(msg, "speed", typeof(speed))
+	direction = get_var(msg, "direction", typeof(direction))
 
 	_to_active()
 
 
 func execute(actor: EntityPlayer, delta: float) -> void:
-	var direction: float = input.get_axis("left", "right")
+	var direction: float = signf(direction)
 
 	if direction:
 		actor.velocity.x = move_toward(actor.velocity.x, direction * speed, speed * 0.5)

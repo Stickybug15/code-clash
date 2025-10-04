@@ -132,6 +132,16 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_nj70s")
+text = "OFFLINE"
+
+[node name="anon_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nj70s")
 text = "ANONYMOUS"
 
 [connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/login_button" to="." method="_on_mouse_entered"]
@@ -140,3 +150,5 @@ text = "ANONYMOUS"
 [connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/register_button" to="." method="_on_register_botton_pressed"]
 [connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/offline_button" to="." method="_on_mouse_entered"]
 [connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/offline_button" to="." method="_on_offline_botton_pressed"]
+[connection signal="mouse_entered" from="Control/VBoxContainer/HBoxContainer/anon_button" to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="Control/VBoxContainer/HBoxContainer/anon_button" to="." method="_on_anon_button_pressed"]

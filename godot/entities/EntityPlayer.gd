@@ -46,7 +46,7 @@ var move_cmd: MoveInputCommand
 var _mouse_entered := false
 @onready
 var sync: Syncronizer = Syncronizer.new(self, code_edit, run_button)
-var input: CustomInput:
+var input: SimulateInput:
 	get: return sync.input
 
 
@@ -111,6 +111,7 @@ func _on_walk_state_entered() -> void:
 
 	move_cmd.initialize(self, {
 		"speed": stats.speed,
+		"direction": _face_direction.x
 	})
 
 	sprite.scale.x = _face_direction.x
