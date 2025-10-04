@@ -45,10 +45,13 @@ grow_vertical = 2
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "hero.dev.wait(1)
-hero.dev.walk()
-hero.dev.wait(1)
-"
+text = "function walk_left() {
+  hero.dev.walk()
+  hero.dev.wait(1)
+  hero.dev.face_left()
+}
+
+walk_left()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2

@@ -234,8 +234,17 @@ func action_release(action: StringName) -> void:
 	_actions[action] = false
 
 
+func all_action_release(actions: Array[StringName]) -> void:
+	for action: StringName in actions:
+		action_release(action)
+
+
 func is_action_pressed(action: StringName) -> bool:
 	return _actions.get(action, false)
+
+
+func is_any_action_pressed(actions: Array[StringName]) -> bool:
+	return actions.any(func(a: StringName) -> bool: return _actions.get(a, false))
 
 
 func get_axis(negative_action: StringName, positive_action: StringName) -> float:

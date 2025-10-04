@@ -116,15 +116,12 @@ func _on_walk_state_entered() -> void:
 
 	sprite.scale.x = _face_direction.x
 	sync.queue()
+	print("entered: Walk State")
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
-	#if input.is_action_pressed("run"):
-		#gsc.send_event("to_running")
-		#return
-	#if input.is_action_pressed("dash"):
-		#gsc.send_event("to_dash")
-		#return
+	if input.is_any_action_pressed([StateNames.left, StateNames.right]):
+		gsc.send_event(&"to_face_direction")
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
@@ -322,3 +319,15 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 
 	if area is HitBox:
 		take_damage(area.damage)
+
+
+func _on_face_direction_state_entered() -> void:
+	if input.is_any_action_pressed([StateNames.left, StateNames.right]):
+		return
+	if input.is_action_pressed(StateNames.left):
+		_face_direction = Vector2.LEFT
+	elif input.is_action_pressed(StateNames.right):
+		_face_direction = Vector2.RIGHT
+	input.all_action_release([StateNames.left, StateNames.right])
+	gsc.send_event(&"to_face_direction_resume")
+	print("entered: History State")

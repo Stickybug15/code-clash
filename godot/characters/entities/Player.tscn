@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://bcbu4qmsumgm8"]
+[gd_scene load_steps=62 format=3 uid="uid://bcbu4qmsumgm8"]
 
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="1_kw088"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="2_i0s5h"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://df5xyaap2vwpi" path="res://godot/hit_box.gd" id="10_sk81y"]
 [ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="10_wvh0p"]
 [ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="11_msno0"]
+[ext_resource type="Script" uid="uid://b4dwolbvt8our" path="res://addons/godot_state_charts/history_state.gd" id="11_vq287"]
 
 [sub_resource type="Theme" id="Theme_30ba4"]
 default_font_size = 7
@@ -578,6 +579,25 @@ script = ExtResource("7_vfsdm")
 script = ExtResource("8_0k5uw")
 initial_state = NodePath("Idle")
 
+[node name="FaceDirection" type="Node" parent="StateChart/ParallelState/Locomotion"]
+script = ExtResource("9_7pvmf")
+
+[node name="ResumeFaceDirectionResume" type="Node" parent="StateChart/ParallelState/Locomotion/FaceDirection"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../../FaceDirectionResume")
+event = &"to_"
+delay_in_seconds = "0.0"
+
+[node name="FaceDirectionResume" type="Node" parent="StateChart/ParallelState/Locomotion"]
+script = ExtResource("11_vq287")
+default_state = NodePath("../Idle")
+
+[node name="ToFaceDirection" type="Node" parent="StateChart/ParallelState/Locomotion"]
+script = ExtResource("10_wvh0p")
+to = NodePath("../FaceDirection")
+event = &"to_face_direction"
+delay_in_seconds = "0.0"
+
 [node name="Idle" type="Node" parent="StateChart/ParallelState/Locomotion"]
 script = ExtResource("9_7pvmf")
 
@@ -776,6 +796,7 @@ shape = SubResource("RectangleShape2D_30ba4")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/FaceDirection" to="." method="_on_face_direction_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_exited"]
 [connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_physics_processing"]
