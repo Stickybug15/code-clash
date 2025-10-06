@@ -4,7 +4,7 @@ extends CustomInput
 # this epsilon is too big, but using 0.01 doesn't work.
 var EPSILON: float = 0.1
 
-var _env: ScriptEnvironment = ScriptEnvironment.new()
+var _env: JSEnvironment = JSEnvironment.new()
 
 var _actions: Dictionary[String, bool] = {}
 var _timers: Array[Timer] = []
@@ -13,7 +13,7 @@ var _timers: Array[Timer] = []
 var _sync: Syncronizer
 
 
-var env: ScriptEnvironment:
+var env: JSEnvironment:
 	get: return _env
 
 
