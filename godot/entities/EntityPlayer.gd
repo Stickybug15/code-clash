@@ -111,7 +111,7 @@ func _on_walk_state_entered() -> void:
 
 	move_cmd.initialize(self, {
 		"speed": stats.speed,
-		"direction": _face_direction
+		"direction": _face_direction,
 	})
 
 	sprite.scale.x = _face_direction
@@ -119,8 +119,9 @@ func _on_walk_state_entered() -> void:
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
-	if input.is_any_action_pressed([StateNames.left, StateNames.right]):
-		_update_face_direction()
+	_update_face_direction()
+	if input.is_action_pressed(StateNames.run):
+		gsc.send_event("to_running")
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
@@ -137,21 +138,25 @@ func _on_run_state_entered() -> void:
 	anim_tree_fsm.travel(&"run")
 	move_cmd.initialize(self, {
 		"speed": stats.running_speed,
+		"direction": _face_direction,
 	})
 
 	sprite.scale.x = -1 if input.get_axis("left", "right") < 0.0 else 1
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
-	move_cmd.execute(self, delta)
+	_update_face_direction()
+	if input.is_action_pressed(StateNames.walk):
+		gsc.send_event("to_walking")
 
+	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
 		gsc.send_event("to_idle")
 		return
 
 
 func _on_run_state_exited() -> void:
-	input.action_release(StateNames.walk)
+	input.action_release(StateNames.run)
 
 
 # === Grounded State ===
@@ -311,7 +316,14 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 
 
 func _update_face_direction() -> void:
-	_face_direction = input.get_axis(StateNames.left, StateNames.right)
+	if not input.is_any_action_pressed([StateNames.left, StateNames.right]):
+		return
+
+	var new_direction := input.get_axis(StateNames.left, StateNames.right)
+	if is_equal_approx(_face_direction, new_direction):
+		return
+
+	_face_direction = new_direction
 	input.all_action_release([StateNames.left, StateNames.right])
 
 	sprite.scale.x = _face_direction

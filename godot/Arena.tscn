@@ -47,19 +47,16 @@ layout_mode = 2
 theme = ExtResource("1_m8h0s")
 text = "function start() {
   hero.dev.walk()
-  hero.dev.print(\"walk done\")
   hero.dev.wait(1)
-  hero.dev.print(\"wait done\")
   hero.dev.face_left()
-  hero.dev.print(\"face_left done\")
   hero.dev.wait(1)
-  hero.dev.print(\"wait done\")
+  hero.dev.run()
   hero.dev.face_right()
-  hero.dev.print(\"face_right done\")
+  hero.dev.wait(1)
+  hero.dev.face_left()
 }
 
-start()
-hero.dev.print(\"start done\")"
+start()"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2

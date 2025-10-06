@@ -172,11 +172,12 @@ func _init_v2() -> void:
 		print_rich("[color=green]USER[/color]: ", args["str"])
 	_env.add_method_v2(entry)
 
-	#info.path = "hero.dev.run"
-	#info.callable = func(info: MethodInput, args: Dictionary) -> void:
-		#print_rich("[color=green]run[/color]")
-		#action_pressed(StateNames.run)
-	#_env.add_method_v2(info)
+	entry = MethodInput.new()
+	entry.path = "hero.dev.run"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]run[/color]")
+		action_pressed(StateNames.run)
+	_env.add_method_v2(entry)
 
 
 var methods: Array[MethodInput] = []
