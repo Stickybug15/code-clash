@@ -51,6 +51,7 @@ var input: SimulateInput:
 
 
 var _face_direction := 1.0
+var _return_state := ""
 
 
 func _ready() -> void:
@@ -122,6 +123,14 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 	_update_face_direction()
 	if input.is_action_pressed(StateNames.run):
 		gsc.send_event("to_running")
+		return
+	if input.is_action_pressed(StateNames.jump):
+		gsc.send_event("to_jump")
+		return
+	if input.is_action_pressed(StateNames.dash):
+		_return_state = "to_walking"
+		gsc.send_event("to_dash")
+		return
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
@@ -141,13 +150,19 @@ func _on_run_state_entered() -> void:
 		"direction": _face_direction,
 	})
 
-	sprite.scale.x = -1 if input.get_axis("left", "right") < 0.0 else 1
-
 
 func _on_run_state_physics_processing(delta: float) -> void:
 	_update_face_direction()
 	if input.is_action_pressed(StateNames.walk):
 		gsc.send_event("to_walking")
+		return
+	if input.is_action_pressed(StateNames.jump):
+		gsc.send_event("to_jump")
+		return
+	if input.is_action_pressed(StateNames.dash):
+		_return_state = "to_running"
+		gsc.send_event("to_dash")
+		return
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
@@ -172,6 +187,8 @@ func _on_grounded_state_physics_processing(delta: float) -> void:
 var _jumping := true
 
 func _on_jump_state_entered() -> void:
+	input.action_release(StateNames.jump)
+
 	_jumping = true
 	anim_tree_fsm.travel(&"jump")
 	anim_tree.get_animation(&"jump").length = stats.jump_time_to_peak
@@ -228,17 +245,16 @@ func _on_falling_state_exited() -> void:
 
 # === Dashing State ===
 func _on_dash_state_entered() -> void:
+	input.action_release(StateNames.dash)
 	anim_tree_fsm.travel(&"dash")
 	anim_tree["parameters/dash/TimeScale/scale"] = stats.dash_duration
 
 	dash_cmd.initialize(self, {
 		"magnitude": stats.dash_distance,
 		"time_to_peak": stats.dash_duration,
-		"direction": Vector2(input.get_axis("left", "right"),  0),
+		"direction": Vector2(_face_direction, 0.0),
 		"preserve_velocity": true,
 	})
-
-	sprite.scale.x = -1 if input.get_axis("left", "right") < 0.0 else 1
 
 	dash_cmd.actived.connect(
 		gsc.set_expression_property.bind(&"is_dash_applied", true),
@@ -251,16 +267,8 @@ func _on_dash_state_entered() -> void:
 func _on_dash_state_physics_processing(delta: float) -> void:
 	dash_cmd.execute(self, delta)
 
-	var dir: float = signf(input.get_axis("left", "right"))
-	#if dir != 0.0 and signf(velocity.x) != dir:
-		#dash_cmd.complete(self)
-		#print("force complete")
-
 	if dash_cmd.is_completed(self):
-		if dir != 0.0:
-			gsc.send_event("to_walking")
-		else:
-			gsc.send_event("to_idle")
+		gsc.send_event(_return_state)
 
 
 func _on_dash_state_exited() -> void:

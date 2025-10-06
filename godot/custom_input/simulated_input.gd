@@ -179,6 +179,20 @@ func _init_v2() -> void:
 		action_pressed(StateNames.run)
 	_env.add_method_v2(entry)
 
+	entry = MethodInput.new()
+	entry.path = "hero.dev.jump"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]jump[/color]")
+		action_pressed(StateNames.jump)
+	_env.add_method_v2(entry)
+
+	entry = MethodInput.new()
+	entry.path = "hero.dev.dash"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]dash[/color]")
+		action_pressed(StateNames.dash)
+	_env.add_method_v2(entry)
+
 
 var methods: Array[MethodInput] = []
 func _add_method(action: MethodInput) -> void:
