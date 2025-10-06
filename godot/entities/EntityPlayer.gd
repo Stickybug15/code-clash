@@ -45,7 +45,7 @@ var move_cmd: MoveInputCommand
 
 var _mouse_entered := false
 @onready
-var sync := SyncronizerV2.new(code_edit, run_button)
+var sync := Syncronizer.new(code_edit, run_button)
 var input: SimulateInput:
 	get: return sync.input
 

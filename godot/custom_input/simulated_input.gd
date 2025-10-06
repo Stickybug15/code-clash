@@ -10,14 +10,14 @@ var _actions: Dictionary[String, bool] = {}
 var _timers: Array[Timer] = []
 
 # required variables.
-var _sync: SyncronizerV2
+var _sync: Syncronizer
 
 
 var env: ScriptEnvironment:
 	get: return _env
 
 
-func _init(sync: SyncronizerV2) -> void:
+func _init(sync: Syncronizer) -> void:
 	_sync = sync
 	# TODO: investigate why isn't showing any errors(in env) when passing arguments to methods that doesn't have parameters
 	var action := MethodInput.new()

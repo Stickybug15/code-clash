@@ -4,7 +4,7 @@ extends Node
 var is_running := false
 
 @onready var camera: PhantomCamera2D = $PhantomCamera
-var syncs: Array[SyncronizerV2] = []
+var syncs: Array[Syncronizer] = []
 
 
 func _ready() -> void:
@@ -14,7 +14,7 @@ func _ready() -> void:
 
 
 func all_ready() -> bool:
-	return syncs.all(func(s: SyncronizerV2) -> bool: return s.is_ready())
+	return syncs.all(func(s: Syncronizer) -> bool: return s.is_ready())
 
 
 func _physics_process(delta: float) -> void:
@@ -22,6 +22,6 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_run_pressed() -> void:
-	for sync: SyncronizerV2 in syncs:
+	for sync: Syncronizer in syncs:
 		sync.run_code_from_input()
 		sync.run()

@@ -1,4 +1,4 @@
-class_name SyncronizerV2
+class_name Syncronizer
 extends Node
 
 var _code_edit: TextEdit
