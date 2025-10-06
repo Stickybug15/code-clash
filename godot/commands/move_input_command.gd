@@ -6,11 +6,8 @@ var sprite: AnimatedSprite2D
 var speed: float = 0
 var direction: float
 
-var input: CustomInput
 
-
-func _init(input: CustomInput, sprite: AnimatedSprite2D) -> void:
-	self.input = input
+func _init(sprite: AnimatedSprite2D) -> void:
 	self.sprite = sprite
 
 
@@ -30,3 +27,7 @@ func execute(actor: EntityPlayer, delta: float) -> void:
 		actor.velocity.x = move_toward(actor.velocity.x, 0, speed * 0.2)
 		if is_zero_approx(actor.velocity.x):
 			_to_complete()
+
+
+func change_direction(direction: float) -> void:
+	self.direction = signf(direction)

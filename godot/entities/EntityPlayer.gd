@@ -45,12 +45,12 @@ var move_cmd: MoveInputCommand
 
 var _mouse_entered := false
 @onready
-var sync: Syncronizer = Syncronizer.new(self, code_edit, run_button)
+var sync := SyncronizerV2.new(code_edit, run_button)
 var input: SimulateInput:
 	get: return sync.input
 
 
-var _face_direction := Vector2.RIGHT
+var _face_direction := 1.0
 
 
 func _ready() -> void:
@@ -61,7 +61,7 @@ func _ready() -> void:
 	jump_cmd = ImpulseCommand.new()
 	dash_cmd = ImpulseCommand.new()
 	fall_cmd = FallCommand.new()
-	move_cmd = MoveInputCommand.new(input, sprite)
+	move_cmd = MoveInputCommand.new(sprite)
 
 	input.env.started.connect(func() -> void:
 		_status_label.text = "Env is Started")
@@ -111,17 +111,16 @@ func _on_walk_state_entered() -> void:
 
 	move_cmd.initialize(self, {
 		"speed": stats.speed,
-		"direction": _face_direction.x
+		"direction": _face_direction
 	})
 
-	sprite.scale.x = _face_direction.x
-	sync.queue()
+	sprite.scale.x = _face_direction
 	print("entered: Walk State")
 
 
 func _on_walk_state_physics_processing(delta: float) -> void:
 	if input.is_any_action_pressed([StateNames.left, StateNames.right]):
-		gsc.send_event(&"to_face_direction")
+		_update_face_direction()
 
 	move_cmd.execute(self, delta)
 	if move_cmd.is_completed(self):
@@ -131,7 +130,6 @@ func _on_walk_state_physics_processing(delta: float) -> void:
 
 func _on_walk_state_exited() -> void:
 	input.action_release(StateNames.walk)
-	sync.dequeue()
 
 
 #  === Running State === TODO: Duplicate of Walking State, but with different speed.
@@ -142,7 +140,6 @@ func _on_run_state_entered() -> void:
 	})
 
 	sprite.scale.x = -1 if input.get_axis("left", "right") < 0.0 else 1
-	sync.queue()
 
 
 func _on_run_state_physics_processing(delta: float) -> void:
@@ -155,7 +152,6 @@ func _on_run_state_physics_processing(delta: float) -> void:
 
 func _on_run_state_exited() -> void:
 	input.action_release(StateNames.walk)
-	sync.dequeue()
 
 
 # === Grounded State ===
@@ -179,7 +175,6 @@ func _on_jump_state_entered() -> void:
 		"time_to_peak": stats.jump_time_to_peak,
 		"direction": Vector2.UP,
 	})
-	sync.queue()
 
 
 func _on_jump_state_physics_processing(delta: float) -> void:
@@ -202,7 +197,7 @@ func _on_jump_state_physics_processing(delta: float) -> void:
 
 
 func _on_jump_state_exited() -> void:
-	sync.dequeue()
+	pass
 
 
 # === Falling State ===
@@ -223,7 +218,6 @@ func _on_falling_state_physics_processing(delta: float) -> void:
 
 
 func _on_falling_state_exited() -> void:
-	#sync.dequeue()
 	pass
 
 
@@ -247,7 +241,6 @@ func _on_dash_state_entered() -> void:
 	dash_cmd.completed.connect(
 		gsc.set_expression_property.bind(&"is_dash_applied", false),
 		ConnectFlags.CONNECT_ONE_SHOT)
-	sync.queue()
 
 
 func _on_dash_state_physics_processing(delta: float) -> void:
@@ -267,13 +260,10 @@ func _on_dash_state_physics_processing(delta: float) -> void:
 
 func _on_dash_state_exited() -> void:
 	anim_tree["parameters/dash/TimeScale/scale"] = 1.0
-	sync.dequeue()
 
 
 func _on_attack_state_entered() -> void:
 	anim_tree_fsm.travel(&"attack_1")
-
-	sync.queue()
 
 
 func _on_attack_state_physics_processing(delta: float) -> void:
@@ -282,14 +272,13 @@ func _on_attack_state_physics_processing(delta: float) -> void:
 
 
 func _on_attack_state_exited() -> void:
-	sync.dequeue()
+	pass
 
 
 func _on_hurt_state_entered() -> void:
 	# TODO: delaying sending event to gsc by one frame will fix the issue of immidiately switching to to_idle animation.
 	# will be using .start for temporary fix.
 	anim_tree_fsm.start(&"hurt")
-	sync.queue_reset()
 	velocity = Vector2.ZERO
 
 
@@ -321,13 +310,9 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 		take_damage(area.damage)
 
 
-func _on_face_direction_state_entered() -> void:
-	if input.is_any_action_pressed([StateNames.left, StateNames.right]):
-		return
-	if input.is_action_pressed(StateNames.left):
-		_face_direction = Vector2.LEFT
-	elif input.is_action_pressed(StateNames.right):
-		_face_direction = Vector2.RIGHT
+func _update_face_direction() -> void:
+	_face_direction = input.get_axis(StateNames.left, StateNames.right)
 	input.all_action_release([StateNames.left, StateNames.right])
-	gsc.send_event(&"to_face_direction_resume")
-	print("entered: History State")
+
+	sprite.scale.x = _face_direction
+	move_cmd.change_direction(_face_direction)

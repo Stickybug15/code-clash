@@ -10,16 +10,15 @@ var _actions: Dictionary[String, bool] = {}
 var _timers: Array[Timer] = []
 
 # required variables.
-var _sync: Syncronizer
+var _sync: SyncronizerV2
 
 
 var env: ScriptEnvironment:
 	get: return _env
 
 
-func _init(sync: Syncronizer) -> void:
+func _init(sync: SyncronizerV2) -> void:
 	_sync = sync
-
 	# TODO: investigate why isn't showing any errors(in env) when passing arguments to methods that doesn't have parameters
 	var action := MethodInput.new()
 	action.object_name = "hero"
@@ -155,11 +154,23 @@ func _init_v2() -> void:
 		action_pressed(StateNames.left)
 	_env.add_method_v2(entry)
 
-	#entry.path = "hero.dev.face_right"
-	#entry.callable = func(info: MethodInput, args: Dictionary) -> void:
-		#print_rich("[color=green]face_right[/color]")
-		#action_pressed(StateNames.right)
-	#_env.add_method_v2(info)
+	entry = MethodInput.new()
+	entry.path = "hero.dev.face_right"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]face_right[/color]")
+		action_pressed(StateNames.right)
+	_env.add_method_v2(entry)
+
+	entry = MethodInput.new()
+	entry.path = "hero.dev.print"
+	entry.params_schema = [{
+		"name": "str",
+		"type": "String",
+		# "default": 1.0,
+	}]
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]USER[/color]: ", args["str"])
+	_env.add_method_v2(entry)
 
 	#info.path = "hero.dev.run"
 	#info.callable = func(info: MethodInput, args: Dictionary) -> void:
@@ -194,7 +205,7 @@ func _debug() -> void:
 
 func _actions_press(actions: Dictionary[String, float]) -> void:
 	var tasks: Array[Callable] = []
-	_sync.as_pending()
+	#_sync.as_pending()
 	for action_name: String in actions.keys():
 		var task := _action_press.bind(action_name, actions[action_name] as float)
 		tasks.append(task)

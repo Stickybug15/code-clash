@@ -45,13 +45,21 @@ grow_vertical = 2
 custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 theme = ExtResource("1_m8h0s")
-text = "function walk_left() {
+text = "function start() {
   hero.dev.walk()
+  hero.dev.print(\"walk done\")
   hero.dev.wait(1)
+  hero.dev.print(\"wait done\")
   hero.dev.face_left()
+  hero.dev.print(\"face_left done\")
+  hero.dev.wait(1)
+  hero.dev.print(\"wait done\")
+  hero.dev.face_right()
+  hero.dev.print(\"face_right done\")
 }
 
-walk_left()"
+start()
+hero.dev.print(\"start done\")"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/PlayerEditor"]
 layout_mode = 2
@@ -118,12 +126,6 @@ custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 size_flags_vertical = 8
 text = "Run"
-
-[node name="Force Run" type="Button" parent="UI/HBoxContainer"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-size_flags_vertical = 8
-text = "Force Run"
 
 [node name="Background" type="Node2D" parent="."]
 texture_filter = 1
@@ -213,4 +215,3 @@ script = ExtResource("3_llv2m")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [connection signal="pressed" from="UI/HBoxContainer/Run" to="Entities" method="_on_run_pressed"]
-[connection signal="pressed" from="UI/HBoxContainer/Force Run" to="Entities" method="_on_force_run_pressed"]
