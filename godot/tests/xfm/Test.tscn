@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8u4r8dibjia4"]
+
+[ext_resource type="Script" uid="uid://r7wj8xf4sp1a" path="res://addons/xsm/state.gd" id="1_aahrl"]
+[ext_resource type="Script" uid="uid://bmut7h8c46xqp" path="res://godot/tests/xfm/First.gd" id="2_13bna"]
+[ext_resource type="Script" uid="uid://b4v0mtlhlfink" path="res://godot/tests/xfm/Second.gd" id="3_oc0n8"]
+
+[sub_resource type="GDScript" id="GDScript_raae0"]
+script/source = "extends Node2D
+
+var test_name := \"Testing\"
+
+
+func _ready() -> void:
+	pass
+"
+
+[node name="Test" type="Node2D"]
+script = SubResource("GDScript_raae0")
+
+[node name="State" type="Node" parent="."]
+script = ExtResource("1_aahrl")
+history_size = 0
+history_mode = 1
+disabled = false
+debug_mode = true
+target_path = NodePath("..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="First" type="Node" parent="State"]
+script = ExtResource("2_13bna")
+disabled = false
+debug_mode = false
+target_path = NodePath("../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("../Second")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Second" type="Node" parent="State"]
+script = ExtResource("3_oc0n8")
+disabled = false
+debug_mode = false
+target_path = NodePath("../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("../First")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
