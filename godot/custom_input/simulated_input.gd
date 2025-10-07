@@ -25,6 +25,8 @@ var env: JSEnvironment:
 
 func _init(sync: Syncronizer) -> void:
 	_sync = sync
+	env.finished.connect(func() -> void:
+		clear())
 	var entry := MethodInput.new()
 
 	entry = MethodInput.new()
@@ -53,8 +55,11 @@ func _init(sync: Syncronizer) -> void:
 	entry.type = entry.Type.WAIT
 	entry.path = "hero.dev.wait_for_action"
 	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> bool:
-		print_rich("[color=green]wait_for_action[/color]")
-		action_deactivated.connect(func() -> void:
+		print_rich("[color=green]wait_for_action[/color]: ", _is_action_active)
+		if not _is_action_active:
+			return false
+		print_rich("[color=green]connect[/color]")
+		action_deactivated.connect.call_deferred(func() -> void:
 			_sync.resume(), ConnectFlags.CONNECT_ONE_SHOT)
 		return true
 	_env.add_method_v2(entry)
@@ -72,6 +77,7 @@ func _init(sync: Syncronizer) -> void:
 	entry.path = "hero.dev.face_left"
 	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]face_left[/color]")
+		action_release(StateNames.right)
 		action_pressed(StateNames.left)
 	_env.add_method_v2(entry)
 
@@ -80,6 +86,7 @@ func _init(sync: Syncronizer) -> void:
 	entry.path = "hero.dev.face_right"
 	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]face_right[/color]")
+		action_release(StateNames.left)
 		action_pressed(StateNames.right)
 	_env.add_method_v2(entry)
 

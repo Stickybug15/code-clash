@@ -10,8 +10,6 @@ extends EntityState
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
 	super(_args)
-	agent.input.resume_if_waiting()
-	agent.input.action_release(StateNames.dash)
 	agent.anim_tree_fsm.travel(&"dash")
 	agent.anim_tree["parameters/dash/TimeScale/scale"] = agent.stats.dash_duration
 
@@ -33,7 +31,9 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	pass
+	agent.input.resume_if_waiting()
+	agent.input.action_as_active()
+	agent.input.action_release(StateNames.dash)
 
 
 # This function is called each frame if the state is ACTIVE
@@ -42,7 +42,11 @@ func _on_update(_delta: float) -> void:
 	agent.dash_cmd.execute(agent, _delta)
 
 	if agent.dash_cmd.is_completed(self):
-		change_to_next()
+		if next_state.is_empty():
+			change_state(&"Idle")
+		else:
+			change_to_next()
+			next_state = ^""
 
 
 # This function is called each frame after all the update calls
@@ -60,6 +64,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
+	agent.input.action_as_inactive()
 	agent.anim_tree["parameters/dash/TimeScale/scale"] = 1.0
 
 

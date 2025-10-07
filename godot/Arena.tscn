@@ -46,16 +46,17 @@ layout_mode = 2
 theme = ExtResource("1_m8h0s")
 text = "function start() {
   hero.dev.walk()
-  hero.dev.wait(1)
-  hero.dev.dash()
-  hero.dev.wait(1)
-  hero.dev.face_left()
-  hero.dev.wait(1)
-  hero.dev.dash()
-  hero.dev.wait(1)
+  hero.dev.wait(0.5)
   hero.dev.jump()
-  hero.dev.wait(2)
+  hero.dev.wait_for_action()
+  hero.dev.face_left()
+  hero.dev.wait_for_action()
+  hero.dev.dash()
+  hero.dev.wait_for_action()
+  hero.dev.jump()
+  hero.dev.wait_for_action()
   hero.dev.idle()
+  hero.dev.face_right()
 }
 
 start()"

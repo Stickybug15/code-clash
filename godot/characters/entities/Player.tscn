@@ -577,7 +577,7 @@ shape = SubResource("RectangleShape2D_30ba4")
 
 [node name="XSM" type="Node" parent="."]
 script = ExtResource("13_8ct1f")
-history_size = []
+history_size = 0
 history_mode = 0
 disabled = false
 debug_mode = true
@@ -654,14 +654,14 @@ debug_mode = false
 target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
-next_state = NodePath("../FaceDirection")
+next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
 [node name="FaceDirection" type="Node" parent="XSM/Locomotion"]
 script = ExtResource("14_1ea8k")
 disabled = false
 debug_mode = false
-target_path = NodePath("")
+target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
 next_state = NodePath("")

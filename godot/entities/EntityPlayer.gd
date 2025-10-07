@@ -112,7 +112,8 @@ func should_change_face_direction() -> bool:
 	var new_direction := input.get_axis(StateNames.left, StateNames.right)
 	if is_equal_approx(_face_direction, new_direction):
 		return false
-	#var current_state: State = (locomotion_state.get_active_substate() as State)
+	var current_state: State = (locomotion_state.get_active_substate() as State)
+	_xsm.get_state(&"FaceDirection").next_state = current_state.get_path()
 	_xsm.change_state(&"FaceDirection", new_direction)
 	return true
 

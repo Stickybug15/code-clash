@@ -10,7 +10,6 @@ extends EntityState
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
 	super(_args)
-	agent.input.resume_if_waiting()
 	# TODO: delaying sending event to gsc by one frame will fix the issue of immidiately switching to to_idle animation.
 	# will be using .start for temporary fix.
 	agent.anim_tree_fsm.start(&"hurt")
@@ -20,7 +19,8 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	pass
+	agent.input.resume_if_waiting()
+	agent.input.action_as_active()
 
 
 # This function is called each frame if the state is ACTIVE
@@ -45,7 +45,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	pass
+	agent.input.action_as_inactive()
 
 
 # when StateAutomaticTimer timeout()

@@ -10,7 +10,6 @@ extends EntityState
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
 	super(_args)
-	agent.input.resume_if_waiting()
 	agent.anim_tree_fsm.travel(&"idle")
 
 	agent.velocity = Vector2.ZERO
@@ -19,12 +18,14 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	pass
+	agent.input.resume_if_waiting()
 
 
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
+	if agent.should_change_face_direction():
+		return
 	if agent.input.is_action_pressed(StateNames.walk):
 		change_state(&"Walk")
 		return
