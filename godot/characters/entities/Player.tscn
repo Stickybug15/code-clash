@@ -574,100 +574,40 @@ metadata/_edit_lock_ = true
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_30ba4")
 
-[node name="State" type="Node" parent="."]
-script = ExtResource("12_5d35a")
-history_size = 0
-history_mode = 1
+[node name="XSM" type="Node" parent="."]
+script = ExtResource("13_8ct1f")
+history_size = []
+history_mode = 0
 disabled = false
-debug_mode = true
+debug_mode = false
 target_path = NodePath("..")
 timed = false
 remember_active_substate = false
 next_state = NodePath("")
-metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+metadata/_custom_type_script = "uid://d2mox8uo8hlhf"
 
-[node name="Region" type="Node" parent="State"]
-script = ExtResource("13_8ct1f")
+[node name="Locomotion" type="Node" parent="XSM"]
+script = ExtResource("12_5d35a")
 disabled = false
 debug_mode = false
 target_path = NodePath("../..")
 timed = false
 remember_active_substate = false
 next_state = NodePath("")
-metadata/_custom_type_script = "uid://d2mox8uo8hlhf"
-
-[node name="Locomotion" type="Node" parent="State/Region"]
-script = ExtResource("12_5d35a")
-disabled = false
-debug_mode = false
-target_path = NodePath("../../..")
-timed = false
-remember_active_substate = false
-next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
-[node name="Idle" type="Node" parent="State/Region/Locomotion"]
+[node name="Idle" type="Node" parent="XSM/Locomotion"]
 script = ExtResource("14_8ct1f")
 disabled = false
 debug_mode = false
-target_path = NodePath("../../../..")
+target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
 next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
-[node name="Walk" type="Node" parent="State/Region/Locomotion"]
+[node name="Walk" type="Node" parent="XSM/Locomotion"]
 script = ExtResource("15_4ibv7")
-disabled = false
-debug_mode = false
-target_path = NodePath("../../../..")
-timed = false
-remember_active_substate = false
-next_state = NodePath("")
-metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
-
-[node name="Run" type="Node" parent="State/Region/Locomotion"]
-script = ExtResource("16_xbht4")
-disabled = false
-debug_mode = false
-target_path = NodePath("../../../..")
-timed = false
-remember_active_substate = false
-next_state = NodePath("")
-metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
-
-[node name="Dash" type="Node" parent="State/Region/Locomotion"]
-script = ExtResource("17_up1en")
-disabled = false
-debug_mode = false
-target_path = NodePath("../../../..")
-timed = false
-remember_active_substate = false
-next_state = NodePath("")
-metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
-
-[node name="Attack" type="Node" parent="State/Region/Locomotion"]
-script = ExtResource("18_ejfb4")
-disabled = false
-debug_mode = false
-target_path = NodePath("../../../..")
-timed = false
-remember_active_substate = false
-next_state = NodePath("")
-metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
-
-[node name="Hurt" type="Node" parent="State/Region/Locomotion"]
-script = ExtResource("19_5uxna")
-disabled = false
-debug_mode = false
-target_path = NodePath("../../../..")
-timed = false
-remember_active_substate = false
-next_state = NodePath("")
-metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
-
-[node name="AirBorne" type="Node" parent="State/Region"]
-script = ExtResource("12_5d35a")
 disabled = false
 debug_mode = false
 target_path = NodePath("../../..")
@@ -676,31 +616,81 @@ remember_active_substate = false
 next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
-[node name="Ground" type="Node" parent="State/Region/AirBorne"]
+[node name="Run" type="Node" parent="XSM/Locomotion"]
+script = ExtResource("16_xbht4")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Dash" type="Node" parent="XSM/Locomotion"]
+script = ExtResource("17_up1en")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Attack" type="Node" parent="XSM/Locomotion"]
+script = ExtResource("18_ejfb4")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Hurt" type="Node" parent="XSM/Locomotion"]
+script = ExtResource("19_5uxna")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="AirBorne" type="Node" parent="XSM"]
+script = ExtResource("12_5d35a")
+disabled = false
+debug_mode = false
+target_path = NodePath("../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Ground" type="Node" parent="XSM/AirBorne"]
 script = ExtResource("20_ykgx1")
 disabled = false
 debug_mode = false
-target_path = NodePath("../../../..")
+target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
 next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
-[node name="Fall" type="Node" parent="State/Region/AirBorne"]
+[node name="Fall" type="Node" parent="XSM/AirBorne"]
 script = ExtResource("21_lbvv7")
 disabled = false
 debug_mode = false
-target_path = NodePath("../../../..")
+target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
 next_state = NodePath("")
 metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
 
-[node name="Jump" type="Node" parent="State/Region/AirBorne"]
+[node name="Jump" type="Node" parent="XSM/AirBorne"]
 script = ExtResource("22_m0dk7")
 disabled = false
 debug_mode = false
-target_path = NodePath("../../../..")
+target_path = NodePath("../../..")
 timed = false
 remember_active_substate = false
 next_state = NodePath("")

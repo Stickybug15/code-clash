@@ -10,30 +10,31 @@ var stats: EntityStats
 
 @onready
 var anim_tree: AnimationTree = $AnimationTree
-var anim_tree_fsm: AnimationNodeStateMachinePlayback
+@onready
+var anim_tree_fsm: AnimationNodeStateMachinePlayback = anim_tree["parameters/playback"]
 @onready
 var sprite: AnimatedSprite2D = $Sprite
 
 @onready
-var idle_state: State = $State/Region/Locomotion/Idle
+var idle_state: State = $XSM/Locomotion/Idle
 @onready
-var walk_state: State = $State/Region/Locomotion/Walk
+var walk_state: State = $XSM/Locomotion/Walk
 @onready
-var run_state: State = $State/Region/Locomotion/Run
+var run_state: State = $XSM/Locomotion/Run
 @onready
-var dash_state: State = $State/Region/Locomotion/Dash
+var dash_state: State = $XSM/Locomotion/Dash
 
 @onready
-var grounded_state: State = $State/Region/AirBorne/Ground
+var grounded_state: State = $XSM/AirBorne/Ground
 @onready
-var falling_state: State = $State/Region/AirBorne/Fall
+var falling_state: State = $XSM/AirBorne/Fall
 @onready
-var jump_state: State = $State/Region/AirBorne/Jump
+var jump_state: State = $XSM/AirBorne/Jump
 
 @onready
-var locomotion_state: State = $State/Region/Locomotion
+var locomotion_state: State = $XSM/Locomotion
 @onready
-var air_borne_state: State = $State/Region/AirBorne
+var air_borne_state: State = $XSM/AirBorne
 
 @onready
 var _hit_box: HitBox = $Sprite/HitBox
@@ -41,7 +42,7 @@ var _hit_box: HitBox = $Sprite/HitBox
 var _status_label: Label = $Status
 
 @onready
-var _states: State = $State
+var _xsm: State = $XSM
 
 var jump_cmd: ImpulseCommand
 var dash_cmd: ImpulseCommand
@@ -62,7 +63,6 @@ var _return_state := ""
 
 func _ready() -> void:
 	anim_tree.active = true
-	anim_tree_fsm = anim_tree["parameters/playback"]
 	add_child(sync)
 
 	jump_cmd = ImpulseCommand.new()
