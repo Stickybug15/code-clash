@@ -57,7 +57,6 @@ var input: SimulateInput:
 
 
 var _face_direction := 1.0
-var _jumping := false
 var _return_state := ""
 
 
@@ -115,7 +114,6 @@ func _update_face_direction() -> void:
 		return
 
 	_face_direction = new_direction
-	input.all_action_release([StateNames.left, StateNames.right])
 
 	sprite.scale.x = _face_direction
 	move_cmd.change_direction(_face_direction)

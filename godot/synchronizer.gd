@@ -24,7 +24,6 @@ func _init(code_edit: TextEdit, run: Button) -> void:
 
 
 func resume() -> void:
-	_input.clear()
 	_input.env.poll()
 
 

@@ -55,6 +55,7 @@ text = "function start() {
   hero.dev.wait(1)
   hero.dev.jump()
   hero.dev.wait(2)
+  hero.dev.idle()
 }
 
 start()"

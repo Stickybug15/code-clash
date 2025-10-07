@@ -27,16 +27,13 @@ func _on_update(_delta: float) -> void:
 	if agent.input.is_action_pressed(StateNames.walk):
 		change_state(&"Walk")
 		return
-	if signf(agent.input.get_axis("left", "right")) != 0.0:
-		if agent.input.is_action_pressed("run"):
-			change_state(&"Run")
-		elif agent.input.is_action_pressed("dash"):
-			change_state(&"Dash")
-		else:
-			change_state(&"Walk")
+	if agent.input.is_action_pressed(StateNames.run):
+		change_state(&"Run")
 		return
-
-	if agent.input.is_action_pressed("attack_1"):
+	if agent.input.is_action_pressed(StateNames.dash):
+		change_state(&"Dash")
+		return
+	if agent.input.is_action_pressed(StateNames.attack):
 		change_state(&"Attack")
 		return
 

@@ -39,7 +39,7 @@ func _on_update(_delta: float) -> void:
 		return
 
 	agent.move_cmd.execute(agent, _delta)
-	if agent.move_cmd.is_completed(self):
+	if not agent.input.is_action_pressed(StateNames.run):
 		change_state(&"Idle")
 		return
 
@@ -59,7 +59,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	agent.input.action_release(StateNames.run)
+	pass
 
 
 # when StateAutomaticTimer timeout()

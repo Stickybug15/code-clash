@@ -193,6 +193,14 @@ func _init_v2() -> void:
 		action_pressed(StateNames.dash)
 	_env.add_method_v2(entry)
 
+	entry = MethodInput.new()
+	entry.path = "hero.dev.idle"
+	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+		print_rich("[color=green]idle[/color]")
+		action_release(StateNames.walk)
+		action_release(StateNames.run)
+	_env.add_method_v2(entry)
+
 
 var methods: Array[MethodInput] = []
 func _add_method(action: MethodInput) -> void:
@@ -253,10 +261,12 @@ func clear() -> void:
 # === Overrides ===
 
 func action_pressed(action: StringName) -> void:
+	print_rich("[color=cyan]action_pressed[/color](", action, ")")
 	_actions[action] = true
 
 
 func action_release(action: StringName) -> void:
+	print_rich("[color=cyan]action_release[/color](", action, ")")
 	_actions[action] = false
 
 
@@ -270,7 +280,7 @@ func is_action_pressed(action: StringName) -> bool:
 
 
 func is_any_action_pressed(actions: Array[StringName]) -> bool:
-	return actions.any(func(a: StringName) -> bool: return _actions.get(a, false))
+	return actions.any(func(a: StringName) -> bool: return is_action_pressed(a))
 
 
 func get_axis(negative_action: StringName, positive_action: StringName) -> float:

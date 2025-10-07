@@ -1,6 +1,7 @@
 @tool
 extends EntityState
 
+var _jumping := false
 
 #
 # FUNCTIONS TO INHERIT IN YOUR STATES
@@ -12,7 +13,7 @@ func _on_enter(_args) -> void:
 	super(_args)
 	agent.input.action_release(StateNames.jump)
 
-	agent._jumping = true
+	_jumping = true
 	agent.anim_tree_fsm.travel(&"jump")
 	agent.anim_tree.get_animation(&"jump").length = agent.stats.jump_time_to_peak
 	agent.jump_cmd.initialize(agent, {
@@ -31,7 +32,7 @@ func _after_enter(_args) -> void:
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
-	if agent._jumping:
+	if _jumping:
 		agent.jump_cmd.execute(agent, _delta)
 
 		if agent.jump_cmd.is_completed(agent):
@@ -41,7 +42,7 @@ func _on_update(_delta: float) -> void:
 				"height": agent.stats.jump_height,
 				"time_to_descent": agent.stats.jump_time_to_descent,
 			})
-			agent._jumping = false
+			_jumping = false
 	else:
 		agent.fall_cmd.execute(agent, _delta)
 
