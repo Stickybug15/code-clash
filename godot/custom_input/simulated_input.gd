@@ -12,6 +12,12 @@ var _timers: Array[Timer] = []
 # required variables.
 var _sync: Syncronizer
 
+var _is_action_active := false
+signal action_activated
+signal action_deactivated
+
+var state_can_resume := true
+
 
 var env: JSEnvironment:
 	get: return _env
@@ -19,183 +25,104 @@ var env: JSEnvironment:
 
 func _init(sync: Syncronizer) -> void:
 	_sync = sync
-	# TODO: investigate why isn't showing any errors(in env) when passing arguments to methods that doesn't have parameters
-	var action := MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "jump"
-	action.actions = {
-		"jump": 0.0
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		#fsm.ctx.populate_from_dict({
-			#"args": args,
-			#"method_name": info.method_name,
-		#})
-		_actions_press(info.actions)
-	_add_method(action)
-
-
-	action = MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "walk_left"
-	action.actions = {
-		"left": 0.5
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		_actions_press(info.actions)
-	_add_method(action)
-
-
-	action = MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "walk_right"
-	action.actions = {
-		"right": 0.5
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		_actions_press(info.actions)
-	_add_method(action)
-
-
-	action = MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "dash_left"
-	action.actions = {
-		"left": 0.0,
-		"dash": 0.0,
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		_actions_press(info.actions)
-	_add_method(action)
-
-
-	action = MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "dash_right"
-	action.actions = {
-		"right": 0.0,
-		"dash": 0.0,
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		_actions_press(info.actions)
-	_add_method(action)
-
-
-	action = MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "run_left"
-	action.actions = {
-		"run": 0.5,
-		"left": 0.5,
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		_actions_press(info.actions)
-	_add_method(action)
-
-
-	action = MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "run_right"
-	action.actions = {
-		"run": 0.5,
-		"right": 0.5,
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		_actions_press(info.actions)
-	_add_method(action)
-
-
-	action = MethodInput.new()
-	action.object_name = "hero"
-	action.method_name = "attack"
-	action.actions = {
-		"attack_1": 0.0,
-	}
-	action.callable = func(info: MethodInput, args: Dictionary) -> void:
-		_actions_press(info.actions)
-	_add_method(action)
-
-	_init_v2()
-
-
-func _init_v2() -> void:
 	var entry := MethodInput.new()
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.WAIT
 	entry.params_schema = [{
 		"name": "duration",
 		"type": "float",
 		# "default": 1.0,
 	}]
 	entry.path = "hero.dev.wait"
-	entry.callable = func(info: MethodInput, args: Dictionary) -> String:
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> bool:
 		if not args.has("duration"):
 			push_error("missing argument 'duration' for method {0}".format(info.path))
-			return ""
+			return false
+		state_can_resume = false
 		print_rich("[color=green]wait[/color]")
 		var duration: float = maxf(args.get("duration", 0.0) as float, EPSILON)
 		get_tree().create_timer(duration).timeout.connect(func() -> void:
 			_sync.resume()
+			state_can_resume = true
 		)
-		return "wait"
+		return true
 	_env.add_method_v2(entry)
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.WAIT
+	entry.path = "hero.dev.wait_for_action"
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> bool:
+		print_rich("[color=green]wait_for_action[/color]")
+		action_deactivated.connect(func() -> void:
+			_sync.resume(), ConnectFlags.CONNECT_ONE_SHOT)
+		return true
+	_env.add_method_v2(entry)
+
+	entry = MethodInput.new()
+	entry.type = entry.Type.ACTION
 	entry.path = "hero.dev.walk"
-	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]walk[/color]")
 		action_pressed(StateNames.walk)
 	_env.add_method_v2(entry)
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.ACTION
 	entry.path = "hero.dev.face_left"
-	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]face_left[/color]")
 		action_pressed(StateNames.left)
 	_env.add_method_v2(entry)
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.ACTION
 	entry.path = "hero.dev.face_right"
-	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]face_right[/color]")
 		action_pressed(StateNames.right)
 	_env.add_method_v2(entry)
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.MISC
 	entry.path = "hero.dev.print"
 	entry.params_schema = [{
 		"name": "str",
 		"type": "String",
 		# "default": 1.0,
 	}]
-	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.post_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]USER[/color]: ", args["str"])
 	_env.add_method_v2(entry)
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.ACTION
 	entry.path = "hero.dev.run"
-	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]run[/color]")
 		action_pressed(StateNames.run)
 	_env.add_method_v2(entry)
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.ACTION
 	entry.path = "hero.dev.jump"
-	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]jump[/color]")
 		action_pressed(StateNames.jump)
 	_env.add_method_v2(entry)
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.ACTION
 	entry.path = "hero.dev.dash"
-	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]dash[/color]")
 		action_pressed(StateNames.dash)
 	_env.add_method_v2(entry)
 
 	entry = MethodInput.new()
+	entry.type = entry.Type.ACTION
 	entry.path = "hero.dev.idle"
-	entry.callable = func(info: MethodInput, args: Dictionary) -> void:
+	entry.pre_callable = func(info: MethodInput, args: Dictionary) -> void:
 		print_rich("[color=green]idle[/color]")
 		action_release(StateNames.walk)
 		action_release(StateNames.run)
@@ -257,6 +184,21 @@ func _action_press(action_name: StringName, duration: float) -> void:
 func clear() -> void:
 	# TODO: how about the timers?
 	_actions.clear()
+
+
+func action_as_active() -> void:
+	_is_action_active = true
+	action_activated.emit()
+
+
+func action_as_inactive() -> void:
+	_is_action_active = false
+	action_deactivated.emit()
+
+
+func resume_if_waiting() -> void:
+	if env.is_paused() and state_can_resume:
+		env.poll()
 
 # === Overrides ===
 

@@ -10,6 +10,7 @@ extends EntityState
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
 	super(_args)
+	agent.input.resume_if_waiting()
 	agent.anim_tree_fsm.travel(StateNames.walk)
 
 	agent.move_cmd.initialize(agent, {

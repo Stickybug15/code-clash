@@ -113,6 +113,7 @@ func _update_face_direction() -> void:
 	if is_equal_approx(_face_direction, new_direction):
 		return
 
+	input.resume_if_waiting()
 	_face_direction = new_direction
 
 	sprite.scale.x = _face_direction

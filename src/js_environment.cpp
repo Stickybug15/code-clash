@@ -38,11 +38,14 @@ void JSEnvironment::_bind_methods() {
                        &JSEnvironment::_method_finished);
 
   ClassDB::bind_method(D_METHOD("is_running"), &JSEnvironment::is_running);
+  ClassDB::bind_method(D_METHOD("is_paused"), &JSEnvironment::is_paused);
 
   ADD_SIGNAL(MethodInfo("started"));
   ADD_SIGNAL(MethodInfo("finished"));
   ADD_SIGNAL(MethodInfo("function_invoked"));
 }
+
+bool JSEnvironment::is_paused() const { return paused; }
 
 bool JSEnvironment::is_running() const { return running; }
 
@@ -111,6 +114,7 @@ void JSEnvironment::_eval_pending_code(String code) {
 
 void JSEnvironment::_method_finished() {
   semaphore->post();
+  paused = false;
 }
 
 void JSEnvironment::method(Ref<Resource> resource) {
@@ -468,26 +472,45 @@ duk_ret_t c_function_v2(duk_context *ctx) {
     }
   }
 
-  Callable cb = method_info->get("callable");
-  String cmd = "";
-  if (cb.is_valid()) {
-    Variant var = cb.call(method_info, arguments);
-    if (var.get_type() == Variant::Type::STRING) {
-      cmd = var;
-      print_line(GD_FORMAT("callable invoked: {0}, {1} with cmd: {2}", path, cb, cmd));
-    } else {
-    }
-    print_line(GD_FORMAT("callable invoked: {0}, {1}", path, cb));
-  }
-  self->call("emit_signal", "function_invoked");
-  print_line(GD_FORMAT("invoked: {0}", path));
+  int type = method_info->get("type");
 
-  if (cmd == "wait") {
-    print_line(GD_FORMAT("cmd: {0}", cmd));
+  Callable pre_cb = method_info->get("pre_callable");
+  Callable post_cb = method_info->get("post_callable");
+
+  const auto pause = [self]() {
+    self->paused = true;
     while (self->semaphore->try_wait())
       ;
     self->semaphore->wait();
+  };
+
+  switch (type) {
+    case 0: { // ACTION
+      pre_cb.call(method_info, arguments);
+      print_line(GD_FORMAT("invoked: {0}", path));
+      pause();
+    } break;
+
+    case 1: { // WAIT
+      Variant ret = pre_cb.call(method_info, arguments);
+      self->call("emit_signal", "function_invoked");
+
+      if (ret.get_type() != Variant::Type::BOOL) {
+        break;
+      }
+
+      if (ret.booleanize()) {
+        pause();
+      }
+    } break;
+
+    case 2: { // MISC
+      post_cb.call(method_info, arguments);
+      print_line(GD_FORMAT("invoked: {0}", path));
+    } break;
   }
+  print_line(GD_FORMAT("callable invoked: {0}, {1}", path, pre_cb));
+
   return 0;
 }
 

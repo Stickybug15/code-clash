@@ -10,6 +10,7 @@ extends EntityState
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
 	super(_args)
+	agent.input.resume_if_waiting()
 	agent.input.action_release(StateNames.dash)
 	agent.anim_tree_fsm.travel(&"dash")
 	agent.anim_tree["parameters/dash/TimeScale/scale"] = agent.stats.dash_duration
