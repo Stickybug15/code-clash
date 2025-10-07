@@ -30,7 +30,8 @@ func _after_enter(_args) -> void:
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
-	agent._update_face_direction()
+	if agent.should_change_face_direction():
+		return
 	if agent.input.is_action_pressed(StateNames.run):
 		change_state(&"Run")
 		return

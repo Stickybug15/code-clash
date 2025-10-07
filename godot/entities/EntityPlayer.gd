@@ -105,6 +105,18 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 		take_damage(area.damage)
 
 
+func should_change_face_direction() -> bool:
+	if not input.is_any_action_pressed([StateNames.left, StateNames.right]):
+		return false
+
+	var new_direction := input.get_axis(StateNames.left, StateNames.right)
+	if is_equal_approx(_face_direction, new_direction):
+		return false
+	#var current_state: State = (locomotion_state.get_active_substate() as State)
+	_xsm.change_state(&"FaceDirection", new_direction)
+	return true
+
+
 func _update_face_direction() -> void:
 	if not input.is_any_action_pressed([StateNames.left, StateNames.right]):
 		return

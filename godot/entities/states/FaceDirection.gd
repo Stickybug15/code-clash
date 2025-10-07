@@ -1,49 +1,31 @@
 @tool
 extends EntityState
 
-
 #
 # FUNCTIONS TO INHERIT IN YOUR STATES
 #
 
 # This function is called when the state enters
 # XSM enters the root first, the the children
-func _on_enter(_args) -> void:
-	super(_args)
+func _on_enter(new_direction: float) -> void:
+	super(new_direction)
 	agent.input.resume_if_waiting()
-	agent.anim_tree_fsm.travel(&"run")
-	agent.move_cmd.initialize(agent, {
-		"speed": agent.stats.running_speed,
-		"direction": agent._face_direction,
-	})
+	agent._face_direction = new_direction
+
+	agent.sprite.scale.x = new_direction
+	agent.move_cmd.change_direction(new_direction)
 
 
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	pass
+	change_state(&"Idle")
 
 
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
-	if agent.should_change_face_direction():
-		return
-	if agent.input.is_action_pressed(StateNames.walk):
-		change_state(&"Walk")
-		return
-	if agent.input.is_action_pressed(StateNames.jump):
-		change_state(&"Jump") # TODO: what?
-		return
-	if agent.input.is_action_pressed(StateNames.dash):
-		get_state(&"Dash").next_state = get_state(&"Run").get_path()
-		change_state(&"Dash")
-		return
-
-	agent.move_cmd.execute(agent, _delta)
-	if not agent.input.is_action_pressed(StateNames.run):
-		change_state(&"Idle")
-		return
+	pass
 
 
 # This function is called each frame after all the update calls

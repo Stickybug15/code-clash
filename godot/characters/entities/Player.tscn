@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://bcbu4qmsumgm8"]
+[gd_scene load_steps=66 format=3 uid="uid://bcbu4qmsumgm8"]
 
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="1_kw088"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="2_i0s5h"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://df5xyaap2vwpi" path="res://godot/hit_box.gd" id="10_sk81y"]
 [ext_resource type="Script" uid="uid://r7wj8xf4sp1a" path="res://addons/xsm/state.gd" id="12_5d35a"]
 [ext_resource type="Script" uid="uid://d2mox8uo8hlhf" path="res://addons/xsm/state_regions.gd" id="13_8ct1f"]
+[ext_resource type="Script" uid="uid://cvj343cjn6iph" path="res://godot/entities/states/FaceDirection.gd" id="14_1ea8k"]
 [ext_resource type="Script" uid="uid://c1whup4d8abr" path="res://godot/entities/states/Idle.gd" id="14_8ct1f"]
 [ext_resource type="Script" uid="uid://dpucuykthrc7s" path="res://godot/entities/states/Walk.gd" id="15_4ibv7"]
 [ext_resource type="Script" uid="uid://s64hdw6gghs2" path="res://godot/entities/states/Run.gd" id="16_xbht4"]
@@ -651,6 +652,16 @@ script = ExtResource("19_5uxna")
 disabled = false
 debug_mode = false
 target_path = NodePath("../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("../FaceDirection")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="FaceDirection" type="Node" parent="XSM/Locomotion"]
+script = ExtResource("14_1ea8k")
+disabled = false
+debug_mode = false
+target_path = NodePath("")
 timed = false
 remember_active_substate = false
 next_state = NodePath("")
