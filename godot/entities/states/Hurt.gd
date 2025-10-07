@@ -1,5 +1,5 @@
 @tool
-extends State
+extends EntityState
 
 
 #
@@ -9,7 +9,11 @@ extends State
 # This function is called when the state enters
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
-	pass
+	super(_args)
+	# TODO: delaying sending event to gsc by one frame will fix the issue of immidiately switching to to_idle animation.
+	# will be using .start for temporary fix.
+	agent.anim_tree_fsm.start(&"hurt")
+	agent.velocity = Vector2.ZERO
 
 
 # This function is called just after the state enters
@@ -21,7 +25,8 @@ func _after_enter(_args) -> void:
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
-	pass
+	if agent.anim_tree_fsm.get_current_node() == "idle":
+		change_state(&"Idle")
 
 
 # This function is called each frame after all the update calls

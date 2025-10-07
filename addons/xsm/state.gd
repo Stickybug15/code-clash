@@ -137,6 +137,8 @@ var target_path: NodePath
 #
 enum {INACTIVE, ENTERING, ACTIVE, EXITING}
 var status := INACTIVE
+var active: bool:
+	get: return status == ACTIVE
 var state_root: State = null
 var target: Node = null
 # You can change the above line by the following one to be able to use
@@ -206,8 +208,9 @@ func _ready() -> void:
 			# The state map's dict allows to find easily a state
 			state_map[name] = self
 			_init_children_state_map(state_map)
-			# inits status and enters if needed
-			_init_status_active()
+			# Initializes this state and enters it, but defers the call at the end of frame
+			# so that any parent of this state has a chance to finish their _ready() methods first.
+			_init_status_active.call_deferred()
 
 	# In Editor only
 	else:

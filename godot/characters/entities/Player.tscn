@@ -1,16 +1,21 @@
-[gd_scene load_steps=61 format=3 uid="uid://bcbu4qmsumgm8"]
+[gd_scene load_steps=65 format=3 uid="uid://bcbu4qmsumgm8"]
 
 [ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="1_kw088"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="2_i0s5h"]
 [ext_resource type="PackedScene" uid="uid://t1cq0num0y7h" path="res://godot/characters/sprites/LuneBlade.tscn" id="5_h78px"]
-[ext_resource type="Script" uid="uid://couw105c3bde4" path="res://addons/godot_state_charts/state_chart.gd" id="6_wiru1"]
-[ext_resource type="Script" uid="uid://c1vp0ojjvaby1" path="res://addons/godot_state_charts/parallel_state.gd" id="7_vfsdm"]
-[ext_resource type="Script" uid="uid://jk2jm1g6q853" path="res://addons/godot_state_charts/compound_state.gd" id="8_0k5uw"]
-[ext_resource type="Script" uid="uid://cytafq8i1y8qm" path="res://addons/godot_state_charts/atomic_state.gd" id="9_7pvmf"]
 [ext_resource type="Script" uid="uid://biyeafyja5f6p" path="res://godot/hurt_box.gd" id="10_30ba4"]
 [ext_resource type="Script" uid="uid://df5xyaap2vwpi" path="res://godot/hit_box.gd" id="10_sk81y"]
-[ext_resource type="Script" uid="uid://cf1nsco3w0mf6" path="res://addons/godot_state_charts/transition.gd" id="10_wvh0p"]
-[ext_resource type="Script" uid="uid://le5w1cm0ul8p" path="res://addons/godot_state_charts/expression_guard.gd" id="11_msno0"]
+[ext_resource type="Script" uid="uid://r7wj8xf4sp1a" path="res://addons/xsm/state.gd" id="12_5d35a"]
+[ext_resource type="Script" uid="uid://d2mox8uo8hlhf" path="res://addons/xsm/state_regions.gd" id="13_8ct1f"]
+[ext_resource type="Script" uid="uid://c1whup4d8abr" path="res://godot/entities/states/Idle.gd" id="14_8ct1f"]
+[ext_resource type="Script" uid="uid://dpucuykthrc7s" path="res://godot/entities/states/Walk.gd" id="15_4ibv7"]
+[ext_resource type="Script" uid="uid://s64hdw6gghs2" path="res://godot/entities/states/Run.gd" id="16_xbht4"]
+[ext_resource type="Script" uid="uid://c2le7r2ovsplv" path="res://godot/entities/states/Dash.gd" id="17_up1en"]
+[ext_resource type="Script" uid="uid://bkbnu8jg0na58" path="res://godot/entities/states/Attack.gd" id="18_ejfb4"]
+[ext_resource type="Script" uid="uid://3xa4xcogocjp" path="res://godot/entities/states/Hurt.gd" id="19_5uxna"]
+[ext_resource type="Script" uid="uid://dlr1e5bn6i4ir" path="res://godot/entities/states/Grounded.gd" id="20_ykgx1"]
+[ext_resource type="Script" uid="uid://crhull4ssa7l4" path="res://godot/entities/states/Falling.gd" id="21_lbvv7"]
+[ext_resource type="Script" uid="uid://b3soy6sabw0gv" path="res://godot/entities/states/Jump.gd" id="22_m0dk7"]
 
 [sub_resource type="Theme" id="Theme_30ba4"]
 default_font_size = 7
@@ -498,20 +503,14 @@ graph_offset = Vector2(-12.573, -67.608)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rlytp"]
 size = Vector2(12, 17)
 
-[sub_resource type="Resource" id="Resource_m8h0s"]
-script = ExtResource("11_msno0")
-expression = "not is_dash_applied"
-metadata/_custom_type_script = "uid://le5w1cm0ul8p"
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30ba4"]
 size = Vector2(12, 17)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("gsc")]
+[node name="Player" type="CharacterBody2D"]
 collision_mask = 3
 input_pickable = true
 script = ExtResource("1_kw088")
 stats = ExtResource("2_i0s5h")
-gsc = NodePath("StateChart")
 metadata/_edit_group_ = true
 
 [node name="Status" type="Label" parent="."]
@@ -564,205 +563,6 @@ visible = false
 position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_rlytp")
 
-[node name="StateChart" type="Node" parent="."]
-script = ExtResource("6_wiru1")
-initial_expression_properties = {
-&"is_dash_applied": false
-}
-metadata/_custom_type_script = "uid://couw105c3bde4"
-
-[node name="ParallelState" type="Node" parent="StateChart"]
-script = ExtResource("7_vfsdm")
-
-[node name="Locomotion" type="Node" parent="StateChart/ParallelState"]
-script = ExtResource("8_0k5uw")
-initial_state = NodePath("Idle")
-
-[node name="Idle" type="Node" parent="StateChart/ParallelState/Locomotion"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToWalking" type="Node" parent="StateChart/ParallelState/Locomotion/Idle"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Walk")
-event = &"to_walking"
-delay_in_seconds = "0.0"
-
-[node name="ToDash" type="Node" parent="StateChart/ParallelState/Locomotion/Idle"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Dash")
-event = &"to_dash"
-guard = SubResource("Resource_m8h0s")
-delay_in_seconds = "0.0"
-
-[node name="ToAttack1" type="Node" parent="StateChart/ParallelState/Locomotion/Idle"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Attack")
-event = &"to_attack_1"
-delay_in_seconds = "0.0"
-
-[node name="ToHurt" type="Node" parent="StateChart/ParallelState/Locomotion/Idle"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Hurt")
-event = &"to_hurt"
-delay_in_seconds = "0.0"
-
-[node name="ToRunning" type="Node" parent="StateChart/ParallelState/Locomotion/Idle"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Run")
-event = &"to_running"
-delay_in_seconds = "0.0"
-
-[node name="Walk" type="Node" parent="StateChart/ParallelState/Locomotion"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Walk"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="ToRunning" type="Node" parent="StateChart/ParallelState/Locomotion/Walk"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Run")
-event = &"to_running"
-delay_in_seconds = "0.0"
-
-[node name="ToDash" type="Node" parent="StateChart/ParallelState/Locomotion/Walk"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Dash")
-event = &"to_dash"
-guard = SubResource("Resource_m8h0s")
-delay_in_seconds = "0.0"
-
-[node name="ToHurt" type="Node" parent="StateChart/ParallelState/Locomotion/Walk"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Hurt")
-event = &"to_hurt"
-delay_in_seconds = "0.0"
-
-[node name="ToAttack1" type="Node" parent="StateChart/ParallelState/Locomotion/Walk"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Attack")
-event = &"to_attack_1"
-delay_in_seconds = "0.0"
-
-[node name="Run" type="Node" parent="StateChart/ParallelState/Locomotion"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Run"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="ToWalking" type="Node" parent="StateChart/ParallelState/Locomotion/Run"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Walk")
-event = &"to_walking"
-delay_in_seconds = "0.0"
-
-[node name="ToDash" type="Node" parent="StateChart/ParallelState/Locomotion/Run"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Dash")
-event = &"to_dash"
-guard = SubResource("Resource_m8h0s")
-delay_in_seconds = "0.0"
-
-[node name="ToHurt" type="Node" parent="StateChart/ParallelState/Locomotion/Run"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Hurt")
-event = &"to_hurt"
-delay_in_seconds = "0.0"
-
-[node name="ToAttack1" type="Node" parent="StateChart/ParallelState/Locomotion/Run"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Attack")
-event = &"to_attack_1"
-delay_in_seconds = "0.0"
-
-[node name="Dash" type="Node" parent="StateChart/ParallelState/Locomotion"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Dash"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="ToWalking" type="Node" parent="StateChart/ParallelState/Locomotion/Dash"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Walk")
-event = &"to_walking"
-delay_in_seconds = "0.0"
-
-[node name="Attack" type="Node" parent="StateChart/ParallelState/Locomotion"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Attack"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="Hurt" type="Node" parent="StateChart/ParallelState/Locomotion"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToIdle" type="Node" parent="StateChart/ParallelState/Locomotion/Hurt"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="AirBorne" type="Node" parent="StateChart/ParallelState"]
-script = ExtResource("8_0k5uw")
-initial_state = NodePath("Grounded")
-
-[node name="Grounded" type="Node" parent="StateChart/ParallelState/AirBorne"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToFalling" type="Node" parent="StateChart/ParallelState/AirBorne/Grounded"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Falling")
-event = &"to_falling"
-delay_in_seconds = "0.0"
-
-[node name="ToJump" type="Node" parent="StateChart/ParallelState/AirBorne/Grounded"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Jump")
-event = &"to_jump"
-delay_in_seconds = "0.0"
-
-[node name="ToIdle" type="Node" parent="StateChart/ParallelState/AirBorne/Grounded"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../../Locomotion/Idle")
-event = &"to_idle"
-delay_in_seconds = "0.0"
-
-[node name="Falling" type="Node" parent="StateChart/ParallelState/AirBorne"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToGrounded" type="Node" parent="StateChart/ParallelState/AirBorne/Falling"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Grounded")
-event = &"to_grounded"
-delay_in_seconds = "0.0"
-
-[node name="Jump" type="Node" parent="StateChart/ParallelState/AirBorne"]
-script = ExtResource("9_7pvmf")
-
-[node name="ToFalling" type="Node" parent="StateChart/ParallelState/AirBorne/Jump"]
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Falling")
-event = &"to_falling"
-delay_in_seconds = "0.0"
-
-[node name="ToGrounded" type="Node" parent="StateChart/ParallelState/AirBorne/Jump"]
-editor_description = "Used by take_damage"
-script = ExtResource("10_wvh0p")
-to = NodePath("../../Grounded")
-event = &"to_grounded"
-delay_in_seconds = "0.0"
-
 [node name="HurtBox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 2
@@ -774,30 +574,138 @@ metadata/_edit_lock_ = true
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_30ba4")
 
+[node name="State" type="Node" parent="."]
+script = ExtResource("12_5d35a")
+history_size = 0
+history_mode = 1
+disabled = false
+debug_mode = true
+target_path = NodePath("..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Region" type="Node" parent="State"]
+script = ExtResource("13_8ct1f")
+disabled = false
+debug_mode = false
+target_path = NodePath("../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://d2mox8uo8hlhf"
+
+[node name="Locomotion" type="Node" parent="State/Region"]
+script = ExtResource("12_5d35a")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Idle" type="Node" parent="State/Region/Locomotion"]
+script = ExtResource("14_8ct1f")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Walk" type="Node" parent="State/Region/Locomotion"]
+script = ExtResource("15_4ibv7")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Run" type="Node" parent="State/Region/Locomotion"]
+script = ExtResource("16_xbht4")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Dash" type="Node" parent="State/Region/Locomotion"]
+script = ExtResource("17_up1en")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Attack" type="Node" parent="State/Region/Locomotion"]
+script = ExtResource("18_ejfb4")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Hurt" type="Node" parent="State/Region/Locomotion"]
+script = ExtResource("19_5uxna")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="AirBorne" type="Node" parent="State/Region"]
+script = ExtResource("12_5d35a")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Ground" type="Node" parent="State/Region/AirBorne"]
+script = ExtResource("20_ykgx1")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Fall" type="Node" parent="State/Region/AirBorne"]
+script = ExtResource("21_lbvv7")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Jump" type="Node" parent="State/Region/AirBorne"]
+script = ExtResource("22_m0dk7")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
-[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Idle" to="." method="_on_idle_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Walk" to="." method="_on_walk_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Walk" to="." method="_on_walk_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Walk" to="." method="_on_walk_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Run" to="." method="_on_run_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Run" to="." method="_on_run_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Run" to="." method="_on_run_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Dash" to="." method="_on_dash_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Dash" to="." method="_on_dash_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Dash" to="." method="_on_dash_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Attack" to="." method="_on_attack_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/Locomotion/Attack" to="." method="_on_attack_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Attack" to="." method="_on_attack_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/ParallelState/Locomotion/Hurt" to="." method="_on_hurt_state_entered"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/Locomotion/Hurt" to="." method="_on_hurt_state_physics_processing"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/AirBorne/Grounded" to="." method="_on_grounded_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/ParallelState/AirBorne/Falling" to="." method="_on_falling_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/AirBorne/Falling" to="." method="_on_falling_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/AirBorne/Falling" to="." method="_on_falling_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/ParallelState/AirBorne/Jump" to="." method="_on_jump_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/AirBorne/Jump" to="." method="_on_jump_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/AirBorne/Jump" to="." method="_on_jump_state_physics_processing"]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

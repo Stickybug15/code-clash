@@ -7,8 +7,6 @@ var code_edit: TextEdit
 var run_button: Button
 @export
 var stats: EntityStats
-@export
-var gsc: StateChart
 
 @onready
 var anim_tree: AnimationTree = $AnimationTree
@@ -17,26 +15,33 @@ var anim_tree_fsm: AnimationNodeStateMachinePlayback
 var sprite: AnimatedSprite2D = $Sprite
 
 @onready
-var idle_state: AtomicState = $StateChart/ParallelState/Locomotion/Idle
+var idle_state: State = $State/Region/Locomotion/Idle
 @onready
-var walk_state: AtomicState = $StateChart/ParallelState/Locomotion/Walk
+var walk_state: State = $State/Region/Locomotion/Walk
 @onready
-var run_state: AtomicState = $StateChart/ParallelState/Locomotion/Run
+var run_state: State = $State/Region/Locomotion/Run
 @onready
-var dash_state: AtomicState = $StateChart/ParallelState/Locomotion/Dash
+var dash_state: State = $State/Region/Locomotion/Dash
 
 @onready
-var grounded_state: AtomicState = $StateChart/ParallelState/AirBorne/Grounded
+var grounded_state: State = $State/Region/AirBorne/Ground
 @onready
-var falling_state: AtomicState = $StateChart/ParallelState/AirBorne/Falling
+var falling_state: State = $State/Region/AirBorne/Fall
 @onready
-var jump_state: AtomicState = $StateChart/ParallelState/AirBorne/Jump
+var jump_state: State = $State/Region/AirBorne/Jump
+
+@onready
+var locomotion_state: State = $State/Region/Locomotion
+@onready
+var air_borne_state: State = $State/Region/AirBorne
 
 @onready
 var _hit_box: HitBox = $Sprite/HitBox
 @onready
 var _status_label: Label = $Status
 
+@onready
+var _states: State = $State
 
 var jump_cmd: ImpulseCommand
 var dash_cmd: ImpulseCommand
@@ -51,6 +56,7 @@ var input: SimulateInput:
 
 
 var _face_direction := 1.0
+var _jumping := false
 var _return_state := ""
 
 
@@ -77,229 +83,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-# === Idle State ===
-func _on_idle_state_entered() -> void:
-	anim_tree_fsm.travel(&"idle")
-
-	velocity = Vector2.ZERO
-
-
-func _on_idle_state_physics_processing(delta: float) -> void:
-	if input.is_action_pressed(StateNames.walk):
-		gsc.send_event(&"to_walking")
-		return
-	if signf(input.get_axis("left", "right")) != 0.0:
-		if input.is_action_pressed("run"):
-			gsc.send_event("to_running")
-		elif input.is_action_pressed("dash"):
-			gsc.send_event("to_dash")
-		else:
-			gsc.send_event("to_walking")
-		return
-
-	if input.is_action_pressed("attack_1"):
-		gsc.send_event("to_attack_1")
-		return
-
-
-func _on_idle_state_exited() -> void:
-	pass
-
-
-# === Walking State ===
-func _on_walk_state_entered() -> void:
-	anim_tree_fsm.travel(StateNames.walk)
-
-	move_cmd.initialize(self, {
-		"speed": stats.speed,
-		"direction": _face_direction,
-	})
-
-	sprite.scale.x = _face_direction
-	print("entered: Walk State")
-
-
-func _on_walk_state_physics_processing(delta: float) -> void:
-	_update_face_direction()
-	if input.is_action_pressed(StateNames.run):
-		gsc.send_event("to_running")
-		return
-	if input.is_action_pressed(StateNames.jump):
-		gsc.send_event("to_jump")
-		return
-	if input.is_action_pressed(StateNames.dash):
-		_return_state = "to_walking"
-		gsc.send_event("to_dash")
-		return
-
-	move_cmd.execute(self, delta)
-	if move_cmd.is_completed(self):
-		gsc.send_event("to_idle")
-		return
-
-
-func _on_walk_state_exited() -> void:
-	input.action_release(StateNames.walk)
-
-
-#  === Running State === TODO: Duplicate of Walking State, but with different speed.
-func _on_run_state_entered() -> void:
-	anim_tree_fsm.travel(&"run")
-	move_cmd.initialize(self, {
-		"speed": stats.running_speed,
-		"direction": _face_direction,
-	})
-
-
-func _on_run_state_physics_processing(delta: float) -> void:
-	_update_face_direction()
-	if input.is_action_pressed(StateNames.walk):
-		gsc.send_event("to_walking")
-		return
-	if input.is_action_pressed(StateNames.jump):
-		gsc.send_event("to_jump")
-		return
-	if input.is_action_pressed(StateNames.dash):
-		_return_state = "to_running"
-		gsc.send_event("to_dash")
-		return
-
-	move_cmd.execute(self, delta)
-	if move_cmd.is_completed(self):
-		gsc.send_event("to_idle")
-		return
-
-
-func _on_run_state_exited() -> void:
-	input.action_release(StateNames.run)
-
-
-# === Grounded State ===
-func _on_grounded_state_physics_processing(delta: float) -> void:
-	if input.is_action_pressed("jump"):
-		gsc.send_event("to_jump")
-
-	if not is_on_floor():
-		gsc.send_event("to_falling")
-
-
-# === Jumping State ===
-var _jumping := true
-
-func _on_jump_state_entered() -> void:
-	input.action_release(StateNames.jump)
-
-	_jumping = true
-	anim_tree_fsm.travel(&"jump")
-	anim_tree.get_animation(&"jump").length = stats.jump_time_to_peak
-	jump_cmd.initialize(self, {
-		"magnitude": stats.jump_height,
-		"time_to_peak": stats.jump_time_to_peak,
-		"direction": Vector2.UP,
-	})
-
-
-func _on_jump_state_physics_processing(delta: float) -> void:
-	if _jumping:
-		jump_cmd.execute(self, delta)
-
-		if jump_cmd.is_completed(self):
-			anim_tree_fsm.travel(&"fall")
-			anim_tree.get_animation(&"fall").length = stats.jump_time_to_descent
-			fall_cmd.initialize(self, {
-				"height": stats.jump_height,
-				"time_to_descent": stats.jump_time_to_descent,
-			})
-			_jumping = false
-	else:
-		fall_cmd.execute(self, delta)
-
-		if fall_cmd.is_completed(self):
-			gsc.send_event("to_grounded")
-
-
-func _on_jump_state_exited() -> void:
-	pass
-
-
-# === Falling State ===
-func _on_falling_state_entered() -> void:
-	anim_tree_fsm.travel(&"fall")
-	anim_tree.get_animation(&"fall").length = stats.jump_time_to_descent
-	fall_cmd.initialize(self, {
-		"height": stats.jump_height,
-		"time_to_descent": stats.jump_time_to_descent,
-	})
-
-
-func _on_falling_state_physics_processing(delta: float) -> void:
-	fall_cmd.execute(self, delta)
-
-	if fall_cmd.is_completed(self):
-		gsc.send_event("to_grounded")
-
-
-func _on_falling_state_exited() -> void:
-	pass
-
-
-# === Dashing State ===
-func _on_dash_state_entered() -> void:
-	input.action_release(StateNames.dash)
-	anim_tree_fsm.travel(&"dash")
-	anim_tree["parameters/dash/TimeScale/scale"] = stats.dash_duration
-
-	dash_cmd.initialize(self, {
-		"magnitude": stats.dash_distance,
-		"time_to_peak": stats.dash_duration,
-		"direction": Vector2(_face_direction, 0.0),
-		"preserve_velocity": true,
-	})
-
-	dash_cmd.actived.connect(
-		gsc.set_expression_property.bind(&"is_dash_applied", true),
-		ConnectFlags.CONNECT_ONE_SHOT)
-	dash_cmd.completed.connect(
-		gsc.set_expression_property.bind(&"is_dash_applied", false),
-		ConnectFlags.CONNECT_ONE_SHOT)
-
-
-func _on_dash_state_physics_processing(delta: float) -> void:
-	dash_cmd.execute(self, delta)
-
-	if dash_cmd.is_completed(self):
-		gsc.send_event(_return_state)
-
-
-func _on_dash_state_exited() -> void:
-	anim_tree["parameters/dash/TimeScale/scale"] = 1.0
-
-
-func _on_attack_state_entered() -> void:
-	anim_tree_fsm.travel(&"attack_1")
-
-
-func _on_attack_state_physics_processing(delta: float) -> void:
-	if anim_tree_fsm.get_current_node() == "idle":
-		gsc.send_event("to_idle")
-
-
-func _on_attack_state_exited() -> void:
-	pass
-
-
-func _on_hurt_state_entered() -> void:
-	# TODO: delaying sending event to gsc by one frame will fix the issue of immidiately switching to to_idle animation.
-	# will be using .start for temporary fix.
-	anim_tree_fsm.start(&"hurt")
-	velocity = Vector2.ZERO
-
-
-func _on_hurt_state_physics_processing(delta: float) -> void:
-	if anim_tree_fsm.get_current_node() == "idle":
-		gsc.send_event("to_idle")
-
-
 func _on_mouse_entered() -> void:
 	_mouse_entered = true
 
@@ -311,8 +94,8 @@ func _on_mouse_exited() -> void:
 func take_damage(damage: float) -> void:
 	if idle_state.active or walk_state.active or run_state.active:
 		health -= damage
-		gsc.send_event("to_hurt")
-		gsc.send_event("to_grounded")
+		locomotion_state.change_state(&"Hurt")
+		air_borne_state.change_state(&"Ground")
 
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:

@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=4 uid="uid://bmkjgidroq0ek"]
+[gd_scene load_steps=15 format=4 uid="uid://bmkjgidroq0ek"]
 
 [ext_resource type="Theme" uid="uid://c30mdi5ed2iah" path="res://assets/fonts/monospace.tres" id="1_m8h0s"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="1_osepa"]
 [ext_resource type="Script" uid="uid://cl8am1dq57b4" path="res://godot/entities/Entities.gd" id="2_krip0"]
 [ext_resource type="Texture2D" uid="uid://c88cmx2ttner5" path="res://assets/backgrounds/glacial_mountains/Layers/sky.png" id="3_0s35q"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_llv2m"]
@@ -68,13 +67,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Run Player"
 
-[node name="StateChartDebugger" parent="UI/PlayerEditor" instance=ExtResource("1_osepa")]
-custom_minimum_size = Vector2(300, 280)
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_m8h0s")
-initial_node_to_watch = NodePath("../../../Entities/Player")
-
 [node name="EnemyEditor" type="VBoxContainer" parent="UI"]
 anchors_preset = 11
 anchor_left = 1.0
@@ -101,12 +93,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Run Enemy"
-
-[node name="StateChartDebugger" parent="UI/EnemyEditor" instance=ExtResource("1_osepa")]
-custom_minimum_size = Vector2(300, 280)
-layout_mode = 2
-size_flags_vertical = 3
-theme = ExtResource("1_m8h0s")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
 anchors_preset = 7

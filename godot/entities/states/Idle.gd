@@ -1,5 +1,5 @@
 @tool
-extends State
+extends EntityState
 
 
 #
@@ -9,7 +9,10 @@ extends State
 # This function is called when the state enters
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
-	pass
+	super(_args)
+	agent.anim_tree_fsm.travel(&"idle")
+
+	agent.velocity = Vector2.ZERO
 
 
 # This function is called just after the state enters
@@ -21,7 +24,21 @@ func _after_enter(_args) -> void:
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
-	pass
+	if agent.input.is_action_pressed(StateNames.walk):
+		change_state(&"Walk")
+		return
+	if signf(agent.input.get_axis("left", "right")) != 0.0:
+		if agent.input.is_action_pressed("run"):
+			change_state(&"Run")
+		elif agent.input.is_action_pressed("dash"):
+			change_state(&"Dash")
+		else:
+			change_state(&"Walk")
+		return
+
+	if agent.input.is_action_pressed("attack_1"):
+		change_state(&"Attack")
+		return
 
 
 # This function is called each frame after all the update calls

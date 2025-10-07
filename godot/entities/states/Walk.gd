@@ -1,5 +1,5 @@
 @tool
-extends State
+extends EntityState
 
 
 #
@@ -9,7 +9,15 @@ extends State
 # This function is called when the state enters
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
-	pass
+	super(_args)
+	agent.anim_tree_fsm.travel(StateNames.walk)
+
+	agent.move_cmd.initialize(agent, {
+		"speed": agent.stats.speed,
+		"direction": agent._face_direction,
+	})
+
+	agent.sprite.scale.x = agent._face_direction
 
 
 # This function is called just after the state enters
@@ -21,7 +29,22 @@ func _after_enter(_args) -> void:
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
-	pass
+	agent._update_face_direction()
+	if agent.input.is_action_pressed(StateNames.run):
+		change_state(&"Run")
+		return
+	if agent.input.is_action_pressed(StateNames.jump):
+		change_state(&"Jump") # TODO: what?
+		return
+	if agent.input.is_action_pressed(StateNames.dash):
+		get_state(&"Dash").next_state = get_state(&"Walk").get_path()
+		change_state(&"Dash")
+		return
+
+	agent.move_cmd.execute(agent, _delta)
+	if agent.move_cmd.is_completed(self):
+		change_state(&"Idle")
+		return
 
 
 # This function is called each frame after all the update calls
@@ -39,7 +62,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	pass
+	agent.input.action_release(StateNames.walk)
 
 
 # when StateAutomaticTimer timeout()

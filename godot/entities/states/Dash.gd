@@ -1,5 +1,5 @@
 @tool
-extends State
+extends EntityState
 
 
 #
@@ -9,7 +9,24 @@ extends State
 # This function is called when the state enters
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:
-	pass
+	super(_args)
+	agent.input.action_release(StateNames.dash)
+	agent.anim_tree_fsm.travel(&"dash")
+	agent.anim_tree["parameters/dash/TimeScale/scale"] = agent.stats.dash_duration
+
+	agent.dash_cmd.initialize(agent, {
+		"magnitude": agent.stats.dash_distance,
+		"time_to_peak": agent.stats.dash_duration,
+		"direction": Vector2(agent._face_direction, 0.0),
+		"preserve_velocity": true,
+	})
+
+	#agent.dash_cmd.actived.connect(
+		#agent.gsc.set_expression_property.bind(&"is_dash_applied", true),
+		#ConnectFlags.CONNECT_ONE_SHOT)
+	#agent.dash_cmd.completed.connect(
+		#agent.gsc.set_expression_property.bind(&"is_dash_applied", false),
+		#ConnectFlags.CONNECT_ONE_SHOT)
 
 
 # This function is called just after the state enters
@@ -21,7 +38,10 @@ func _after_enter(_args) -> void:
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children
 func _on_update(_delta: float) -> void:
-	pass
+	agent.dash_cmd.execute(agent, _delta)
+
+	if agent.dash_cmd.is_completed(self):
+		change_to_next()
 
 
 # This function is called each frame after all the update calls
@@ -39,7 +59,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	pass
+	agent.anim_tree["parameters/dash/TimeScale/scale"] = 1.0
 
 
 # when StateAutomaticTimer timeout()
