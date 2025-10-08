@@ -1,10 +1,10 @@
-[gd_scene load_steps=43 format=3 uid="uid://bk7f11a367b30"]
+[gd_scene load_steps=42 format=3 uid="uid://bk7f11a367b30"]
 
 [ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scripts/game_interface.gd" id="1_uvkbs"]
-[ext_resource type="Texture2D" uid="uid://g8lxuoc2a2k5" path="res://assets/BG_ICONS/game_bg.jpg" id="2_kf2fp"]
+[ext_resource type="AudioStream" uid="uid://bpoqprrfs8rvk" path="res://assets/sound fx/Now-We-Ride(chosic.com).mp3" id="2_443ga"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_r1vw7"]
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="4_443ga"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_ai06k"]
-[ext_resource type="AudioStream" uid="uid://bjjavoq2sedoy" path="res://assets/sound fx/Simulacra-chosic.com_.mp3" id="5_mdqpr"]
 [ext_resource type="Texture2D" uid="uid://c3g15sa0we8jy" path="res://assets/BG_ICONS/setting_buttonjpg-removebg-preview.png" id="6_lbm1t"]
 [ext_resource type="Script" uid="uid://nstg1xhow2wm" path="res://godot/scripts/MusicControl.gd" id="7_attwo"]
 [ext_resource type="Script" uid="uid://dy3h71ihb277q" path="res://godot/scripts/SfxControl.gd" id="8_attwo"]
@@ -13,9 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://du0e6kuyx2wjb" path="res://assets/BG_ICONS/mute-removebg-preview.png" id="11_kukke"]
 [ext_resource type="Script" uid="uid://6sng3ik14imx" path="res://godot/scripts/MusicButton.gd" id="12_kukke"]
 [ext_resource type="Script" uid="uid://dou83cdo0k0tf" path="res://godot/scripts/SfxButton.gd" id="13_443ga"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ar3a4"]
-texture = ExtResource("2_kf2fp")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xx5qh"]
 
@@ -136,7 +133,7 @@ thickness = 6
 script = ExtResource("1_uvkbs")
 
 [node name="game fx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_mdqpr")
+stream = ExtResource("2_443ga")
 volume_db = -10.0
 autoplay = true
 bus = &"Music"
@@ -151,17 +148,17 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = 4.0
+offset_right = -2.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_ar3a4")
+[node name="bg" type="Sprite2D" parent="Control"]
+position = Vector2(579, 319.938)
+scale = Vector2(1.58152, 1.59934)
+texture = ExtResource("4_443ga")
 
 [node name="Setting_button" type="Button" parent="Control"]
 layout_mode = 1
@@ -187,10 +184,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -264.5
-offset_right = 150.0
-offset_bottom = 264.5
+offset_left = -146.0
+offset_top = -247.0
+offset_right = 169.0
+offset_bottom = 282.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 40
