@@ -3,13 +3,11 @@
 [ext_resource type="Script" uid="uid://060h6c2u0284" path="res://godot/scripts/logs_menu.gd" id="1_xd5lu"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_liu7y"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_ld8to"]
-[ext_resource type="AudioStream" uid="uid://c8hb1qwxk18xd" path="res://assets/sound fx/login bg sound fx.mp3" id="5_ke7n1"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8lgll"]
-load_path = "res://.godot/imported/background.jpg-56dcd7e866ba18082dbfe2ec73ced1fb.ctex"
+[ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="4_lpv3u"]
+[ext_resource type="AudioStream" uid="uid://u3iqpm1usc6g" path="res://assets/sound fx/Vopna(chosic.com).mp3" id="6_wf5ke"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lpv3u"]
-texture = SubResource("CompressedTexture2D_8lgll")
+texture = ExtResource("4_lpv3u")
 modulate_color = Color(1, 1, 1, 0.486275)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkq16"]
@@ -44,7 +42,7 @@ volume_db = -15.0
 bus = &"SFX"
 
 [node name="LoginBgSoundFx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_ke7n1")
+stream = ExtResource("6_wf5ke")
 volume_db = -6.0
 autoplay = true
 parameters/looping = true

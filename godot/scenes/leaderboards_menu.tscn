@@ -1,16 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://cic6kgxw16wuk"]
+[gd_scene load_steps=13 format=3 uid="uid://cic6kgxw16wuk"]
 
-[ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scenes/LeaderboardsMenu.gd" id="1_5entk"]
-[ext_resource type="Texture2D" uid="uid://wlboco7s0rkt" path="res://assets/BG_ICONS/PNG/Window04.png" id="1_h03a3"]
+[ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scenes/leaderboards_menu.gd" id="1_5entk"]
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_6cm6y"]
 [ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="2_ivb16"]
 [ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="3_cv2r0"]
-[ext_resource type="Script" path="res://godot/scripts/ExitButton.gd" id="4_ivb16"]
+[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/ExitButton.gd" id="4_ivb16"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="5_cv2r0"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="6_addcg"]
-[ext_resource type="AudioStream" uid="uid://b4a6t0xqcrylo" path="res://assets/sound fx/12-score-board-loop-final.mp3" id="8_6cm6y"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_addcg"]
-texture = ExtResource("1_h03a3")
+texture = ExtResource("2_6cm6y")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6cm6y"]
 
@@ -177,12 +176,6 @@ text = "Player Ranks"
 [node name="profiency" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect/Global_Panel/Global label"]
 layout_mode = 2
 text = "Proficency"
-
-[node name="12-score-board-loop-final" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_6cm6y")
-volume_db = -16.0
-autoplay = true
-parameters/looping = true
 
 [connection signal="mouse_entered" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
 [connection signal="pressed" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_pressed"]
