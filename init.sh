@@ -53,10 +53,12 @@ download() {
   printf "%sDownloading:%s %s\n" "$(ansi green)" "$(ansi reset)" "$out"
   printf "  from: %s\n" "$url"
 
-  if ! curl -L -C - -f -o "$out" "$url"; then
-    printf "%serror:%s failed to download %s\n" "$(ansi red)" "$(ansi reset)" "$out"
-    exit 1
-  fi
+  while ! curl -L -C - -f -o "$out" "$url"; do
+    printf "%serror%s: failed to download %s\n" "$(ansi red)" "$(ansi reset)" "$out"
+    printf "retrying in %s3%s seconds\n" "$(ansi green)" "$(ansi reset)"
+    sleep 3
+    rm -rf "$out"
+  done
 }
 
 init_addons() {

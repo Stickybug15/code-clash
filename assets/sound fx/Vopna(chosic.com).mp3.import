@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://u3iqpm1usc6g"
+path="res://.godot/imported/Vopna(chosic.com).mp3-fdbe25f5cd354909c3b25b469c580b2a.mp3str"
+
+[deps]
+
+source_file="res://assets/sound fx/Vopna(chosic.com).mp3"
+dest_files=["res://.godot/imported/Vopna(chosic.com).mp3-fdbe25f5cd354909c3b25b469c580b2a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

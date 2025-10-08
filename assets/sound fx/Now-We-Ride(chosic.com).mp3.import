@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bpoqprrfs8rvk"
+path="res://.godot/imported/Now-We-Ride(chosic.com).mp3-783bc619dca0b2cca5995a051d8189ac.mp3str"
+
+[deps]
+
+source_file="res://assets/sound fx/Now-We-Ride(chosic.com).mp3"
+dest_files=["res://.godot/imported/Now-We-Ride(chosic.com).mp3-783bc619dca0b2cca5995a051d8189ac.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
