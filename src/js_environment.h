@@ -33,12 +33,14 @@ public:
   void method(Ref<Resource> resource);
   void _method_finished();
 
+  bool is_paused() const;
   bool is_running() const;
 
   duk_context *ctx{nullptr};
   Dictionary object_methods{};
   Ref<Semaphore> semaphore;
   Ref<Thread> thread;
+  bool paused{false};
 
   bool running{false};
   bool first_run{true};

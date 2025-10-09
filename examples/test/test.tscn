@@ -1,0 +1,246 @@
+[gd_scene load_steps=12 format=3 uid="uid://bmbudn1elay7l"]
+
+[ext_resource type="Script" uid="uid://ntb8xosytvb" path="res://examples/test/test.gd" id="1_8c1rw"]
+[ext_resource type="Script" uid="uid://r7wj8xf4sp1a" path="res://addons/xsm/state.gd" id="2_ciagt"]
+[ext_resource type="Script" uid="uid://cl52boc3of8i8" path="res://examples/test/hallway_light.gd" id="3_ciagt"]
+[ext_resource type="Script" uid="uid://d2mox8uo8hlhf" path="res://addons/xsm/state_regions.gd" id="3_r3205"]
+[ext_resource type="Script" uid="uid://bhdmc4vp33lts" path="res://examples/test/room_1_light.gd" id="4_mktcy"]
+[ext_resource type="Script" uid="uid://dag0tf6lygu1e" path="res://examples/test/room_2_light_main.gd" id="6_fwtmm"]
+[ext_resource type="Script" uid="uid://dunhuuvjoldi0" path="res://addons/xsm/state_animation.gd" id="7_b52lf"]
+[ext_resource type="Texture2D" uid="uid://b24dew1xvgrlh" path="res://examples/test/sprites/corner_lamp.png" id="8_b52lf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b52lf"]
+atlas = ExtResource("8_b52lf")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8dwk1"]
+atlas = ExtResource("8_b52lf")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_epnsx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b52lf")
+}],
+"loop": false,
+"name": &"Off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8dwk1")
+}],
+"loop": false,
+"name": &"On",
+"speed": 5.0
+}]
+
+[node name="Main" type="MarginContainer"]
+offset_right = 960.0
+offset_bottom = 247.0
+script = ExtResource("1_8c1rw")
+
+[node name="XSMRoot" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_ciagt")
+history_size = 5
+history_mode = 1
+disabled = false
+debug_mode = false
+target_path = NodePath("..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="HallwayLight" type="Node" parent="XSMRoot"]
+script = ExtResource("3_ciagt")
+disabled = false
+debug_mode = false
+target_path = NodePath("../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Room1Light" type="Node" parent="XSMRoot"]
+script = ExtResource("4_mktcy")
+disabled = false
+debug_mode = false
+target_path = NodePath("../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Room2_Has_Regions" type="Node" parent="XSMRoot"]
+script = ExtResource("3_r3205")
+disabled = false
+debug_mode = false
+target_path = NodePath("../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://d2mox8uo8hlhf"
+
+[node name="Room2LightMain" type="Node" parent="XSMRoot/Room2_Has_Regions"]
+script = ExtResource("6_fwtmm")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Room2LightCorner" type="Node" parent="XSMRoot/Room2_Has_Regions"]
+script = ExtResource("2_ciagt")
+disabled = false
+debug_mode = false
+target_path = NodePath("../../..")
+timed = false
+remember_active_substate = true
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://r7wj8xf4sp1a"
+
+[node name="Room2LightCornerOff" type="Node" parent="XSMRoot/Room2_Has_Regions/Room2LightCorner"]
+script = ExtResource("7_b52lf")
+animation_source = NodePath("../../../../UI/HBHome/Room2/HBoxContainer/VBoxContainer2/ASLight1Corner")
+anim_on_enter = "Off"
+loop_mode = 0
+on_finished = 0
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://dunhuuvjoldi0"
+
+[node name="Room2LightCornerOn" type="Node" parent="XSMRoot/Room2_Has_Regions/Room2LightCorner"]
+script = ExtResource("7_b52lf")
+animation_source = NodePath("../../../../UI/HBHome/Room2/HBoxContainer/VBoxContainer2/ASLight1Corner")
+anim_on_enter = "On"
+loop_mode = 0
+on_finished = 0
+disabled = false
+debug_mode = false
+target_path = NodePath("../../../..")
+timed = false
+remember_active_substate = false
+next_state = NodePath("")
+metadata/_custom_type_script = "uid://dunhuuvjoldi0"
+
+[node name="UI" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(960, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="UI"]
+layout_mode = 2
+text = "Pretty Home"
+horizontal_alignment = 1
+
+[node name="HBHome" type="HBoxContainer" parent="UI"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Room1" type="VBoxContainer" parent="UI/HBHome"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/HBHome/Room1"]
+layout_mode = 2
+text = "Room 1"
+horizontal_alignment = 1
+
+[node name="Button1" type="Button" parent="UI/HBHome/Room1"]
+layout_mode = 2
+text = "Switch Light"
+
+[node name="Light1Main" type="ColorRect" parent="UI/HBHome/Room1"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.49803922)
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Hallway" type="VBoxContainer" parent="UI/HBHome"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/HBHome/Hallway"]
+layout_mode = 2
+text = "Hallway"
+horizontal_alignment = 1
+
+[node name="LightHallway" type="ColorRect" parent="UI/HBHome/Hallway"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.49803922)
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Room2" type="VBoxContainer" parent="UI/HBHome"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/HBHome/Room2"]
+layout_mode = 2
+text = "Room 2"
+horizontal_alignment = 1
+
+[node name="Button2Main" type="Button" parent="UI/HBHome/Room2"]
+layout_mode = 2
+text = "Switch Room Light"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HBHome/Room2"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HBHome/Room2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/HBHome/Room2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Room Light"
+horizontal_alignment = 1
+
+[node name="Light2Main" type="ColorRect" parent="UI/HBHome/Room2/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.49803922)
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/HBHome/Room2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/HBHome/Room2/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Corner Light"
+horizontal_alignment = 1
+
+[node name="Button2Corner" type="Button" parent="UI/HBHome/Room2/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Switch Corner Light"
+
+[node name="ASLight1Corner" type="AnimatedSprite2D" parent="UI/HBHome/Room2/HBoxContainer/VBoxContainer2"]
+position = Vector2(76, 93)
+sprite_frames = SubResource("SpriteFrames_epnsx")
+animation = &"Off"
+
+[node name="VBHistory" type="VBoxContainer" parent="UI"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="UI/VBHistory"]
+layout_mode = 2
+text = "Lights History :"
+
+[node name="LightsHistory" type="RichTextLabel" parent="UI/VBHistory"]
+unique_name_in_owner = true
+layout_mode = 2
+fit_content = true
+
+[connection signal="pressed" from="UI/HBHome/Room1/Button1" to="." method="_on_button_1_pressed"]
+[connection signal="pressed" from="UI/HBHome/Room2/Button2Main" to="." method="_on_button_2_main_pressed"]
+[connection signal="pressed" from="UI/HBHome/Room2/HBoxContainer/VBoxContainer2/Button2Corner" to="." method="_on_button_2_corner_pressed"]

@@ -38,11 +38,14 @@ void JSEnvironment::_bind_methods() {
                        &JSEnvironment::_method_finished);
 
   ClassDB::bind_method(D_METHOD("is_running"), &JSEnvironment::is_running);
+  ClassDB::bind_method(D_METHOD("is_paused"), &JSEnvironment::is_paused);
 
   ADD_SIGNAL(MethodInfo("started"));
   ADD_SIGNAL(MethodInfo("finished"));
   ADD_SIGNAL(MethodInfo("function_invoked"));
 }
+
+bool JSEnvironment::is_paused() const { return paused; }
 
 bool JSEnvironment::is_running() const { return running; }
 
@@ -111,6 +114,7 @@ void JSEnvironment::_eval_pending_code(String code) {
 
 void JSEnvironment::_method_finished() {
   semaphore->post();
+  paused = false;
 }
 
 void JSEnvironment::method(Ref<Resource> resource) {
@@ -403,6 +407,7 @@ duk_ret_t c_function_v2(duk_context *ctx) {
   // TODO: user might add argument even if the method didnt accept any
   // arguments.
   int argc = duk_get_top(ctx);
+  print_line(GD_FORMAT("invoking {0} with {1} arguments, with {2}", path, argc, arguments.size()));
   for (int i = 0; i < argc; i += 1) {
     Dictionary schema = params[i];
     String name = schema["name"];
@@ -467,16 +472,45 @@ duk_ret_t c_function_v2(duk_context *ctx) {
     }
   }
 
-  Callable cb = method_info->get("callable");
-  if (cb.is_valid()) {
-    cb.call_deferred(method_info, arguments);
-    print_line(GD_FORMAT("callable invoked: {0}, {1}", path, cb));
+  int type = method_info->get("type");
+
+  Callable pre_cb = method_info->get("pre_callable");
+  Callable post_cb = method_info->get("post_callable");
+
+  const auto pause = [self]() {
+    self->paused = true;
+    while (self->semaphore->try_wait())
+      ;
+    self->semaphore->wait();
+  };
+
+  switch (type) {
+    case 0: { // ACTION
+      pre_cb.call(method_info, arguments);
+      print_line(GD_FORMAT("invoked: {0}", path));
+      pause();
+    } break;
+
+    case 1: { // WAIT
+      Variant ret = pre_cb.call(method_info, arguments);
+      self->call("emit_signal", "function_invoked");
+
+      if (ret.get_type() != Variant::Type::BOOL) {
+        break;
+      }
+
+      if (ret.booleanize()) {
+        pause();
+      }
+    } break;
+
+    case 2: { // MISC
+      post_cb.call(method_info, arguments);
+      print_line(GD_FORMAT("invoked: {0}", path));
+    } break;
   }
-  // while (self->semaphore->try_wait())
-  //   ;
-  self->call_deferred("emit_signal", "function_invoked");
-  print_line(GD_FORMAT("invoked: {0}", path));
-  // self->semaphore->wait();
+  print_line(GD_FORMAT("callable invoked: {0}, {1}", path, pre_cb));
+
   return 0;
 }
 
@@ -530,6 +564,7 @@ void JSEnvironment::add_method_v2(Ref<Resource> method_info) {
     print_error(path, " already exist. overriding it.");
   }
   object_methods[path] = method_info;
+  print_line(GD_FORMAT("  method_info: {0}", method_info));
 
   Array method_path = path.split(".", false);
   const String method_name = method_path.pop_back();
