@@ -14,8 +14,10 @@ var status: RichTextLabel = $SignUpMenu/AuthStatusLabel
 @onready
 var register_btn: Button = $SignUpMenu/RegisterButton
 
+# New variable to track password visibility state
+var is_password_visible: bool = false
 
-func _on_back_button_pressed() -> void:
+func _on_back_button_menu_pressed() -> void:
 	get_tree().change_scene_to_file("res://godot/scenes/authentication_menu.tscn")
 
 
@@ -31,3 +33,13 @@ func _on_register_button_pressed() -> void:
 
 	if auth_status == "Success":
 		get_tree().change_scene_to_file("res://godot/scenes/game_interface.tscn")
+
+# New function to toggle the password visibility
+func _on_show_password_pressed() -> void:
+		# 1. Toggle the state
+	is_password_visible = not is_password_visible
+
+	# 2. Update the LineEdit's 'secret' property
+	# If 'is_password_visible' is TRUE, 'secret' becomes FALSE (password shows).
+	# If 'is_password_visible' is FALSE, 'secret' becomes TRUE (password hides).
+	pass_input.secret = not is_password_visible
