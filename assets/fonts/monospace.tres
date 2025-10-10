@@ -1,3 +1,6 @@
-[gd_resource type="Theme" format=3 uid="uid://c30mdi5ed2iah"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c30mdi5ed2iah"]
+
+[ext_resource type="FontFile" uid="uid://fywsns7vwycu" path="res://assets/fonts/JetBrainsMonoNerdFont-Regular.ttf" id="1_v5yaj"]
 
 [resource]
+default_font = ExtResource("1_v5yaj")
