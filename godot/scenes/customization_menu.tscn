@@ -1,23 +1,17 @@
-[gd_scene load_steps=26 format=3 uid="uid://c3jhsr15xuyuq"]
+[gd_scene load_steps=20 format=3 uid="uid://c3jhsr15xuyuq"]
 
 [ext_resource type="Script" path="res://godot/scenes/customization_menu.gd" id="1_3f7tt"]
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_m1ako"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="4_3f7tt"]
+[ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="4_hyvmh"]
 [ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/ExitButton.gd" id="5_3f7tt"]
-[ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="5_t8f4u"]
-[ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="6_3f7tt"]
+[ext_resource type="Texture2D" uid="uid://d4mcg72x14726" path="res://assets/back button arrow/pressed_arrow-removebg-preview.png" id="5_i8l2i"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="6_b3ioh"]
-[ext_resource type="Texture2D" uid="uid://wg4o12n54n3g" path="res://assets/Avatars/PNG/without bg/1.png" id="9_mv8gi"]
-[ext_resource type="Texture2D" uid="uid://dks66mgx0kjm" path="res://assets/Avatars/PNG/background/2.png" id="10_e007v"]
-[ext_resource type="Texture2D" uid="uid://chewi8nrm1f15" path="res://assets/Avatars/PNG/without bg/2.png" id="11_m1ako"]
-[ext_resource type="Texture2D" uid="uid://cuyr7b84fkkyi" path="res://assets/Avatars/PNG/background/3.png" id="11_v0a4t"]
-[ext_resource type="Texture2D" uid="uid://3ds50ujc14t6" path="res://assets/Avatars/PNG/background/4.png" id="12_m1ako"]
-[ext_resource type="Texture2D" uid="uid://cltb6n4d5l71i" path="res://assets/Avatars/PNG/without bg/3.png" id="13_d3wop"]
-[ext_resource type="Texture2D" uid="uid://drsbxudy0tgk7" path="res://assets/Avatars/PNG/background/5.png" id="13_x3t8d"]
-[ext_resource type="Texture2D" uid="uid://ysrc3ub7qs0u" path="res://assets/Avatars/PNG/without bg/5.png" id="14_d3wop"]
-[ext_resource type="Texture2D" uid="uid://hab0v0cgib60" path="res://assets/Avatars/PNG/without bg/4.png" id="15_dxvok"]
-[ext_resource type="Texture2D" uid="uid://bekrsvq04hlj1" path="res://assets/Avatars/PNG/background/6.png" id="18_x3t8d"]
-[ext_resource type="Texture2D" uid="uid://dupqa50bm2inr" path="res://assets/Avatars/PNG/without bg/6.png" id="19_d3wop"]
+[ext_resource type="Texture2D" uid="uid://cebjdqy0q0hfc" path="res://assets/new_avatar_profiles/Avatar_1.png" id="8_hyvmh"]
+[ext_resource type="Texture2D" uid="uid://bktavpmyb2e1v" path="res://assets/new_avatar_profiles/Avatar_2.png" id="9_i8l2i"]
+[ext_resource type="Texture2D" uid="uid://dh4746n7hye7l" path="res://assets/new_avatar_profiles/Avatar_3.png" id="10_5q70s"]
+[ext_resource type="Texture2D" uid="uid://bpsejqwxtbm60" path="res://assets/new_avatar_profiles/Avatar_4.png" id="11_mv8gi"]
+[ext_resource type="Texture2D" uid="uid://dw0odhobh2oyr" path="res://assets/new_avatar_profiles/Avatar_5.png" id="12_e007v"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2w6sf"]
 texture = ExtResource("2_m1ako")
@@ -74,6 +68,7 @@ grow_vertical = 2
 script = ExtResource("1_3f7tt")
 
 [node name="bg" type="Panel" parent="."]
+modulate = Color(0.670588, 0.670588, 0.670588, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,8 +96,8 @@ offset_left = 48.0
 offset_top = 54.0
 offset_right = 116.0
 offset_bottom = 119.0
-texture_normal = ExtResource("5_t8f4u")
-texture_pressed = ExtResource("6_3f7tt")
+texture_normal = ExtResource("4_hyvmh")
+texture_pressed = ExtResource("5_i8l2i")
 ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("5_3f7tt")
@@ -155,16 +150,16 @@ horizontal_alignment = 1
 autowrap_mode = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TouchScreenButton"]
-offset_left = 81.0
-offset_top = 323.0
-offset_right = 1073.0
-offset_bottom = 436.0
+offset_left = 173.0
+offset_top = 330.0
+offset_right = 1059.0
+offset_bottom = 443.0
 theme_override_constants/separation = 50
 
 [node name="avatar1" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-texture_hover = ExtResource("9_mv8gi")
+texture_normal = ExtResource("8_hyvmh")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -172,45 +167,28 @@ stretch_mode = 0
 custom_minimum_size = Vector2(120, 0)
 layout_direction = 1
 layout_mode = 2
-texture_normal = ExtResource("10_e007v")
-texture_pressed = ExtResource("11_m1ako")
-texture_hover = ExtResource("11_m1ako")
+texture_normal = ExtResource("9_i8l2i")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="avatar3" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-texture_normal = ExtResource("11_v0a4t")
-texture_pressed = ExtResource("13_d3wop")
-texture_hover = ExtResource("13_d3wop")
+texture_normal = ExtResource("10_5q70s")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="avatar4" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-texture_normal = ExtResource("12_m1ako")
-texture_pressed = ExtResource("15_dxvok")
-texture_hover = ExtResource("15_dxvok")
+texture_normal = ExtResource("11_mv8gi")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="avatar5" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-texture_normal = ExtResource("13_x3t8d")
-texture_pressed = ExtResource("14_d3wop")
-texture_hover = ExtResource("14_d3wop")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="avatar6" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-texture_normal = ExtResource("18_x3t8d")
-texture_pressed = ExtResource("19_d3wop")
-texture_hover = ExtResource("19_d3wop")
+texture_normal = ExtResource("12_e007v")
 ignore_texture_size = true
 stretch_mode = 0
 
