@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://cr14f5om1a0if"]
+[gd_scene load_steps=17 format=3 uid="uid://cr14f5om1a0if"]
 
 [ext_resource type="Script" uid="uid://byixvjl1a40at" path="res://godot/scripts/sign_up_menu.gd" id="1_stwcb"]
 [ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="2_1jdwq"]
 [ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/fonts/Pixel Game.otf" id="3_pd2u5"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_wry4w"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="5_1jdwq"]
+[ext_resource type="Texture2D" uid="uid://cqy7ijsfbx1cl" path="res://assets/show_password_icon/Eyes_close_icon-removebg-preview.png" id="6_lfvq1"]
+[ext_resource type="Texture2D" uid="uid://7th5kbtjtbsk" path="res://assets/show_password_icon/Eyes_open_icon-removebg-preview.png" id="7_1aqtv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sraid"]
 texture = ExtResource("2_1jdwq")
@@ -152,7 +154,6 @@ justification_flags = 171
 layout_mode = 2
 placeholder_text = "Enter your password"
 virtual_keyboard_type = 6
-clear_button_enabled = true
 secret = true
 
 [node name="RegisterButton" type="Button" parent="SignUpMenu"]
@@ -186,7 +187,20 @@ text = "Back to MainMenu"
 stream = ExtResource("4_wry4w")
 volume_db = -15.0
 
+[node name="Show_password" type="TextureButton" parent="."]
+offset_left = 735.0
+offset_top = 429.0
+offset_right = 775.0
+offset_bottom = 469.0
+toggle_mode = true
+texture_normal = ExtResource("6_lfvq1")
+texture_pressed = ExtResource("7_1aqtv")
+texture_disabled = ExtResource("7_1aqtv")
+ignore_texture_size = true
+stretch_mode = 0
+
 [connection signal="mouse_entered" from="SignUpMenu/RegisterButton" to="." method="_on_mouse_entered"]
 [connection signal="pressed" from="SignUpMenu/RegisterButton" to="." method="_on_register_button_pressed"]
 [connection signal="mouse_entered" from="Back_Button" to="." method="_on_mouse_entered"]
-[connection signal="pressed" from="Back_Button" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="Back_Button" to="." method="_on_back_button_menu_pressed"]
+[connection signal="pressed" from="Show_password" to="." method="_on_show_password_pressed"]
