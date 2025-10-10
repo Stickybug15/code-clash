@@ -11,7 +11,11 @@ config_version=5
 [application]
 
 config/name="Code Clash - The Adventure Game"
+<<<<<<< HEAD
 run/main_scene="uid://ccimb365lsio1"
+=======
+run/main_scene="uid://tf7w03eeb3fn"
+>>>>>>> 1de4091 (Avatar and marketplace changes)
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
