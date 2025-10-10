@@ -9,8 +9,7 @@
 texture = ExtResource("2_t5hig")
 modulate_color = Color(1, 1, 1, 0.486275)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdchn"]
-bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t6med"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vfq8"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -20,10 +19,10 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t6med"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ixag1"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdchn"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ps2c8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ld6tg"]
 bg_color = Color(0.804743, 0.804743, 0.804743, 1)
@@ -33,7 +32,8 @@ border_width_top = 4
 border_width_right = 5
 border_width_bottom = 4
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ps2c8"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ixag1"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
 [node name="AgeLimit" type="CanvasLayer"]
 script = ExtResource("1_ik616")
@@ -82,9 +82,9 @@ custom_minimum_size = Vector2(140, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_u8g6u")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_hdchn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_8vfq8")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_t6med")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8vfq8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hdchn")
 text = "YES"
 
 [node name="No_Button" type="Button" parent="VBoxContainer/VBoxContainer"]
@@ -92,9 +92,9 @@ custom_minimum_size = Vector2(140, 60)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_u8g6u")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/pressed = SubResource("StyleBoxFlat_ixag1")
-theme_override_styles/hover = SubResource("StyleBoxFlat_ld6tg")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ps2c8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ld6tg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ixag1")
 text = "NO"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]

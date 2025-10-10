@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv76mdpeyfdk3"]
+
+[ext_resource type="PackedScene" uid="uid://c0nwqrulx70sp" path="res://godot/scenes/LeaderboardTable.tscn" id="1_n4exa"]
+
+[node name="Leaderboard_Table" instance=ExtResource("1_n4exa")]

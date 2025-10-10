@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://ccimb365lsio1"]
+
+[node name="LeaderboardEntries" type="HBoxContainer"]
+anchors_preset = -1
+anchor_right = 0.098
+anchor_bottom = 0.018
+offset_left = -5.0
+offset_top = -1.0
+offset_right = -106.896
+offset_bottom = 10.336
+
+[node name="Player" type="Label" parent="."]
+layout_mode = 2
+
+[node name="Speed" type="Label" parent="."]
+layout_mode = 2
+
+[node name="Accuracy" type="Label" parent="."]
+layout_mode = 2
