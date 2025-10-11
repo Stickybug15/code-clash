@@ -156,6 +156,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="bg" type="Sprite2D" parent="Control"]
+modulate = Color(0.670588, 0.670588, 0.670588, 1)
 position = Vector2(579, 319.938)
 scale = Vector2(1.58152, 1.59934)
 texture = ExtResource("4_443ga")
