@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bsn6ommcbhffk"]
+
+[node name="LeaderboardTable" type="VBoxContainer"]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect"]
+layout_mode = 2
+offset_top = 4.0
+offset_bottom = 4.0
