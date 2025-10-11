@@ -88,3 +88,5 @@ compile_commands.json
 build*
 
 docs/.obsidian
+
+**/bin/*.TMP
