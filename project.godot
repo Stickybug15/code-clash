@@ -12,10 +12,14 @@ config_version=5
 
 config/name="Code Clash - The Adventure Game"
 <<<<<<< HEAD
+<<<<<<< HEAD
 run/main_scene="uid://ccimb365lsio1"
 =======
 run/main_scene="uid://tf7w03eeb3fn"
 >>>>>>> 1de4091 (Avatar and marketplace changes)
+=======
+run/main_scene="uid://tf7w03eeb3fn"
+>>>>>>> 8cedd1a7bb12b00faf934ee50ab96c0bb8a8697e
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
