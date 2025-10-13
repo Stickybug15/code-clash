@@ -97,7 +97,10 @@ func take_damage(damage: float) -> void:
 		air_borne_state.change_state(&"Ground")
 
 
-func _on_hurt_box_area_entered(area: Area2D) -> void:
+func _on_hurt_box_area_entered(area: HitBox) -> void:
+	if area == null:
+		return
+
 	if _hit_box == area:
 		return
 
@@ -126,7 +129,10 @@ func _update_face_direction() -> void:
 	if is_equal_approx(_face_direction, new_direction):
 		return
 
-	input.resume_if_waiting()
+	if input.is_action_pressed(ActionNames.left):
+		input.get_action(ActionNames.left).enter()
+	elif input.is_action_pressed(ActionNames.right):
+		input.get_action(ActionNames.right).enter()
 	_face_direction = new_direction
 
 	sprite.scale.x = _face_direction

@@ -23,7 +23,8 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.resume_if_waiting()
+	var info := agent.input.get_action(ActionNames.walk)
+	info.enter()
 
 
 # This function is called each frame if the state is ACTIVE

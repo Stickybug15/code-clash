@@ -23,6 +23,12 @@ namespace godot {
 #define TYPE_ERROR_STRING                                                      \
   ("Invalid argument for '{0}()' function: argument {1} "                      \
    "should be '{2}' but is '{3}'.")
+#define FOR_EACH(TYPE, NAME, ARRAY, BODY) \
+  { \
+    Array array = ARRAY; \
+    TYPE NAME; \
+    for (int __i = 0; __i < array.size(); __i++, NAME = array[__i]) BODY \
+  }
 
 void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("add_method", "method_info"),
@@ -33,7 +39,6 @@ void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("eval", "code"), &JSEnvironment::eval);
   ClassDB::bind_method(D_METHOD("eval_async", "code"),
                        &JSEnvironment::eval_async);
-  ClassDB::bind_method(D_METHOD("poll"), &JSEnvironment::_method_finished);
   ClassDB::bind_method(D_METHOD("pause"), &JSEnvironment::pause);
   ClassDB::bind_method(D_METHOD("resume"), &JSEnvironment::resume);
 
@@ -257,12 +262,12 @@ duk_ret_t c_function(duk_context *ctx) {
   Dictionary arguments{};
   Array params = method_info->get("params_schema");
   int expected_argc = 0;
-  for (Dictionary schema : params) {
+  FOR_EACH(Dictionary, schema, params, {
     expected_argc += 1;
     if (!schema.has("default_value")) {
       break;
     }
-  }
+  })
 
   auto type_to_string = [](duk_int_t type, bool is_array = false) -> String {
     switch (type) {
@@ -399,12 +404,12 @@ duk_ret_t c_function_v2(duk_context *ctx) {
   Dictionary arguments{};
   Array params = method_info->get("params_schema");
   int expected_argc = 0;
-  for (Dictionary schema : params) {
+  FOR_EACH(Dictionary, schema, params, {
     expected_argc += 1;
     if (!schema.has("default_value")) {
       break;
     }
-  }
+  })
 
   auto type_to_string = [](duk_int_t type, bool is_array = false) -> String {
     switch (type) {
@@ -428,10 +433,7 @@ duk_ret_t c_function_v2(duk_context *ctx) {
   };
 
   // TODO: user might add argument even if the method didnt accept any
-  // arguments.
   int argc = duk_get_top(ctx);
-  print_line(GD_FORMAT("invoking {0} with {1} arguments, with {2}", path, argc,
-                       arguments.size()));
   for (int i = 0; i < argc; i += 1) {
     Dictionary schema = params[i];
     String name = schema["name"];
@@ -493,45 +495,20 @@ duk_ret_t c_function_v2(duk_context *ctx) {
       break;
     }
   }
+  print_line(GD_FORMAT("invoking {0} with {1} arguments, with {2}", path, argc,
+                       arguments.size()));
 
-  int type = method_info->get("type");
+  Callable cb = method_info->get("callable");
 
-  Callable pre_cb = method_info->get("pre_callable");
-  Callable post_cb = method_info->get("post_callable");
-
-  const auto pause = [self]() {
-    self->_paused = true;
-    while (self->_semaphore->try_wait())
-      ;
-    self->_semaphore->wait();
-  };
-
-  switch (type) {
-  case 0: { // ACTION
-    pre_cb.call(method_info, arguments);
-    print_line(GD_FORMAT("invoked: {0}", path));
-    pause();
-  } break;
-
-  case 1: { // WAIT
-    Variant ret = pre_cb.call(method_info, arguments);
-    self->call("emit_signal", "function_invoked");
-
-    if (ret.get_type() != Variant::Type::BOOL) {
-      break;
+  Variant result = cb.call(method_info, arguments);
+  if (result.get_type() == Variant::Type::BOOL) {
+    if (result.booleanize()) {
+      print_line_rich("[color=green]JSEnv[/color]: paused");
+      self->pause();
     }
-
-    if (ret.booleanize()) {
-      pause();
-    }
-  } break;
-
-  case 2: { // MISC
-    post_cb.call(method_info, arguments);
-    print_line(GD_FORMAT("invoked: {0}", path));
-  } break;
   }
-  print_line(GD_FORMAT("callable invoked: {0}, {1}", path, pre_cb));
+  self->call("emit_signal", "function_invoked");
+  print_line(GD_FORMAT("callable invoked: {0}, {1}", path, cb));
 
   return 0;
 }
@@ -595,7 +572,7 @@ void JSEnvironment::add_method_v2(Ref<Resource> method_info) {
   duk_push_global_object(_ctx);
 
   // TODO: put full path of object to object itself.
-  for (const String component : method_path) {
+  FOR_EACH(String, component, method_path, {
     if (duk_has_prop_string(_ctx, -1, component.ascii()) != 1) {
       duk_push_object(_ctx);
 
@@ -606,7 +583,7 @@ void JSEnvironment::add_method_v2(Ref<Resource> method_info) {
       duk_put_prop_string(_ctx, -2, component.ascii());
     }
     duk_get_prop_string(_ctx, -1, component.ascii());
-  }
+  });
 
   {
     const duk_int_t argc = ((Array)method_info->get("params_schema")).size();
