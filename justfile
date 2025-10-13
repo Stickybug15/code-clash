@@ -64,3 +64,9 @@ debug godot="godot" *args='':
 remove-empty-folders:
   find . -empty -type d ! -path '*/.git*' ! -path '*/.git*/*' ! -path '*/.godot*' ! -path '*/android' -exec rmdir {} \;
 
+build-continue:
+  fd --search-path $PWD/src '.*(cpp|hpp|c|h)$' | entr -cr ./just.sh build-linux
+
+build-continue-verbose:
+  fd --search-path $PWD/src --search-path=$PWD/godot-cpp '.*(cpp|hpp|c|h)$' | entr -cr ./just.sh build_library=yes build-linux
+

@@ -159,7 +159,7 @@ if [[ "$OS" = "Windows_NT" ]]; then
 else
   source /etc/os-release
   if [[ $ID = "arch" ]]; then
-    sudo pacman -S --needed gcc just scons ccache
+    sudo pacman -S --needed gcc just scons ccache fd entr
   fi
 
   ./just.sh build_library=yes build-linux
