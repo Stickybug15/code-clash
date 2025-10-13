@@ -1,13 +1,13 @@
 [gd_scene load_steps=14 format=3 uid="uid://coa2mfgcnskhv"]
 
-[ext_resource type="Script" uid="uid://060h6c2u0284" path="res://godot/scripts/logs_menu.gd" id="1_xd5lu"]
-[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_liu7y"]
-[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_ld8to"]
-[ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="4_lpv3u"]
-[ext_resource type="AudioStream" uid="uid://u3iqpm1usc6g" path="res://assets/sound fx/Vopna(chosic.com).mp3" id="6_wf5ke"]
+[ext_resource type="Script" uid="uid://060h6c2u0284" path="res://godot/scripts/misc/logs_menu.gd" id="1_kj61t"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="2_vb7pr"]
+[ext_resource type="AudioStream" uid="uid://u3iqpm1usc6g" path="res://assets/sound fx/Vopna(chosic.com).mp3" id="3_4wrde"]
+[ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="4_ribio"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="5_i2u83"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lpv3u"]
-texture = ExtResource("4_lpv3u")
+texture = ExtResource("4_ribio")
 modulate_color = Color(1, 1, 1, 0.486275)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jkq16"]
@@ -34,15 +34,15 @@ bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
 [node name="LogsMenu" type="CanvasLayer"]
-script = ExtResource("1_xd5lu")
+script = ExtResource("1_kj61t")
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_ld8to")
+stream = ExtResource("2_vb7pr")
 volume_db = -15.0
 bus = &"SFX"
 
 [node name="LoginBgSoundFx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_wf5ke")
+stream = ExtResource("3_4wrde")
 volume_db = -6.0
 autoplay = true
 parameters/looping = true
@@ -90,7 +90,7 @@ theme_override_constants/shadow_offset_x = 10
 theme_override_constants/shadow_offset_y = 3
 theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 9
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("5_i2u83")
 theme_override_font_sizes/font_size = 116
 text = "CODE CLASH"
 horizontal_alignment = 1
@@ -105,7 +105,7 @@ alignment = 1
 [node name="login_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("5_i2u83")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_jkq16")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
@@ -115,7 +115,7 @@ text = "LOGIN"
 [node name="register_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("5_i2u83")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fgv7v")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
@@ -125,7 +125,7 @@ text = "REGISTER"
 [node name="offline_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("5_i2u83")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")
@@ -135,7 +135,7 @@ text = "OFFLINE"
 [node name="anon_button" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_liu7y")
+theme_override_fonts/font = ExtResource("5_i2u83")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ndlwy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wm0df")

@@ -10,7 +10,7 @@ func _on_line_edit_text_entered(newtext: String) -> void:
 
 
 func _on_start_pressed() -> void:
-	get_tree().change_scene_to_file("res://godot/Arena.tscn")
+	get_tree().change_scene_to_file("uid://bmkjgidroq0ek")
 
 
 func _on_start_mouse_entered() -> void:

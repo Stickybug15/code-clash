@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://dh0d1emcf7ehm"]
 
-[ext_resource type="Script" uid="uid://ccgo1gwgtccaj" path="res://godot/scripts/sign_in_menu.gd" id="1_sg6uc"]
+[ext_resource type="Script" uid="uid://ccgo1gwgtccaj" path="res://godot/scenes/interfaces/access_mode/sign_in_menu.gd" id="1_sg6uc"]
 [ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="2_u6cic"]
 [ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/fonts/Pixel Game.otf" id="3_k0pr4"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="4_7gseg"]

@@ -18,7 +18,7 @@ var register_btn: Button = $SignUpMenu/RegisterButton
 var is_password_visible: bool = false
 
 func _on_back_button_menu_pressed() -> void:
-	get_tree().change_scene_to_file("res://godot/scenes/authentication_menu.tscn")
+	get_tree().change_scene_to_file("uid://coa2mfgcnskhv")
 
 
 func _on_mouse_entered() -> void:
@@ -32,7 +32,7 @@ func _on_register_button_pressed() -> void:
 	register_btn.disabled = false
 
 	if auth_status == "Success":
-		get_tree().change_scene_to_file("res://godot/scenes/game_interface.tscn")
+		get_tree().change_scene_to_file("uid://bk7f11a367b30")
 
 # New function to toggle the password visibility
 func _on_show_password_pressed() -> void:

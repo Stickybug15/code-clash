@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://tf7w03eeb3fn"]
 
-[ext_resource type="Script" uid="uid://dvxlonbiymnji" path="res://godot/scripts/Intro.gd" id="1_muuhy"]
-[ext_resource type="Texture2D" uid="uid://bsfw7hq2pcwjb" path="res://assets/intro/Intro.png" id="2_muuhy"]
-[ext_resource type="AudioStream" uid="uid://epmnf4gstvpf" path="res://assets/sound fx/intro_bg.wav" id="3_xpchu"]
+[ext_resource type="Script" uid="uid://dvxlonbiymnji" path="res://godot/scenes/interfaces/intro/intro.gd" id="1_sqhl1"]
+[ext_resource type="Texture2D" uid="uid://bsfw7hq2pcwjb" path="res://assets/intro/Intro.png" id="2_aua5w"]
+[ext_resource type="AudioStream" uid="uid://epmnf4gstvpf" path="res://assets/sound fx/intro_bg.wav" id="3_df0wu"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xpchu"]
-texture = ExtResource("2_muuhy")
+texture = ExtResource("2_aua5w")
 
 [sub_resource type="Animation" id="Animation_t2or8"]
 resource_name = "Fade in"
@@ -62,7 +62,7 @@ _data = {
 }
 
 [node name="Intro" type="CanvasLayer"]
-script = ExtResource("1_muuhy")
+script = ExtResource("1_sqhl1")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -101,6 +101,6 @@ libraries = {
 }
 
 [node name="IntroBg" type="AudioStreamPlayer" parent="Control"]
-stream = ExtResource("3_xpchu")
+stream = ExtResource("3_df0wu")
 volume_db = -13.0
 autoplay = true

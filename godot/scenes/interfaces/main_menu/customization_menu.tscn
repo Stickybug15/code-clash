@@ -1,20 +1,20 @@
 [gd_scene load_steps=20 format=3 uid="uid://c3jhsr15xuyuq"]
 
-[ext_resource type="Script" uid="uid://ci6ghu68cyk0x" path="res://godot/scenes/customization_menu.gd" id="1_3f7tt"]
-[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_m1ako"]
-[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="4_3f7tt"]
-[ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="4_hyvmh"]
-[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/ExitButton.gd" id="5_3f7tt"]
-[ext_resource type="Texture2D" uid="uid://d4mcg72x14726" path="res://assets/back button arrow/pressed_arrow-removebg-preview.png" id="5_i8l2i"]
-[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="6_b3ioh"]
-[ext_resource type="Texture2D" uid="uid://cebjdqy0q0hfc" path="res://assets/new_avatar_profiles/Avatar_1.png" id="8_hyvmh"]
-[ext_resource type="Texture2D" uid="uid://bktavpmyb2e1v" path="res://assets/new_avatar_profiles/Avatar_2.png" id="9_i8l2i"]
-[ext_resource type="Texture2D" uid="uid://dh4746n7hye7l" path="res://assets/new_avatar_profiles/Avatar_3.png" id="10_5q70s"]
-[ext_resource type="Texture2D" uid="uid://bpsejqwxtbm60" path="res://assets/new_avatar_profiles/Avatar_4.png" id="11_mv8gi"]
-[ext_resource type="Texture2D" uid="uid://dw0odhobh2oyr" path="res://assets/new_avatar_profiles/Avatar_5.png" id="12_e007v"]
+[ext_resource type="Script" uid="uid://ci6ghu68cyk0x" path="res://godot/scenes/customization_menu.gd" id="1_kq2f1"]
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_nfse4"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_e0wru"]
+[ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="4_kgl4s"]
+[ext_resource type="Texture2D" uid="uid://d4mcg72x14726" path="res://assets/back button arrow/pressed_arrow-removebg-preview.png" id="5_2ilq8"]
+[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/misc/ExitButton.gd" id="6_r4j3r"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="7_ffn0j"]
+[ext_resource type="Texture2D" uid="uid://cebjdqy0q0hfc" path="res://assets/new_avatar_profiles/Avatar_1.png" id="8_5g782"]
+[ext_resource type="Texture2D" uid="uid://bktavpmyb2e1v" path="res://assets/new_avatar_profiles/Avatar_2.png" id="9_njsr5"]
+[ext_resource type="Texture2D" uid="uid://dh4746n7hye7l" path="res://assets/new_avatar_profiles/Avatar_3.png" id="10_tt8lp"]
+[ext_resource type="Texture2D" uid="uid://bpsejqwxtbm60" path="res://assets/new_avatar_profiles/Avatar_4.png" id="11_papli"]
+[ext_resource type="Texture2D" uid="uid://dw0odhobh2oyr" path="res://assets/new_avatar_profiles/Avatar_5.png" id="12_m7j2o"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2w6sf"]
-texture = ExtResource("2_m1ako")
+texture = ExtResource("2_nfse4")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x3t8d"]
 
@@ -65,7 +65,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_3f7tt")
+script = ExtResource("1_kq2f1")
 
 [node name="bg" type="Panel" parent="."]
 modulate = Color(0.670588, 0.670588, 0.670588, 1)
@@ -83,7 +83,7 @@ offset_left = 300.0
 offset_top = 16.0
 offset_right = 864.0
 offset_bottom = 117.0
-theme_override_fonts/font = ExtResource("4_3f7tt")
+theme_override_fonts/font = ExtResource("3_e0wru")
 theme_override_font_sizes/font_size = 50
 text = "CUSTOMIZE"
 horizontal_alignment = 1
@@ -96,14 +96,14 @@ offset_left = 48.0
 offset_top = 54.0
 offset_right = 116.0
 offset_bottom = 119.0
-texture_normal = ExtResource("4_hyvmh")
-texture_pressed = ExtResource("5_i8l2i")
+texture_normal = ExtResource("4_kgl4s")
+texture_pressed = ExtResource("5_2ilq8")
 ignore_texture_size = true
 stretch_mode = 0
-script = ExtResource("5_3f7tt")
+script = ExtResource("6_r4j3r")
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton/Exit_Button"]
-stream = ExtResource("6_b3ioh")
+stream = ExtResource("7_ffn0j")
 volume_db = -15.0
 bus = &"SFX"
 
@@ -115,7 +115,7 @@ offset_bottom = 223.0
 
 [node name="Name_title" type="Label" parent="TouchScreenButton/HBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_3f7tt")
+theme_override_fonts/font = ExtResource("3_e0wru")
 theme_override_font_sizes/font_size = 40
 text = "Name:"
 
@@ -143,7 +143,7 @@ offset_left = 414.0
 offset_top = 257.0
 offset_right = 728.0
 offset_bottom = 311.0
-theme_override_fonts/font = ExtResource("4_3f7tt")
+theme_override_fonts/font = ExtResource("3_e0wru")
 theme_override_font_sizes/font_size = 40
 text = "Avatars"
 horizontal_alignment = 1
@@ -159,7 +159,7 @@ theme_override_constants/separation = 50
 [node name="avatar1" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-texture_normal = ExtResource("8_hyvmh")
+texture_normal = ExtResource("8_5g782")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -167,28 +167,28 @@ stretch_mode = 0
 custom_minimum_size = Vector2(120, 0)
 layout_direction = 1
 layout_mode = 2
-texture_normal = ExtResource("9_i8l2i")
+texture_normal = ExtResource("9_njsr5")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="avatar3" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-texture_normal = ExtResource("10_5q70s")
+texture_normal = ExtResource("10_tt8lp")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="avatar4" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-texture_normal = ExtResource("11_mv8gi")
+texture_normal = ExtResource("11_papli")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="avatar5" type="TextureButton" parent="TouchScreenButton/HBoxContainer2"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-texture_normal = ExtResource("12_e007v")
+texture_normal = ExtResource("12_m7j2o")
 ignore_texture_size = true
 stretch_mode = 0
 
