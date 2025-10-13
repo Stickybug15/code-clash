@@ -1,8 +1,10 @@
 class_name Leaderboard_Table
 extends VBoxContainer
 
-@export var entry_scene: PackedScene
-@onready var entries_container = $NinePatchRect/EntriesContainer
+@export
+var entry_scene: PackedScene
+@onready
+var entries_container = $NinePatchRect/VBoxContainer
 
 
 func _ready():

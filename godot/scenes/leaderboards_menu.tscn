@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cic6kgxw16wuk"]
 
-[ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scenes/leaderboards_menu.gd" id="1_5entk"]
+[ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scripts/leaderboards_menu.gd" id="1_5entk"]
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_6cm6y"]
 [ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="2_ivb16"]
 [ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="3_cv2r0"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://c3jhsr15xuyuq"]
 
-[ext_resource type="Script" path="res://godot/scenes/customization_menu.gd" id="1_3f7tt"]
+[ext_resource type="Script" uid="uid://ci6ghu68cyk0x" path="res://godot/scenes/customization_menu.gd" id="1_3f7tt"]
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_m1ako"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="4_3f7tt"]
 [ext_resource type="Texture2D" uid="uid://b7gn72x4lg4o8" path="res://assets/back button arrow/left-arrow-in-circular-button-black-symbol.png" id="4_hyvmh"]

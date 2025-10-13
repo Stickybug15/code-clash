@@ -16,7 +16,7 @@ func _on_level_rank_pressed()->void:
 	level_rank.visible =true
 	level_panel.visible =true
 	global_panel.visible =false
-	
+
 
 
 func _on_global_rank_pressed() -> void:
