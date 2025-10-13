@@ -106,10 +106,10 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 
 
 func should_change_face_direction() -> bool:
-	if not input.is_any_action_pressed([StateNames.left, StateNames.right]):
+	if not input.is_any_action_pressed([ActionNames.left, ActionNames.right]):
 		return false
 
-	var new_direction := input.get_axis(StateNames.left, StateNames.right)
+	var new_direction := input.get_axis(ActionNames.left, ActionNames.right)
 	if is_equal_approx(_face_direction, new_direction):
 		return false
 	var current_state: State = (locomotion_state.get_active_substate() as State)
@@ -119,10 +119,10 @@ func should_change_face_direction() -> bool:
 
 
 func _update_face_direction() -> void:
-	if not input.is_any_action_pressed([StateNames.left, StateNames.right]):
+	if not input.is_any_action_pressed([ActionNames.left, ActionNames.right]):
 		return
 
-	var new_direction := input.get_axis(StateNames.left, StateNames.right)
+	var new_direction := input.get_axis(ActionNames.left, ActionNames.right)
 	if is_equal_approx(_face_direction, new_direction):
 		return
 

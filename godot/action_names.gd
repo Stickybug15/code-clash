@@ -1,5 +1,6 @@
 extends Node
 
+var none := &"none"
 var idle := &"idle"
 var walk := &"walk"
 var run := &"run"

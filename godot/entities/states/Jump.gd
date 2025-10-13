@@ -28,7 +28,7 @@ func _on_enter(_args) -> void:
 func _after_enter(_args) -> void:
 	agent.input.resume_if_waiting()
 	agent.input.action_as_active()
-	agent.input.action_release(StateNames.jump)
+	agent.input.action_release(ActionNames.jump)
 
 # This function is called each frame if the state is ACTIVE
 # XSM updates the root first, then the children

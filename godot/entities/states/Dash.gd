@@ -33,7 +33,7 @@ func _on_enter(_args) -> void:
 func _after_enter(_args) -> void:
 	agent.input.resume_if_waiting()
 	agent.input.action_as_active()
-	agent.input.action_release(StateNames.dash)
+	agent.input.action_release(ActionNames.dash)
 
 
 # This function is called each frame if the state is ACTIVE
