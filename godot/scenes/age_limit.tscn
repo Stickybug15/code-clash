@@ -99,7 +99,7 @@ text = "NO"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_47pol")
-volume_db = -15.0
+volume_db = -30.0
 bus = &"SFX"
 
 [connection signal="mouse_entered" from="VBoxContainer/VBoxContainer/Yes_Button" to="." method="_on_mouse_entered"]

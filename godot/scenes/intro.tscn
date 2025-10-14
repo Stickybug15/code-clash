@@ -102,5 +102,5 @@ libraries = {
 
 [node name="IntroBg" type="AudioStreamPlayer" parent="Control"]
 stream = ExtResource("3_xpchu")
-volume_db = -13.0
+volume_db = -10.0
 autoplay = true

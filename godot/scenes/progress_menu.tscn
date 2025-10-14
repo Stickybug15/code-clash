@@ -43,7 +43,7 @@ script = ExtResource("4_o6kfn")
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="bg/TouchScreenButton/Exit_Button"]
 stream = ExtResource("5_1vqhh")
-volume_db = -15.0
+volume_db = -30.0
 bus = &"SFX"
 
 [node name="Quest_Panel" type="PanelContainer" parent="bg/TouchScreenButton"]

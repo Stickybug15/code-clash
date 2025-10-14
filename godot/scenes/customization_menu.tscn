@@ -104,7 +104,7 @@ script = ExtResource("5_3f7tt")
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton/Exit_Button"]
 stream = ExtResource("6_b3ioh")
-volume_db = -15.0
+volume_db = -30.0
 bus = &"SFX"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TouchScreenButton"]

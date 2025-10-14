@@ -134,13 +134,13 @@ script = ExtResource("1_uvkbs")
 
 [node name="game fx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_443ga")
-volume_db = -10.0
+volume_db = -16.0
 autoplay = true
 bus = &"Music"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_ai06k")
-volume_db = -15.0
+volume_db = -30.0
 bus = &"SFX"
 
 [node name="Control" type="Control" parent="."]

@@ -76,7 +76,7 @@ script = ExtResource("4_q5130")
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="Exit_Button"]
 stream = ExtResource("5_xmd4w")
-volume_db = -15.0
+volume_db = -30.0
 bus = &"SFX"
 
 [node name="Label" type="Label" parent="."]

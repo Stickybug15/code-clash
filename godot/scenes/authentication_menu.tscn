@@ -38,7 +38,7 @@ script = ExtResource("1_xd5lu")
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_ld8to")
-volume_db = -15.0
+volume_db = -30.0
 bus = &"SFX"
 
 [node name="LoginBgSoundFx" type="AudioStreamPlayer" parent="."]
