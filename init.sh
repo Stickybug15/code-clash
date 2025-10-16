@@ -76,6 +76,11 @@ init_justfile() {
 
 init_godot() {
   local url="https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_win64.exe.zip"
+  if [[ "$1" = "linux" ]]; then
+    url="https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip"
+    ln -sf "$cache_dir/Godot_v4.4.1-stable_linux.x86_64" "$cache_dir/godot"
+  fi
+
   local zipfile="$cache_dir/$(basename $url)"
   if [[ ! -f "$zipfile" ]]; then
     download "$zipfile" "$url"
@@ -141,8 +146,6 @@ init_compiler() {
   fi
   local pacman="/c/msys64/usr/bin/pacman"
   "$pacman" -S mingw-w64-x86_64-gcc mingw-w64-i686-gcc --noconfirm --needed
-
-  ./just.sh build_library=yes build-windows-x86_64
 }
 
 open() {
@@ -151,19 +154,53 @@ open() {
 
 init_addons
 init_submodules
+
 if [[ "$OS" = "Windows_NT" ]]; then
   init_justfile
   init_godot
   init_scons
   init_compiler
+
 else
   source /etc/os-release
+
   if [[ $ID = "arch" ]]; then
     sudo pacman -S --needed gcc just scons ccache fd entr
+
+  elif [[ $ID = "ubuntu" ]]; then
+    if ! exist pip; then
+      sudo apt install pip
+    fi
+
+    if ! exist uv; then
+      sudo pip install uv
+    fi
+
+    if ! exist just; then
+      sudo snap install just
+    fi
+
+    uv python install cpython-3.11.14-linux-x86_64-gnu
+
+    if [[ ! -d "$PWD/.venv" ]]; then
+      uv venv
+    fi
+
+    source .venv/bin/activate    
+
+    uv pip install scons
+
+    init_godot linux
   fi
 
-  ./just.sh build_library=yes build-linux
+  use_llvm=yes
+  if exist clang++; then
+    use_llvm=no
+  fi
+
 fi
+
+./build.sh build_library
 
 echo
 echo -e "$(ansi green)Initialized Successfully!$(ansi reset)"
