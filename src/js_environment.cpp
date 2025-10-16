@@ -23,12 +23,16 @@ namespace godot {
 #define TYPE_ERROR_STRING                                                      \
   ("Invalid argument for '{0}()' function: argument {1} "                      \
    "should be '{2}' but is '{3}'.")
-#define FOR_EACH(TYPE, NAME, ARRAY, BODY) \
-  { \
-    Array array = ARRAY; \
-    TYPE NAME; \
-    for (int __i = 0; __i < array.size(); __i++, NAME = array[__i]) BODY \
-  }
+#define FOR_EACH(type_var, name_var, array_var, block) \
+{                                                      \
+  Array& __arr = array_var;                            \
+  int __i = 0;                                         \
+  while (__i < __arr.size()) {                         \
+    type_var name_var = __arr.get(__i);                \
+    ++__i;                                             \
+    block                                              \
+  }                                                    \
+}
 
 void JSEnvironment::_bind_methods() {
   ClassDB::bind_method(D_METHOD("add_method", "method_info"),
