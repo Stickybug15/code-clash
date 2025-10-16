@@ -6,12 +6,18 @@ var entry_scene: PackedScene
 @onready
 var entries_container = $NinePatchRect/VBoxContainer
 
+var user_mail : String = "pantuaryan15@gmail.com"
+var user_pwd : String = "ryanpantua123"
 
-func _ready():
-	add_entry("alice", 12.0, 15.0)
-	add_entry("ryan", 12.0, 15.0)
-	add_entry("goku", 12.0, 15.0)
-
+func _ready() -> void:
+	var result : AuthTask = await Supabase.auth.sign_in(user_mail, user_pwd).completed
+	if result.user != null:
+		var query := SupabaseQuery.new().from("public.player_level_scores").select(["speed_seconds", "accuracy_score"])
+		var task2: DatabaseTask = await Supabase.database.query(query).completed
+		if task2.error == null:
+			print(task2.data)
+		else:
+			print(task2.error)
 
 func add_entry(player_name: String, speed: float, accuracy: float):
 	var entry: LeaderboardEntry = entry_scene.instantiate()

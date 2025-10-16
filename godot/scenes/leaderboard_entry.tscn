@@ -12,7 +12,7 @@ offset_right = -106.896
 offset_bottom = 10.336
 script = ExtResource("1_d100k")
 
-[node name="Player" type="Label" parent="."]
+[node name="Name" type="Label" parent="."]
 layout_mode = 2
 
 [node name="Speed" type="Label" parent="."]
