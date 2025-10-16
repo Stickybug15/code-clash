@@ -28,8 +28,6 @@ func _init(env: JSEnvironment) -> void:
 
 func enter() -> void:
 	entered.emit()
-	for ref: Dictionary in entered.get_connections():
-		entered.disconnect(ref.get("callable") as Callable)
 
 
 func exit() -> void:

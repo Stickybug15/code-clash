@@ -1,6 +1,7 @@
 class_name Syncronizer
 extends Node
 
+var _entity: EntityPlayer
 var _code_edit: TextEdit
 var _run: Button
 
@@ -12,11 +13,12 @@ var input: SimulateInput:
 var _pending_code: String = ""
 
 
-func _init(code_edit: TextEdit, run_btn: Button) -> void:
+func _init(entity: EntityPlayer, code_edit: TextEdit, run_btn: Button) -> void:
+	_entity = entity
 	_code_edit = code_edit
 	_run = run_btn
 
-	_input = SimulateInput.new(self)
+	_input = SimulateInput.new(_entity, self)
 	_input.env.finished.connect(func() -> void:
 		_pending_code = "")
 

@@ -31,7 +31,7 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.get_action(ActionNames.dash).enter()
+	pass
 
 
 # This function is called each frame if the state is ACTIVE
@@ -62,8 +62,8 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	agent.input.action_release(ActionNames.dash)
 	agent.anim_tree["parameters/dash/TimeScale/scale"] = 1.0
+	pass
 
 
 # when StateAutomaticTimer timeout()
