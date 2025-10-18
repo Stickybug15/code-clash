@@ -20,7 +20,7 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.get_action(ActionNames.run).enter()
+	pass
 
 
 # This function is called each frame if the state is ACTIVE

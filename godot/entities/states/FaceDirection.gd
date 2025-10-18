@@ -21,7 +21,6 @@ func _on_enter(new_direction: float) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.get_action(_direction_name).enter()
 	if next_state.is_empty():
 		change_state(&"Idle")
 	else:
@@ -49,7 +48,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	agent.input.action_release(_direction_name)
+	pass
 
 
 # when StateAutomaticTimer timeout()

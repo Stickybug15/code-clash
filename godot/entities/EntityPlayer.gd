@@ -23,6 +23,8 @@ var walk_state: State = $XSM/Locomotion/Walk
 var run_state: State = $XSM/Locomotion/Run
 @onready
 var dash_state: State = $XSM/Locomotion/Dash
+@onready
+var face_direction_state: State = $XSM/Locomotion/FaceDirection
 
 @onready
 var grounded_state: State = $XSM/AirBorne/Ground
@@ -51,7 +53,7 @@ var move_cmd: MoveInputCommand
 
 var _mouse_entered := false
 @onready
-var sync := Syncronizer.new(code_edit, run_button)
+var sync := Syncronizer.new(self, code_edit, run_button)
 var input: SimulateInput:
 	get: return sync.input
 

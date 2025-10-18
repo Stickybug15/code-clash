@@ -13,6 +13,7 @@ var _timers: Array[Timer] = []
 
 # required variables.
 var _sync: Syncronizer
+var _entity: EntityPlayer
 
 var state_can_resume := true
 
@@ -21,7 +22,8 @@ var env: JSEnvironment:
 	get: return _env
 
 
-func _init(sync: Syncronizer) -> void:
+func _init(entity: EntityPlayer, sync: Syncronizer) -> void:
+	_entity = entity
 	_sync = sync
 	env.finished.connect(func() -> void:
 		clear())
@@ -37,10 +39,10 @@ func _init(sync: Syncronizer) -> void:
 		print_rich("[color=green]idle[/color]")
 		clear()
 		_action_pressed(ActionNames.idle, info)
-		info.entered.connect(func() -> void:
-			clear()
-			_env.resume()
-			print("entered"))
+		_entity.idle_state.state_entered.connect.call_deferred(func(sender: State) -> void:
+			_env.resume(), ConnectFlags.CONNECT_ONE_SHOT)
+		_entity.idle_state.state_exited.connect.call_deferred(func(sender: State) -> void:
+			action_release(ActionNames.idle), ConnectFlags.CONNECT_ONE_SHOT)
 		return true
 	_env.add_method_v2(entry)
 
@@ -50,7 +52,11 @@ func _init(sync: Syncronizer) -> void:
 	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
 		print_rich("[color=green]walk[/color]")
 		_action_pressed(ActionNames.walk, info)
-		info.entered.connect(_env.resume.bind())
+		_entity.walk_state.state_entered.connect.call_deferred(func(sender: State) -> void:
+			print("walk entered")
+			_env.resume(), ConnectFlags.CONNECT_ONE_SHOT)
+		_entity.walk_state.state_exited.connect.call_deferred(func(sender: State) -> void:
+			action_release(ActionNames.walk), ConnectFlags.CONNECT_ONE_SHOT)
 		return true
 	_env.add_method_v2(entry)
 
@@ -61,7 +67,10 @@ func _init(sync: Syncronizer) -> void:
 		print_rich("[color=green]face_left[/color]")
 		action_release(ActionNames.right)
 		_action_pressed(ActionNames.left, info)
-		info.entered.connect(_env.resume.bind())
+		_entity.face_direction_state.state_entered.connect.call_deferred(func(sender: State) -> void:
+			_env.resume(), ConnectFlags.CONNECT_ONE_SHOT)
+		_entity.face_direction_state.state_exited.connect.call_deferred(func(sender: State) -> void:
+			action_release(ActionNames.left), ConnectFlags.CONNECT_ONE_SHOT)
 		return true
 	_env.add_method_v2(entry)
 
@@ -72,7 +81,9 @@ func _init(sync: Syncronizer) -> void:
 		print_rich("[color=green]face_right[/color]")
 		action_release(ActionNames.left)
 		_action_pressed(ActionNames.right, info)
-		info.entered.connect(_env.resume.bind())
+		_entity.face_direction_state.state_entered.connect.call_deferred(func(sender: State) -> void:
+			_env.resume()
+			action_release(ActionNames.right), ConnectFlags.CONNECT_ONE_SHOT)
 		return true
 	_env.add_method_v2(entry)
 
@@ -82,7 +93,10 @@ func _init(sync: Syncronizer) -> void:
 	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
 		print_rich("[color=green]run[/color]")
 		_action_pressed(ActionNames.run, info)
-		info.entered.connect(_env.resume.bind())
+		_entity.run_state.state_entered.connect.call_deferred(func(sender: State) -> void:
+			_env.resume(), ConnectFlags.CONNECT_ONE_SHOT)
+		_entity.run_state.state_exited.connect.call_deferred(func(sender: State) -> void:
+			action_release(ActionNames.run), ConnectFlags.CONNECT_ONE_SHOT)
 		return true
 	_env.add_method_v2(entry)
 
@@ -94,9 +108,13 @@ func _init(sync: Syncronizer) -> void:
 	entry.one_shot = true
 	entry.path = "hero.dev.jump"
 	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
+		await get_tree().process_frame
 		print_rich("[color=green]jump[/color]")
 		_action_pressed(ActionNames.jump, info)
-		info.entered.connect(_env.resume.bind())
+		_entity.jump_state.state_entered.connect.call_deferred(func(sender: State) -> void:
+			_env.resume(), ConnectFlags.CONNECT_ONE_SHOT)
+		_entity.jump_state.state_exited.connect.call_deferred(func(sender: State) -> void:
+			action_release(ActionNames.jump), ConnectFlags.CONNECT_ONE_SHOT)
 		return true
 	_env.add_method_v2(entry)
 
@@ -107,8 +125,10 @@ func _init(sync: Syncronizer) -> void:
 	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
 		print_rich("[color=green]dash[/color]")
 		_action_pressed(ActionNames.dash, info)
-		info.entered.connect(_env.resume.bind())
-		info.entered.connect(print.bind("dash resume"))
+		_entity.dash_state.state_entered.connect.call_deferred(func(sender: State) -> void:
+			_env.resume(), ConnectFlags.CONNECT_ONE_SHOT)
+		_entity.dash_state.state_exited.connect.call_deferred(func(sender: State) -> void:
+			action_release(ActionNames.dash), ConnectFlags.CONNECT_ONE_SHOT)
 		return true
 	_env.add_method_v2(entry)
 
@@ -155,8 +175,7 @@ func _init(sync: Syncronizer) -> void:
 		var duration: float = maxf(args.get("duration", 0.0) as float, EPSILON)
 		get_tree().create_timer(duration).timeout.connect(func() -> void:
 			_env.resume()
-			state_can_resume = true
-		)
+			state_can_resume = true)
 		return true
 	_env.add_method_v2(entry)
 
@@ -168,7 +187,6 @@ func new_action() -> MethodInput:
 
 
 func clear() -> void:
-	# TODO: how about the timers?
 	_actions.clear()
 
 
@@ -198,7 +216,6 @@ func action_release(action: StringName) -> void:
 		_one_shot_actions_count = max(0, _one_shot_actions_count - 1)
 		if _one_shot_actions_count == 0:
 			one_shot_action_finished.emit()
-	_actions[action].exit()
 	_actions.erase(action)
 
 
