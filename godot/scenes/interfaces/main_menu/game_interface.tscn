@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://bk7f11a367b30"]
+[gd_scene load_steps=45 format=3 uid="uid://bk7f11a367b30"]
 
 [ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scenes/interfaces/main_menu/game_interface.gd" id="1_xhn7x"]
 [ext_resource type="AudioStream" uid="uid://bpoqprrfs8rvk" path="res://assets/sound fx/Now-We-Ride(chosic.com).mp3" id="2_n57u1"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://dou83cdo0k0tf" path="res://godot/scripts/misc/SfxButton.gd" id="11_5lhv7"]
 [ext_resource type="Script" uid="uid://dy3h71ihb277q" path="res://godot/scripts/misc/SfxControl.gd" id="12_1ew2u"]
 [ext_resource type="Script" uid="uid://chd0wepf54ipj" path="res://godot/scripts/misc/FullscreenControl.gd" id="13_148rw"]
+[ext_resource type="Texture2D" uid="uid://bfcy0l4wund4g" path="res://assets/Avatars/Avatars/Avatar_1.png" id="14_n57u1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xx5qh"]
 
@@ -128,6 +129,10 @@ thickness = 6
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_attwo"]
 color = Color(0.355696, 0.690186, 1, 1)
 thickness = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhn7x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n57u1"]
 
 [node name="GameInterface" type="CanvasLayer"]
 script = ExtResource("1_xhn7x")
@@ -416,14 +421,72 @@ layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 32.0
-offset_top = -72.0
-offset_right = 40.0
-offset_bottom = -24.0
+offset_left = 18.0
+offset_top = -485.0
+offset_right = 54.0
+offset_bottom = -440.0
 theme_override_fonts/font = ExtResource("6_uwc6b")
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="mode_menu" type="HBoxContainer" parent="."]
+anchors_preset = -1
+anchor_bottom = 0.031
+offset_left = 193.0
+offset_top = 41.0
+offset_right = 357.0
+offset_bottom = 60.912
+theme_override_constants/separation = 16
+
+[node name="login_Button" type="Button" parent="mode_menu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ar3a4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xhn7x")
+text = "Login"
+
+[node name="register_Button" type="Button" parent="mode_menu"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ar3a4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_n57u1")
+text = "Register"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+offset_left = 16.0
+offset_top = 592.0
+offset_right = 56.0
+offset_bottom = 642.0
+
+[node name="logout_Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_uwc6b")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ar3a4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_xhn7x")
+text = "LogOut"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+offset_right = 122.0
+offset_bottom = 127.0
+theme_override_constants/separation = 11
+
+[node name="Avatar" type="TextureRect" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+texture = ExtResource("14_n57u1")
+expand_mode = 1
+
+[node name="name_Label" type="Label" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "name"
 
 [connection signal="mouse_entered" from="Control/Setting_button" to="." method="_on_button_entered"]
 [connection signal="pressed" from="Control/Setting_button" to="." method="_on_setting_button_pressed"]
@@ -446,3 +509,5 @@ vertical_alignment = 1
 [connection signal="toggled" from="Control/Settings/VBoxContainer/FullscreenControl" to="Control/Settings/VBoxContainer/FullscreenControl" method="_on_toggled"]
 [connection signal="mouse_entered" from="Control/Settings/VBoxContainer/Return_button" to="." method="_on_return_button_mouse_entered"]
 [connection signal="pressed" from="Control/Settings/VBoxContainer/Return_button" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="mode_menu/login_Button" to="." method="_on_login_button_pressed"]
+[connection signal="pressed" from="mode_menu/register_Button" to="." method="_on_register_button_pressed"]
