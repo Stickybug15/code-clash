@@ -9,9 +9,16 @@ var entries_container = $NinePatchRect/VBoxContainer
 var user_mail : String = "pantuaryan15@gmail.com"
 var user_pwd : String = "ryanpantua123"
 
+
 func _ready() -> void:
+	await  _sign_in_fetch()
+
+func _sign_in_fetch():
 	var result : AuthTask = await Supabase.auth.sign_in(user_mail, user_pwd).completed
 	if result.user != null:
+		await fetch_data()
+
+func fetch_data():
 		var query := SupabaseQuery.new().from("public.player_level_scores").select(["speed_seconds", "accuracy_score"])
 		var task2: DatabaseTask = await Supabase.database.query(query).completed
 		if task2.error == null:
