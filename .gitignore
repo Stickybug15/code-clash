@@ -86,6 +86,7 @@ compile_commands.json
 *.os
 !addons/**
 build*
+!build.sh
 
 docs/.obsidian
 
