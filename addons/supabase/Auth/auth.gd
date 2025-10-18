@@ -57,8 +57,8 @@ func _init(conf : Dictionary, head : PackedStringArray) -> void:
 	_header = head
 	name = "Authentication"
 
-func __get_session_header() -> PackedStringArray :
-	return PackedStringArray([_bearer[0] % ( _auth if not _auth.is_empty() else _config.supabaseKey )])
+func __get_session_header(access_token: String = _auth) -> PackedStringArray :
+	return PackedStringArray([_bearer[0] % ( access_token if not access_token.is_empty() else _config.supabaseKey )])
 
 func _check_auth() -> AuthTask:
 	var auth_task : AuthTask = AuthTask.new()
@@ -209,8 +209,8 @@ func user(user_access_token : String = _auth) -> AuthTask:
 	var auth_task : AuthTask = AuthTask.new()._setup(
 		AuthTask.Task.USER,
 		_config.supabaseUrl + _user_endpoint,
-		_header + __get_session_header())
-	_process_task(auth_task)
+		_header + __get_session_header(user_access_token))
+	_process_task(auth_task, false)
 	return auth_task
 
 
@@ -272,10 +272,15 @@ func invite_user_by_email(email : String) -> AuthTask:
 
 
 # Refresh the access_token of the authenticated client using the refresh_token
-# No need to call this manually except specific needs, since the process will be handled automatically
-func refresh_token(refresh_token : String = client.refresh_token, expires_in : float = client.expires_in) -> AuthTask:
-	await get_tree().create_timer(expires_in - 10).timeout
-	var payload : Dictionary = {refresh_token = refresh_token}
+func refresh_token(refresh_token : String = "") -> AuthTask:
+	if refresh_token.is_empty():
+		if client:
+			refresh_token = client.refresh_token
+		else:
+			push_error("Auth session missing!")
+			return _check_auth()
+
+	var payload : Dictionary = {"refresh_token": refresh_token}
 	var auth_task : AuthTask = AuthTask.new()._setup(
 		AuthTask.Task.REFRESH,
 		_config.supabaseUrl + _refresh_token_endpoint,
@@ -284,6 +289,27 @@ func refresh_token(refresh_token : String = client.refresh_token, expires_in : f
 	_process_task(auth_task)
 	return auth_task
 
+
+func set_session(access_token : String, refresh_token : String) -> AuthTask:
+	var time_now := Time.get_unix_time_from_system()
+	var has_expired: bool
+
+	if not access_token.is_empty():
+		var decoder: JWTDecoder = JWT.decode(access_token)
+		var expires_at := decoder.get_expires_at()
+		if expires_at != -1:
+			has_expired = expires_at <= time_now
+
+	if has_expired:
+		if refresh_token.is_empty():
+			push_error("Auth session missing!")
+			return _check_auth()
+		var task := self.refresh_token(refresh_token)
+		return task
+
+	var task := self.user(access_token)
+	task.completed.connect(_set_client)
+	return task
 
 
 # Retrieve the response from the server
@@ -299,18 +325,15 @@ func _get_link_response(delta : float) -> String:
 
 
 # Process a specific task
-func _process_task(task : AuthTask, _fake : bool = false) -> void:
-	task.completed.connect(_on_task_completed)
-	if _fake:
-		await get_tree().create_timer(0.5).timeout
-		task.complete(task.user, task.data, task.error)
-	else:
-		var httprequest : HTTPRequest = HTTPRequest.new()
-		add_child(httprequest)
-		task.push_request(httprequest)
+func _process_task(task : AuthTask, replace_client: bool = true) -> void:
+	if replace_client:
+		task.completed.connect(_set_client)
+	var httprequest : HTTPRequest = HTTPRequest.new()
+	add_child(httprequest)
+	task.push_request(httprequest)
 
 
-func _on_task_completed(task : AuthTask) -> void:
+func _set_client(task : AuthTask) -> void:
 	if task.error != null:
 		error.emit(task.error)
 	else:
@@ -335,7 +358,6 @@ func _on_task_completed(task : AuthTask) -> void:
 					otp_verified.emit(client)
 				AuthTask.Task.SIGNINANONYM:
 					signed_in_anonymous.emit()
-			refresh_token()
 		else:
 			if task.data.is_empty() or task.data == null:
 				match task._code:

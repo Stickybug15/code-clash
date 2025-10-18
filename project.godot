@@ -23,11 +23,11 @@ buses/default_bus_layout="res://addons/default_bus_layout.tres"
 
 Supabase="*res://addons/supabase/Supabase/supabase.gd"
 Console="*res://addons/console/console.gd"
-BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
-BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 Auth="*res://godot/Auth.gd"
 ActionNames="*res://godot/action_names.gd"
+BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 
 [debug]
 
@@ -63,7 +63,7 @@ text_editor/behavior/indent/type=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/beehave/plugin.cfg", "res://addons/console/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/supabase/plugin.cfg", "res://addons/xsm/plugin.cfg")
+enabled=PackedStringArray("res://addons/console/plugin.cfg", "res://addons/jwt/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/supabase/plugin.cfg", "res://addons/xsm/plugin.cfg")
 
 [input]
 

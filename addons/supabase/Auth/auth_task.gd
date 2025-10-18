@@ -45,7 +45,7 @@ func _on_task_completed(result : int, response_code : int, headers : PackedStrin
 	match response_code:
 		200:
 			match _code:
-				Task.SIGNUP, Task.SIGNIN, Task.SIGNINANONYM, Task.UPDATE, Task.REFRESH, Task.VERIFYOTP:
+				Task.SIGNUP, Task.SIGNIN, Task.SIGNINANONYM, Task.UPDATE, Task.REFRESH, Task.VERIFYOTP, Task.USER:
 					complete(SupabaseUser.new(result_body), result_body)
 				Task.MAGICLINK, Task.RECOVER, Task.INVITE:
 					complete()
