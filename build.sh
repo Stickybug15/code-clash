@@ -14,11 +14,15 @@ if exist clang++; then
   use_llvm=yes  
 fi
 
-source /etc/os-release
+check-python() {
+  local script="import sys; exit(0 if sys.version_info >= (3, 11, 0) else 1)"
+  local bin="$1"
+  "$bin" -c "$script"
+}
 
-python_version="Python 3.11.14"
-if [[ "$(python --version)" != "$python_version" ]]; then
-  if [[ "$(.venv/bin/python --version)" == "$python_version" ]]; then
+python_version="Python 3.11.0"
+if ! check-version "python"; then
+  if ! check-version "$PWD/.venv/bin/python"; then
     source ".venv/bin/activate"
   else
     echo "Python version must be '$python_version'!, maybe, run './init.sh' first?"
@@ -29,6 +33,7 @@ fi
 if [[ "$OS" = "Windows_NT" ]]; then
   ./just.sh build_library="$build_library" use_llvm="$use_llvm" build-windows-x86_64
 else
+  source /etc/os-release
   case "$ID" in
     arch|ubuntu)
       ./just.sh build_library="$build_library" use_llvm="$use_llvm" build-linux
