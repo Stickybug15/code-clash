@@ -4,11 +4,14 @@ extends EntityState
 #
 # FUNCTIONS TO INHERIT IN YOUR STATES
 #
+var _direction_name: StringName
 
 # This function is called when the state enters
 # XSM enters the root first, the the children
 func _on_enter(new_direction: float) -> void:
 	super(new_direction)
+	new_direction = sign(new_direction)
+	_direction_name = ActionNames.left if new_direction < 0 else ActionNames.right
 	agent._face_direction = new_direction
 
 	agent.sprite.scale.x = new_direction
@@ -18,8 +21,6 @@ func _on_enter(new_direction: float) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.resume_if_waiting()
-	agent.input.action_as_active()
 	if next_state.is_empty():
 		change_state(&"Idle")
 	else:
@@ -47,7 +48,7 @@ func _before_exit(_args) -> void:
 # This function is called when the State exits
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
-	agent.input.action_as_inactive()
+	pass
 
 
 # when StateAutomaticTimer timeout()
