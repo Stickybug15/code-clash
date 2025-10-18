@@ -185,7 +185,7 @@ text = "Back to MainMenu"
 
 [node name="hover_fx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_wry4w")
-volume_db = -15.0
+volume_db = -30.0
 
 [node name="Show_password" type="TextureButton" parent="."]
 offset_left = 735.0

@@ -1,6 +1,6 @@
 [gd_scene load_steps=66 format=3 uid="uid://bcbu4qmsumgm8"]
 
-[ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/entities/EntityPlayer.gd" id="1_kw088"]
+[ext_resource type="Script" uid="uid://b1a8n01ih2ig0" path="res://godot/resources/EntityPlayer.gd" id="1_kw088"]
 [ext_resource type="Resource" uid="uid://cn2lrsmx3i3wh" path="res://godot/resources/default.tres" id="2_i0s5h"]
 [ext_resource type="PackedScene" uid="uid://t1cq0num0y7h" path="res://godot/characters/sprites/LuneBlade.tscn" id="5_h78px"]
 [ext_resource type="Script" uid="uid://biyeafyja5f6p" path="res://godot/hurt_box.gd" id="10_30ba4"]
