@@ -1,8 +1,5 @@
 [gd_scene load_steps=29 format=3 uid="uid://bk7f11a367b30"]
 
-[ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scenes/interfaces/main_menu/UI.gd" id="1_uurwx"]
-[ext_resource type="AudioStream" uid="uid://bpoqprrfs8rvk" path="res://assets/sound fx/Now-We-Ride(chosic.com).mp3" id="2_0r3w7"]
-[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="3_62vh3"]
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="4_egbt7"]
 [ext_resource type="Script" uid="uid://xtqelqe3nxym" path="res://godot/scenes/interfaces/main_menu/UiContainer.gd" id="5_egbt7"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="5_vbhr2"]
@@ -18,6 +15,8 @@
 [ext_resource type="Script" uid="uid://chd0wepf54ipj" path="res://godot/scripts/misc/FullscreenControl.gd" id="13_jqjnr"]
 [ext_resource type="Texture2D" uid="uid://bfcy0l4wund4g" path="res://assets/Avatars/Avatars/Avatar_1.png" id="14_1rp7g"]
 [ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://assets/fonts/main_font.tres" id="15_60njj"]
+[ext_resource type="PackedScene" uid="uid://c8xxkfj2ojj8w" path="res://godot/scenes/interfaces/access_mode/SignInForm.tscn" id="19_3c34e"]
+[ext_resource type="PackedScene" uid="uid://c2m438b4f67de" path="res://godot/scenes/interfaces/access_mode/SignUpForm.tscn" id="20_2dnmr"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8t3lh"]
 texture = ExtResource("4_egbt7")
@@ -29,6 +28,9 @@ modulate_color = Color(0.628315, 0.628315, 0.628315, 1)
 script/source = "extends HBoxContainer
 
 @export
+var main_menu: Control
+
+@export
 var logout_btn: Button
 
 @onready
@@ -38,17 +40,22 @@ var name_label: Label = $TabContainer/NameLabel
 
 
 func _ready() -> void:
-	var is_anonymous: bool = true
-	if Auth.user:
-		is_anonymous = Auth.user.is_anonymous
+	pass
 
-	if is_anonymous:
-		auth_methods.visible = true
-		logout_btn.visible = false
-	else:
-		name_label.visible = true
-		name_label.text = Auth.email
-		logout_btn.visible = true
+
+func _on_main_menu_visibility_changed() -> void:
+	if main_menu.visible:
+		var is_anonymous: bool = true
+		if Auth.user:
+			is_anonymous = Auth.user.is_anonymous
+
+		if is_anonymous:
+			auth_methods.visible = true
+			logout_btn.visible = false
+		else:
+			name_label.visible = true
+			name_label.text = Auth.email
+			logout_btn.visible = true
 "
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8t3lh"]
@@ -76,20 +83,19 @@ thickness = 6
 color = Color(0.355696, 0.690186, 1, 1)
 thickness = 6
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s8lgt"]
+bg_color = Color(0, 0, 0, 0.352941)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+expand_margin_left = 50.0
+expand_margin_top = 50.0
+expand_margin_right = 50.0
+expand_margin_bottom = 50.0
+
 [node name="UI" type="CanvasLayer"]
-script = ExtResource("1_uurwx")
 metadata/_edit_horizontal_guides_ = [-16.0]
-
-[node name="game fx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_0r3w7")
-volume_db = -10.0
-autoplay = true
-bus = &"Music"
-
-[node name="hover_fx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_62vh3")
-volume_db = -15.0
-bus = &"SFX"
 
 [node name="Background" type="Panel" parent="."]
 anchors_preset = 15
@@ -106,12 +112,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_uurwx")
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 script = ExtResource("5_egbt7")
 
 [node name="MainMenu" type="Control" parent="UIContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -166,7 +171,7 @@ text = "Settings"
 layout_mode = 2
 text = "Quit"
 
-[node name="Profile" type="HBoxContainer" parent="UIContainer/MainMenu" node_paths=PackedStringArray("logout_btn")]
+[node name="Profile" type="HBoxContainer" parent="UIContainer/MainMenu" node_paths=PackedStringArray("main_menu", "logout_btn")]
 layout_mode = 2
 offset_left = 20.0
 offset_top = 20.0
@@ -174,6 +179,7 @@ offset_right = 250.0
 offset_bottom = 120.0
 theme_override_constants/separation = 30
 script = SubResource("GDScript_fwc7g")
+main_menu = NodePath("..")
 logout_btn = NodePath("../LogoutButton")
 
 [node name="Avatar" type="Panel" parent="UIContainer/MainMenu/Profile"]
@@ -202,11 +208,11 @@ layout_mode = 2
 theme_override_constants/separation = 16
 metadata/_tab_index = 0
 
-[node name="Login" parent="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons" instance=ExtResource("6_3c34e")]
+[node name="SignIn" parent="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons" instance=ExtResource("6_3c34e")]
 layout_mode = 2
 text = "Sign-In"
 
-[node name="Register" parent="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons" instance=ExtResource("6_3c34e")]
+[node name="SignUp" parent="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons" instance=ExtResource("6_3c34e")]
 layout_mode = 2
 text = "Sign-Up"
 
@@ -232,6 +238,7 @@ grow_vertical = 0
 text = "Logout"
 
 [node name="Play" type="Control" parent="UIContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -397,11 +404,52 @@ script = ExtResource("13_jqjnr")
 layout_mode = 2
 text = "Return to Main Menu"
 
+[node name="AuthenticationMenu" type="Control" parent="UIContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 5
+
+[node name="ReturnToMenu" parent="UIContainer/AuthenticationMenu" instance=ExtResource("6_3c34e")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 240.0
+offset_bottom = 79.0
+text = "Return to Menu"
+
+[node name="FormTabContainer" type="TabContainer" parent="UIContainer/AuthenticationMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -198.5
+offset_right = 200.0
+offset_bottom = 198.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s8lgt")
+current_tab = 0
+tabs_visible = false
+
+[node name="SignInForm" parent="UIContainer/AuthenticationMenu/FormTabContainer" instance=ExtResource("19_3c34e")]
+layout_mode = 2
+
+[node name="SignUpForm" parent="UIContainer/AuthenticationMenu/FormTabContainer" instance=ExtResource("20_2dnmr")]
+visible = false
+layout_mode = 2
+
+[connection signal="visibility_changed" from="UIContainer/MainMenu" to="UIContainer/MainMenu/Profile" method="_on_main_menu_visibility_changed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/PlayButton" to="UIContainer" method="_on_play_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/CustomizationButton" to="UIContainer" method="_on_customization_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/LeaderboardButton" to="UIContainer" method="_on_leaderboard_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/SettingsButton" to="UIContainer" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/QuitButton" to="UIContainer" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons/SignIn" to="UIContainer" method="_on_sign_in_pressed"]
+[connection signal="pressed" from="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons/SignUp" to="UIContainer" method="_on_sign_up_pressed"]
 [connection signal="pressed" from="UIContainer/Play/ReturnToMenu" to="UIContainer" method="_main_menu_visible"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" method="_on_pressed"]
 [connection signal="value_changed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" method="_on_value_changed"]
@@ -409,6 +457,7 @@ text = "Return to Main Menu"
 [connection signal="value_changed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" method="_on_value_changed"]
 [connection signal="toggled" from="UIContainer/SettingsMenu/VBoxContainer/FullscreenControl" to="UIContainer/SettingsMenu/VBoxContainer/FullscreenControl" method="_on_toggled"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/ReturnButton" to="UIContainer" method="_main_menu_visible"]
+[connection signal="pressed" from="UIContainer/AuthenticationMenu/ReturnToMenu" to="UIContainer" method="_main_menu_visible"]
 
 [editable path="UIContainer/CustomizationMenu"]
 [editable path="UIContainer/LeaderboardsMenu"]

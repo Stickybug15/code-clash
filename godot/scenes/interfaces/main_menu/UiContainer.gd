@@ -9,6 +9,13 @@ var leaderboards_menu: Control = $LeaderboardsMenu
 @onready
 var settings_menu: Control = $SettingsMenu
 
+@onready
+var authentication_menu: Control = $AuthenticationMenu
+@onready
+var sign_in_form: Control = $AuthenticationMenu/FormTabContainer/SignInForm
+@onready
+var sign_up_form: Control = $AuthenticationMenu/FormTabContainer/SignUpForm
+
 
 func _main_menu_visible() -> void:
 	main_menu.visible = true
@@ -32,3 +39,13 @@ func _on_settings_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_sign_in_pressed() -> void:
+	authentication_menu.visible = true
+	sign_in_form.visible = true
+
+
+func _on_sign_up_pressed() -> void:
+	authentication_menu.visible = true
+	sign_up_form.visible = true
