@@ -1,5 +1,5 @@
 class_name ScriptEngine
-extends Node
+extends Resource
 
 var _entity: EntityPlayer
 var _code_edit: TextEdit
@@ -21,8 +21,6 @@ func _init(entity: EntityPlayer, code_edit: TextEdit, run_btn: Button) -> void:
 	_input = SimulateInput.new(_entity, self)
 	_input.env.finished.connect(func() -> void:
 		_pending_code = "")
-
-	add_child(_input)
 
 
 func ready(code: String) -> void:

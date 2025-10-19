@@ -46,10 +46,14 @@ var _status_label: Label = $Status
 @onready
 var _xsm: State = $XSM
 
-var jump_cmd: ImpulseCommand
-var dash_cmd: ImpulseCommand
-var fall_cmd: FallCommand
-var move_cmd: MoveInputCommand
+@onready
+var jump_cmd := ImpulseCommand.new()
+@onready
+var dash_cmd := ImpulseCommand.new()
+@onready
+var fall_cmd := FallCommand.new()
+@onready
+var move_cmd := MoveInputCommand.new(sprite)
 
 var _mouse_entered := false
 @onready
@@ -59,17 +63,10 @@ var input: SimulateInput:
 
 
 var _face_direction := 1.0
-var _return_state := ""
 
 
 func _ready() -> void:
 	anim_tree.active = true
-	add_child(engine)
-
-	jump_cmd = ImpulseCommand.new()
-	dash_cmd = ImpulseCommand.new()
-	fall_cmd = FallCommand.new()
-	move_cmd = MoveInputCommand.new(sprite)
 
 	input.env.started.connect(func() -> void:
 		_status_label.text = "Env is Started")
