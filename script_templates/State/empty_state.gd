@@ -2,10 +2,6 @@
 extends State
 
 
-#
-# FUNCTIONS TO INHERIT IN YOUR STATES
-#
-
 # This function is called when the state enters
 # XSM enters the root first, the the children
 func _on_enter(_args) -> void:

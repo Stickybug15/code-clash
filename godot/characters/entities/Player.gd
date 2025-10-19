@@ -110,7 +110,7 @@ func _on_hurt_box_area_entered(area: HitBox) -> void:
 		take_damage(area.damage)
 
 
-func should_change_face_direction() -> bool:
+func change_face_direction() -> bool:
 	if not input.is_any_action_pressed([ActionNames.left, ActionNames.right]):
 		return false
 
@@ -121,21 +121,3 @@ func should_change_face_direction() -> bool:
 	_xsm.get_state(&"FaceDirection").next_state = current_state.get_path()
 	_xsm.change_state(&"FaceDirection", new_direction)
 	return true
-
-
-func _update_face_direction() -> void:
-	if not input.is_any_action_pressed([ActionNames.left, ActionNames.right]):
-		return
-
-	var new_direction := input.get_axis(ActionNames.left, ActionNames.right)
-	if is_equal_approx(_face_direction, new_direction):
-		return
-
-	if input.is_action_pressed(ActionNames.left):
-		input.get_action(ActionNames.left).enter()
-	elif input.is_action_pressed(ActionNames.right):
-		input.get_action(ActionNames.right).enter()
-	_face_direction = new_direction
-
-	sprite.scale.x = _face_direction
-	move_cmd.change_direction(_face_direction)
