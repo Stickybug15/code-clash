@@ -106,11 +106,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_uurwx")
-current_tab = 0
+current_tab = 1
 tabs_visible = false
 script = ExtResource("5_egbt7")
 
 [node name="MainMenu" type="Control" parent="UIContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -230,20 +231,47 @@ offset_bottom = -20.0
 grow_vertical = 0
 text = "Logout"
 
-[node name="CustomizationMenu" parent="UIContainer" instance=ExtResource("8_62vh3")]
-visible = false
+[node name="Play" type="Control" parent="UIContainer"]
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="LeaderboardsMenu" parent="UIContainer" instance=ExtResource("9_egbt7")]
+[node name="ReturnToMenu" parent="UIContainer/Play" instance=ExtResource("6_3c34e")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 240.0
+offset_bottom = 79.0
+text = "Return to Menu"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UIContainer/Play"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 100.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIContainer/Play/ScrollContainer"]
+layout_mode = 2
+
+[node name="CustomizationMenu" parent="UIContainer" instance=ExtResource("8_62vh3")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="SettingsMenu" type="Control" parent="UIContainer"]
+[node name="LeaderboardsMenu" parent="UIContainer" instance=ExtResource("9_egbt7")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
+
+[node name="SettingsMenu" type="Control" parent="UIContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
 
 [node name="BG" type="Panel" parent="UIContainer/SettingsMenu"]
 layout_mode = 1
@@ -374,6 +402,7 @@ text = "Return to Main Menu"
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/LeaderboardButton" to="UIContainer" method="_on_leaderboard_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/SettingsButton" to="UIContainer" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/QuitButton" to="UIContainer" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="UIContainer/Play/ReturnToMenu" to="UIContainer" method="_main_menu_visible"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" method="_on_pressed"]
 [connection signal="value_changed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" method="_on_value_changed"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/SFX_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/SFX_Button" method="_on_pressed"]

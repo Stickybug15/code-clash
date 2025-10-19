@@ -3,7 +3,7 @@ extends VBoxContainer
 
 @export var entry_scene: PackedScene
 
-@onready var entries_container: Container = $NinePatchRect/VBoxContainer
+@onready var entries_container: Container = $Entries
 
 var user_mail: String = "pantuaryan15@gmail.com"
 var user_pwd: String = "ryanpantua123"
@@ -39,15 +39,14 @@ func fetch_leaderboard_async() -> void:
 					[speed_seconds, accuracy_score, level_name]
 				)
 			)
-			add_entry(level_name, speed_seconds, accuracy_score)
+			add_entry(level_name, speed_seconds)
 
 	else:
 		print("Error: ", task2.error)
 
 
-func add_entry(player_name: String, speed: float, accuracy: float) -> void:
+func add_entry(player_name: String, proficiency: float) -> void:
 	var entry: LeaderboardEntry = entry_scene.instantiate()
 	entry.player_name = player_name
-	entry.speed = speed
-	entry.accuracy = accuracy
+	entry.proficiency = proficiency
 	entries_container.add_child(entry)
