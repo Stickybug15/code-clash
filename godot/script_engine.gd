@@ -1,4 +1,4 @@
-class_name Syncronizer
+class_name ScriptEngine
 extends Node
 
 var _entity: EntityPlayer

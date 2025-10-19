@@ -12,7 +12,7 @@ signal one_shot_action_finished
 var _timers: Array[Timer] = []
 
 # required variables.
-var _sync: Syncronizer
+var _engine: ScriptEngine
 var _entity: EntityPlayer
 
 var state_can_resume := true
@@ -22,9 +22,9 @@ var env: JSEnvironment:
 	get: return _env
 
 
-func _init(entity: EntityPlayer, sync: Syncronizer) -> void:
+func _init(entity: EntityPlayer, engine: ScriptEngine) -> void:
 	_entity = entity
-	_sync = sync
+	_engine = engine
 	env.finished.connect(func() -> void:
 		clear())
 	var entry := new_action()

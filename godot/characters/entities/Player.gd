@@ -53,9 +53,9 @@ var move_cmd: MoveInputCommand
 
 var _mouse_entered := false
 @onready
-var sync := Syncronizer.new(self, code_edit, run_button)
+var engine := ScriptEngine.new(self, code_edit, run_button)
 var input: SimulateInput:
-	get: return sync.input
+	get: return engine.input
 
 
 var _face_direction := 1.0
@@ -64,7 +64,7 @@ var _return_state := ""
 
 func _ready() -> void:
 	anim_tree.active = true
-	add_child(sync)
+	add_child(engine)
 
 	jump_cmd = ImpulseCommand.new()
 	dash_cmd = ImpulseCommand.new()
