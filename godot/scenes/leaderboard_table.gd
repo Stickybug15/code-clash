@@ -1,4 +1,4 @@
-class_name Leaderboard_Table
+class_name LeaderboardTable
 extends VBoxContainer
 
 @export
@@ -9,7 +9,7 @@ var entries_container: Container = $NinePatchRect/VBoxContainer
 var user_mail : String = "pantuaryan15@gmail.com"
 var user_pwd : String = "ryanpantua123"
 
-func _ready()->void:
+func _ready() -> void:
 	print("Leaderboard ready!")
 	var entry: LeaderboardEntry = entry_scene.instantiate()
 	entries_container.add_child(entry)
@@ -33,13 +33,13 @@ func fetch_leaderboard() -> void:
 				if levels_data.has("name"):
 					player_name = str(levels_data["name"])
 
-
 				var speed := float(row_dict.get("speed_seconds", 0))
 				var accuracy := float(row_dict.get("accuracy_score", 0))
 				add_entry(player_name,speed,accuracy)
 
 		else:
-			print("Error: ",task2.error)
+			print("Error: ", task2.error)
+
 
 func add_entry(player_name: String, speed: float, accuracy: float) -> void:
 	var entry: LeaderboardEntry = entry_scene.instantiate()
