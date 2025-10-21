@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ccimb365lsio1"]
 
-[ext_resource type="Script" uid="uid://bvq1vrlo2f8a7" path="res://godot/scenes/leaderboard_table.gd" id="1_d100k"]
+[ext_resource type="Script" uid="uid://dx750v7n63fj1" path="res://godot/scenes/leaderboard_entry.gd" id="1_d100k"]
 
 [node name="LeaderboardEntry" type="HBoxContainer"]
 anchors_preset = -1

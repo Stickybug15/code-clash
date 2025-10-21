@@ -11,7 +11,6 @@ var accuracy: float = 0.0
 
 func _ready() -> void:
 	label_update()
-
 func set_data(name_val: String, speed_val: float, accuracy_val: float)->void:
 	player_name = name_val
 	speed = speed_val

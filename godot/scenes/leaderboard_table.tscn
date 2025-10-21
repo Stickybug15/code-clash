@@ -1,21 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsn6ommcbhffk"]
+[gd_scene load_steps=3 format=3 uid="uid://bsn6ommcbhffk"]
 
-[sub_resource type="GDScript" id="GDScript_ifldm"]
-script/source = "extends VBoxContainer
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
+[ext_resource type="Script" uid="uid://bvq1vrlo2f8a7" path="res://godot/scenes/leaderboard_table.gd" id="1_n4exa"]
+[ext_resource type="PackedScene" uid="uid://ccimb365lsio1" path="res://godot/scenes/leaderboard_entry.tscn" id="2_o16m3"]
 
 [node name="LeaderboardTable" type="VBoxContainer"]
-script = SubResource("GDScript_ifldm")
+script = ExtResource("1_n4exa")
+entry_scene = ExtResource("2_o16m3")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 layout_mode = 2

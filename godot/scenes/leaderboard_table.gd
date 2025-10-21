@@ -3,43 +3,53 @@ extends VBoxContainer
 
 @export
 var entry_scene: PackedScene
+
 @onready
 var entries_container: Container = $NinePatchRect/VBoxContainer
 
 var user_mail : String = "pantuaryan15@gmail.com"
 var user_pwd : String = "ryanpantua123"
 
-func _ready() -> void:
-	print("Leaderboard ready!")
-	var entry: LeaderboardEntry = entry_scene.instantiate()
-	entries_container.add_child(entry)
-	fetch_leaderboard()
 
-func fetch_leaderboard() -> void:
+func _ready()->void:
+	fetch_leaderboard_async()
+func fetch_leaderboard_async() -> void:
+	print("======================================")
+	print("DEBUG: _fetch_leaderboard_async started")
 	var result : AuthTask = await Supabase.auth.sign_in(user_mail, user_pwd).completed
+	print("DEBUG: after login await")
 	if result.user != null:
-		var query := SupabaseQuery.new().from("player_level_scores").select(["levels(name)","speed_seconds", "accuracy_score"])
-		var task2: DatabaseTask = await Supabase.database.query(query).completed
-		if task2.error == null:
-			print("Task2: ",task2.data)
-			for row: Dictionary in task2.data:
-				var row_dict: Dictionary = row
+		print("failed!")
+		return
+	print("login success!")
+	var query := SupabaseQuery.new().from("player_level_scores").select(["speed_seconds", "accuracy_score","levels!player_level_scores_level_id_fkey(name)"])
+	var task2: DatabaseTask = await Supabase.database.query(query).completed
+	if task2.error == null:
+		print("Task2: ",task2.data)
 
-				var levels_data: Dictionary = {}
-				if row_dict.has("levels"):
-					levels_data = row_dict["levels"] as Dictionary
-				print("Levels Data: ", levels_data)
-				var player_name: String = "Unknown Level"
-				if levels_data.has("name"):
-					player_name = str(levels_data["name"])
+		for row_variant in task2.data:
+			var row : Dictionary = row_variant as Dictionary
+			var level_name := ""
+			if row.has("levels"):
+				var level_variant = row["levels"]
+				if typeof(level_variant) == TYPE_DICTIONARY:
+					var levels: Dictionary = level_variant as Dictionary
+					level_name = str(levels.get("name", ""))
 
-				var speed := float(row_dict.get("speed_seconds", 0))
-				var accuracy := float(row_dict.get("accuracy_score", 0))
-				add_entry(player_name,speed,accuracy)
+			var speed_val: float = row.get("speed_seconds", 0)
+			var accuracy_val: float = row.get("accuracy_score", 0)
 
-		else:
-			print("Error: ", task2.error)
+			var speed := (float(speed_val)
+			if typeof(speed_val) in [TYPE_FLOAT, TYPE_INT] else 0.0)
 
+			var accuracy := (float(speed_val)
+			if typeof(accuracy_val) in [TYPE_FLOAT, TYPE_INT] else 0.0)
+
+			print("Entry:", level_name, row["speed_seconds"], row["accuracy_score"])
+			add_entry(level_name, row["speed_seconds"], row["accuracy_score"])
+
+	else:
+		print("Error: ", task2.error)
 
 func add_entry(player_name: String, speed: float, accuracy: float) -> void:
 	var entry: LeaderboardEntry = entry_scene.instantiate()

@@ -35,7 +35,7 @@ func login_anon() -> String:
 		return task.error.message
 	else:
 		_user = task.user
-		if _user.is_anonymous:
+		if "is_anonimous" in _user:
 			_user.email = "anonymous@email.com"
 		return "Success"
 
