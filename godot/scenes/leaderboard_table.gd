@@ -22,27 +22,37 @@ func fetch_leaderboard_async() -> void:
 		print("failed!")
 		return
 	print("login success!")
-	var query := SupabaseQuery.new().from("player_level_scores").select(["speed_seconds", "accuracy_score","levels!player_level_scores_level_id_fkey(name)"])
+	var query := SupabaseQuery.new().from("player_level_scores").select(["speed_seconds", "accuracy_score", "levels(name)","profiles(username)"])
 	var task2: DatabaseTask = await Supabase.database.query(query).completed
 	if task2.error == null:
 		print("Task2: ",task2.data)
-
 		for row_variant in task2.data:
 			var row : Dictionary = row_variant as Dictionary
+
+			#get username
+			var _user_name := ""
+			if row.has("profiles"):
+				var _profile_variant = row["profiles"]
+				if typeof((_profile_variant)) == TYPE_DICTIONARY:
+					var profiles: Dictionary = _profile_variant as Dictionary
+					_profile_variant = str(profiles.get("username: ", ""))
+
+			#get levels
 			var level_name := ""
 			if row.has("levels"):
 				var level_variant = row["levels"]
 				if typeof(level_variant) == TYPE_DICTIONARY:
 					var levels: Dictionary = level_variant as Dictionary
-					level_name = str(levels.get("name", ""))
+					level_name = str(levels.get("name", "unknown level"))
 
+			#fetching data for speed and accuracy
 			var speed_val: float = row.get("speed_seconds", 0)
 			var accuracy_val: float = row.get("accuracy_score", 0)
 
-			var speed := (float(speed_val)
+			var _speed := (float(speed_val)
 			if typeof(speed_val) in [TYPE_FLOAT, TYPE_INT] else 0.0)
 
-			var accuracy := (float(speed_val)
+			var _accuracy := (float(speed_val)
 			if typeof(accuracy_val) in [TYPE_FLOAT, TYPE_INT] else 0.0)
 
 			print("Entry:", level_name, row["speed_seconds"], row["accuracy_score"])
