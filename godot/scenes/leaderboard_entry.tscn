@@ -16,6 +16,9 @@ metadata/_edit_use_anchors_ = true
 [node name="Name" type="Label" parent="."]
 layout_mode = 2
 
+[node name="Level" type="Label" parent="."]
+layout_mode = 2
+
 [node name="Speed" type="Label" parent="."]
 layout_mode = 2
 
