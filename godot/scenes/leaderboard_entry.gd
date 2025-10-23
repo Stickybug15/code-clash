@@ -9,13 +9,17 @@ var player_name: String = ""
 var speed: float = 0.0
 var accuracy: float = 0.0
 
+
 func _ready() -> void:
 	label_update()
-func set_data(name_val: String, speed_val: float, accuracy_val: float)->void:
+
+
+func set_data(name_val: String, speed_val: float, accuracy_val: float) -> void:
 	player_name = name_val
 	speed = speed_val
 	accuracy = accuracy_val
 	label_update()
+
 
 func label_update() -> void:
 	player_name_label.text = player_name

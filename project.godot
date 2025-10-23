@@ -23,20 +23,19 @@ buses/default_bus_layout="res://addons/default_bus_layout.tres"
 
 Supabase="*res://addons/supabase/Supabase/supabase.gd"
 Console="*res://addons/console/console.gd"
+BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 Auth="*res://godot/Auth.gd"
 ActionNames="*res://godot/action_names.gd"
-BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
-BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 
 [debug]
 
 gdscript/warnings/unused_parameter=0
+gdscript/warnings/unused_signal=0
 gdscript/warnings/shadowed_variable=2
 gdscript/warnings/shadowed_variable_base_class=2
 gdscript/warnings/shadowed_global_identifier=2
-gdscript/warnings/unreachable_code=2
-gdscript/warnings/unreachable_pattern=2
 gdscript/warnings/untyped_declaration=1
 gdscript/warnings/unsafe_property_access=2
 gdscript/warnings/unsafe_method_access=2
