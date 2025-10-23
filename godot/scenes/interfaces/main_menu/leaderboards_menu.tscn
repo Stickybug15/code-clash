@@ -1,31 +1,16 @@
-[gd_scene load_steps=12 format=3 uid="uid://cic6kgxw16wuk"]
+[gd_scene load_steps=5 format=3 uid="uid://cic6kgxw16wuk"]
 
-[ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scenes/interfaces/main_menu/leaderboards_menu.gd" id="1_rc66e"]
-[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_3tq1i"]
-[ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="4_tfhlx"]
-[ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="5_6kos5"]
-[ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/misc/ExitButton.gd" id="6_rg6yl"]
-[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="7_pebw0"]
+[ext_resource type="Theme" uid="uid://cl1q2ir76mh8d" path="res://assets/fonts/title_font.tres" id="1_sa8f5"]
+[ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="2_nuqtu"]
+[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://assets/fonts/main_font.tres" id="3_wfrkv"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iicyw"]
+[sub_resource type="GDScript" id="GDScript_s1eje"]
+script/source = "extends Control
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6cm6y"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6cm6y"]
-draw_center = false
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_asgwy"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_asgwy"]
-draw_center = false
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
+func _ready() -> void:
+	pass
+"
 
 [node name="LeaderboardsMenu" type="Control"]
 layout_mode = 3
@@ -34,147 +19,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_rc66e")
+script = SubResource("GDScript_s1eje")
 
-[node name="bg" type="Panel" parent="."]
+[node name="Label" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.5
+offset_top = 20.0
+offset_right = 50.5
+offset_bottom = 43.0
+grow_horizontal = 2
+theme = ExtResource("1_sa8f5")
+theme_override_font_sizes/font_size = 60
+text = "Leadeboards"
+
+[node name="ReturnToMenu" parent="." instance=ExtResource("2_nuqtu")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 220.0
+offset_bottom = 79.0
+text = "Return to Menu"
+
+[node name="TabContainer" type="TabContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 110.0
+offset_right = -40.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_iicyw")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="bg"]
-layout_mode = 0
-offset_left = 433.0
-offset_top = 70.0
-offset_right = 698.0
-offset_bottom = 143.0
-
-[node name="title" type="Label" parent="bg/HBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_3tq1i")
-theme_override_font_sizes/font_size = 40
-text = "LeaderBoards"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="bg"]
-layout_mode = 0
-offset_left = 136.0
-offset_top = 174.0
-offset_right = 1001.0
-offset_bottom = 567.0
-
-[node name="TouchScreenButton" type="TouchScreenButton" parent="bg"]
-
-[node name="Exit_Button" type="TextureButton" parent="bg/TouchScreenButton"]
-offset_left = 48.0
-offset_top = 54.0
-offset_right = 116.0
-offset_bottom = 119.0
-texture_normal = ExtResource("4_tfhlx")
-texture_pressed = ExtResource("5_6kos5")
-ignore_texture_size = true
-stretch_mode = 0
-script = ExtResource("6_rg6yl")
-
-[node name="hover_fx" type="AudioStreamPlayer" parent="bg/TouchScreenButton/Exit_Button"]
-stream = ExtResource("7_pebw0")
-volume_db = -15.0
-bus = &"SFX"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="bg/TouchScreenButton"]
-offset_left = 204.0
-offset_top = 157.0
-offset_right = 907.0
-offset_bottom = 222.0
-theme_override_constants/separation = 300
-
-[node name="Level_Rank" type="Button" parent="bg/TouchScreenButton/HBoxContainer2"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_3tq1i")
-theme_override_font_sizes/font_size = 40
-theme_override_styles/focus = SubResource("StyleBoxEmpty_6cm6y")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6cm6y")
-text = "Level Rank"
-
-[node name="NinePatchRect" type="NinePatchRect" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank"]
-layout_mode = 0
-offset_left = -12.0
-offset_top = 3.0
-offset_right = 738.0
-offset_bottom = 403.0
-
-[node name="level_Panel" type="Panel" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect"]
-visible = false
-layout_mode = 0
-offset_left = 7.0
-offset_top = 87.0
-offset_right = 765.0
-offset_bottom = 391.0
-
-[node name="level label" type="HBoxContainer" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel"]
-layout_mode = 0
-offset_left = 31.0
-offset_top = -9.0
-offset_right = 726.0
-offset_bottom = 63.0
-theme_override_constants/separation = 260
-
-[node name="Player" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
-layout_mode = 2
-text = "Players"
-
-[node name="Speed" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
-layout_mode = 2
-text = "Speed"
-vertical_alignment = 1
-
-[node name="Accuracy" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Level_Rank/NinePatchRect/level_Panel/level label"]
-layout_mode = 2
-text = "Accuracy"
-
-[node name="Global Rank" type="Button" parent="bg/TouchScreenButton/HBoxContainer2"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_3tq1i")
-theme_override_font_sizes/font_size = 40
-theme_override_styles/focus = SubResource("StyleBoxEmpty_asgwy")
-theme_override_styles/hover = SubResource("StyleBoxFlat_asgwy")
-text = "Global Rank"
-
-[node name="NinePatchRect" type="NinePatchRect" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank"]
-layout_mode = 0
-offset_left = -487.0
-offset_top = 85.0
-offset_right = 279.0
-offset_bottom = 398.0
-
-[node name="Global_Panel" type="Panel" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect"]
-visible = false
-layout_mode = 0
-offset_left = -19.0
-offset_top = 9.0
-offset_right = 742.0
-offset_bottom = 304.0
-
-[node name="Global label" type="HBoxContainer" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect/Global_Panel"]
-layout_mode = 0
-offset_left = 51.0
-offset_top = -8.0
-offset_right = 808.0
-offset_bottom = 64.0
-theme_override_constants/separation = 450
-
-[node name="player" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect/Global_Panel/Global label"]
-layout_mode = 2
-text = "Player Ranks"
-
-[node name="profiency" type="Label" parent="bg/TouchScreenButton/HBoxContainer2/Global Rank/NinePatchRect/Global_Panel/Global label"]
-layout_mode = 2
-text = "Proficency"
-
-[connection signal="mouse_entered" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
-[connection signal="pressed" from="bg/TouchScreenButton/HBoxContainer2/Level_Rank" to="." method="_on_level_rank_pressed"]
-[connection signal="pressed" from="bg/TouchScreenButton/HBoxContainer2/Global Rank" to="." method="_on_global_rank_pressed"]
+theme = ExtResource("3_wfrkv")
+tab_alignment = 1

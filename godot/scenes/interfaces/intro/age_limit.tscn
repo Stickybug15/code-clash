@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dpj2n00qlld32" path="res://godot/scenes/interfaces/intro/age_limit.gd" id="1_ik616"]
 [ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="2_47pol"]
-[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://godot/scenes/controls/default_font.tres" id="3_amafx"]
+[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://assets/fonts/main_font.tres" id="3_amafx"]
 [ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="4_sx4dm"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ps2c8"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c2m438b4f67de"]
 
-[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://godot/scenes/controls/default_font.tres" id="1_gth6f"]
+[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://assets/fonts/main_font.tres" id="1_gth6f"]
 [ext_resource type="PackedScene" uid="uid://ufu2g5rn1gwy" path="res://godot/scenes/controls/password_edit.tscn" id="2_1vsyk"]
 [ext_resource type="Script" uid="uid://bjxy0w3muxy62" path="res://godot/scenes/interfaces/access_mode/SignUpForm.gd" id="2_lw54j"]
 [ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="3_lw54j"]

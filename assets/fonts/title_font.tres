@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cl1q2ir76mh8d"]
+
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="1_f2mlh"]
+
+[resource]
+default_font = ExtResource("1_f2mlh")

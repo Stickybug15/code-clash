@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://es04xj3f3psf"
-path="res://.godot/imported/Pixel Game.otf-104694e116241c656b4946a981dba271.fontdata"
+path="res://.godot/imported/PixelGame.otf-2f224b2abf581590446f9947f47270fa.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/Pixel Game.otf"
-dest_files=["res://.godot/imported/Pixel Game.otf-104694e116241c656b4946a981dba271.fontdata"]
+source_file="res://assets/fonts/PixelGame.otf"
+dest_files=["res://.godot/imported/PixelGame.otf-2f224b2abf581590446f9947f47270fa.fontdata"]
 
 [params]
 

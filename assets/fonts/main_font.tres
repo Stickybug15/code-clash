@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://c3ocx28debss2"]
 
-[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/fonts/Pixel Game.otf" id="1_3em42"]
+[ext_resource type="FontFile" uid="uid://es04xj3f3psf" path="res://assets/fonts/PixelGame.otf" id="1_3em42"]
 
 [resource]
 default_font = ExtResource("1_3em42")

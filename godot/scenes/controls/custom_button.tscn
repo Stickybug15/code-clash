@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cx338mgmhehts"]
 
-[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://godot/scenes/controls/default_font.tres" id="1_5erfw"]
+[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://assets/fonts/main_font.tres" id="1_5erfw"]
 [ext_resource type="Script" uid="uid://b4n03w5krjdav" path="res://godot/scenes/controls/custom_button.gd" id="2_hs2ux"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="2_m52yp"]
 

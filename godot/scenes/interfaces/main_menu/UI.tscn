@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://dy3h71ihb277q" path="res://godot/scripts/misc/SfxControl.gd" id="12_obg1l"]
 [ext_resource type="Script" uid="uid://chd0wepf54ipj" path="res://godot/scripts/misc/FullscreenControl.gd" id="13_jqjnr"]
 [ext_resource type="Texture2D" uid="uid://bfcy0l4wund4g" path="res://assets/Avatars/Avatars/Avatar_1.png" id="14_1rp7g"]
-[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://godot/scenes/controls/default_font.tres" id="15_60njj"]
+[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://assets/fonts/main_font.tres" id="15_60njj"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8t3lh"]
 texture = ExtResource("4_egbt7")
@@ -374,8 +374,6 @@ text = "Return to Main Menu"
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/LeaderboardButton" to="UIContainer" method="_on_leaderboard_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/SettingsButton" to="UIContainer" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/QuitButton" to="UIContainer" method="_on_quit_button_pressed"]
-[connection signal="pressed" from="UIContainer/CustomizationMenu/TouchScreenButton/Exit_Button" to="UIContainer" method="_main_menu_visible"]
-[connection signal="pressed" from="UIContainer/LeaderboardsMenu/bg/TouchScreenButton/Exit_Button" to="UIContainer" method="_main_menu_visible"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" method="_on_pressed"]
 [connection signal="value_changed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" method="_on_value_changed"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/SFX_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/SFX_Button" method="_on_pressed"]
