@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://bk7f11a367b30"]
+[gd_scene load_steps=50 format=3 uid="uid://bk7f11a367b30"]
 
 [ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scenes/interfaces/main_menu/MainMenu.gd" id="1_ie3cw"]
 [ext_resource type="AudioStream" uid="uid://bpoqprrfs8rvk" path="res://assets/sound fx/Now-We-Ride(chosic.com).mp3" id="2_8t3lh"]
@@ -17,25 +17,24 @@
 [ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="15_8t3lh"]
 [ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://godot/scenes/controls/default_font.tres" id="16_fwc7g"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xx5qh"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fwc7g"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lbm1t"]
-texture = ExtResource("5_0rehc")
-region_rect = Rect2(102, 97, 150, 163)
+[sub_resource type="GDScript" id="GDScript_5c6sl"]
+script/source = "extends TabContainer
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xx5qh"]
-texture = ExtResource("5_0rehc")
-region_rect = Rect2(102, 97, 150, 163)
-modulate_color = Color(0.847474, 0.847474, 0.847474, 1)
+@onready
+var menu: Control = $Menu
+@onready
+var settings: Control = $Settings
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_attwo"]
-texture = ExtResource("5_0rehc")
-region_rect = Rect2(102, 97, 150, 163)
-modulate_color = Color(0.336608, 0.336608, 0.336608, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6yan0"]
-texture = ExtResource("5_0rehc")
-region_rect = Rect2(102, 97, 150, 163)
+func _on_return_button_pressed() -> void:
+	menu.visible = true
+
+
+func _on_setting_button_pressed() -> void:
+	settings.visible = true
+"
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ar3a4"]
 
@@ -115,6 +114,26 @@ border_width_bottom = 4
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6sso"]
 bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xx5qh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lbm1t"]
+texture = ExtResource("5_0rehc")
+region_rect = Rect2(102, 97, 150, 163)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xx5qh"]
+texture = ExtResource("5_0rehc")
+region_rect = Rect2(102, 97, 150, 163)
+modulate_color = Color(0.847474, 0.847474, 0.847474, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_attwo"]
+texture = ExtResource("5_0rehc")
+region_rect = Rect2(102, 97, 150, 163)
+modulate_color = Color(0.336608, 0.336608, 0.336608, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6yan0"]
+texture = ExtResource("5_0rehc")
+region_rect = Rect2(102, 97, 150, 163)
+
 [sub_resource type="CanvasTexture" id="CanvasTexture_qpjw1"]
 diffuse_texture = ExtResource("7_2d6r7")
 
@@ -145,7 +164,11 @@ var name_label: Label = $TabContainer/NameLabel
 
 
 func _ready() -> void:
-	if Auth.user.is_anonymous:
+	var is_anonymous: bool = true
+	if Auth.user:
+		is_anonymous = Auth.user.is_anonymous
+
+	if is_anonymous:
 		auth_methods.visible = true
 		logout_btn.visible = false
 	else:
@@ -164,6 +187,7 @@ corner_radius_bottom_left = 25
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_ie3cw")
+metadata/_edit_horizontal_guides_ = [-16.0]
 
 [node name="game fx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_8t3lh")
@@ -194,39 +218,35 @@ position = Vector2(579, 319.938)
 scale = Vector2(1.58152, 1.59934)
 texture = ExtResource("4_5c6sl")
 
-[node name="Setting_button" type="Button" parent="Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -96.0
-offset_top = -96.0
-offset_right = -32.0
-offset_bottom = -32.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_xx5qh")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_lbm1t")
-theme_override_styles/hover = SubResource("StyleBoxTexture_xx5qh")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_attwo")
-theme_override_styles/normal = SubResource("StyleBoxTexture_6yan0")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="TabContainer" type="TabContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -146.0
-offset_top = -247.0
-offset_right = 169.0
-offset_bottom = 282.0
+offset_left = -157.5
+offset_top = -240.0
+offset_right = 157.5
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fwc7g")
+current_tab = 0
+tabs_visible = false
+script = SubResource("GDScript_5c6sl")
+
+[node name="Menu" type="Control" parent="Control/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/Menu"]
+layout_mode = 0
+offset_right = 315.0
+offset_bottom = 519.0
 theme_override_constants/separation = 40
 
-[node name="title" type="Label" parent="Control/VBoxContainer"]
+[node name="title" type="Label" parent="Control/TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -245,11 +265,11 @@ vertical_alignment = 1
 uppercase = true
 max_lines_visible = 9
 
-[node name="MainButtons" type="VBoxContainer" parent="Control/VBoxContainer"]
+[node name="MainButtons" type="VBoxContainer" parent="Control/TabContainer/Menu/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Play_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+[node name="Play_Button" type="Button" parent="Control/TabContainer/Menu/VBoxContainer/MainButtons"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
@@ -259,7 +279,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_p42tn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_g21cx")
 text = "Play"
 
-[node name="Custom_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+[node name="Custom_Button" type="Button" parent="Control/TabContainer/Menu/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 theme_override_font_sizes/font_size = 30
@@ -268,7 +288,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_5lt4e")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_yayck")
 text = "Customization"
 
-[node name="Progress_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+[node name="Progress_Button" type="Button" parent="Control/TabContainer/Menu/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 theme_override_font_sizes/font_size = 30
@@ -277,7 +297,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_t1bx0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_q6spp")
 text = "Progress"
 
-[node name="LeadB_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+[node name="LeadB_Button" type="Button" parent="Control/TabContainer/Menu/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 theme_override_font_sizes/font_size = 30
@@ -286,7 +306,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_mtesu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_dhjcj")
 text = "Leaderboard"
 
-[node name="Marketplace_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+[node name="Marketplace_Button" type="Button" parent="Control/TabContainer/Menu/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 theme_override_font_sizes/font_size = 30
@@ -295,7 +315,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_boqgs")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_l55gl")
 text = "Marketplace"
 
-[node name="Quit_Button" type="Button" parent="Control/VBoxContainer/MainButtons"]
+[node name="Quit_Button" type="Button" parent="Control/TabContainer/Menu/VBoxContainer/MainButtons"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 theme_override_font_sizes/font_size = 30
@@ -304,18 +324,21 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
 text = "Quit Game"
 
-[node name="Settings" type="Control" parent="Control"]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Setting_button" type="Button" parent="Control/TabContainer/Menu/VBoxContainer/MainButtons"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_xx5qh")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_lbm1t")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xx5qh")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_attwo")
+theme_override_styles/normal = SubResource("StyleBoxTexture_6yan0")
 
-[node name="BG" type="Panel" parent="Control/Settings"]
+[node name="Settings" type="Control" parent="Control/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="BG" type="Panel" parent="Control/TabContainer/Settings"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -329,7 +352,7 @@ offset_bottom = 201.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Settings"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/Settings"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -344,18 +367,18 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="Control/Settings/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/TabContainer/Settings/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 theme_override_font_sizes/font_size = 60
 text = "Settings"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/Settings/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/TabContainer/Settings/VBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Music_Button" type="TextureButton" parent="Control/Settings/VBoxContainer/HBoxContainer"]
+[node name="Music_Button" type="TextureButton" parent="Control/TabContainer/Settings/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 toggle_mode = true
@@ -368,11 +391,11 @@ ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("9_0nrkp")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Settings/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/Settings/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MusicControl" type="HSlider" parent="Control/Settings/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="MusicControl" type="HSlider" parent="Control/TabContainer/Settings/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/slider = SubResource("StyleBoxLine_lbm1t")
@@ -384,17 +407,17 @@ value = 1.0
 script = ExtResource("10_13alv")
 audio_bus_name = "Music"
 
-[node name="Music_label" type="Label" parent="Control/Settings/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="Music_label" type="Label" parent="Control/TabContainer/Settings/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 theme_override_font_sizes/font_size = 42
 text = "music"
 horizontal_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/Settings/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/TabContainer/Settings/VBoxContainer"]
 layout_mode = 2
 
-[node name="SFX_Button" type="TextureButton" parent="Control/Settings/VBoxContainer/HBoxContainer2"]
+[node name="SFX_Button" type="TextureButton" parent="Control/TabContainer/Settings/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 toggle_mode = true
@@ -406,18 +429,18 @@ ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("11_83rtn")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Settings/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/TabContainer/Settings/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SFX_Label" type="Label" parent="Control/Settings/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="SFX_Label" type="Label" parent="Control/TabContainer/Settings/VBoxContainer/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 theme_override_font_sizes/font_size = 40
 text = "SFX"
 horizontal_alignment = 1
 
-[node name="SFXControl" type="HSlider" parent="Control/Settings/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="SFXControl" type="HSlider" parent="Control/TabContainer/Settings/VBoxContainer/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/slider = SubResource("StyleBoxLine_lbm1t")
@@ -429,20 +452,15 @@ value = 1.0
 script = ExtResource("12_fwq0o")
 audio_bus_name = "SFX"
 
-[node name="FullscreenControl" type="CheckButton" parent="Control/Settings/VBoxContainer"]
+[node name="FullscreenControl" type="CheckButton" parent="Control/TabContainer/Settings/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_0gwyk")
 text = "FullScreen"
 script = ExtResource("13_t42yd")
 
-[node name="Return_button" type="Button" parent="Control/Settings/VBoxContainer"]
+[node name="ReturnButton" parent="Control/TabContainer/Settings/VBoxContainer" instance=ExtResource("15_8t3lh")]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("6_0gwyk")
-theme_override_font_sizes/font_size = 30
-theme_override_styles/focus = SubResource("StyleBoxEmpty_0vlbu")
-theme_override_styles/hover = SubResource("StyleBoxFlat_38656")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_i6sso")
-text = "Return to MainMenu"
+text = "Return to Main Menu"
 
 [node name="Profile" type="HBoxContainer" parent="." node_paths=PackedStringArray("logout_btn")]
 offset_left = 20.0
@@ -507,24 +525,23 @@ offset_bottom = -20.0
 grow_vertical = 0
 text = "Logout"
 
-[connection signal="mouse_entered" from="Control/Setting_button" to="." method="_on_button_entered"]
-[connection signal="pressed" from="Control/Setting_button" to="." method="_on_setting_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Play_Button" to="." method="_on_button_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Play_Button" to="." method="_on_play_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Custom_Button" to="." method="_on_button_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Custom_Button" to="." method="_on_custom_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Progress_Button" to="." method="_on_button_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Progress_Button" to="." method="_on_progress_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/LeadB_Button" to="." method="_on_button_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/MainButtons/LeadB_Button" to="." method="_on_lead_b_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Marketplace_Button" to="." method="_on_button_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Marketplace_Button" to="." method="_on_marketplace_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/MainButtons/Quit_Button" to="." method="_on_button_entered"]
-[connection signal="pressed" from="Control/VBoxContainer/MainButtons/Quit_Button" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="Control/Settings/VBoxContainer/HBoxContainer/Music_Button" to="Control/Settings/VBoxContainer/HBoxContainer/Music_Button" method="_on_pressed"]
-[connection signal="value_changed" from="Control/Settings/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" to="Control/Settings/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" method="_on_value_changed"]
-[connection signal="pressed" from="Control/Settings/VBoxContainer/HBoxContainer2/SFX_Button" to="Control/Settings/VBoxContainer/HBoxContainer2/SFX_Button" method="_on_pressed"]
-[connection signal="value_changed" from="Control/Settings/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" to="Control/Settings/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" method="_on_value_changed"]
-[connection signal="toggled" from="Control/Settings/VBoxContainer/FullscreenControl" to="Control/Settings/VBoxContainer/FullscreenControl" method="_on_toggled"]
-[connection signal="mouse_entered" from="Control/Settings/VBoxContainer/Return_button" to="." method="_on_return_button_mouse_entered"]
-[connection signal="pressed" from="Control/Settings/VBoxContainer/Return_button" to="." method="_on_return_button_pressed"]
+[connection signal="mouse_entered" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Play_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Play_Button" to="." method="_on_play_button_pressed"]
+[connection signal="mouse_entered" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Custom_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Custom_Button" to="." method="_on_custom_button_pressed"]
+[connection signal="mouse_entered" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Progress_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Progress_Button" to="." method="_on_progress_button_pressed"]
+[connection signal="mouse_entered" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/LeadB_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/LeadB_Button" to="." method="_on_lead_b_button_pressed"]
+[connection signal="mouse_entered" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Marketplace_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Marketplace_Button" to="." method="_on_marketplace_button_pressed"]
+[connection signal="mouse_entered" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Quit_Button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Quit_Button" to="." method="_on_quit_button_pressed"]
+[connection signal="mouse_entered" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Setting_button" to="." method="_on_button_entered"]
+[connection signal="pressed" from="Control/TabContainer/Menu/VBoxContainer/MainButtons/Setting_button" to="Control/TabContainer" method="_on_setting_button_pressed"]
+[connection signal="pressed" from="Control/TabContainer/Settings/VBoxContainer/HBoxContainer/Music_Button" to="Control/TabContainer/Settings/VBoxContainer/HBoxContainer/Music_Button" method="_on_pressed"]
+[connection signal="value_changed" from="Control/TabContainer/Settings/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" to="Control/TabContainer/Settings/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" method="_on_value_changed"]
+[connection signal="pressed" from="Control/TabContainer/Settings/VBoxContainer/HBoxContainer2/SFX_Button" to="Control/TabContainer/Settings/VBoxContainer/HBoxContainer2/SFX_Button" method="_on_pressed"]
+[connection signal="value_changed" from="Control/TabContainer/Settings/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" to="Control/TabContainer/Settings/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" method="_on_value_changed"]
+[connection signal="toggled" from="Control/TabContainer/Settings/VBoxContainer/FullscreenControl" to="Control/TabContainer/Settings/VBoxContainer/FullscreenControl" method="_on_toggled"]
+[connection signal="pressed" from="Control/TabContainer/Settings/VBoxContainer/ReturnButton" to="Control/TabContainer" method="_on_return_button_pressed"]
