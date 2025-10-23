@@ -1,0 +1,387 @@
+[gd_scene load_steps=29 format=3 uid="uid://bk7f11a367b30"]
+
+[ext_resource type="Script" uid="uid://die52vksd3y0s" path="res://godot/scenes/interfaces/main_menu/UI.gd" id="1_uurwx"]
+[ext_resource type="AudioStream" uid="uid://bpoqprrfs8rvk" path="res://assets/sound fx/Now-We-Ride(chosic.com).mp3" id="2_0r3w7"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="3_62vh3"]
+[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="4_egbt7"]
+[ext_resource type="Script" uid="uid://xtqelqe3nxym" path="res://godot/scenes/interfaces/main_menu/UiContainer.gd" id="5_egbt7"]
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="5_vbhr2"]
+[ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="6_3c34e"]
+[ext_resource type="Texture2D" uid="uid://bug6vgjq7lar5" path="res://assets/BG_ICONS/sound-removebg-preview.png" id="7_2dnmr"]
+[ext_resource type="PackedScene" uid="uid://c3jhsr15xuyuq" path="res://godot/scenes/interfaces/main_menu/customization_menu.tscn" id="8_62vh3"]
+[ext_resource type="Texture2D" uid="uid://du0e6kuyx2wjb" path="res://assets/BG_ICONS/mute-removebg-preview.png" id="8_s8lgt"]
+[ext_resource type="Script" uid="uid://6sng3ik14imx" path="res://godot/scripts/misc/MusicButton.gd" id="9_aeh60"]
+[ext_resource type="PackedScene" uid="uid://cic6kgxw16wuk" path="res://godot/scenes/interfaces/main_menu/leaderboards_menu.tscn" id="9_egbt7"]
+[ext_resource type="Script" uid="uid://nstg1xhow2wm" path="res://godot/scripts/misc/MusicControl.gd" id="10_2hmtm"]
+[ext_resource type="Script" uid="uid://dou83cdo0k0tf" path="res://godot/scripts/misc/SfxButton.gd" id="11_nf1vb"]
+[ext_resource type="Script" uid="uid://dy3h71ihb277q" path="res://godot/scripts/misc/SfxControl.gd" id="12_obg1l"]
+[ext_resource type="Script" uid="uid://chd0wepf54ipj" path="res://godot/scripts/misc/FullscreenControl.gd" id="13_jqjnr"]
+[ext_resource type="Texture2D" uid="uid://bfcy0l4wund4g" path="res://assets/Avatars/Avatars/Avatar_1.png" id="14_1rp7g"]
+[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://godot/scenes/controls/default_font.tres" id="15_60njj"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8t3lh"]
+texture = ExtResource("4_egbt7")
+modulate_color = Color(0.628315, 0.628315, 0.628315, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uurwx"]
+
+[sub_resource type="GDScript" id="GDScript_fwc7g"]
+script/source = "extends HBoxContainer
+
+@export
+var logout_btn: Button
+
+@onready
+var auth_methods: HBoxContainer = $TabContainer/AuthenticationMethodsButtons
+@onready
+var name_label: Label = $TabContainer/NameLabel
+
+
+func _ready() -> void:
+	var is_anonymous: bool = true
+	if Auth.user:
+		is_anonymous = Auth.user.is_anonymous
+
+	if is_anonymous:
+		auth_methods.visible = true
+		logout_btn.visible = false
+	else:
+		name_label.visible = true
+		name_label.text = Auth.email
+		logout_btn.visible = true
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8t3lh"]
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5c6sl"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_qpjw1"]
+diffuse_texture = ExtResource("7_2dnmr")
+
+[sub_resource type="ImageTexture" id="ImageTexture_kukke"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_lbm1t"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_xx5qh"]
+color = Color(0.355696, 0.690186, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_attwo"]
+color = Color(0.355696, 0.690186, 1, 1)
+thickness = 6
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_uurwx")
+metadata/_edit_horizontal_guides_ = [-16.0]
+
+[node name="game fx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_0r3w7")
+volume_db = -10.0
+autoplay = true
+bus = &"Music"
+
+[node name="hover_fx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_62vh3")
+volume_db = -15.0
+bus = &"SFX"
+
+[node name="Background" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_8t3lh")
+
+[node name="UIContainer" type="TabContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_uurwx")
+current_tab = 0
+tabs_visible = false
+script = ExtResource("5_egbt7")
+
+[node name="MainMenu" type="Control" parent="UIContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIContainer/MainMenu"]
+layout_mode = 0
+offset_left = 418.5
+offset_top = 84.0
+offset_right = 733.5
+offset_bottom = 603.0
+theme_override_constants/separation = 40
+
+[node name="title" type="Label" parent="UIContainer/MainMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 17
+theme_override_constants/paragraph_spacing = 14
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("5_vbhr2")
+theme_override_font_sizes/font_size = 64
+text = "Code Clash"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+max_lines_visible = 9
+
+[node name="MainButtons" type="VBoxContainer" parent="UIContainer/MainMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PlayButton" parent="UIContainer/MainMenu/VBoxContainer/MainButtons" instance=ExtResource("6_3c34e")]
+layout_mode = 2
+text = "Play"
+
+[node name="CustomizationButton" parent="UIContainer/MainMenu/VBoxContainer/MainButtons" instance=ExtResource("6_3c34e")]
+layout_mode = 2
+text = "Customization"
+
+[node name="LeaderboardButton" parent="UIContainer/MainMenu/VBoxContainer/MainButtons" instance=ExtResource("6_3c34e")]
+layout_mode = 2
+text = "Leaderboard"
+
+[node name="SettingsButton" parent="UIContainer/MainMenu/VBoxContainer/MainButtons" instance=ExtResource("6_3c34e")]
+layout_mode = 2
+text = "Settings"
+
+[node name="QuitButton" parent="UIContainer/MainMenu/VBoxContainer/MainButtons" instance=ExtResource("6_3c34e")]
+layout_mode = 2
+text = "Quit"
+
+[node name="Profile" type="HBoxContainer" parent="UIContainer/MainMenu" node_paths=PackedStringArray("logout_btn")]
+layout_mode = 2
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 250.0
+offset_bottom = 120.0
+theme_override_constants/separation = 30
+script = SubResource("GDScript_fwc7g")
+logout_btn = NodePath("../LogoutButton")
+
+[node name="Avatar" type="Panel" parent="UIContainer/MainMenu/Profile"]
+clip_children = 2
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8t3lh")
+
+[node name="Image" type="TextureRect" parent="UIContainer/MainMenu/Profile/Avatar"]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+texture = ExtResource("14_1rp7g")
+expand_mode = 1
+
+[node name="TabContainer" type="TabContainer" parent="UIContainer/MainMenu/Profile"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_5c6sl")
+current_tab = 1
+tabs_visible = false
+
+[node name="AuthenticationMethodsButtons" type="HBoxContainer" parent="UIContainer/MainMenu/Profile/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+metadata/_tab_index = 0
+
+[node name="Login" parent="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons" instance=ExtResource("6_3c34e")]
+layout_mode = 2
+text = "Sign-In"
+
+[node name="Register" parent="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons" instance=ExtResource("6_3c34e")]
+layout_mode = 2
+text = "Sign-Up"
+
+[node name="NameLabel" type="Label" parent="UIContainer/MainMenu/Profile/TabContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme = ExtResource("15_60njj")
+theme_override_font_sizes/font_size = 40
+text = "Name"
+metadata/_tab_index = 1
+
+[node name="LogoutButton" parent="UIContainer/MainMenu" instance=ExtResource("6_3c34e")]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -59.0
+offset_right = 140.0
+offset_bottom = -20.0
+grow_vertical = 0
+text = "Logout"
+
+[node name="CustomizationMenu" parent="UIContainer" instance=ExtResource("8_62vh3")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="LeaderboardsMenu" parent="UIContainer" instance=ExtResource("9_egbt7")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="SettingsMenu" type="Control" parent="UIContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="BG" type="Panel" parent="UIContainer/SettingsMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -283.0
+offset_top = -201.5
+offset_right = 283.0
+offset_bottom = 201.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIContainer/SettingsMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -133.5
+offset_top = -140.0
+offset_right = 133.5
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="UIContainer/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_vbhr2")
+theme_override_font_sizes/font_size = 60
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIContainer/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Music_Button" type="TextureButton" parent="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+toggle_mode = true
+shortcut_feedback = false
+texture_normal = SubResource("CanvasTexture_qpjw1")
+texture_pressed = ExtResource("8_s8lgt")
+texture_disabled = ExtResource("8_s8lgt")
+texture_focused = SubResource("ImageTexture_kukke")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("9_aeh60")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MusicControl" type="HSlider" parent="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/slider = SubResource("StyleBoxLine_lbm1t")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_xx5qh")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_attwo")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("10_2hmtm")
+audio_bus_name = "Music"
+
+[node name="Music_label" type="Label" parent="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_vbhr2")
+theme_override_font_sizes/font_size = 42
+text = "music"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UIContainer/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="SFX_Button" type="TextureButton" parent="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+toggle_mode = true
+shortcut_feedback = false
+texture_normal = SubResource("CanvasTexture_qpjw1")
+texture_pressed = ExtResource("8_s8lgt")
+texture_disabled = ExtResource("8_s8lgt")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("11_nf1vb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SFX_Label" type="Label" parent="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_vbhr2")
+theme_override_font_sizes/font_size = 40
+text = "SFX"
+horizontal_alignment = 1
+
+[node name="SFXControl" type="HSlider" parent="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/slider = SubResource("StyleBoxLine_lbm1t")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_xx5qh")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_attwo")
+max_value = 1.0
+step = 0.05
+value = 1.0
+script = ExtResource("12_obg1l")
+audio_bus_name = "SFX"
+
+[node name="FullscreenControl" type="CheckButton" parent="UIContainer/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_vbhr2")
+text = "FullScreen"
+script = ExtResource("13_jqjnr")
+
+[node name="ReturnButton" parent="UIContainer/SettingsMenu/VBoxContainer" instance=ExtResource("6_3c34e")]
+layout_mode = 2
+text = "Return to Main Menu"
+
+[connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/PlayButton" to="UIContainer" method="_on_play_button_pressed"]
+[connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/CustomizationButton" to="UIContainer" method="_on_customization_button_pressed"]
+[connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/LeaderboardButton" to="UIContainer" method="_on_leaderboard_button_pressed"]
+[connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/SettingsButton" to="UIContainer" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/QuitButton" to="UIContainer" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="UIContainer/CustomizationMenu/TouchScreenButton/Exit_Button" to="UIContainer" method="_main_menu_visible"]
+[connection signal="pressed" from="UIContainer/LeaderboardsMenu/bg/TouchScreenButton/Exit_Button" to="UIContainer" method="_main_menu_visible"]
+[connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" method="_on_pressed"]
+[connection signal="value_changed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" method="_on_value_changed"]
+[connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/SFX_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/SFX_Button" method="_on_pressed"]
+[connection signal="value_changed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/VBoxContainer/SFXControl" method="_on_value_changed"]
+[connection signal="toggled" from="UIContainer/SettingsMenu/VBoxContainer/FullscreenControl" to="UIContainer/SettingsMenu/VBoxContainer/FullscreenControl" method="_on_toggled"]
+[connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/ReturnButton" to="UIContainer" method="_main_menu_visible"]
+
+[editable path="UIContainer/CustomizationMenu"]
+[editable path="UIContainer/LeaderboardsMenu"]

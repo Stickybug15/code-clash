@@ -1,15 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://cic6kgxw16wuk"]
+[gd_scene load_steps=12 format=3 uid="uid://cic6kgxw16wuk"]
 
 [ext_resource type="Script" uid="uid://dd7ducja2fli4" path="res://godot/scenes/interfaces/main_menu/leaderboards_menu.gd" id="1_rc66e"]
-[ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_brdgf"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="3_3tq1i"]
 [ext_resource type="Texture2D" uid="uid://db4aar84s0702" path="res://assets/BG_ICONS/PNG/BtnExitNoOpacity.png" id="4_tfhlx"]
 [ext_resource type="Texture2D" uid="uid://83hyp7e0n8p8" path="res://assets/BG_ICONS/PNG/BtnExitOpacity.png" id="5_6kos5"]
 [ext_resource type="Script" uid="uid://dcn3qesoa2gtm" path="res://godot/scripts/misc/ExitButton.gd" id="6_rg6yl"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="7_pebw0"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_addcg"]
-texture = ExtResource("2_brdgf")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iicyw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6cm6y"]
 
@@ -45,7 +43,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_addcg")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_iicyw")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="bg"]
 layout_mode = 0
@@ -178,6 +176,5 @@ layout_mode = 2
 text = "Proficency"
 
 [connection signal="mouse_entered" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_mouse_entered"]
-[connection signal="pressed" from="bg/TouchScreenButton/Exit_Button" to="bg/TouchScreenButton/Exit_Button" method="_on_pressed"]
 [connection signal="pressed" from="bg/TouchScreenButton/HBoxContainer2/Level_Rank" to="." method="_on_level_rank_pressed"]
 [connection signal="pressed" from="bg/TouchScreenButton/HBoxContainer2/Global Rank" to="." method="_on_global_rank_pressed"]
