@@ -1,10 +1,7 @@
 extends CanvasLayer
 
-
-@onready
-var anim_player: AnimationPlayer = $Control/AnimationPlayer
-@onready
-var intro_bg: AudioStreamPlayer = $Control/IntroBg
+@onready var anim_player: AnimationPlayer = $AnimationPlayer
+@onready var intro_bg: AudioStreamPlayer = $IntroBg
 
 
 func _ready() -> void:

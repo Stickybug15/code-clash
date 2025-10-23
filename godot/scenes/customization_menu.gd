@@ -7,5 +7,6 @@ extends Control
 func _ready():
 	inputname.text_submitted.connect(_on_LineEdit_text_entered)
 
+
 func _on_LineEdit_text_entered(new_text: String):
 	namelabel.text = "Your Name is: " + new_text

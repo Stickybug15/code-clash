@@ -1,11 +1,18 @@
 extends Node
 
 var SESSION_FILE := "user://auth_session.json"
-var _user: SupabaseUser
+
+var user: SupabaseUser:
+	get:
+			return Supabase.auth.client
 
 var email: String:
 	get:
-		return _user.email
+		return user.email
+
+var is_anonymous: bool:
+	get:
+		return user.is_anonymous
 
 
 func load_session() -> bool:
@@ -25,7 +32,6 @@ func load_session() -> bool:
 			push_error(task.error.message)
 			return false
 
-		_user = task.user
 		return true
 	else:
 		var task: AuthTask
@@ -34,7 +40,6 @@ func load_session() -> bool:
 			push_error(task.error.message)
 			return false
 
-		_user = task.user
 		var login_session: Dictionary = task.data
 		var session_data: Dictionary = {
 			"access_token": login_session.get("access_token", ""),
@@ -47,14 +52,12 @@ func load_session() -> bool:
 		return true
 
 
-
 func login(p_email: String, password: String) -> String:
 	var task: AuthTask = Supabase.auth.sign_in(p_email, password)
 	task = await task.completed
 	if task.error:
 		return task.error.message
 	else:
-		_user = task.user
 		return "Success"
 
 
@@ -64,7 +67,6 @@ func register(p_email: String, password: String) -> String:
 	if task.error:
 		return task.error.message
 	else:
-		_user = task.user
 		return "Success"
 
 
@@ -74,15 +76,12 @@ func login_anon() -> String:
 	if task.error:
 		return task.error.message
 	else:
-		_user = task.user
-		if "is_anonimous" in _user:
-			_user.email = "anonymous@email.com"
+		if user.is_anonymous:
+			user.email = "anonymous@email.com"
 		return "Success"
 
 
-func start_offline() -> String:
-	_user = SupabaseUser.new({
-		"email": "Offline"
-	})
-	await get_tree().create_timer(0).timeout
-	return "Success"
+#func start_offline() -> String:
+	#_user = SupabaseUser.new({"email": "Offline"})
+	#await get_tree().create_timer(0).timeout
+	#return "Success"

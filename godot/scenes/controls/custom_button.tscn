@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://cx338mgmhehts"]
+
+[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://godot/scenes/controls/default_font.tres" id="1_5erfw"]
+[ext_resource type="Script" uid="uid://b4n03w5krjdav" path="res://godot/scenes/controls/custom_button.gd" id="2_hs2ux"]
+[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="2_m52yp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m52yp"]
+bg_color = Color(0.804743, 0.804743, 0.804743, 1)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5erfw"]
+bg_color = Color(0.0295066, 0.0295066, 0.0295065, 1)
+
+[node name="Button" type="Button"]
+theme = ExtResource("1_5erfw")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m52yp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5erfw")
+text = "Button"
+script = ExtResource("2_hs2ux")
+
+[node name="HoverSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_m52yp")
+volume_db = -30.0
+bus = &"SFX"
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

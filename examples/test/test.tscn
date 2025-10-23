@@ -161,7 +161,7 @@ text = "Switch Light"
 
 [node name="Light1Main" type="ColorRect" parent="UI/HBHome/Room1"]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.49803922)
+modulate = Color(1, 1, 1, 0.498039)
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -176,7 +176,7 @@ horizontal_alignment = 1
 
 [node name="LightHallway" type="ColorRect" parent="UI/HBHome/Hallway"]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.49803922)
+modulate = Color(1, 1, 1, 0.498039)
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -206,7 +206,7 @@ horizontal_alignment = 1
 
 [node name="Light2Main" type="ColorRect" parent="UI/HBHome/Room2/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.49803922)
+modulate = Color(1, 1, 1, 0.498039)
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 4

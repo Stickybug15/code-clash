@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8ukajechp5dd"]
+
+[ext_resource type="Texture2D" uid="uid://cqy7ijsfbx1cl" path="res://assets/show_password_icon/Eyes_close_icon-removebg-preview.png" id="1_f6lnu"]
+[ext_resource type="Texture2D" uid="uid://7th5kbtjtbsk" path="res://assets/show_password_icon/Eyes_open_icon-removebg-preview.png" id="2_rjep8"]
+
+[node name="EyeButton" type="TextureButton"]
+custom_minimum_size = Vector2(40, 40)
+toggle_mode = true
+texture_normal = ExtResource("1_f6lnu")
+texture_pressed = ExtResource("2_rjep8")
+texture_disabled = ExtResource("2_rjep8")
+ignore_texture_size = true
+stretch_mode = 0

@@ -1,0 +1,66 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2m438b4f67de"]
+
+[ext_resource type="Theme" uid="uid://c3ocx28debss2" path="res://godot/scenes/controls/default_font.tres" id="1_gth6f"]
+[ext_resource type="PackedScene" uid="uid://ufu2g5rn1gwy" path="res://godot/scenes/controls/password_edit.tscn" id="2_1vsyk"]
+[ext_resource type="Script" uid="uid://bjxy0w3muxy62" path="res://godot/scenes/interfaces/access_mode/SignUpForm.gd" id="2_lw54j"]
+[ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="3_lw54j"]
+
+[node name="SignUpForm" type="VBoxContainer"]
+theme = ExtResource("1_gth6f")
+theme_override_constants/separation = 30
+script = ExtResource("2_lw54j")
+metadata/_tab_index = 1
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 8
+theme_override_constants/paragraph_spacing = 7
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 14
+theme_override_font_sizes/font_size = 50
+text = "sign up to game"
+horizontal_alignment = 1
+justification_flags = 171
+
+[node name="Email" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Email"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Email:"
+horizontal_alignment = 1
+justification_flags = 171
+
+[node name="EmailEdit" type="LineEdit" parent="Email"]
+layout_mode = 2
+placeholder_text = "Enter your email"
+virtual_keyboard_type = 5
+clear_button_enabled = true
+
+[node name="Password" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Password"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "password:"
+horizontal_alignment = 1
+justification_flags = 171
+
+[node name="PasswordEdit" parent="Password" instance=ExtResource("2_1vsyk")]
+layout_mode = 2
+
+[node name="SignUpButton" parent="." instance=ExtResource("3_lw54j")]
+layout_mode = 2
+text = "Sign Up"
+
+[connection signal="pressed" from="SignUpButton" to="." method="_on_sign_up_button_pressed"]
+
+[editable path="Password/PasswordEdit"]

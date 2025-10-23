@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://coa2mfgcnskhv"]
+
+[ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="4_dhypn"]
+[ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="5_m40up"]
+
+[node name="AuthenticationMethods" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -94.5
+offset_right = 360.0
+offset_bottom = 94.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 80
+
+[node name="title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 17
+theme_override_constants/paragraph_spacing = 14
+theme_override_constants/shadow_offset_x = 10
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 9
+theme_override_fonts/font = ExtResource("4_dhypn")
+theme_override_font_sizes/font_size = 116
+text = "CODE CLASH"
+horizontal_alignment = 1
+vertical_alignment = 1
+max_lines_visible = 9
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="Login" parent="VBoxContainer/HBoxContainer" instance=ExtResource("5_m40up")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Login"
+
+[node name="Register" parent="VBoxContainer/HBoxContainer" instance=ExtResource("5_m40up")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Register"
+
+[node name="Anon" parent="VBoxContainer/HBoxContainer" instance=ExtResource("5_m40up")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Anonymous
+"
