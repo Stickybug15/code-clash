@@ -59,3 +59,10 @@ func _on_return_button_pressed() -> void:
 
 func _on_music_control_value_changed(value: float) -> void:
 	pass # Replace with function body.
+
+
+func _on_login_button_pressed() -> void:
+	get_tree().change_scene_to_file("uid://dh0d1emcf7ehm")
+
+func _on_register_button_pressed() -> void:
+	get_tree().change_scene_to_file("uid://cr14f5om1a0if")

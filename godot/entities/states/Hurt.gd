@@ -19,8 +19,6 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	#agent.input.resume_if_waiting()
-	#agent.input.action_as_active()
 	pass
 
 

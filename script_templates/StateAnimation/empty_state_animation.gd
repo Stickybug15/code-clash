@@ -2,10 +2,6 @@
 extends StateAnimation
 
 
-#
-# FUNCTIONS TO INHERIT IN YOUR STATES
-#
-
 # This additionnal callback allows you to act at the end
 # of an animation
 func _on_anim_finished() -> void:

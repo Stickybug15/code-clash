@@ -63,7 +63,6 @@ func _before_exit(_args) -> void:
 # XSM exits the children first, then the root
 func _on_exit(_args) -> void:
 	agent.anim_tree["parameters/dash/TimeScale/scale"] = 1.0
-	pass
 
 
 # when StateAutomaticTimer timeout()

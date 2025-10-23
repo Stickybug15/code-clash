@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c3jhsr15xuyuq"]
+[gd_scene load_steps=26 format=3 uid="uid://c3jhsr15xuyuq"]
 
 [ext_resource type="Script" uid="uid://ci6ghu68cyk0x" path="res://godot/scenes/customization_menu.gd" id="1_kq2f1"]
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="2_nfse4"]
@@ -9,12 +9,20 @@
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="7_ffn0j"]
 [ext_resource type="Texture2D" uid="uid://cebjdqy0q0hfc" path="res://assets/new_avatar_profiles/Avatar_1.png" id="8_5g782"]
 [ext_resource type="Texture2D" uid="uid://bktavpmyb2e1v" path="res://assets/new_avatar_profiles/Avatar_2.png" id="9_njsr5"]
+[ext_resource type="Texture2D" uid="uid://4qpasj5ue67n" path="res://assets/Avatars/Avatars_highlighted/Avatar1_highlighted.png" id="9_papli"]
 [ext_resource type="Texture2D" uid="uid://dh4746n7hye7l" path="res://assets/new_avatar_profiles/Avatar_3.png" id="10_tt8lp"]
+[ext_resource type="Texture2D" uid="uid://d17qpsxpm1vm6" path="res://assets/Avatars/Avatars_highlighted/Avatar2_highlighted.png" id="11_njsr5"]
 [ext_resource type="Texture2D" uid="uid://bpsejqwxtbm60" path="res://assets/new_avatar_profiles/Avatar_4.png" id="11_papli"]
 [ext_resource type="Texture2D" uid="uid://dw0odhobh2oyr" path="res://assets/new_avatar_profiles/Avatar_5.png" id="12_m7j2o"]
+[ext_resource type="Texture2D" uid="uid://b55bblfkbdqrs" path="res://assets/Avatars/Avatars_highlighted/Avatar3_highlighted.png" id="14_tt8lp"]
+[ext_resource type="Texture2D" uid="uid://cg6ua3ou0dl3a" path="res://assets/Avatars/Avatars_highlighted/Avatar4_highlighted.png" id="17_tt8lp"]
+[ext_resource type="Texture2D" uid="uid://dufurc2ej3uo2" path="res://assets/Avatars/Avatars_highlighted/Avatar5_highlighted.png" id="19_papli"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2w6sf"]
 texture = ExtResource("2_nfse4")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tt8lp"]
+load_path = "res://.godot/imported/Avatar1_highlighted.png-6e3bac89dcfb8252731c8303a06756ee.ctex"
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x3t8d"]
 
@@ -67,6 +75,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kq2f1")
 
+[node name="hover_fx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ffn0j")
+volume_db = -15.0
+bus = &"SFX"
+
 [node name="bg" type="Panel" parent="."]
 modulate = Color(0.670588, 0.670588, 0.670588, 1)
 layout_mode = 1
@@ -101,11 +114,6 @@ texture_pressed = ExtResource("5_2ilq8")
 ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("6_r4j3r")
-
-[node name="hover_fx" type="AudioStreamPlayer" parent="TouchScreenButton/Exit_Button"]
-stream = ExtResource("7_ffn0j")
-volume_db = -15.0
-bus = &"SFX"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TouchScreenButton"]
 offset_left = 137.0
@@ -160,6 +168,9 @@ theme_override_constants/separation = 50
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 texture_normal = ExtResource("8_5g782")
+texture_pressed = SubResource("CompressedTexture2D_tt8lp")
+texture_hover = SubResource("CompressedTexture2D_tt8lp")
+texture_focused = ExtResource("9_papli")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -168,6 +179,9 @@ custom_minimum_size = Vector2(120, 0)
 layout_direction = 1
 layout_mode = 2
 texture_normal = ExtResource("9_njsr5")
+texture_pressed = ExtResource("11_njsr5")
+texture_hover = ExtResource("11_njsr5")
+texture_focused = ExtResource("11_njsr5")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -175,6 +189,9 @@ stretch_mode = 0
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 texture_normal = ExtResource("10_tt8lp")
+texture_pressed = ExtResource("14_tt8lp")
+texture_hover = ExtResource("14_tt8lp")
+texture_focused = ExtResource("14_tt8lp")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -182,6 +199,9 @@ stretch_mode = 0
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 texture_normal = ExtResource("11_papli")
+texture_pressed = ExtResource("17_tt8lp")
+texture_hover = ExtResource("17_tt8lp")
+texture_focused = ExtResource("17_tt8lp")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -189,6 +209,9 @@ stretch_mode = 0
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 texture_normal = ExtResource("12_m7j2o")
+texture_pressed = ExtResource("19_papli")
+texture_hover = ExtResource("19_papli")
+texture_focused = ExtResource("19_papli")
 ignore_texture_size = true
 stretch_mode = 0
 

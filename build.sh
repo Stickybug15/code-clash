@@ -11,7 +11,7 @@ exist() {
 }
 
 if exist clang++; then
-  use_llvm=yes  
+  use_llvm=yes
 fi
 
 check-python() {
@@ -21,8 +21,8 @@ check-python() {
 }
 
 python_version="Python 3.11.0"
-if ! check-version "python"; then
-  if ! check-version "$PWD/.venv/bin/python"; then
+if ! check-python "python"; then
+  if ! check-python "$PWD/.venv/bin/python"; then
     source ".venv/bin/activate"
   else
     echo "Python version must be '$python_version'!, maybe, run './init.sh' first?"

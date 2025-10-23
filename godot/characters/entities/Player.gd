@@ -46,30 +46,27 @@ var _status_label: Label = $Status
 @onready
 var _xsm: State = $XSM
 
-var jump_cmd: ImpulseCommand
-var dash_cmd: ImpulseCommand
-var fall_cmd: FallCommand
-var move_cmd: MoveInputCommand
+@onready
+var jump_cmd := ImpulseCommand.new()
+@onready
+var dash_cmd := ImpulseCommand.new()
+@onready
+var fall_cmd := FallCommand.new()
+@onready
+var move_cmd := MoveInputCommand.new(sprite)
 
 var _mouse_entered := false
 @onready
-var sync := Syncronizer.new(self, code_edit, run_button)
+var engine := ScriptEngine.new(self, code_edit, run_button)
 var input: SimulateInput:
-	get: return sync.input
+	get: return engine.input
 
 
 var _face_direction := 1.0
-var _return_state := ""
 
 
 func _ready() -> void:
 	anim_tree.active = true
-	add_child(sync)
-
-	jump_cmd = ImpulseCommand.new()
-	dash_cmd = ImpulseCommand.new()
-	fall_cmd = FallCommand.new()
-	move_cmd = MoveInputCommand.new(sprite)
 
 	input.env.started.connect(func() -> void:
 		_status_label.text = "Env is Started")
@@ -110,7 +107,7 @@ func _on_hurt_box_area_entered(area: HitBox) -> void:
 		take_damage(area.damage)
 
 
-func should_change_face_direction() -> bool:
+func change_face_direction() -> bool:
 	if not input.is_any_action_pressed([ActionNames.left, ActionNames.right]):
 		return false
 
@@ -121,21 +118,3 @@ func should_change_face_direction() -> bool:
 	_xsm.get_state(&"FaceDirection").next_state = current_state.get_path()
 	_xsm.change_state(&"FaceDirection", new_direction)
 	return true
-
-
-func _update_face_direction() -> void:
-	if not input.is_any_action_pressed([ActionNames.left, ActionNames.right]):
-		return
-
-	var new_direction := input.get_axis(ActionNames.left, ActionNames.right)
-	if is_equal_approx(_face_direction, new_direction):
-		return
-
-	if input.is_action_pressed(ActionNames.left):
-		input.get_action(ActionNames.left).enter()
-	elif input.is_action_pressed(ActionNames.right):
-		input.get_action(ActionNames.right).enter()
-	_face_direction = new_direction
-
-	sprite.scale.x = _face_direction
-	move_cmd.change_direction(_face_direction)

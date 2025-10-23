@@ -12,7 +12,7 @@ signal one_shot_action_finished
 var _timers: Array[Timer] = []
 
 # required variables.
-var _sync: Syncronizer
+var _engine: ScriptEngine
 var _entity: EntityPlayer
 
 var state_can_resume := true
@@ -22,9 +22,9 @@ var env: JSEnvironment:
 	get: return _env
 
 
-func _init(entity: EntityPlayer, sync: Syncronizer) -> void:
+func _init(entity: EntityPlayer, engine: ScriptEngine) -> void:
 	_entity = entity
-	_sync = sync
+	_engine = engine
 	env.finished.connect(func() -> void:
 		clear())
 	var entry := new_action()
@@ -108,7 +108,7 @@ func _init(entity: EntityPlayer, sync: Syncronizer) -> void:
 	entry.one_shot = true
 	entry.path = "hero.dev.jump"
 	entry.callable = func(info: MethodInput, args: Dictionary) -> bool:
-		await get_tree().process_frame
+		await _entity.get_tree().process_frame
 		print_rich("[color=green]jump[/color]")
 		_action_pressed(ActionNames.jump, info)
 		_entity.jump_state.state_entered.connect.call_deferred(func(sender: State) -> void:
@@ -173,7 +173,7 @@ func _init(entity: EntityPlayer, sync: Syncronizer) -> void:
 		print_rich("[color=green]wait[/color]")
 
 		var duration: float = maxf(args.get("duration", 0.0) as float, EPSILON)
-		get_tree().create_timer(duration).timeout.connect(func() -> void:
+		_entity.get_tree().create_timer(duration).timeout.connect(func() -> void:
 			_env.resume()
 			state_can_resume = true)
 		return true

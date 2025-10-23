@@ -13,7 +13,7 @@ func _on_enter(_args) -> void:
 # This function is called just after the state enters
 # XSM after_enters the children first, then the parent
 func _after_enter(_args) -> void:
-	agent.input.get_action(ActionNames.idle).enter()
+	pass
 
 
 # This function is called each frame if the state is ACTIVE
@@ -21,7 +21,7 @@ func _after_enter(_args) -> void:
 func _on_update(_delta: float) -> void:
 	agent.velocity = agent.velocity.move_toward(Vector2.ZERO, _delta * friction)
 
-	if agent.should_change_face_direction():
+	if agent.change_face_direction():
 		return
 	if agent.input.is_action_pressed(ActionNames.walk):
 		change_state(&"Walk")
