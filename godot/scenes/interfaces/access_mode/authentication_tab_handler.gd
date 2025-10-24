@@ -23,6 +23,9 @@ var auth_method_buttons: Array[Button] = [
 	anon_btn,
 ]
 
+@onready
+var profile_customization: Control = $ProfileCustomization
+
 
 func _on_back_button_menu_pressed():
 	auth_methods.visible = true
@@ -47,3 +50,11 @@ func _on_anon_pressed() -> void:
 
 	if auth_status == "Success":
 		get_tree().change_scene_to_file("uid://bk7f11a367b30")
+
+
+func _on_sign_up_form_sign_up_completed() -> void:
+	profile_customization.visible = true
+
+
+func _on_sign_in_form_sign_in_complete() -> void:
+	get_tree().change_scene_to_file("uid://bk7f11a367b30")

@@ -1,21 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://c3jhsr15xuyuq"]
+[gd_scene load_steps=4 format=3 uid="uid://c3jhsr15xuyuq"]
 
 [ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="3_kgl4s"]
-[ext_resource type="Theme" uid="uid://cl1q2ir76mh8d" path="res://assets/fonts/title_font.tres" id="4_kgl4s"]
+[ext_resource type="PackedScene" uid="uid://8nu7p0gql0fp" path="res://godot/scenes/interfaces/access_mode/profile_customization.tscn" id="3_tu0mu"]
 [ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="7_ffn0j"]
-[ext_resource type="Texture2D" uid="uid://cebjdqy0q0hfc" path="res://assets/new_avatar_profiles/Avatar_1.png" id="8_5g782"]
-[ext_resource type="Texture2D" uid="uid://bktavpmyb2e1v" path="res://assets/new_avatar_profiles/Avatar_2.png" id="9_njsr5"]
-[ext_resource type="Texture2D" uid="uid://4qpasj5ue67n" path="res://assets/Avatars/Avatars_highlighted/Avatar1_highlighted.png" id="9_papli"]
-[ext_resource type="Texture2D" uid="uid://dh4746n7hye7l" path="res://assets/new_avatar_profiles/Avatar_3.png" id="10_tt8lp"]
-[ext_resource type="Texture2D" uid="uid://d17qpsxpm1vm6" path="res://assets/Avatars/Avatars_highlighted/Avatar2_highlighted.png" id="11_njsr5"]
-[ext_resource type="Texture2D" uid="uid://bpsejqwxtbm60" path="res://assets/new_avatar_profiles/Avatar_4.png" id="11_papli"]
-[ext_resource type="Texture2D" uid="uid://dw0odhobh2oyr" path="res://assets/new_avatar_profiles/Avatar_5.png" id="12_m7j2o"]
-[ext_resource type="Texture2D" uid="uid://b55bblfkbdqrs" path="res://assets/Avatars/Avatars_highlighted/Avatar3_highlighted.png" id="14_tt8lp"]
-[ext_resource type="Texture2D" uid="uid://cg6ua3ou0dl3a" path="res://assets/Avatars/Avatars_highlighted/Avatar4_highlighted.png" id="17_tt8lp"]
-[ext_resource type="Texture2D" uid="uid://dufurc2ej3uo2" path="res://assets/Avatars/Avatars_highlighted/Avatar5_highlighted.png" id="19_papli"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tt8lp"]
-load_path = "res://.godot/imported/Avatar1_highlighted.png-6e3bac89dcfb8252731c8303a06756ee.ctex"
 
 [node name="CustomizationMenu" type="Control"]
 layout_mode = 3
@@ -39,118 +26,5 @@ offset_right = 240.0
 offset_bottom = 79.0
 text = "Return to Menu"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="ProfileCustomization" parent="." instance=ExtResource("3_tu0mu")]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -143.5
-offset_right = 400.0
-offset_bottom = 143.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 20
-
-[node name="title" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("4_kgl4s")
-theme_override_font_sizes/font_size = 60
-text = "CUSTOMIZE"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="NameLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("4_kgl4s")
-theme_override_font_sizes/font_size = 40
-text = "Name:"
-horizontal_alignment = 1
-
-[node name="NameInput" type="LineEdit" parent="VBoxContainer"]
-layout_mode = 2
-placeholder_text = "Enter Your Name"
-alignment = 1
-max_length = 250
-
-[node name="AvatarsLabel" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("4_kgl4s")
-theme_override_font_sizes/font_size = 40
-text = "Avatars"
-horizontal_alignment = 1
-
-[node name="Images" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 120)
-layout_mode = 2
-theme_override_constants/separation = 50
-alignment = 1
-
-[node name="avatar1" type="TextureButton" parent="VBoxContainer/Images"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-texture_normal = ExtResource("8_5g782")
-texture_pressed = SubResource("CompressedTexture2D_tt8lp")
-texture_hover = SubResource("CompressedTexture2D_tt8lp")
-texture_focused = ExtResource("9_papli")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="avatar2" type="TextureButton" parent="VBoxContainer/Images"]
-custom_minimum_size = Vector2(120, 0)
-layout_direction = 1
-layout_mode = 2
-texture_normal = ExtResource("9_njsr5")
-texture_pressed = ExtResource("11_njsr5")
-texture_hover = ExtResource("11_njsr5")
-texture_focused = ExtResource("11_njsr5")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="avatar3" type="TextureButton" parent="VBoxContainer/Images"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-texture_normal = ExtResource("10_tt8lp")
-texture_pressed = ExtResource("14_tt8lp")
-texture_hover = ExtResource("14_tt8lp")
-texture_focused = ExtResource("14_tt8lp")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="avatar4" type="TextureButton" parent="VBoxContainer/Images"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-texture_normal = ExtResource("11_papli")
-texture_pressed = ExtResource("17_tt8lp")
-texture_hover = ExtResource("17_tt8lp")
-texture_focused = ExtResource("17_tt8lp")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="avatar5" type="TextureButton" parent="VBoxContainer/Images"]
-custom_minimum_size = Vector2(120, 0)
-layout_mode = 2
-texture_normal = ExtResource("12_m7j2o")
-texture_pressed = ExtResource("19_papli")
-texture_hover = ExtResource("19_papli")
-texture_focused = ExtResource("19_papli")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Buttons" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 2
-theme_override_constants/separation = 100
-alignment = 1
-
-[node name="Save" parent="VBoxContainer/Buttons" instance=ExtResource("3_kgl4s")]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-text = "Save"
-
-[node name="Edit" parent="VBoxContainer/Buttons" instance=ExtResource("3_kgl4s")]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-text = "Edit"

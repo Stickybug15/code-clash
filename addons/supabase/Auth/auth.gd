@@ -225,6 +225,18 @@ func update(email : String, password : String = "", data : Dictionary = {}) -> A
 	_process_task(auth_task)
 	return auth_task
 
+
+# Update authenticated user metadata.
+func update_data(data : Dictionary = {}) -> AuthTask:
+	var payload : Dictionary = {"data" : data}
+	var auth_task : AuthTask = AuthTask.new()._setup(
+		AuthTask.Task.UPDATE,
+		_config.supabaseUrl + _user_endpoint,
+		_header + __get_session_header(),
+		JSON.stringify(payload))
+	_process_task(auth_task)
+	return auth_task
+
 # Update email of the authenticated user
 func update_email(email : String) -> AuthTask:
 	var payload : Dictionary = {"email":email}

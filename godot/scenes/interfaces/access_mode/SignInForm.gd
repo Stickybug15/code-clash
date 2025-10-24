@@ -5,13 +5,14 @@ extends VBoxContainer
 @onready var pass_input: LineEdit = $Password/PasswordEdit/LineEdit
 @export var status: RichTextLabel
 
+signal sign_in_complete
+
 
 func _on_login_button_pressed() -> void:
 	login_btn.disabled = true
 	var auth_status: String = await Auth.login(email_input.text, pass_input.text)
-	if status:
-		status.text = auth_status
+	status.text = auth_status
 	login_btn.disabled = false
 
 	if auth_status == "Success":
-		get_tree().change_scene_to_file("uid://bk7f11a367b30")
+		sign_in_complete.emit()

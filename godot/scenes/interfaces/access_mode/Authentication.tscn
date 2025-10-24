@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dh0d1emcf7ehm"]
+[gd_scene load_steps=15 format=3 uid="uid://dh0d1emcf7ehm"]
 
 [ext_resource type="Texture2D" uid="uid://mytukq2xhijs" path="res://assets/backgrounds/Nuvem no céu com estilo pixel art Vetor….jpg" id="1_x7263"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="2_prens"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://c2m438b4f67de" path="res://godot/scenes/interfaces/access_mode/SignUpForm.tscn" id="5_prens"]
 [ext_resource type="PackedScene" uid="uid://coa2mfgcnskhv" path="res://godot/scenes/interfaces/access_mode/AuthenticationMethods.tscn" id="6_prens"]
 [ext_resource type="AudioStream" uid="uid://u3iqpm1usc6g" path="res://assets/sound fx/Vopna(chosic.com).mp3" id="7_26ltb"]
+[ext_resource type="PackedScene" uid="uid://8nu7p0gql0fp" path="res://godot/scenes/interfaces/access_mode/profile_customization.tscn" id="9_jwkmq"]
+[ext_resource type="Script" uid="uid://cvfg0gkfscm16" path="res://godot/scenes/interfaces/access_mode/ProfileCustomization.gd" id="9_kxice"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sraid"]
 texture = ExtResource("1_x7263")
@@ -25,6 +27,9 @@ expand_margin_left = 50.0
 expand_margin_top = 50.0
 expand_margin_right = 50.0
 expand_margin_bottom = 50.0
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_kxice"]
+allow_unpress = true
 
 [node name="Authentication" type="CanvasLayer"]
 
@@ -65,16 +70,16 @@ offset_bottom = 198.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_prens")
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 script = ExtResource("3_fkobg")
 
 [node name="AuthenticationMethods" parent="Control/TabContainer" instance=ExtResource("6_prens")]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
 [node name="Form" type="Control" parent="Control/TabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -116,20 +121,23 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_sraid")
 current_tab = 0
 tabs_visible = false
 
-[node name="SignInForm" parent="Control/TabContainer/Form/FormTabContainer" instance=ExtResource("4_26ltb")]
+[node name="SignInForm" parent="Control/TabContainer/Form/FormTabContainer" node_paths=PackedStringArray("status") instance=ExtResource("4_26ltb")]
 layout_mode = 2
+status = NodePath("AuthStatusLabel")
 
-[node name="SignUpForm" parent="Control/TabContainer/Form/FormTabContainer" instance=ExtResource("5_prens")]
+[node name="AuthStatusLabel" type="RichTextLabel" parent="Control/TabContainer/Form/FormTabContainer/SignInForm"]
+layout_mode = 2
+size_flags_vertical = 3
+fit_content = true
+horizontal_alignment = 1
+
+[node name="SignUpForm" parent="Control/TabContainer/Form/FormTabContainer" node_paths=PackedStringArray("status") instance=ExtResource("5_prens")]
 visible = false
 layout_mode = 2
+status = NodePath("AuthStatusLabel")
 
-[node name="AuthStatusLabel" type="RichTextLabel" parent="Control/TabContainer/Form"]
-visible = false
+[node name="AuthStatusLabel" type="RichTextLabel" parent="Control/TabContainer/Form/FormTabContainer/SignUpForm"]
 layout_mode = 2
-offset_left = 108.0
-offset_top = 272.0
-offset_right = 109.0
-offset_bottom = 311.0
 fit_content = true
 horizontal_alignment = 1
 
@@ -142,9 +150,70 @@ offset_right = -146.0
 offset_bottom = -35.5
 text = "Back to Menu"
 
+[node name="ProfileCustomization" type="Control" parent="Control/TabContainer"]
+visible = false
+layout_mode = 2
+script = ExtResource("9_kxice")
+metadata/_tab_index = 2
+
+[node name="ProfileCustomization" parent="Control/TabContainer/ProfileCustomization" instance=ExtResource("9_jwkmq")]
+layout_mode = 1
+
+[node name="Title" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer" index="0"]
+text = "Customize Your Profile"
+
+[node name="NameLabel" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer" index="1"]
+text = "Enter your name:"
+
+[node name="AvatarsLabel" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer" index="3"]
+text = "Choose your Avatar"
+
+[node name="Avatar_1" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Images" index="0"]
+button_group = SubResource("ButtonGroup_kxice")
+
+[node name="Avatar_2" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Images" index="1"]
+button_group = SubResource("ButtonGroup_kxice")
+
+[node name="Avatar_3" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Images" index="2"]
+button_group = SubResource("ButtonGroup_kxice")
+
+[node name="Avatar_4" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Images" index="3"]
+button_group = SubResource("ButtonGroup_kxice")
+
+[node name="Avatar_5" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Images" index="4"]
+button_group = SubResource("ButtonGroup_kxice")
+
+[node name="Save" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Buttons" index="0"]
+custom_minimum_size = Vector2(140, 0)
+text = "Continue"
+
+[node name="Edit" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Buttons" index="1"]
+visible = false
+
+[node name="StatusLabel" type="RichTextLabel" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer" index="6"]
+layout_mode = 2
+text = " "
+fit_content = true
+horizontal_alignment = 1
+
+[node name="BackToMenuButton" parent="Control/TabContainer/ProfileCustomization" instance=ExtResource("5_jwkmq")]
+visible = false
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 0
+offset_left = -346.0
+offset_top = -95.5
+offset_right = -146.0
+offset_bottom = -35.5
+text = "Back to Menu"
+
 [connection signal="pressed" from="Control/TabContainer/AuthenticationMethods/VBoxContainer/HBoxContainer/Login" to="Control/TabContainer" method="_on_login_pressed"]
 [connection signal="pressed" from="Control/TabContainer/AuthenticationMethods/VBoxContainer/HBoxContainer/Register" to="Control/TabContainer" method="_on_register_pressed"]
 [connection signal="pressed" from="Control/TabContainer/AuthenticationMethods/VBoxContainer/HBoxContainer/Anon" to="Control/TabContainer" method="_on_anon_pressed"]
+[connection signal="sign_in_complete" from="Control/TabContainer/Form/FormTabContainer/SignInForm" to="Control/TabContainer" method="_on_sign_in_form_sign_in_complete"]
+[connection signal="sign_up_completed" from="Control/TabContainer/Form/FormTabContainer/SignUpForm" to="Control/TabContainer" method="_on_sign_up_form_sign_up_completed"]
 [connection signal="pressed" from="Control/TabContainer/Form/BackToMenuButton" to="Control/TabContainer" method="_on_back_button_menu_pressed"]
+[connection signal="pressed" from="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Buttons/Save" to="Control/TabContainer/ProfileCustomization" method="_on_continue_pressed"]
+[connection signal="pressed" from="Control/TabContainer/ProfileCustomization/BackToMenuButton" to="Control/TabContainer" method="_on_back_button_menu_pressed"]
 
 [editable path="Control/TabContainer/AuthenticationMethods"]
+[editable path="Control/TabContainer/ProfileCustomization/ProfileCustomization"]

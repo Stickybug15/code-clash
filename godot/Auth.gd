@@ -4,7 +4,7 @@ var SESSION_FILE := "user://auth_session.json"
 
 var user: SupabaseUser:
 	get:
-			return Supabase.auth.client
+		return Supabase.auth.client
 
 var email: String:
 	get:
@@ -13,6 +13,9 @@ var email: String:
 var is_anonymous: bool:
 	get:
 		return user.is_anonymous
+
+var username: String = ""
+var avatar_name: String = ""
 
 
 func load_session() -> bool:
@@ -55,6 +58,7 @@ func load_session() -> bool:
 func login(p_email: String, password: String) -> String:
 	var task: AuthTask = Supabase.auth.sign_in(p_email, password)
 	task = await task.completed
+	await fetch_profile()
 	if task.error:
 		return task.error.message
 	else:
@@ -62,6 +66,10 @@ func login(p_email: String, password: String) -> String:
 
 
 func register(p_email: String, password: String) -> String:
+	if p_email.is_empty():
+		return "Enter your email"
+	if password.is_empty():
+		return "Enter your password"
 	var task: AuthTask = Supabase.auth.sign_up(p_email, password)
 	task = await task.completed
 	if task.error:
@@ -79,6 +87,45 @@ func login_anon() -> String:
 		if user.is_anonymous:
 			user.email = "anonymous@email.com"
 		return "Success"
+
+
+func new_profile(p_username: String, p_avatar_name: String) -> String:
+	var task: DatabaseTask = await Supabase.database.Rpc("new_profile", {
+		"p_username": p_username,
+		"p_avatar_name": p_avatar_name,
+	}).completed
+
+	if task.error:
+		return task.error.message
+
+	match task.data as String:
+		"username-already-exist":
+			return "Username already exist!"
+		"username-is-empty":
+			return "Enter your username!"
+		"username-is-less-than-3":
+			return "Username length must be greater or equal to 3"
+		"success":
+			username = p_username
+			avatar_name = p_avatar_name
+			fetch_profile()
+			#Supabase.auth.update_data({
+				#"username": p_username,
+				#"avatar_name": p_avatar_name,
+			#})
+			return "Success"
+
+	return "Unreachable"
+
+
+func fetch_profile() -> void:
+	var profile: DatabaseTask = await Supabase.database.Rpc("get_profile").completed
+	if profile:
+		pass
+
+	var dict: Dictionary = profile.data[0]
+	username = dict.get("username")
+	avatar_name = dict.get("avatar_name")
 
 
 #func start_offline() -> String:

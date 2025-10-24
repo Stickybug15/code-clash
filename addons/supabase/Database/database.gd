@@ -27,9 +27,9 @@ func query(supabase_query : SupabaseQuery) -> DatabaseTask:
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + supabase_query.build_query()
 	var task : DatabaseTask = DatabaseTask.new()
 	task._setup(
-		supabase_query.request, 
-		endpoint, 
-		_header + get_parent().auth.__get_session_header() + supabase_query.header, 
+		supabase_query.request,
+		endpoint,
+		_header + get_parent().auth.__get_session_header() + supabase_query.header,
 		supabase_query.body
 		)
 	_process_task(task)
@@ -40,13 +40,13 @@ func Rpc(function_name : String, arguments : Dictionary = {}, supabase_query : S
 	var endpoint : String = _config.supabaseUrl + _rest_endpoint + "rpc/{function}".format({function = function_name}) + (supabase_query.build_query() if supabase_query!=null else "")
 	var task : DatabaseTask = DatabaseTask.new()
 	task._setup(
-		-2, 
-		endpoint, 
-		_header + get_parent().auth.__get_session_header(), 
+		-2,
+		endpoint,
+		_header + get_parent().auth.__get_session_header(),
 		JSON.stringify(arguments)
 		)
 	_process_task(task)
-	return task    
+	return task
 
 func _process_task(task : DatabaseTask) -> void:
 	var httprequest : HTTPRequest = HTTPRequest.new()
@@ -57,7 +57,7 @@ func _process_task(task : DatabaseTask) -> void:
 
 # .............. HTTPRequest completed
 func _on_task_completed(task : DatabaseTask) -> void:
-	if task.data!=null and not task.data.is_empty():    
+	if task.data!=null and not task.data.is_empty():
 		match task._code:
 			SupabaseQuery.REQUESTS.SELECT: emit_signal("selected", task.data)
 			SupabaseQuery.REQUESTS.INSERT: emit_signal("inserted", task.data)

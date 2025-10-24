@@ -1,6 +1,7 @@
 [gd_scene load_steps=29 format=3 uid="uid://bk7f11a367b30"]
 
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="4_egbt7"]
+[ext_resource type="Script" uid="uid://dv4qnkgfk15pg" path="res://godot/scenes/interfaces/main_menu/Profile.gd" id="5_3c34e"]
 [ext_resource type="Script" uid="uid://xtqelqe3nxym" path="res://godot/scenes/interfaces/main_menu/UiContainer.gd" id="5_egbt7"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="5_vbhr2"]
 [ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="6_3c34e"]
@@ -23,40 +24,6 @@ texture = ExtResource("4_egbt7")
 modulate_color = Color(0.628315, 0.628315, 0.628315, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uurwx"]
-
-[sub_resource type="GDScript" id="GDScript_fwc7g"]
-script/source = "extends HBoxContainer
-
-@export
-var main_menu: Control
-
-@export
-var logout_btn: Button
-
-@onready
-var auth_methods: HBoxContainer = $TabContainer/AuthenticationMethodsButtons
-@onready
-var name_label: Label = $TabContainer/NameLabel
-
-
-func _ready() -> void:
-	pass
-
-
-func _on_main_menu_visibility_changed() -> void:
-	if main_menu.visible:
-		var is_anonymous: bool = true
-		if Auth.user:
-			is_anonymous = Auth.user.is_anonymous
-
-		if is_anonymous:
-			auth_methods.visible = true
-			logout_btn.visible = false
-		else:
-			name_label.visible = true
-			name_label.text = Auth.email
-			logout_btn.visible = true
-"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8t3lh"]
 corner_radius_top_left = 25
@@ -178,7 +145,7 @@ offset_top = 20.0
 offset_right = 250.0
 offset_bottom = 120.0
 theme_override_constants/separation = 30
-script = SubResource("GDScript_fwc7g")
+script = ExtResource("5_3c34e")
 main_menu = NodePath("..")
 logout_btn = NodePath("../LogoutButton")
 
@@ -199,11 +166,10 @@ expand_mode = 1
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_5c6sl")
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 
 [node name="AuthenticationMethodsButtons" type="HBoxContainer" parent="UIContainer/MainMenu/Profile/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 16
 metadata/_tab_index = 0
@@ -217,6 +183,7 @@ layout_mode = 2
 text = "Sign-Up"
 
 [node name="NameLabel" type="Label" parent="UIContainer/MainMenu/Profile/TabContainer"]
+visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("15_60njj")

@@ -3,7 +3,7 @@ extends Node
 
 const ENVIRONMENT_VARIABLES : String = "supabase/config"
 
-var auth : SupabaseAuth 
+var auth : SupabaseAuth
 var database : SupabaseDatabase
 var realtime : SupabaseRealtime
 var storage : SupabaseStorage
@@ -28,11 +28,11 @@ func _ready() -> void:
 func load_config() -> void:
 	if config.supabaseKey != "" and config.supabaseUrl != "":
 		pass
-	else:    
+	else:
 		var env = ConfigFile.new()
 		var err = env.load("res://addons/supabase/.env")
 		if err == OK:
-			for key in config.keys(): 
+			for key in config.keys():
 				var value : String = env.get_value(ENVIRONMENT_VARIABLES, key, "")
 				if value == "":
 					printerr("%s has not a valid value." % key)
