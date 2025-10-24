@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3jhsr15xuyuq"]
+[gd_scene load_steps=5 format=3 uid="uid://c3jhsr15xuyuq"]
 
+[ext_resource type="Script" uid="uid://di7aiolnpqjle" path="res://godot/scenes/interfaces/main_menu/CustomizationMenu.gd" id="1_tu0mu"]
 [ext_resource type="PackedScene" uid="uid://cx338mgmhehts" path="res://godot/scenes/controls/custom_button.tscn" id="3_kgl4s"]
 [ext_resource type="PackedScene" uid="uid://8nu7p0gql0fp" path="res://godot/scenes/interfaces/access_mode/profile_customization.tscn" id="3_tu0mu"]
-[ext_resource type="AudioStream" uid="uid://jac4oupgr4kq" path="res://assets/sound fx/mixkit-select-click-1109.wav" id="7_ffn0j"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_tu0mu"]
+allow_unpress = true
 
 [node name="CustomizationMenu" type="Control"]
 layout_mode = 3
@@ -11,11 +14,31 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_tu0mu")
 
-[node name="hover_fx" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_ffn0j")
-volume_db = -15.0
-bus = &"SFX"
+[node name="ProfileCustomization" parent="." instance=ExtResource("3_tu0mu")]
+layout_mode = 1
+
+[node name="Avatar_1" parent="ProfileCustomization/VBoxContainer/Images" index="0"]
+button_group = SubResource("ButtonGroup_tu0mu")
+
+[node name="Avatar_2" parent="ProfileCustomization/VBoxContainer/Images" index="1"]
+button_group = SubResource("ButtonGroup_tu0mu")
+
+[node name="Avatar_3" parent="ProfileCustomization/VBoxContainer/Images" index="2"]
+button_group = SubResource("ButtonGroup_tu0mu")
+
+[node name="Avatar_4" parent="ProfileCustomization/VBoxContainer/Images" index="3"]
+button_group = SubResource("ButtonGroup_tu0mu")
+
+[node name="Avatar_5" parent="ProfileCustomization/VBoxContainer/Images" index="4"]
+button_group = SubResource("ButtonGroup_tu0mu")
+
+[node name="StatusLabel" type="RichTextLabel" parent="ProfileCustomization/VBoxContainer" index="6"]
+layout_mode = 2
+text = " "
+fit_content = true
+horizontal_alignment = 1
 
 [node name="ReturnToMenu" parent="." instance=ExtResource("3_kgl4s")]
 custom_minimum_size = Vector2(200, 0)
@@ -26,5 +49,7 @@ offset_right = 240.0
 offset_bottom = 79.0
 text = "Return to Menu"
 
-[node name="ProfileCustomization" parent="." instance=ExtResource("3_tu0mu")]
-layout_mode = 1
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="ProfileCustomization/VBoxContainer/Buttons/Save" to="." method="_on_save_pressed"]
+
+[editable path="ProfileCustomization"]

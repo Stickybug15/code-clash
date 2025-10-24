@@ -187,9 +187,6 @@ button_group = SubResource("ButtonGroup_kxice")
 custom_minimum_size = Vector2(140, 0)
 text = "Continue"
 
-[node name="Edit" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer/Buttons" index="1"]
-visible = false
-
 [node name="StatusLabel" type="RichTextLabel" parent="Control/TabContainer/ProfileCustomization/ProfileCustomization/VBoxContainer" index="6"]
 layout_mode = 2
 text = " "

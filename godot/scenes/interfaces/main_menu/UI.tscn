@@ -1,6 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://bk7f11a367b30"]
+[gd_scene load_steps=31 format=3 uid="uid://bk7f11a367b30"]
 
 [ext_resource type="Texture2D" uid="uid://ht67vn66ij5r" path="res://assets/backgrounds/Calming pixel art landscape.jpg" id="4_egbt7"]
+[ext_resource type="Script" uid="uid://e53ccqrydk8q" path="res://godot/scenes/interfaces/main_menu/MainButtons.gd" id="4_vbhr2"]
 [ext_resource type="Script" uid="uid://dv4qnkgfk15pg" path="res://godot/scenes/interfaces/main_menu/Profile.gd" id="5_3c34e"]
 [ext_resource type="Script" uid="uid://xtqelqe3nxym" path="res://godot/scenes/interfaces/main_menu/UiContainer.gd" id="5_egbt7"]
 [ext_resource type="FontFile" uid="uid://baevmlyk3no2d" path="res://assets/fonts/8bitlim.ttf" id="5_vbhr2"]
@@ -32,6 +33,9 @@ corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5c6sl"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_egbt7"]
+allow_unpress = true
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_qpjw1"]
 diffuse_texture = ExtResource("7_2dnmr")
@@ -117,6 +121,7 @@ max_lines_visible = 9
 [node name="MainButtons" type="VBoxContainer" parent="UIContainer/MainMenu/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 20
+script = ExtResource("4_vbhr2")
 
 [node name="PlayButton" parent="UIContainer/MainMenu/VBoxContainer/MainButtons" instance=ExtResource("6_3c34e")]
 layout_mode = 2
@@ -232,10 +237,26 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="UIContainer/Play/ScrollContainer"]
 layout_mode = 2
 
-[node name="CustomizationMenu" parent="UIContainer" instance=ExtResource("8_62vh3")]
+[node name="CustomizationMenu" parent="UIContainer" node_paths=PackedStringArray("main_menu") instance=ExtResource("8_62vh3")]
 visible = false
 layout_mode = 2
+main_menu = NodePath("../MainMenu")
 metadata/_tab_index = 2
+
+[node name="Avatar_1" parent="UIContainer/CustomizationMenu/ProfileCustomization/VBoxContainer/Images" index="0"]
+button_group = SubResource("ButtonGroup_egbt7")
+
+[node name="Avatar_2" parent="UIContainer/CustomizationMenu/ProfileCustomization/VBoxContainer/Images" index="1"]
+button_group = SubResource("ButtonGroup_egbt7")
+
+[node name="Avatar_3" parent="UIContainer/CustomizationMenu/ProfileCustomization/VBoxContainer/Images" index="2"]
+button_group = SubResource("ButtonGroup_egbt7")
+
+[node name="Avatar_4" parent="UIContainer/CustomizationMenu/ProfileCustomization/VBoxContainer/Images" index="3"]
+button_group = SubResource("ButtonGroup_egbt7")
+
+[node name="Avatar_5" parent="UIContainer/CustomizationMenu/ProfileCustomization/VBoxContainer/Images" index="4"]
+button_group = SubResource("ButtonGroup_egbt7")
 
 [node name="LeaderboardsMenu" parent="UIContainer" instance=ExtResource("9_egbt7")]
 visible = false
@@ -402,13 +423,29 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_s8lgt")
 current_tab = 0
 tabs_visible = false
 
-[node name="SignInForm" parent="UIContainer/AuthenticationMenu/FormTabContainer" instance=ExtResource("19_3c34e")]
+[node name="SignInForm" parent="UIContainer/AuthenticationMenu/FormTabContainer" node_paths=PackedStringArray("status") instance=ExtResource("19_3c34e")]
 layout_mode = 2
+status = NodePath("StatusLabel")
 
-[node name="SignUpForm" parent="UIContainer/AuthenticationMenu/FormTabContainer" instance=ExtResource("20_2dnmr")]
+[node name="StatusLabel" type="RichTextLabel" parent="UIContainer/AuthenticationMenu/FormTabContainer/SignInForm"]
 visible = false
 layout_mode = 2
+text = " "
+fit_content = true
+horizontal_alignment = 1
 
+[node name="SignUpForm" parent="UIContainer/AuthenticationMenu/FormTabContainer" node_paths=PackedStringArray("status") instance=ExtResource("20_2dnmr")]
+visible = false
+layout_mode = 2
+status = NodePath("StatusLabel")
+
+[node name="StatusLabel" type="RichTextLabel" parent="UIContainer/AuthenticationMenu/FormTabContainer/SignUpForm"]
+layout_mode = 2
+text = " "
+fit_content = true
+horizontal_alignment = 1
+
+[connection signal="visibility_changed" from="UIContainer/MainMenu" to="UIContainer/MainMenu/VBoxContainer/MainButtons" method="_on_main_menu_visibility_changed"]
 [connection signal="visibility_changed" from="UIContainer/MainMenu" to="UIContainer/MainMenu/Profile" method="_on_main_menu_visibility_changed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/PlayButton" to="UIContainer" method="_on_play_button_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/VBoxContainer/MainButtons/CustomizationButton" to="UIContainer" method="_on_customization_button_pressed"]
@@ -418,6 +455,7 @@ layout_mode = 2
 [connection signal="pressed" from="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons/SignIn" to="UIContainer" method="_on_sign_in_pressed"]
 [connection signal="pressed" from="UIContainer/MainMenu/Profile/TabContainer/AuthenticationMethodsButtons/SignUp" to="UIContainer" method="_on_sign_up_pressed"]
 [connection signal="pressed" from="UIContainer/Play/ReturnToMenu" to="UIContainer" method="_main_menu_visible"]
+[connection signal="pressed" from="UIContainer/CustomizationMenu/ReturnToMenu" to="UIContainer" method="_main_menu_visible"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/Music_Button" method="_on_pressed"]
 [connection signal="value_changed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer/VBoxContainer/MusicControl" method="_on_value_changed"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/SFX_Button" to="UIContainer/SettingsMenu/VBoxContainer/HBoxContainer2/SFX_Button" method="_on_pressed"]
@@ -425,6 +463,9 @@ layout_mode = 2
 [connection signal="toggled" from="UIContainer/SettingsMenu/VBoxContainer/FullscreenControl" to="UIContainer/SettingsMenu/VBoxContainer/FullscreenControl" method="_on_toggled"]
 [connection signal="pressed" from="UIContainer/SettingsMenu/VBoxContainer/ReturnButton" to="UIContainer" method="_main_menu_visible"]
 [connection signal="pressed" from="UIContainer/AuthenticationMenu/ReturnToMenu" to="UIContainer" method="_main_menu_visible"]
+[connection signal="sign_in_complete" from="UIContainer/AuthenticationMenu/FormTabContainer/SignInForm" to="UIContainer" method="_main_menu_visible"]
+[connection signal="sign_up_completed" from="UIContainer/AuthenticationMenu/FormTabContainer/SignUpForm" to="UIContainer" method="_main_menu_visible"]
 
 [editable path="UIContainer/CustomizationMenu"]
+[editable path="UIContainer/CustomizationMenu/ProfileCustomization"]
 [editable path="UIContainer/LeaderboardsMenu"]

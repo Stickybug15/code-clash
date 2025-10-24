@@ -16,12 +16,11 @@ var avatar_image: TextureRect = $Avatar/Image
 
 
 func _ready() -> void:
-	pass
+	_on_main_menu_visibility_changed()
 
 
 func _on_main_menu_visibility_changed() -> void:
-	await self.ready
-	if main_menu.visible:
+	if is_node_ready() and main_menu.visible:
 		var is_anonymous: bool = true
 		if Auth.user:
 			is_anonymous = Auth.user.is_anonymous

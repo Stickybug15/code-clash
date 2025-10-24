@@ -108,11 +108,28 @@ func new_profile(p_username: String, p_avatar_name: String) -> String:
 		"success":
 			username = p_username
 			avatar_name = p_avatar_name
-			fetch_profile()
-			#Supabase.auth.update_data({
-				#"username": p_username,
-				#"avatar_name": p_avatar_name,
-			#})
+			return "Success"
+
+	return "Unreachable"
+
+
+func set_profile(p_username: String, p_avatar_name: String) -> String:
+	var task: DatabaseTask = await Supabase.database.Rpc("set_profile", {
+		"p_username": p_username,
+		"p_avatar_name": p_avatar_name,
+	}).completed
+
+	if task.error:
+		return task.error.message
+
+	match task.data as String:
+		"username-is-empty":
+			return "Enter your username!"
+		"username-is-less-than-3":
+			return "Username length must be greater or equal to 3"
+		"success":
+			username = p_username
+			avatar_name = p_avatar_name
 			return "Success"
 
 	return "Unreachable"
